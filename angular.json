@@ -31,7 +31,11 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/leaphy-blockly/blockly/blockly_compressed.js",
+              "node_modules/leaphy-blockly/blockly/blocks_compressed.js",
+              "node_modules/leaphy-blockly/blockly/msg/js/en.js"
+            ]
           },
           "configurations": {
             "production": {

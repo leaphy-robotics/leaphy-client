@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var Blockly: any;
 
 @Component({
   selector: 'app-blockly-editor',
@@ -7,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 // tslint:disable-next-line: component-class-suffix
 export class BlocklyEditorPage implements OnInit {
-  events: string[] = [];
-  opened: boolean;
+  private workspace: any;
+  constructor() {
 
-  constructor() { }
+    this.workspace = Blockly.inject('blocklyDiv', {
+      toolbox: document.getElementById('toolbox'),
+      scrollbars: false
+    });
+
+  }
 
   ngOnInit() {
   }
