@@ -34,5 +34,11 @@ export class BlocklyEditorPage implements OnInit, AfterViewInit {
     </xml>`,
       scrollbars: false
     });
+
+    this.workspace.addChangeListener(async (event) => {
+      console.log(Blockly);
+      const code = Blockly.Arduino.workspaceToCode(this.workspace);
+      console.log(code);
+    });
   }
 }
