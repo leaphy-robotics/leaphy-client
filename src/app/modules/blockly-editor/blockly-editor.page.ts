@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import 'prismjs';
+import 'prismjs/components';
+import 'prismjs/components/prism-c';
+import 'prismjs/plugins/highlight-keywords/prism-highlight-keywords';
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
 declare var Blockly: any;
 
 @Component({
@@ -7,15 +12,10 @@ declare var Blockly: any;
   styleUrls: ['./blockly-editor.page.scss']
 })
 // tslint:disable-next-line: component-class-suffix
-export class BlocklyEditorPage implements OnInit, AfterViewInit {
+export class BlocklyEditorPage implements AfterViewInit {
   @ViewChild('blockContent', { static: false }) blockContent: ElementRef;
-
+  public code = '';
   private workspace: any;
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
 
   ngAfterViewInit() {
     this.workspace = Blockly.inject(this.blockContent.nativeElement, {
@@ -361,8 +361,7 @@ export class BlocklyEditorPage implements OnInit, AfterViewInit {
     });
 
     this.workspace.addChangeListener(async (event) => {
-      const code = Blockly.Arduino.workspaceToCode(this.workspace);
-      console.log(code);
-    });
+        this.code = Blockly.Arduino.workspaceToCode(this.workspace);
+      });
   }
 }

@@ -1,15 +1,18 @@
 #container {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    height: calc(100% - 64px);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: calc(100% - 64px);
 }
 .example-container {
-    flex: 1 1 auto;
-    background: #eee;
-  }
-
-#sidenav {
-    min-width: 40%;
+  flex: 1 1 auto;
+  background: #eee;
 }
-  
+#code-view {
+  width: 100%;
+  height: calc(100% - 64px);
+  margin: 0;
+}
+#sidenav {
+  min-width: 40%;
+}
