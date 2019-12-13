@@ -21,9 +21,9 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
-    "blockly": "^3.20191014.4",
     "hammerjs": "^2.0.8",
     "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#0d2ca71",
+    "prismjs": "^1.17.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
