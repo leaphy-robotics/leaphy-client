@@ -29,7 +29,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
+              "src/styles.scss"         
             ],
             "scripts": [
               "node_modules/leaphy-blockly/blockly/blockly_compressed.js",
@@ -39,7 +39,19 @@
               "node_modules/leaphy-blockly/blocklyduino/blocks/arduino_base/arduino_base.js",
               "node_modules/leaphy-blockly/blocklyduino/msg/blocks_en.js",
               "node_modules/leaphy-blockly/blocklyduino/themes/bw.js",
-              "node_modules/leaphy-blockly/blocklyduino/themes/themes_blocks.js"
+              "node_modules/leaphy-blockly/blocklyduino/themes/themes_blocks.js",
+              "node_modules/leaphy-blockly/blocklyduino/js/arduino_boards.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino_generator.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/arduino_base.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/colour.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/lists.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/logic.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/loops.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/math.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/procedures.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/text.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/variables.js",
+              "node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/variables_dynamic.js"
             ]
           },
           "configurations": {
