@@ -34,7 +34,12 @@
             "scripts": [
               "node_modules/leaphy-blockly/blockly/blockly_compressed.js",
               "node_modules/leaphy-blockly/blockly/blocks_compressed.js",
-              "node_modules/leaphy-blockly/blockly/msg/js/en.js"
+              "node_modules/leaphy-blockly/blockly/closure/goog/base.js",
+              "node_modules/leaphy-blockly/blockly/msg/js/en.js",
+              "node_modules/leaphy-blockly/blocklyduino/blocks/arduino_base/arduino_base.js",
+              "node_modules/leaphy-blockly/blocklyduino/msg/blocks_en.js",
+              "node_modules/leaphy-blockly/blocklyduino/themes/bw.js",
+              "node_modules/leaphy-blockly/blocklyduino/themes/themes_blocks.js"
             ]
           },
           "configurations": {
