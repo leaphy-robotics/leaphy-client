@@ -1,12 +1,10 @@
 <div id="container">
     <mat-sidenav-container class="example-container">
         <mat-sidenav-content>
-            <div #blockContent id="blocklyDiv" style="width: 100%; height: 100%"></div>
+            <app-leaphy-blockly></app-leaphy-blockly>
         </mat-sidenav-content>
         <mat-sidenav id="sidenav" mode="side" opened position="end">
-            <pre class="line-numbers" id="code-view">
-                <code [innerHTML]="code" class="language-c"></code>
-            </pre>
+            <app-code-view></app-code-view>
         </mat-sidenav>
     </mat-sidenav-container>
 </div>

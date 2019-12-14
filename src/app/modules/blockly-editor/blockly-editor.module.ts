@@ -7,10 +7,12 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { BlocklyEditorPageRoutingModule } from './blockly-editor-routing.module';
 import { BlocklyEditorPage } from './blockly-editor.page';
+import { LeaphyBlocklyComponent } from './components/leaphy-blockly/leaphy-blockly.component';
+import { CodeViewComponent } from './components/code-view/code-view.component';
 
 
 @NgModule({
-  declarations: [BlocklyEditorPage],
+  declarations: [BlocklyEditorPage, LeaphyBlocklyComponent, CodeViewComponent],
   imports: [
     CommonModule,
     BlocklyEditorPageRoutingModule,
