@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BlocklyState } from './blockly.state';
+import { BlocklyEditorState } from './blockly-editor.state';
 
-describe('BlocklyState', () => {
+describe('BlocklyEditorState', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: BlocklyState = TestBed.get(BlocklyState);
+    const service: BlocklyEditorState = TestBed.get(BlocklyEditorState);
     expect(service).toBeTruthy();
   });
 });

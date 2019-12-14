@@ -1,13 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
 
 @NgModule({
   declarations: [
@@ -17,11 +16,11 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatIconModule,
-    MatButtonModule,
     MatToolbarModule
   ],
-  providers: [],
+  providers: [
+    {provide: APP_INITIALIZER, deps: [BlocklyEditorEffects], useFactory: () => () => null, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

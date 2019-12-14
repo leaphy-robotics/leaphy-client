@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { BlocklyState } from 'src/app/state/blockly.state';
+import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
+import { SketchUploadStatus } from 'src/app/domain/sketch-upload.status';
 declare var Blockly: any;
 
 @Component({
@@ -11,9 +12,8 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
   @ViewChild('blockContent', { static: false }) blockContent: ElementRef;
   private workspace: any;
 
-  constructor(private blocklyState: BlocklyState) {
+  constructor(public blocklyState: BlocklyEditorState) { }
 
-  }
   ngAfterViewInit() {
     this.workspace = Blockly.inject(this.blockContent.nativeElement, {
       toolbox: ['<xml xmlns="https://developers.google.com/blockly/xml" id="blocklyduinoToolbox" style="display: none">',
@@ -360,5 +360,9 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
     this.workspace.addChangeListener(async (event) => {
         this.blocklyState.setCode(Blockly.Arduino.workspaceToCode(this.workspace));
       });
+  }
+
+  public onUploadClicked() {
+      this.blocklyState.setSketchUploadStatus(SketchUploadStatus.Started);
   }
 }

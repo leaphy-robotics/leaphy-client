@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { BlocklyEditorPageRoutingModule } from './blockly-editor-routing.module';
 import { BlocklyEditorPage } from './blockly-editor.page';
@@ -16,9 +18,11 @@ import { CodeViewComponent } from './components/code-view/code-view.component';
   imports: [
     CommonModule,
     BlocklyEditorPageRoutingModule,
-    MatGridListModule,
     MatSidenavModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule
   ]
 })
 export class BlocklyEditorPageModule { }

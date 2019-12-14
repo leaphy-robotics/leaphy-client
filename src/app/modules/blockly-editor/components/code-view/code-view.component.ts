@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BlocklyState } from 'src/app/state/blockly.state';
+import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import 'prismjs';
 import 'prismjs/components';
 import 'prismjs/components/prism-c';
@@ -13,7 +13,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers';
 })
 export class CodeViewComponent implements OnInit {
 
-  constructor(public blocklyState: BlocklyState) { }
+  constructor(public blocklyState: BlocklyEditorState) { }
 
   ngOnInit() {
   }
