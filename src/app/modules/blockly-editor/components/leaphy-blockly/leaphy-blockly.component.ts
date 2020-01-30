@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
-import { SketchUploadStatus } from 'src/app/domain/sketch-upload.status';
+import { SketchStatus } from 'src/app/domain/sketch-upload.status';
 declare var Blockly: any;
 
 @Component({
@@ -363,6 +363,6 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
   }
 
   public onUploadClicked() {
-      this.blocklyState.setSketchUploadStatus(SketchUploadStatus.Started);
+      this.blocklyState.setSketchStatus(SketchStatus.Sending);
   }
 }
