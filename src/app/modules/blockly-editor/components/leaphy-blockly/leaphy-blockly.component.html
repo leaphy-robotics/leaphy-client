@@ -1,8 +1,8 @@
 <div #blockContent id="blocklyDiv" style="width: 100%; height: 100%">
-    <button mat-fab id="upload-button" (click)="onUploadClicked()"><mat-icon>cloud_upload</mat-icon></button>
-    <mat-progress-spinner *ngIf="(blocklyState.sketchStatus$ | async) != 0"
-        id="spinner" 
-        [mode]="(blocklyState.sketchStatus$ | async) == 1 ? 'indeterminate' : 'determinate'" 
-        value="30">
+    <button mat-fab id="upload-button" (click)="onUploadClicked()" [disabled]="(blocklyState.sketchStatus$ | async) == 0">
+        <mat-icon>cloud_upload</mat-icon>
+    </button>
+    <mat-progress-spinner *ngIf="(blocklyState.sketchStatus$ | async) > 1" id="spinner"
+        [mode]="(blocklyState.sketchStatus$ | async) > 2 ? 'determinate' : 'indeterminate'" value="30">
     </mat-progress-spinner>
 </div>

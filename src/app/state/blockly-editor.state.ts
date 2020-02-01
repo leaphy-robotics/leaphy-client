@@ -13,8 +13,11 @@ export class BlocklyEditorState {
   private codeSubject$ = new BehaviorSubject('');
   public code$ = this.codeSubject$.asObservable();
 
-  private sketchStatusSubject$: BehaviorSubject<SketchStatus> = new BehaviorSubject(SketchStatus.Clean);
+  private sketchStatusSubject$: BehaviorSubject<SketchStatus> = new BehaviorSubject(SketchStatus.UnableToSend);
   public sketchStatus$ = this.sketchStatusSubject$.asObservable();
+
+  private sketchStatusMessageSubject$ = new BehaviorSubject('');
+  public sketchStatusMessage$ = this.sketchStatusMessageSubject$.asObservable();
 
   public setCode(code: string): void {
     this.codeSubject$.next(code);
@@ -22,5 +25,9 @@ export class BlocklyEditorState {
 
   public setSketchStatus(status: SketchStatus) {
     this.sketchStatusSubject$.next(status);
+  }
+
+  public setSketchStatusMessage(message: string) {
+    this.sketchStatusMessageSubject$.next(message);
   }
 }

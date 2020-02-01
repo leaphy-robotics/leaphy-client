@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import { SketchStatus } from 'src/app/domain/sketch-upload.status';
+import { BackEndState } from 'src/app/state/back-end.state';
 declare var Blockly: any;
 
 @Component({
@@ -12,7 +13,7 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
   @ViewChild('blockContent', { static: false }) blockContent: ElementRef;
   private workspace: any;
 
-  constructor(public blocklyState: BlocklyEditorState) { }
+  constructor(public blocklyState: BlocklyEditorState, public backEndState: BackEndState) { }
 
   ngAfterViewInit() {
     this.workspace = Blockly.inject(this.blockContent.nativeElement, {

@@ -1,9 +1,6 @@
 export enum SketchStatus {
-    Clean,
-    Dirty,
+    UnableToSend,
+    ReadyToSend,
     Sending,
-    Compiling,
-    Publishing,
-    Flashing,
-    Failed
+    Processing
 }

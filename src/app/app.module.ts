@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { BackEndEffects } from './effects/back-end.effects';
+import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { BackEndEffects } from './effects/back-end.effects';
   ],
   providers: [
     // Initialize the Effects on startup
-    {provide: APP_INITIALIZER, deps: [BackEndEffects], useFactory: () => () => null, multi: true} 
+    {provide: APP_INITIALIZER, deps: [BackEndEffects, BlocklyEditorEffects], useFactory: () => () => null, multi: true} 
   ],
   bootstrap: [AppComponent]
 })
