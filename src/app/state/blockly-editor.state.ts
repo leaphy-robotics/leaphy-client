@@ -19,6 +19,10 @@ export class BlocklyEditorState {
   private sketchStatusMessageSubject$ = new BehaviorSubject('');
   public sketchStatusMessage$ = this.sketchStatusMessageSubject$.asObservable();
 
+  public setRobotId(robotId: string): void {
+    this.robotIdSubject$.next(robotId);
+  }
+
   public setCode(code: string): void {
     this.codeSubject$.next(code);
   }

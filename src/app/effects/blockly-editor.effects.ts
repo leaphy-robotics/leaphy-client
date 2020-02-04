@@ -17,8 +17,19 @@ export class BlocklyEditorEffects {
 
         combineLatest([this.blocklyEditorState.code$, this.backEndState.connectionStatus$])
             .subscribe(([code, connectionStatus]) => {
-                if (code && connectionStatus === ConnectionStatus.PairedWithRobot) {
-                    this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
+                switch (connectionStatus) {
+                    case ConnectionStatus.Disconnected:
+                    case ConnectionStatus.Connected:
+                    case ConnectionStatus.WaitForRobot:
+                        this.blocklyEditorState.setSketchStatus(SketchStatus.UnableToSend);
+                        break;
+                    case ConnectionStatus.PairedWithRobot:
+                        if (code) {
+                            this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             });
     }
