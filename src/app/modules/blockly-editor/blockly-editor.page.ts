@@ -8,5 +8,9 @@ import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 })
 // tslint:disable-next-line: component-class-suffix
 export class BlocklyEditorPage {
-  constructor(public blocklyState: BlocklyEditorState){}
+  constructor(public blocklyState: BlocklyEditorState) { }
+
+  public onCodeViewClicked() {
+    this.blocklyState.setIsSideNavOpen(true);
+  }
 }

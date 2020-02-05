@@ -55,9 +55,6 @@ export class BackEndEffects {
         console.log('Received message from websockets:', msg);
 
         switch (msg.event) {
-            case 'FAILED_PAIRING_WITH_ROBOT':
-                this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
-                break;
             case 'ROBOT_REGISTERED':
                 this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);
                 break;
@@ -71,9 +68,9 @@ export class BackEndEffects {
                 break;
             case 'BINARY_PUBLISHED':
                 this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
-                this.blocklyEditorState.setSketchStatusMessage(msg.message);
+                this.blocklyEditorState.setSketchStatusMessage('');
                 break;
-            case 'ROBOT_NOT_CONNECTED':
+            case 'ROBOT_DISCONNECTED':
                 this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
                 break;
             default:

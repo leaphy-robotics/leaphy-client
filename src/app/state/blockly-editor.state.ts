@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SketchStatus } from '../domain/sketch.status';
+import { scan } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class BlocklyEditorState {
   private sketchStatusMessageSubject$ = new BehaviorSubject('');
   public sketchStatusMessage$ = this.sketchStatusMessageSubject$.asObservable();
 
+  private isSideNavOpenSubject$ = new BehaviorSubject(false);
+  public isSideNavOpen$ = this.isSideNavOpenSubject$.asObservable()
+    .pipe(scan((current) => !current));
+
   public setRobotId(robotId: string): void {
     this.robotIdSubject$.next(robotId);
   }
@@ -33,5 +38,9 @@ export class BlocklyEditorState {
 
   public setSketchStatusMessage(message: string) {
     this.sketchStatusMessageSubject$.next(message);
+  }
+
+  public setIsSideNavOpen(isOpen: boolean) {
+    this.isSideNavOpenSubject$.next(isOpen);
   }
 }

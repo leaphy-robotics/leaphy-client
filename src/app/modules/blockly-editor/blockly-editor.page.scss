@@ -11,3 +11,16 @@
 #sidenav {
   min-width: 40%;
 }
+
+#code-view-button {
+  position: absolute;
+  top: 150px;
+  right: -23px;
+  z-index: 2;
+  transition: right 0.5s;
+  overflow: clip;
+}
+
+#code-view-button:hover {
+  right: 10px;
+}

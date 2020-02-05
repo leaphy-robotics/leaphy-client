@@ -32,10 +32,10 @@
     justify-content: center;
     flex: 0 0 auto;
     width: 50px;
+    padding-right: 10px;
 }
 #message-content {
-    min-width: 50px;
-    padding-left: 10px;
+    padding-left: 20px;
     flex: 1 1 auto;
     transition:flex 0.3s ease-out;
 }

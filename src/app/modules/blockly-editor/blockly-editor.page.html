@@ -1,9 +1,12 @@
 <div id="container">
+    <button mat-fab id="code-view-button" (click)="onCodeViewClicked()">
+        <mat-icon>code</mat-icon>
+    </button>
     <mat-sidenav-container class="example-container">
         <mat-sidenav-content>
             <app-leaphy-blockly></app-leaphy-blockly>
         </mat-sidenav-content>
-        <mat-sidenav id="sidenav" mode="side" opened position="end">
+        <mat-sidenav id="sidenav" mode="side" [opened]="blocklyState.isSideNavOpen$ | async" position="end">
             <app-code-view></app-code-view>
         </mat-sidenav>
     </mat-sidenav-container>
