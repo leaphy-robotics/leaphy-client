@@ -1,9 +1,4 @@
 <div id="container">
-    <div class="loading-indicator" *ngIf="(blocklyState.sketchStatus$ | async) > 1">
-        <mat-progress-spinner id="spinner"
-            [mode]="(blocklyState.sketchStatus$ | async) > 2 ? 'determinate' : 'indeterminate'" value="30">
-        </mat-progress-spinner>
-    </div>
     <mat-sidenav-container class="example-container">
         <mat-sidenav-content>
             <app-leaphy-blockly></app-leaphy-blockly>

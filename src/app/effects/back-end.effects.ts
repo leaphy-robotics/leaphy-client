@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
-import { SketchStatus } from '../domain/sketch-upload.status';
+import { SketchStatus } from '../domain/sketch.status';
 import { filter, withLatestFrom } from 'rxjs/operators';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { BackEndState } from '../state/back-end.state';
@@ -71,6 +71,7 @@ export class BackEndEffects {
                 break;
             case 'BINARY_PUBLISHED':
                 this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
+                this.blocklyEditorState.setSketchStatusMessage(msg.message);
                 break;
             case 'ROBOT_NOT_CONNECTED':
                 this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);

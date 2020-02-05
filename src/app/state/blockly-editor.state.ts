@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SketchStatus } from '../domain/sketch-upload.status';
+import { SketchStatus } from '../domain/sketch.status';
 
 @Injectable({
   providedIn: 'root'

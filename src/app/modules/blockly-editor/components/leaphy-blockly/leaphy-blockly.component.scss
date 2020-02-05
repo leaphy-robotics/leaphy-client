@@ -11,12 +11,41 @@
     z-index: 1;
 }
 
+#messages-window {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 160px;
+    z-index: 1;
+    min-width: 100px;
+    height: 56px;
+    border-radius: 28px;
+    border: 1px solid gainsboro;
+}
+
+#spinner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 50px;
+}
+#message-content {
+    min-width: 50px;
+    padding-left: 10px;
+    flex: 1 1 auto;
+    transition:flex 0.3s ease-out;
+}
+
 .mat-Color0 {
     background-color: darkgrey;
     color: #fff;
 }
 .mat-Color1 {
-    background-color: goldenrod;
+    background-color: yellow;
     color: black;
 }
 .mat-Color2 {
@@ -24,7 +53,7 @@
     color: #fff;
 }
 .mat-Color3 {
-    background-color: yellow;
+    background-color: orange;
     color:black;
 }
 .mat-Color4 {
