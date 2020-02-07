@@ -11,7 +11,18 @@ export class BlocklyEditorState {
   private robotIdSubject$ = new BehaviorSubject('robot001');
   public robotId$ = this.robotIdSubject$.asObservable();
 
-  private codeSubject$ = new BehaviorSubject('');
+  private initialCode = `void setup()
+{
+
+}
+
+
+void loop()
+{
+
+}
+  `;
+  private codeSubject$ = new BehaviorSubject(this.initialCode);
   public code$ = this.codeSubject$.asObservable();
 
   private sketchStatusSubject$: BehaviorSubject<SketchStatus> = new BehaviorSubject(SketchStatus.UnableToSend);
