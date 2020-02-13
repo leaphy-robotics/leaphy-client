@@ -15,9 +15,9 @@
         <mat-icon>cloud_upload</mat-icon>
     </button>
 
-    <button mat-fab id="connect-button" [color]="'Color'+(backEndState.connectionStatus$ | async)">
+    <button mat-fab id="connect-button" (click)="onConnectClicked()" [color]="'Color'+(backEndState.connectionStatus$ | async)">
         <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 4">check</mat-icon>
-        <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 3">access_time</mat-icon>
+        <span *ngIf="(backEndState.connectionStatus$ | async) == 3" class="button-icon-text">?</span>
         <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 2">sync</mat-icon>
         <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 1">link</mat-icon>
         <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 0">block</mat-icon>
