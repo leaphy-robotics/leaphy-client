@@ -35,6 +35,9 @@ void loop()
   public isSideNavOpen$ = this.isSideNavOpenSubject$.asObservable()
     .pipe(scan((current) => !current));
 
+  private isConnectDialogVisibleSubject$ = new BehaviorSubject(false);
+  public isConnectDialogVisibleOpen$ = this.isConnectDialogVisibleSubject$.asObservable();
+
   public setRobotId(robotId: string): void {
     this.robotIdSubject$.next(robotId);
   }
@@ -53,5 +56,9 @@ void loop()
 
   public setIsSideNavOpen(isOpen: boolean) {
     this.isSideNavOpenSubject$.next(isOpen);
+  }
+
+  public setIsConnectDialogVisible(isVisible: boolean) {
+    this.isConnectDialogVisibleSubject$.next(isVisible);
   }
 }

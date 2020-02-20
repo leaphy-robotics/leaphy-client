@@ -4,8 +4,6 @@ import { SketchStatus } from 'src/app/domain/sketch.status';
 import { BackEndState } from 'src/app/state/back-end.state';
 import { ConnectionStatus } from 'src/app/domain/connection.status';
 declare var Blockly: any;
-import { MatDialog } from '@angular/material/dialog';
-import { ConnectDialogComponent } from '../connect-dialog/connect-dialog.component';
 
 @Component({
     selector: 'app-leaphy-blockly',
@@ -18,8 +16,7 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
 
     constructor(
         public blocklyState: BlocklyEditorState,
-        public backEndState: BackEndState,
-        private dialog: MatDialog) { }
+        public backEndState: BackEndState) { }
 
     ngAfterViewInit() {
         this.workspace = Blockly.inject(this.blockContent.nativeElement, {
@@ -374,14 +371,6 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
     }
 
     public onConnectClicked() {
-        const dialogRef = this.dialog.open(ConnectDialogComponent, {
-            width: '450px',
-            data: { name: 'test' }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            console.log(result);
-        });
+        this.blocklyState.setIsConnectDialogVisible(true);
     }
 }

@@ -13,11 +13,10 @@ import { BlocklyEditorPageRoutingModule } from './blockly-editor-routing.module'
 import { BlocklyEditorPage } from './blockly-editor.page';
 import { LeaphyBlocklyComponent } from './components/leaphy-blockly/leaphy-blockly.component';
 import { CodeViewComponent } from './components/code-view/code-view.component';
-import { ConnectDialogComponent } from './components/connect-dialog/connect-dialog.component';
 
 
 @NgModule({
-  declarations: [BlocklyEditorPage, LeaphyBlocklyComponent, CodeViewComponent, ConnectDialogComponent],
+  declarations: [BlocklyEditorPage, LeaphyBlocklyComponent, CodeViewComponent],
   imports: [
     CommonModule,
     BlocklyEditorPageRoutingModule,
@@ -29,6 +28,6 @@ import { ConnectDialogComponent } from './components/connect-dialog/connect-dial
     MatDialogModule,
     MatInputModule
   ],
-  entryComponents: [ConnectDialogComponent]
+  entryComponents: []
 })
 export class BlocklyEditorPageModule { }
