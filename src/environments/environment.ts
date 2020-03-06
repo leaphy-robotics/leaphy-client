@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  wsendpoint: 'wss://hyyayo2tu7.execute-api.eu-west-1.amazonaws.com/test'
 };
 
 /*

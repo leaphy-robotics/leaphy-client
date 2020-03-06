@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
-import { combineLatest, of } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { BackEndState } from '../state/back-end.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { MatDialog } from '@angular/material/dialog';
-import { ConnectDialogComponent } from '../dialogs/connect-dialog/connect-dialog.component';
 
 @Injectable({
     providedIn: 'root',
@@ -16,15 +14,14 @@ export class BlocklyEditorEffects {
 
     constructor(
         private blocklyEditorState: BlocklyEditorState,
-        private backEndState: BackEndState,
-        private dialog: MatDialog
+        private backEndState: BackEndState
     ) {
 
         combineLatest([this.blocklyEditorState.code$, this.backEndState.connectionStatus$])
             .subscribe(([code, connectionStatus]) => {
                 switch (connectionStatus) {
                     case ConnectionStatus.Disconnected:
-                    case ConnectionStatus.Connected:
+                    case ConnectionStatus.ConnectedToBackend:
                     case ConnectionStatus.WaitForRobot:
                         this.blocklyEditorState.setSketchStatus(SketchStatus.UnableToSend);
                         break;
@@ -35,23 +32,6 @@ export class BlocklyEditorEffects {
                         break;
                     default:
                         break;
-                }
-            });
-
-        this.blocklyEditorState.isConnectDialogVisibleOpen$
-            .subscribe(isVisible => {
-                console.log('Visible', isVisible);
-                if (isVisible) {
-                    const dialogRef = this.dialog.open(ConnectDialogComponent, {
-                        width: '450px',
-                        data: { name: 'test' }
-                    });
-
-                    dialogRef.afterClosed().subscribe(result => {
-                        console.log('The dialog was closed');
-                        console.log(result);
-                    });
-
                 }
             });
     }

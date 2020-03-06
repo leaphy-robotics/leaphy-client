@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +14,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { BackEndEffects } from './effects/back-end.effects';
 import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
 import { ConnectDialogComponent } from './dialogs/connect-dialog/connect-dialog.component';
+import { DialogEffects } from './effects/dialog.effects';
+import { RobotEffects } from './effects/robot.effects';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,7 @@ import { ConnectDialogComponent } from './dialogs/connect-dialog/connect-dialog.
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
@@ -31,7 +35,13 @@ import { ConnectDialogComponent } from './dialogs/connect-dialog/connect-dialog.
   ],
   providers: [
     // Initialize the Effects on startup
-    {provide: APP_INITIALIZER, deps: [BackEndEffects, BlocklyEditorEffects], useFactory: () => () => null, multi: true} 
+    {provide: APP_INITIALIZER, deps:
+      [
+        BackEndEffects,
+        BlocklyEditorEffects,
+        DialogEffects,
+        RobotEffects
+      ], useFactory: () => () => null, multi: true}
   ],
   bootstrap: [AppComponent],
   entryComponents: [ConnectDialogComponent]

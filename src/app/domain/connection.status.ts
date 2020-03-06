@@ -1,6 +1,6 @@
 export enum ConnectionStatus {
     Disconnected,
-    Connected,
+    ConnectedToBackend,
     StartPairing,
     WaitForRobot,
     PairedWithRobot

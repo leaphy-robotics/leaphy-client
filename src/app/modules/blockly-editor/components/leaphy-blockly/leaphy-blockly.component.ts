@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import { SketchStatus } from 'src/app/domain/sketch.status';
 import { BackEndState } from 'src/app/state/back-end.state';
-import { ConnectionStatus } from 'src/app/domain/connection.status';
+import { DialogState } from 'src/app/state/dialog.state';
 declare var Blockly: any;
 
 @Component({
@@ -16,7 +16,8 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
 
     constructor(
         public blocklyState: BlocklyEditorState,
-        public backEndState: BackEndState) { }
+        public backEndState: BackEndState,
+        private dialogState: DialogState) { }
 
     ngAfterViewInit() {
         this.workspace = Blockly.inject(this.blockContent.nativeElement, {
@@ -371,6 +372,6 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
     }
 
     public onConnectClicked() {
-        this.blocklyState.setIsConnectDialogVisible(true);
+        this.dialogState.setIsConnectDialogVisible(true);
     }
 }

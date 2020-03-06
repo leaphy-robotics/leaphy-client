@@ -8,10 +8,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ConnectDialogComponent {
 
+  public robotId: string;
   constructor(
     public dialogRef: MatDialogRef<ConnectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      this.data.name = 'Hello from dialog';
+      this.robotId = this.data.robotId;
     }
 
   onNoClick(): void {

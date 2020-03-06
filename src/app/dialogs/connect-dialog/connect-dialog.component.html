@@ -3,10 +3,10 @@
   <p>Enter the pairing code displayed on the robot</p>
   <mat-form-field>
     <mat-label>Pairing code</mat-label>
-    <input matInput>
+    <input matInput [(ngModel)]="robotId">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="robotId" cdkFocusInitial>Ok</button>
 </div>
