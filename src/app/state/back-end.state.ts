@@ -11,7 +11,7 @@ export class BackEndState {
   private connectionStatusSubject$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.Disconnected);
   public connectionStatus$ = this.connectionStatusSubject$.asObservable();
 
-  private backEndMessagesSubject$ = new BehaviorSubject<BackEndMessage>(new BackEndMessage('test', 'bla'));
+  private backEndMessagesSubject$ = new BehaviorSubject<BackEndMessage>(null);
   public backEndMessages$ = this.backEndMessagesSubject$.asObservable();
 
   public setconnectionStatus(status: ConnectionStatus) {

@@ -28,7 +28,7 @@ export class BackEndEffects {
     ) {
         this.backEndState.setconnectionStatus(ConnectionStatus.ConnectedToBackend);
         this.myWebSocket.asObservable().subscribe(
-            msg => this.onMessage(msg as BackEndMessage), // Called whenever there is a message from the server
+            message => this.backEndState.setBackendMessage(message as BackEndMessage), // Called whenever there is a message from the server
             err => console.log(err), // Called if WebSocket API signals some kind of error
             () => {
                 // Called when connection is closed (for whatever reason)
@@ -69,7 +69,33 @@ export class BackEndEffects {
                         break;
                 }
             });
+
+        this.backEndState.backEndMessages$
+            .pipe(filter(message => !!message))
+            .pipe(withLatestFrom(this.blocklyEditorState.sketchStatus$))
+            .subscribe(([message, sketchStatus]) => {
+                console.log('Received message from websockets:', message);
+                switch (message.event) {
+                    case 'ROBOT_REGISTERED':
+                        this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);
+                        break;
+                    case 'CLIENT_PAIRED_WITH_ROBOT':
+                    case 'CLIENT_RECONNECTED_WITH_ROBOT':
+                        this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot);
+                        break;
+                    case 'ROBOT_NOT_REGISTERED':
+                        if (sketchStatus !== SketchStatus.Sending) {
+                            this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+
     }
+
 
     private onMessage(message: BackEndMessage) {
         console.log('Received message from websockets:', message);
