@@ -4,6 +4,7 @@ import { SketchStatus } from '../domain/sketch.status';
 import { combineLatest } from 'rxjs';
 import { BackEndState } from '../state/back-end.state';
 import { ConnectionStatus } from '../domain/connection.status';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -34,5 +35,26 @@ export class BlocklyEditorEffects {
                         break;
                 }
             });
+
+        this.backEndState.backEndMessages$
+            .pipe(filter(message => !!message))
+            .subscribe(message => {
+                switch (message.event) {
+                    case 'PREPARING_COMPILATION_ENVIRONMENT':
+                    case 'COMPILATION_STARTED':
+                    case 'COMPILATION_COMPLETE':
+                    case 'ROBOT_UPDATING':
+                        this.blocklyEditorState.setSketchStatusMessage(message.message);
+                        break;
+                    case 'ROBOT_REGISTERED':
+                        this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
+                        this.blocklyEditorState.setSketchStatusMessage('');
+                        break;
+                    default:
+                        break;
+                }
+
+            });
+
     }
 }
