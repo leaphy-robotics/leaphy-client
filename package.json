@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deploy": "aws s3 sync .\\dist\\leaphy-client s3://liquidlogic.eu --delete --profile ll-liquidlogic"
   },
   "private": true,
   "dependencies": {
