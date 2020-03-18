@@ -5,6 +5,7 @@ import { combineLatest } from 'rxjs';
 import { BackEndState } from '../state/back-end.state';
 import { ConnectionStatus } from '../domain/connection.status';
 import { filter } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +16,8 @@ export class BlocklyEditorEffects {
 
     constructor(
         private blocklyEditorState: BlocklyEditorState,
-        private backEndState: BackEndState
+        private backEndState: BackEndState,
+        private http: HttpClient
     ) {
 
         combineLatest([this.blocklyEditorState.code$, this.backEndState.connectionStatus$])
@@ -56,5 +58,14 @@ export class BlocklyEditorEffects {
 
             });
 
+        this.http.get('/assets/toolbox.xml', {
+            headers: new HttpHeaders()
+                .set('Content-Type', 'text/xml')
+                .append('Access-Control-Allow-Methods', 'GET')
+                .append('Access-Control-Allow-Origin', '*')
+                .append('Access-Control-Allow-Headers',
+                    'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'),
+            responseType: 'text'
+        }).subscribe(toolbox => this.blocklyEditorState.setToolboxXml(toolbox));
     }
 }

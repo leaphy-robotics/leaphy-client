@@ -31,6 +31,9 @@ void loop()
   public isSideNavOpen$ = this.isSideNavOpenSubject$.asObservable()
     .pipe(scan((current) => !current));
 
+  private toolboxXmlSubject$ = new BehaviorSubject(null);
+  public toolboxXml$ = this.toolboxXmlSubject$.asObservable();
+
   public setCode(code: string): void {
     this.codeSubject$.next(code);
   }
@@ -45,5 +48,9 @@ void loop()
 
   public setIsSideNavOpen(isOpen: boolean) {
     this.isSideNavOpenSubject$.next(isOpen);
+  }
+
+  public setToolboxXml(toolboxXml: any) {
+    this.toolboxXmlSubject$.next(toolboxXml);
   }
 }
