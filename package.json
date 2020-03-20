@@ -1,14 +1,17 @@
 {
   "name": "leaphy-client",
   "version": "0.0.0",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:electron": "ng build --base-href ./ && electron .",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic"
+    "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
+    "package:electron": "ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --overwrite --verbose"
   },
   "private": true,
   "dependencies": {
@@ -34,10 +37,12 @@
     "@angular/cli": "~8.3.20",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
+    "electron": "^8.1.1",
+    "electron-packager": "^14.2.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",

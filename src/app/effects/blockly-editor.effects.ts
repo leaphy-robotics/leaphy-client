@@ -58,7 +58,7 @@ export class BlocklyEditorEffects {
 
             });
 
-        this.http.get('/assets/toolbox.xml', {
+        this.http.get('./assets/leaphy-toolbox.xml', {
             headers: new HttpHeaders()
                 .set('Content-Type', 'text/xml')
                 .append('Access-Control-Allow-Methods', 'GET')
@@ -66,6 +66,7 @@ export class BlocklyEditorEffects {
                 .append('Access-Control-Allow-Headers',
                     'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'),
             responseType: 'text'
-        }).subscribe(toolbox => this.blocklyEditorState.setToolboxXml(toolbox));
+        })
+        .subscribe(toolbox => this.blocklyEditorState.setToolboxXml(toolbox), error => console.log('Error loading toolbox', error));
     }
 }

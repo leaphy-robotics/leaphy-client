@@ -15,41 +15,39 @@ declare var Blockly: any;
 export class LeaphyBlocklyComponent implements AfterViewInit {
     @ViewChild('blockContent', { static: false }) blockContent: ElementRef;
     private workspace: any;
-    private toolbox: any;
     constructor(
         public blocklyState: BlocklyEditorState,
         public backEndState: BackEndState,
         private dialogState: DialogState) {
-        this.blocklyState.toolboxXml$
-            .pipe(filter(toolbox => !!toolbox))
-            .subscribe(toolbox => {
-                this.toolbox = toolbox;
-            });
     }
 
     ngAfterViewInit() {
-        this.workspace = Blockly.inject(this.blockContent.nativeElement, {
-            toolbox: this.toolbox,
-            scrollbars: true,
-            zoom: {
-                controls: true,
-                wheel: false,
-                startScale: 1.0,
-                maxScale: 3,
-                minScale: 0.3,
-                scaleSpeed: 1.2
-            },
-            trashcan: true,
-            move: {
-                scrollbars: true,
-                drag: true,
-                wheel: true
-            }
-        });
+        this.blocklyState.toolboxXml$
+            .pipe(filter(toolbox => !!toolbox))
+            .subscribe(toolbox => {
+                this.workspace = Blockly.inject(this.blockContent.nativeElement, {
+                    toolbox,
+                    scrollbars: true,
+                    zoom: {
+                        controls: true,
+                        wheel: false,
+                        startScale: 1.0,
+                        maxScale: 3,
+                        minScale: 0.3,
+                        scaleSpeed: 1.2
+                    },
+                    trashcan: true,
+                    move: {
+                        scrollbars: true,
+                        drag: true,
+                        wheel: true
+                    }
+                });
 
-        this.workspace.addChangeListener(async (event) => {
-            this.blocklyState.setCode(Blockly.Arduino.workspaceToCode(this.workspace));
-        });
+                this.workspace.addChangeListener(async (event) => {
+                    this.blocklyState.setCode(Blockly.Arduino.workspaceToCode(this.workspace));
+                });
+            });
     }
 
     public onUploadClicked() {
