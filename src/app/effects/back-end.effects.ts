@@ -92,29 +92,5 @@ export class BackEndEffects {
                         break;
                 }
             });
-
-
-    }
-
-
-    private onMessage(message: BackEndMessage) {
-        console.log('Received message from websockets:', message);
-
-        this.backEndState.setBackendMessage(message);
-
-        switch (message.event) {
-            case 'ROBOT_REGISTERED':
-                this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);
-                break;
-            case 'CLIENT_PAIRED_WITH_ROBOT':
-            case 'CLIENT_RECONNECTED_WITH_ROBOT':
-                this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot);
-                break;
-            case 'ROBOT_NOT_REGISTERED':
-                this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
-                break;
-            default:
-                break;
-        }
     }
 }
