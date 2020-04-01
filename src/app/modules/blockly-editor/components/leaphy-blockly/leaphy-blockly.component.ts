@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import { SketchStatus } from 'src/app/domain/sketch.status';
-import { BackEndState } from 'src/app/state/back-end.state';
+import { BackEndState } from 'src/app/state/backend.state';
 import { DialogState } from 'src/app/state/dialog.state';
 import { filter } from 'rxjs/operators';
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { DialogState } from '../state/dialog.state';
 import { RobotState } from '../state/robot.state';
-import { BackEndState } from '../state/back-end.state';
+import { BackEndState } from '../state/backend.state';
 
 @Injectable({
     providedIn: 'root',

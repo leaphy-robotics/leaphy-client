@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { filter, withLatestFrom } from 'rxjs/operators';
-import { BackEndState } from '../state/back-end.state';
-import { RobotState } from '../state/robot.state';
+import { BackEndState } from '../state/backend.state';
 
 import { IpcRenderer } from 'electron';
 

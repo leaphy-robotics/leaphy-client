@@ -3,7 +3,7 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { filter, withLatestFrom, switchMap, tap } from 'rxjs/operators';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { BackEndState } from '../state/back-end.state';
+import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
 import { combineLatest } from 'rxjs';
 import { RobotState } from '../state/robot.state';
@@ -14,7 +14,7 @@ import { BackEndMessage } from '../domain/backend.message';
 })
 
 // Defines the effects on the Backend that different state changes have
-export class BackEndEffects {
+export class CloudBackEndEffects {
 
     private apiId = '6lge1rqji3';
     private region = 'eu-west-1';

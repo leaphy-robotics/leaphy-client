@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { combineLatest } from 'rxjs';
-import { BackEndState } from '../state/back-end.state';
+import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
 import { filter } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

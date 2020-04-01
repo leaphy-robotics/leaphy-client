@@ -13,7 +13,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 
 import { ElectronEffects } from './effects/electron.effects';
-import { BackEndEffects } from './effects/back-end.effects';
+import { CloudBackEndEffects } from './effects/cloud.backend.effects';
 import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
 import { ConnectDialogComponent } from './dialogs/connect-dialog/connect-dialog.component';
 import { DialogEffects } from './effects/dialog.effects';
@@ -41,7 +41,7 @@ import { RobotEffects } from './effects/robot.effects';
     {provide: APP_INITIALIZER, deps:
       [
         ElectronEffects,
-        BackEndEffects,
+        CloudBackEndEffects,
         BlocklyEditorEffects,
         DialogEffects,
         RobotEffects
