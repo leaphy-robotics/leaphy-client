@@ -1,10 +1,11 @@
 const electronInstaller = require('electron-winstaller');
     electronInstaller.createWindowsInstaller({
-      appDirectory: '/tmp/leaphy-client-win32-x64',
+      appDirectory: '/Dev/Leaphy/Repos/leaphy-client/leaphy_client-win32-x64',
       outputDirectory: '/tmp/installer64',
-      authors: 'Leapy Robotics',
-      exe: 'leaphy-client.exe',
-      description: 'Leaphy Robocoder Client'
+      authors: 'Leaphy Robotics',
+      exe: 'leaphy_client.exe',
+      description: 'Leaphy Robocoder Client',
+      noMsi: true
     })
     .then(success => {
         console.log('It worked!');

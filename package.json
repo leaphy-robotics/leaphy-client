@@ -1,6 +1,6 @@
 {
-  "name": "leaphy-client",
-  "version": "0.0.0",
+  "name": "leaphy_client",
+  "version": "0.0.1",
   "main": "main.js",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
-    "package:electron": "ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --overwrite --verbose"
+    "package:electron": "ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --overwrite --verbose --asar"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +25,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",
     "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#fee12f8",
     "prismjs": "^1.17.1",
