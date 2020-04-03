@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConnectDialogComponent } from './connect-dialog.component';
+import { ConnectCloudDialog } from './connect.cloud.dialog';
 
-describe('ConnectDialogComponent', () => {
-  let component: ConnectDialogComponent;
-  let fixture: ComponentFixture<ConnectDialogComponent>;
+describe('ConnectCloudDialog', () => {
+  let component: ConnectCloudDialog;
+  let fixture: ComponentFixture<ConnectCloudDialog>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConnectDialogComponent ]
+      declarations: [ ConnectCloudDialog ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConnectDialogComponent);
+    fixture = TestBed.createComponent(ConnectCloudDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

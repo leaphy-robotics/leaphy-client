@@ -15,7 +15,7 @@
         <mat-icon>cloud_upload</mat-icon>
     </button>
 
-    <button *ngIf="(robotState.robotType$ | async).port == 'OTA'" mat-fab id="connect-button" (click)="onConnectClicked()" [color]="'Color'+(backEndState.connectionStatus$ | async)">
+    <button mat-fab id="connect-button" (click)="onConnectClicked()" [color]="'Color'+(backEndState.connectionStatus$ | async)">
         <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 4">check</mat-icon>
         <span *ngIf="(backEndState.connectionStatus$ | async) == 3" class="button-icon-text">?</span>
         <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 2">sync</mat-icon>

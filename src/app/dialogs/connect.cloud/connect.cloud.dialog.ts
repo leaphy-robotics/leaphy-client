@@ -2,15 +2,16 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-connect-dialog',
-  templateUrl: './connect-dialog.component.html',
-  styleUrls: ['./connect-dialog.component.scss']
+  selector: 'app-connect.cloud',
+  templateUrl: './connect.cloud.dialog.html',
+  styleUrls: ['./connect.cloud.dialog.scss']
 })
-export class ConnectDialogComponent {
+// tslint:disable-next-line: component-class-suffix
+export class ConnectCloudDialog {
 
   public robotId: string;
   constructor(
-    public dialogRef: MatDialogRef<ConnectDialogComponent>,
+    public dialogRef: MatDialogRef<ConnectCloudDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.robotId = this.data.robotId;
     }

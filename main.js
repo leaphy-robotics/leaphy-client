@@ -93,9 +93,15 @@ ipcMain.on('compile', async (event, payload) => {
     await tryRunArduinoCli(compileParams);
     const updatingMessage = {event: "ROBOT_UPDATING", message: "Updating robot..."};
     event.sender.send('backend-message', updatingMessage);
-    await tryRunArduinoCli(uploadParams);
+    try {
+        await tryRunArduinoCli(uploadParams);
+    } catch (error) {
+        unsuccesfulUploadMessage = {event: "NO_ROBOT_FOUND", message: "No connected robot found to upload to"};
+        event.sender.send('backend-message', unsuccesfulUploadMessage);
+        return;
+    }
 
-    const allDoneMessage = {event: "ROBOT_REGISTERED", message: "Robot is ready for next sketch"};
+    const allDoneMessage = {event: "ROBOT_UPDATED", message: "Robot is ready for next sketch"};
     event.sender.send('backend-message', allDoneMessage);
 });
 
@@ -110,6 +116,7 @@ ipcMain.on('get-board-port', async (event) => {
     }
     event.sender.send('backend-message', message);
 });
+
 async function tryRunArduinoCli(params, returnStdOut = false) {
     try{
         const {stdout, stderr} = await runExecutable(arduinoCliPath, params);
@@ -119,6 +126,7 @@ async function tryRunArduinoCli(params, returnStdOut = false) {
         if(returnStdOut) return stdout;
     } catch (e) {
         console.error(e);
+        throw(e);
     }
 }
 

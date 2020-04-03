@@ -68,6 +68,10 @@ export class ElectronEffects {
             .subscribe((message) => {
                 console.log('Received message from backend:', message);
                 switch (message.event) {
+                    case 'NO_ROBOT_FOUND':
+                        this.robotState.setRobotPort(null);
+                        this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
+                        break;
                     case 'ROBOT_FOUND_ON_PORT':
                         this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot);
                         break;
@@ -75,6 +79,15 @@ export class ElectronEffects {
                         break;
                 }
             });
+
+        this.backEndState.connectionStatus$
+        .subscribe(connectionStatus => {
+            switch (connectionStatus) {
+                case ConnectionStatus.StartPairing:
+                    console.log('Electron Effect detecting boards');
+                    this.send('get-board-port');
+            }
+        });
     }
 
     public on(channel: string, listener: (event: any, data: any) => void): void {

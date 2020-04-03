@@ -48,6 +48,7 @@ export class BlocklyEditorEffects {
                         this.blocklyEditorState.setSketchStatusMessage(message.message);
                         break;
                     case 'ROBOT_REGISTERED':
+                    case 'ROBOT_UPDATED':
                         this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
                         this.blocklyEditorState.setSketchStatusMessage(null);
                         break;

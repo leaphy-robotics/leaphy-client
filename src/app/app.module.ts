@@ -15,14 +15,16 @@ import {MatButtonModule} from '@angular/material/button';
 import { ElectronEffects } from './effects/electron.effects';
 import { CloudBackEndEffects } from './effects/cloud.backend.effects';
 import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
-import { ConnectDialogComponent } from './dialogs/connect-dialog/connect-dialog.component';
 import { DialogEffects } from './effects/dialog.effects';
 import { RobotEffects } from './effects/robot.effects';
+import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog';
+import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConnectDialogComponent
+    ConnectWiredDialog,
+    ConnectCloudDialog
 
   ],
   imports: [
@@ -48,6 +50,6 @@ import { RobotEffects } from './effects/robot.effects';
       ], useFactory: () => () => null, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConnectDialogComponent]
+  entryComponents: [ConnectWiredDialog, ConnectCloudDialog]
 })
 export class AppModule { }
