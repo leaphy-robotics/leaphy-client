@@ -26,7 +26,18 @@ export class RobotEffects {
 
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
-            .pipe(filter(message => message.event === 'CLIENT_PAIRED_WITH_ROBOT'))
-            .subscribe(message => this.robotState.setRobotId(message.message));
+            .subscribe(message => {
+                console.log('Received message from backend:', message);
+                switch (message.event) {
+                    case 'CLIENT_PAIRED_WITH_ROBOT':
+                        this.robotState.setRobotId(message.message);
+                        break;
+                    case 'ROBOT_FOUND_ON_PORT':
+                        this.robotState.setRobotPort(message.message);
+                        break;
+                    default:
+                        break;
+                }
+            });
     }
 }

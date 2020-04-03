@@ -6,6 +6,133 @@ if (handleSquirrelEvent()) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
     return;
 }
+const url = require("url");
+const fs = require('fs');
+const os = require("os");
+const util = require('util');
+const runExecutable = util.promisify(require('child_process').execFile);
+
+let mainWindow;
+
+function loadUrl(mainWindow) {
+    mainWindow.loadURL(
+        url.format({
+            pathname: path.join(__dirname, "dist", "index.html"),
+            protocol: "file:",
+            slashes: true,
+        })
+    );
+}
+
+function createWindow() {
+    mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    })
+
+    loadUrl(mainWindow);
+
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
+
+    mainWindow.on('closed', function () {
+        mainWindow = null
+    })
+
+    mainWindow.webContents.on('did-fail-load', function () {
+        loadUrl(mainWindow);
+    })
+}
+
+app.on('ready', createWindow)
+
+app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') app.quit()
+})
+
+app.on('activate', function () {
+    if (mainWindow === null) createWindow()
+})
+
+app.setAppLogsPath();
+
+let arduinoCliPath;
+setupArduinoCli();
+
+ipcMain.on('compile', async (event, payload) => {
+    console.log('got a compile event with payload', payload);
+
+    const userDataPath = app.getPath('userData');
+    const sketchFolder = path.join(userDataPath, 'sketch');
+    if (!fs.existsSync(sketchFolder)) {
+        fs.mkdirSync(sketchFolder);
+    }
+    const sketchPath = path.join(sketchFolder, 'sketch.ino');
+    fs.writeFileSync(sketchPath, payload.code);
+
+    const checkCoreParams = ["core", "list", "--format", "json"];
+    const compileParams = ["compile", "--fqbn", payload.fqbn, sketchPath];
+    const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.port, "-i", `${sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
+
+    const installedCores = JSON.parse(await tryRunArduinoCli(checkCoreParams, true));
+    const isRequiredCoreInstalled = installedCores.map(v => v.ID).includes(payload.core);
+    if(!isRequiredCoreInstalled) {
+        const installingCoreMessage = {event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Installing Arduino Core for ${payload.name}`};
+        event.sender.send('backend-message', installingCoreMessage);
+    
+        const updateIndexParams = ["core", "update-index"];
+        const installCoreParams = ["core", "install", payload.core];
+        console.log(await tryRunArduinoCli(updateIndexParams, true));
+        console.log(await tryRunArduinoCli(installCoreParams, true));
+    }
+    const compilingMessage = {event: "COMPILATION_STARTED", message: "Compiling..."};
+    event.sender.send('backend-message', compilingMessage);
+    await tryRunArduinoCli(compileParams);
+    const updatingMessage = {event: "ROBOT_UPDATING", message: "Updating robot..."};
+    event.sender.send('backend-message', updatingMessage);
+    await tryRunArduinoCli(uploadParams);
+
+    const allDoneMessage = {event: "ROBOT_REGISTERED", message: "Robot is ready for next sketch"};
+    event.sender.send('backend-message', allDoneMessage);
+});
+
+ipcMain.on('get-board-port', async (event) => {
+    const listBoardsParams = ["board", "list", "--format", "json"];
+    const connectedBoards = JSON.parse(await tryRunArduinoCli(listBoardsParams, true));
+    let message;
+    if(!connectedBoards.length){
+        message = {event: "NO_ROBOT_FOUND", message: "No connected robot found"};
+    } else {
+        message = {event: "ROBOT_FOUND_ON_PORT", message: connectedBoards[0].address};
+    }
+    event.sender.send('backend-message', message);
+});
+async function tryRunArduinoCli(params, returnStdOut = false) {
+    try{
+        const {stdout, stderr} = await runExecutable(arduinoCliPath, params);
+        if(stderr) {
+            console.log('stderr:', stderr);
+        }
+        if(returnStdOut) return stdout;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function setupArduinoCli() {
+    let platformFolder;
+    let executable;
+    const platform = os.platform;
+    if (platform == "win32") {
+        platformFolder = "arduino-cli_0.9.0_Windows_64bit";
+        executable = "arduino-cli.exe";
+    }
+    arduinoCliPath = path.join(app.getAppPath(), 'lib', platformFolder, executable);
+}
+
 function handleSquirrelEvent() {
     if (process.argv.length === 1) {
         return false;
@@ -67,97 +194,4 @@ function handleSquirrelEvent() {
             return true;
     }
 };
-const url = require("url");
-const fs = require('fs');
-const os = require("os");
-
-let mainWindow
-
-function loadUrl(mainWindow) {
-    mainWindow.loadURL(
-        url.format({
-            pathname: path.join(__dirname, "dist", "index.html"),
-            protocol: "file:",
-            slashes: true,
-        })
-    );
-}
-
-function createWindow() {
-    mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-
-    loadUrl(mainWindow);
-
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools()
-
-    mainWindow.on('closed', function () {
-        mainWindow = null
-    })
-
-    mainWindow.webContents.on('did-fail-load', function () {
-        loadUrl(mainWindow);
-    })
-}
-
-app.on('ready', createWindow)
-
-app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') app.quit()
-})
-
-app.on('activate', function () {
-    if (mainWindow === null) createWindow()
-})
-
-app.setAppLogsPath();
-
-ipcMain.on('compile', (event, data) => {
-    console.log('got a compile event with data', data);
-
-    let platformFolder = "";
-    let executable = "";
-    //const fqbn = "esp8266:esp8266:nodemcuv2";
-    const fqbn = "arduino:avr:uno";
-    const port = "COM8";
-    //const ext = "bin";
-    const ext = "hex";
-
-    const platform = os.platform;
-    if (platform == "win32") {
-        platformFolder = "arduino-cli_0.9.0_Windows_64bit";
-        executable = "arduino-cli.exe";
-    }
-    const userDataPath = app.getPath('userData');
-    const sketchFolder = path.join(userDataPath, 'sketch');
-    if (!fs.existsSync(sketchFolder)) {
-        fs.mkdirSync(sketchFolder);
-    }
-    const sketchPath = path.join(sketchFolder, 'sketch.ino');
-    fs.writeFileSync(sketchPath, data);
-
-    var runExecutable = require('child_process').execFile;
-    const appPath = app.getAppPath();
-    var executablePath = path.join(appPath, 'lib', platformFolder, executable);
-    var compileParams = ["compile", "--fqbn", fqbn, sketchPath];
-    var uploadParams = ["upload", "-b", fqbn, "-p", port, "-i", `${sketchPath}.${fqbn.split(":").join(".")}.${ext}`];
-
-    runExecutable(executablePath, compileParams, function (err, data) {
-        if (err) { console.log(err); }
-        console.log(data.toString());
-        event.sender.send('compilation-complete');
-
-        runExecutable(executablePath, uploadParams, function (err, data) {
-            if (err) { console.log(err); }
-            console.log(data.toString());
-            event.sender.send('upload-complete');
-        })
-    });
-});
 

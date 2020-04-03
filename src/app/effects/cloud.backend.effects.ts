@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
-import { filter, withLatestFrom, switchMap, tap } from 'rxjs/operators';
+import { filter, withLatestFrom } from 'rxjs/operators';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
@@ -59,7 +59,8 @@ export class CloudBackEndEffects {
 
         // What to do when the sketchstatus changes
         this.blocklyEditorState.sketchStatus$
-            .pipe(withLatestFrom(this.blocklyEditorState.code$, this.robotState.robotId$))
+            .pipe(withLatestFrom(this.blocklyEditorState.code$, this.robotState.robotId$, this.robotState.robotPort$))
+            .pipe(filter(([, , , robotPort]) => robotPort === 'OTA'))
             .subscribe(([status, code, robotId]) => {
                 switch (status) {
                     case SketchStatus.Sending:
@@ -74,7 +75,7 @@ export class CloudBackEndEffects {
             .pipe(filter(message => !!message))
             .pipe(withLatestFrom(this.blocklyEditorState.sketchStatus$))
             .subscribe(([message, sketchStatus]) => {
-                console.log('Received message from websockets:', message);
+                console.log('Received message from backend:', message);
                 switch (message.event) {
                     case 'ROBOT_REGISTERED':
                         this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);

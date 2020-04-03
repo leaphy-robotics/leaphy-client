@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { MatDialog } from '@angular/material/dialog';
 import { ConnectDialogComponent } from '../dialogs/connect-dialog/connect-dialog.component';
 import { filter, switchMap, withLatestFrom } from 'rxjs/operators';

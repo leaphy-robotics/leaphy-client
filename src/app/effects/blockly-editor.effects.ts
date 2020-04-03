@@ -20,8 +20,8 @@ export class BlocklyEditorEffects {
         private http: HttpClient
     ) {
 
-        combineLatest([this.blocklyEditorState.code$, this.backEndState.connectionStatus$])
-            .subscribe(([code, connectionStatus]) => {
+        this.backEndState.connectionStatus$
+            .subscribe(connectionStatus => {
                 switch (connectionStatus) {
                     case ConnectionStatus.Disconnected:
                     case ConnectionStatus.ConnectedToBackend:
@@ -29,9 +29,7 @@ export class BlocklyEditorEffects {
                         this.blocklyEditorState.setSketchStatus(SketchStatus.UnableToSend);
                         break;
                     case ConnectionStatus.PairedWithRobot:
-                        if (code) {
-                            this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
-                        }
+                        this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
                         break;
                     default:
                         break;
@@ -41,6 +39,7 @@ export class BlocklyEditorEffects {
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
             .subscribe(message => {
+                console.log('BlocklyEditorEffects got backendmessage', message);
                 switch (message.event) {
                     case 'PREPARING_COMPILATION_ENVIRONMENT':
                     case 'COMPILATION_STARTED':
@@ -50,7 +49,7 @@ export class BlocklyEditorEffects {
                         break;
                     case 'ROBOT_REGISTERED':
                         this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
-                        this.blocklyEditorState.setSketchStatusMessage('');
+                        this.blocklyEditorState.setSketchStatusMessage(null);
                         break;
                     default:
                         break;
@@ -67,6 +66,6 @@ export class BlocklyEditorEffects {
                     'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'),
             responseType: 'text'
         })
-        .subscribe(toolbox => this.blocklyEditorState.setToolboxXml(toolbox), error => console.log('Error loading toolbox', error));
+            .subscribe(toolbox => this.blocklyEditorState.setToolboxXml(toolbox), error => console.log('Error loading toolbox', error));
     }
 }

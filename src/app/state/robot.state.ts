@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotConnection } from '../domain/robot.connection';
+import { RobotType } from '../domain/robot.type';
 
 @Injectable({
     providedIn: 'root'
 })
 export class RobotState {
+    private robotConnectionKey = 'robotConnection';
+    private defaultRobotType = new RobotType('Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr');
 
     constructor() {
         // Get the robotConnection from localStorage
@@ -22,15 +25,19 @@ export class RobotState {
         this.robotId$ = this.robotIdSubject$.asObservable();
     }
 
-    private robotConnectionKey = 'robotConnection';
     private robotIdSubject$: BehaviorSubject<string>;
     public robotId$: Observable<string>;
 
     private pairingCodeSubject$ = new BehaviorSubject<string>(null);
     public pairingCode$ = this.pairingCodeSubject$.asObservable();
 
+    private robotTypeSubject$ = new BehaviorSubject<RobotType>(this.defaultRobotType);
+    public robotType$ = this.robotTypeSubject$.asObservable();
+
+    private robotPortSubject$ = new BehaviorSubject<string>(null);
+    public robotPort$ = this.robotPortSubject$.asObservable();
+
     public setRobotId(robotId: string): void {
-        console.log('Setting robotId:', robotId);
         const robotConnection = new RobotConnection(robotId);
         localStorage.setItem(this.robotConnectionKey, JSON.stringify(robotConnection));
         this.robotIdSubject$.next(robotId);
@@ -38,5 +45,13 @@ export class RobotState {
 
     public setPairingCode(pairingCode: string): void {
         this.pairingCodeSubject$.next(pairingCode);
+    }
+
+    public setRobotType(robotType: RobotType) {
+        this.robotTypeSubject$.next(robotType);
+    }
+
+    public setRobotPort(robotPort: string): void {
+        this.robotPortSubject$.next(robotPort);
     }
 }

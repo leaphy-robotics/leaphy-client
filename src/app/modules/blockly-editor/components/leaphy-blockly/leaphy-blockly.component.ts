@@ -3,6 +3,7 @@ import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import { SketchStatus } from 'src/app/domain/sketch.status';
 import { BackEndState } from 'src/app/state/backend.state';
 import { DialogState } from 'src/app/state/dialog.state';
+import { RobotState } from 'src/app/state/robot.state';
 import { filter } from 'rxjs/operators';
 
 declare var Blockly: any;
@@ -18,6 +19,7 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
     constructor(
         public blocklyState: BlocklyEditorState,
         public backEndState: BackEndState,
+        public robotState: RobotState,
         private dialogState: DialogState) {
     }
 
