@@ -1,5 +1,8 @@
 <h1 mat-dialog-title>Find connected robot</h1>
 <div mat-dialog-content>
+  <p>Click Install button to install USB driver for UNO</p>
+  <button mat-button (click)="onInstallDriverClick()">Install</button>
+
   <p>Click the button to detect connected robots</p>
   <button mat-button (click)="onDetectRobotsClick()">Detect</button>
   <p *ngIf="robotState.robotPort$ | async as port">Found board on port {{port}}!</p>

@@ -37,6 +37,9 @@ export class RobotState {
     private robotPortSubject$ = new BehaviorSubject<string>(null);
     public robotPort$ = this.robotPortSubject$.asObservable();
 
+    private isRobotDriverInstallingSubject$ = new BehaviorSubject<boolean>(false);
+    public isRobotDriverInstalling$ = this.isRobotDriverInstallingSubject$.asObservable();
+
     public setRobotId(robotId: string): void {
         const robotConnection = new RobotConnection(robotId);
         localStorage.setItem(this.robotConnectionKey, JSON.stringify(robotConnection));
@@ -53,5 +56,9 @@ export class RobotState {
 
     public setRobotPort(robotPort: string): void {
         this.robotPortSubject$.next(robotPort);
+    }
+
+    public setIsRobotDriverInstalling(isInstalling: boolean): void {
+        this.isRobotDriverInstallingSubject$.next(isInstalling);
     }
 }

@@ -27,7 +27,6 @@ export class RobotEffects {
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
             .subscribe(message => {
-                console.log('Received message from backend:', message);
                 switch (message.event) {
                     case 'CLIENT_PAIRED_WITH_ROBOT':
                         this.robotState.setRobotId(message.message);
@@ -39,5 +38,12 @@ export class RobotEffects {
                         break;
                 }
             });
+
+        this.robotState.isRobotDriverInstalling$
+            .pipe(filter(isInstalling => !!isInstalling))
+            .subscribe(isInstalling => {
+                this.robotState.setIsRobotDriverInstalling(false);
+            });
+
     }
 }

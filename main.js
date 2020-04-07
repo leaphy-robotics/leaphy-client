@@ -36,7 +36,7 @@ function createWindow() {
     loadUrl(mainWindow);
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', function () {
         mainWindow = null
@@ -60,7 +60,7 @@ app.on('activate', function () {
 app.setAppLogsPath();
 
 let arduinoCliPath;
-setupArduinoCli();
+setupExecutables();
 
 ipcMain.on('compile', async (event, payload) => {
     console.log('got a compile event with payload', payload);
@@ -79,66 +79,91 @@ ipcMain.on('compile', async (event, payload) => {
 
     const installedCores = JSON.parse(await tryRunArduinoCli(checkCoreParams, true));
     const isRequiredCoreInstalled = installedCores.map(v => v.ID).includes(payload.core);
-    if(!isRequiredCoreInstalled) {
-        const installingCoreMessage = {event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Installing Arduino Core for ${payload.name}`};
+    if (!isRequiredCoreInstalled) {
+        const installingCoreMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Installing Arduino Core for ${payload.name}` };
         event.sender.send('backend-message', installingCoreMessage);
-    
+
         const updateIndexParams = ["core", "update-index"];
         const installCoreParams = ["core", "install", payload.core];
         console.log(await tryRunArduinoCli(updateIndexParams, true));
         console.log(await tryRunArduinoCli(installCoreParams, true));
     }
-    const compilingMessage = {event: "COMPILATION_STARTED", message: "Compiling..."};
+    const compilingMessage = { event: "COMPILATION_STARTED", message: "Compiling..." };
     event.sender.send('backend-message', compilingMessage);
     await tryRunArduinoCli(compileParams);
-    const updatingMessage = {event: "ROBOT_UPDATING", message: "Updating robot..."};
+    const updatingMessage = { event: "ROBOT_UPDATING", message: "Updating robot..." };
     event.sender.send('backend-message', updatingMessage);
     try {
         await tryRunArduinoCli(uploadParams);
     } catch (error) {
-        unsuccesfulUploadMessage = {event: "NO_ROBOT_FOUND", message: "No connected robot found to upload to"};
+        unsuccesfulUploadMessage = { event: "NO_ROBOT_FOUND", message: "No connected robot found to upload to" };
         event.sender.send('backend-message', unsuccesfulUploadMessage);
         return;
     }
 
-    const allDoneMessage = {event: "ROBOT_UPDATED", message: "Robot is ready for next sketch"};
+    const allDoneMessage = { event: "ROBOT_UPDATED", message: "Robot is ready for next sketch" };
     event.sender.send('backend-message', allDoneMessage);
 });
+
+
+ipcMain.on('install-board', async (event, payload) => {
+    
+    const updateIndexParams = ["core", "update-index"];
+    const installCoreParams = ["core", "install", payload.core];
+    console.log(await tryRunArduinoCli(updateIndexParams, true));
+    console.log(await tryRunArduinoCli(installCoreParams, true));
+
+    switch (payload.fqbn) {
+        case 'arduino:avr:uno':
+            console.log(await tryRunExecutable(ch341DriverInstallerPath, [], true));
+            break;
+        default:
+            break;
+    }
+});
+
 
 ipcMain.on('get-board-port', async (event) => {
     const listBoardsParams = ["board", "list", "--format", "json"];
     const connectedBoards = JSON.parse(await tryRunArduinoCli(listBoardsParams, true));
     let message;
-    if(!connectedBoards.length){
-        message = {event: "NO_ROBOT_FOUND", message: "No connected robot found"};
+    if (!connectedBoards.length) {
+        message = { event: "NO_ROBOT_FOUND", message: "No connected robot found" };
     } else {
-        message = {event: "ROBOT_FOUND_ON_PORT", message: connectedBoards[0].address};
+        message = { event: "ROBOT_FOUND_ON_PORT", message: connectedBoards[0].address };
     }
     event.sender.send('backend-message', message);
 });
 
 async function tryRunArduinoCli(params, returnStdOut = false) {
-    try{
-        const {stdout, stderr} = await runExecutable(arduinoCliPath, params);
-        if(stderr) {
+    return await tryRunExecutable(arduinoCliPath, params, returnStdOut);
+}
+
+async function tryRunExecutable(path, params, returnStdOut = false) {
+    try {
+        const { stdout, stderr } = await runExecutable(path, params);
+        if (stderr) {
             console.log('stderr:', stderr);
         }
-        if(returnStdOut) return stdout;
+        if (returnStdOut) return stdout;
     } catch (e) {
         console.error(e);
-        throw(e);
+        throw (e);
     }
 }
 
-function setupArduinoCli() {
+function setupExecutables() {
     let platformFolder;
-    let executable;
+    let arduino_cli;
+    let ch341_driver_installer;
     const platform = os.platform;
     if (platform == "win32") {
-        platformFolder = "arduino-cli_0.9.0_Windows_64bit";
-        executable = "arduino-cli.exe";
+        platformFolder = "win32";
+        arduino_cli = "arduino-cli.exe";
+        ch341_driver_installer = "CH341SER.EXE";
     }
-    arduinoCliPath = path.join(app.getAppPath(), 'lib', platformFolder, executable);
+    arduinoCliPath = path.join(app.getAppPath(), 'lib', platformFolder, 'arduino_cli', arduino_cli);
+    ch341DriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'ch341_driver_installer', ch341_driver_installer);
 }
 
 function handleSquirrelEvent() {

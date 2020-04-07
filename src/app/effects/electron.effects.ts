@@ -81,13 +81,20 @@ export class ElectronEffects {
             });
 
         this.backEndState.connectionStatus$
-        .subscribe(connectionStatus => {
-            switch (connectionStatus) {
-                case ConnectionStatus.StartPairing:
-                    console.log('Electron Effect detecting boards');
-                    this.send('get-board-port');
-            }
-        });
+            .subscribe(connectionStatus => {
+                switch (connectionStatus) {
+                    case ConnectionStatus.StartPairing:
+                        console.log('Electron Effect detecting boards');
+                        this.send('get-board-port');
+                }
+            });
+
+        this.robotState.isRobotDriverInstalling$
+            .pipe(filter(isInstalling => !!isInstalling))
+            .pipe(withLatestFrom(this.robotState.robotType$))
+            .subscribe(([, robotType]) => {
+                this.send('install-board', robotType);
+            });
     }
 
     public on(channel: string, listener: (event: any, data: any) => void): void {

@@ -16,4 +16,8 @@ export class ConnectWiredDialog implements OnInit {
   public onDetectRobotsClick() {
     this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);
   }
+
+  public onInstallDriverClick() {
+    this.robotState.setIsRobotDriverInstalling(true);
+  }
 }
