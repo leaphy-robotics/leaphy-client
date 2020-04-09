@@ -27,7 +27,7 @@
     "@angular/router": "~8.2.14",
     "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",
-    "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#fee12f8",
+    "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#a1d337e",
     "prismjs": "^1.17.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
