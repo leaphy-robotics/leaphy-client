@@ -8,7 +8,7 @@ import { RobotType } from '../domain/robot.type';
 })
 export class RobotState {
     private robotConnectionKey = 'robotConnection';
-    private defaultRobotType = new RobotType('Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr');
+    private defaultRobotType = new RobotType('Leaphy Original', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Original Extension']);
 
     constructor() {
         // Get the robotConnection from localStorage

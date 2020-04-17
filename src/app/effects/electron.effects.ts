@@ -54,7 +54,9 @@ export class ElectronEffects {
                             ext: robotType.ext,
                             core: robotType.core,
                             port: robotPort,
-                            name: robotType.name
+                            name: robotType.name,
+                            board: robotType.board,
+                            libs: robotType.libs
                         };
                         this.send('compile', payload);
                         break;

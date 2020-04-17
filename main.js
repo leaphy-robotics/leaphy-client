@@ -60,39 +60,80 @@ app.on('activate', function () {
 app.setAppLogsPath();
 
 let arduinoCliPath;
+let ch341DriverInstallerPath;
 setupExecutables();
 
-ipcMain.on('compile', async (event, payload) => {
-    console.log('got a compile event with payload', payload);
+async function installCore(core) {
+    const updateIndexParams = ["core", "update-index"];
+    const installCoreParams = ["core", "install", core];
+    console.log(await tryRunArduinoCli(updateIndexParams));
+    console.log(await tryRunArduinoCli(installCoreParams));
+}
 
+async function installLib(library) {
+    const installLibParams = ["lib", "install", library];
+    console.log(await tryRunArduinoCli(installLibParams));
+}
+
+function writeCodeToCompileLocation(code) {
     const userDataPath = app.getPath('userData');
     const sketchFolder = path.join(userDataPath, 'sketch');
     if (!fs.existsSync(sketchFolder)) {
         fs.mkdirSync(sketchFolder);
     }
     const sketchPath = path.join(sketchFolder, 'sketch.ino');
-    fs.writeFileSync(sketchPath, payload.code);
+    fs.writeFileSync(sketchPath, code);
+    return sketchPath;
+}
 
+async function verifyInstalledCoreAsync(event, name, core) {
     const checkCoreParams = ["core", "list", "--format", "json"];
-    const compileParams = ["compile", "--fqbn", payload.fqbn, sketchPath];
-    const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.port, "-i", `${sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
+    const installedCores = JSON.parse(await tryRunArduinoCli(checkCoreParams));
+    const isRequiredCoreInstalled = installedCores.map(v => v.ID).includes(core);
+    if (isRequiredCoreInstalled) {
+        console.log("Required core already installed");
+        return
+    };
+    const installingCoreMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Installing Arduino Core for ${name}` };
+    event.sender.send('backend-message', installingCoreMessage);
+    await installCore(core);
+}
 
-    const installedCores = JSON.parse(await tryRunArduinoCli(checkCoreParams, true));
-    const isRequiredCoreInstalled = installedCores.map(v => v.ID).includes(payload.core);
-    if (!isRequiredCoreInstalled) {
-        const installingCoreMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Installing Arduino Core for ${payload.name}` };
-        event.sender.send('backend-message', installingCoreMessage);
-
-        const updateIndexParams = ["core", "update-index"];
-        const installCoreParams = ["core", "install", payload.core];
-        console.log(await tryRunArduinoCli(updateIndexParams, true));
-        console.log(await tryRunArduinoCli(installCoreParams, true));
+async function verifyInstalledLibsAsync(event, name, libs) {
+    const checkLibsParams = ["lib", "list", "--format", "json"];
+    const installedLibs = JSON.parse(await tryRunArduinoCli(checkLibsParams));
+    const missingLibs = libs.filter(requiredLib => !installedLibs.map(l => l.library.real_name).includes(requiredLib));
+    if (!missingLibs.length) {
+        console.log("All required libraries already installed");
+        return;
     }
+
+    const installingLibsMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Installing Leaphy Libraries for ${name}` };
+    event.sender.send('backend-message', installingLibsMessage);
+
+    const updateIndexParams = ["lib", "update-index"];
+    console.log(await tryRunArduinoCli(updateIndexParams));
+
+    missingLibs.forEach(async missingLib => {
+        await installLib(missingLib);
+    });
+}
+
+ipcMain.on('compile', async (event, payload) => {
+
+    const sketchPath = writeCodeToCompileLocation(payload.code);
+
+    await verifyInstalledCoreAsync(event, payload.name, payload.core);
+    await verifyInstalledLibsAsync(event, payload.name, payload.libs);
+
+    const compileParams = ["compile", "--fqbn", payload.fqbn, sketchPath];
     const compilingMessage = { event: "COMPILATION_STARTED", message: "Compiling..." };
     event.sender.send('backend-message', compilingMessage);
     await tryRunArduinoCli(compileParams);
+
     const updatingMessage = { event: "ROBOT_UPDATING", message: "Updating robot..." };
     event.sender.send('backend-message', updatingMessage);
+    const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.port, "-i", `${sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
     try {
         await tryRunArduinoCli(uploadParams);
     } catch (error) {
@@ -107,15 +148,12 @@ ipcMain.on('compile', async (event, payload) => {
 
 
 ipcMain.on('install-board', async (event, payload) => {
-    
-    const updateIndexParams = ["core", "update-index"];
-    const installCoreParams = ["core", "install", payload.core];
-    console.log(await tryRunArduinoCli(updateIndexParams, true));
-    console.log(await tryRunArduinoCli(installCoreParams, true));
+
+    await installCore(payload.core);
 
     switch (payload.fqbn) {
         case 'arduino:avr:uno':
-            console.log(await tryRunExecutable(ch341DriverInstallerPath, [], true));
+            console.log(await tryRunExecutable(ch341DriverInstallerPath, []));
             break;
         default:
             break;
@@ -124,28 +162,31 @@ ipcMain.on('install-board', async (event, payload) => {
 
 
 ipcMain.on('get-board-port', async (event) => {
+    const updateIndexParams = ["core", "update-index"];
+    console.log(await tryRunArduinoCli(updateIndexParams));
+
     const listBoardsParams = ["board", "list", "--format", "json"];
-    const connectedBoards = JSON.parse(await tryRunArduinoCli(listBoardsParams, true));
+    const connectedBoards = JSON.parse(await tryRunArduinoCli(listBoardsParams));
     let message;
     if (!connectedBoards.length) {
         message = { event: "NO_ROBOT_FOUND", message: "No connected robot found" };
     } else {
-        message = { event: "ROBOT_FOUND_ON_PORT", message: connectedBoards[0].address };
+        message = { event: "ROBOT_FOUND_ON_PORT", message: connectedBoards[1].address };
     }
     event.sender.send('backend-message', message);
 });
 
-async function tryRunArduinoCli(params, returnStdOut = false) {
-    return await tryRunExecutable(arduinoCliPath, params, returnStdOut);
+async function tryRunArduinoCli(params) {
+    return await tryRunExecutable(arduinoCliPath, params);
 }
 
-async function tryRunExecutable(path, params, returnStdOut = false) {
+async function tryRunExecutable(path, params) {
     try {
         const { stdout, stderr } = await runExecutable(path, params);
         if (stderr) {
             console.log('stderr:', stderr);
         }
-        if (returnStdOut) return stdout;
+        return stdout;
     } catch (e) {
         console.error(e);
         throw (e);
@@ -161,6 +202,10 @@ function setupExecutables() {
         platformFolder = "win32";
         arduino_cli = "arduino-cli.exe";
         ch341_driver_installer = "CH341SER.EXE";
+    } else if (platform == "darwin") {
+        platformFolder = "darwin";
+        arduino_cli = "arduino-cli";
+        ch341_driver_installer = "NA";
     }
     arduinoCliPath = path.join(app.getAppPath(), 'lib', platformFolder, 'arduino_cli', arduino_cli);
     ch341DriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'ch341_driver_installer', ch341_driver_installer);
