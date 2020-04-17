@@ -171,7 +171,7 @@ ipcMain.on('get-board-port', async (event) => {
     if (!connectedBoards.length) {
         message = { event: "NO_ROBOT_FOUND", message: "No connected robot found" };
     } else {
-        message = { event: "ROBOT_FOUND_ON_PORT", message: connectedBoards[1].address };
+        message = { event: "ROBOT_FOUND_ON_PORT", message: connectedBoards[0].address };
     }
     event.sender.send('backend-message', message);
 });
