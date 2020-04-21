@@ -11,7 +11,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
-    "package:electron": "ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --overwrite --verbose --asar"
+    "package:electron": "ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --overwrite --verbose --asar",
+    "installer:electron:darwin": "electron-installer-dmg ./leaphy_client-darwin-x64/leaphy_client.app Robocoder"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +45,7 @@
     "@types/node": "^8.9.5",
     "codelyzer": "^5.0.0",
     "electron": "^8.1.1",
+    "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.2.1",
     "electron-winstaller": "^4.0.0",
     "jasmine-core": "~3.4.0",

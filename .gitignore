@@ -6,7 +6,13 @@
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
+
+# packaged
 /leaphy_client-win32-x64
+/leaphy_client-darwin-x64
+
+# installers
+*.dmg
 
 # dependencies
 /node_modules
