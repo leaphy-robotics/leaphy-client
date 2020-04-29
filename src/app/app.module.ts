@@ -11,6 +11,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
 
 import { ElectronEffects } from './effects/electron.effects';
 import { CloudBackEndEffects } from './effects/cloud.backend.effects';
@@ -36,7 +37,8 @@ import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog
     MatToolbarModule,
     MatDialogModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [
     // Initialize the Effects on startup

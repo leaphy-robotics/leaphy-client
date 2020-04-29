@@ -1,5 +1,9 @@
 <mat-toolbar color="primary">
   <img src="./assets/leaphy-logo-white.png" id="logo">
   <span id="title">robocoder</span>
+  <span class="spacer"></span>
+  <mat-select id="robot-selector" placeholder="Select Robot" (selectionChange)="onRobotSelectionChange($event)">
+    <mat-option *ngFor="let robot of robotState.robotTypes$ | async" [value]="robot">{{robot.name}}</mat-option>
+  </mat-select>
 </mat-toolbar>
 <router-outlet></router-outlet>
