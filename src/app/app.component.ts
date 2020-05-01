@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RobotState } from './state/robot.state';
+import { AppState } from './state/app.state';
 import { MatSelectChange } from '@angular/material/select';
 
 @Component({
@@ -8,12 +8,12 @@ import { MatSelectChange } from '@angular/material/select';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public robotState: RobotState){
+  constructor(public appState: AppState){
 
   }
   title = 'Leaphy Robocoder';
 
   onRobotSelectionChange(event: MatSelectChange){
-    this.robotState.setRobotType(event.value);
+    this.appState.setSelectedRobotType(event.value);
   }
 }

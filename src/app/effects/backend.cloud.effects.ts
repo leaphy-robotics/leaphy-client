@@ -8,13 +8,14 @@ import { ConnectionStatus } from '../domain/connection.status';
 import { combineLatest } from 'rxjs';
 import { RobotState } from '../state/robot.state';
 import { BackEndMessage } from '../domain/backend.message';
+import { AppState } from '../state/app.state';
 
 @Injectable({
     providedIn: 'root',
 })
 
 // Defines the effects on the Backend that different state changes have
-export class CloudBackEndEffects {
+export class BackEndCloudEffects {
 
     private apiId = '6lge1rqji3';
     private region = 'eu-west-1';
@@ -22,8 +23,9 @@ export class CloudBackEndEffects {
     myWebSocket: WebSocketSubject<any> = webSocket(`wss://${this.apiId}.execute-api.${this.region}.amazonaws.com/${this.env}`);
 
     constructor(
-        private blocklyEditorState: BlocklyEditorState,
         private backEndState: BackEndState,
+        private appState: AppState,
+        private blocklyEditorState: BlocklyEditorState,
         private robotState: RobotState
     ) {
         this.backEndState.setconnectionStatus(ConnectionStatus.ConnectedToBackend);

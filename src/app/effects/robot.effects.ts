@@ -41,7 +41,7 @@ export class RobotEffects {
 
         this.robotState.isRobotDriverInstalling$
             .pipe(filter(isInstalling => !!isInstalling))
-            .subscribe(isInstalling => {
+            .subscribe(() => {
                 this.robotState.setIsRobotDriverInstalling(false);
             });
 

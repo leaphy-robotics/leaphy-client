@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotConnection } from '../domain/robot.connection';
-import { RobotType } from '../domain/robot.type';
 
 @Injectable({
     providedIn: 'root'
 })
 export class RobotState {
     private robotConnectionKey = 'robotConnection';
-    private leaphyOriginalRobotType = new RobotType('Leaphy Original', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Original Extension']);
-    private leaphyFlitzRobotType = new RobotType('Leaphy Flitz', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Flitz Extension']);
 
     constructor() {
         // Get the robotConnection from localStorage
@@ -32,17 +29,11 @@ export class RobotState {
     private pairingCodeSubject$ = new BehaviorSubject<string>(null);
     public pairingCode$ = this.pairingCodeSubject$.asObservable();
 
-    private robotTypeSubject$ = new BehaviorSubject<RobotType>(null);
-    public robotType$ = this.robotTypeSubject$.asObservable();
-
     private robotPortSubject$ = new BehaviorSubject<string>(null);
     public robotPort$ = this.robotPortSubject$.asObservable();
 
     private isRobotDriverInstallingSubject$ = new BehaviorSubject<boolean>(false);
     public isRobotDriverInstalling$ = this.isRobotDriverInstallingSubject$.asObservable();
-
-    private robotTypesSubject$ = new BehaviorSubject<RobotType[]>([this.leaphyOriginalRobotType, this.leaphyFlitzRobotType]);
-    public robotTypes$ = this.robotTypesSubject$.asObservable();
 
     public setRobotId(robotId: string): void {
         const robotConnection = new RobotConnection(robotId);
@@ -52,10 +43,6 @@ export class RobotState {
 
     public setPairingCode(pairingCode: string): void {
         this.pairingCodeSubject$.next(pairingCode);
-    }
-
-    public setRobotType(robotType: RobotType) {
-        this.robotTypeSubject$.next(robotType);
     }
 
     public setRobotPort(robotPort: string): void {
