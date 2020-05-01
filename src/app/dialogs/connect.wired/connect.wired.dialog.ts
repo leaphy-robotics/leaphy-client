@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RobotState } from 'src/app/state/robot.state';
 import { BackEndState } from 'src/app/state/backend.state';
 import { ConnectionStatus } from 'src/app/domain/connection.status';
+import { RobotWiredState } from 'src/app/state/robot.wired.state';
 
 @Component({
   selector: 'app-connect.wired',
@@ -9,7 +9,7 @@ import { ConnectionStatus } from 'src/app/domain/connection.status';
   styleUrls: ['./connect.wired.dialog.scss']
 })
 export class ConnectWiredDialog implements OnInit {
-  constructor(public robotState: RobotState, private backEndState: BackEndState) { }
+  constructor(public robotWiredState: RobotWiredState, private backEndState: BackEndState) { }
 
   ngOnInit() {
   }
@@ -18,6 +18,6 @@ export class ConnectWiredDialog implements OnInit {
   }
 
   public onInstallDriverClick() {
-    this.robotState.setIsRobotDriverInstalling(true);
+    this.robotWiredState.setIsRobotDriverInstalling(true);
   }
 }

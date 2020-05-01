@@ -17,9 +17,10 @@ import { BackendWiredEffects } from './effects/backend.wired.effects';
 import { BackEndCloudEffects } from './effects/backend.cloud.effects';
 import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
 import { DialogEffects } from './effects/dialog.effects';
-import { RobotEffects } from './effects/robot.effects';
+import { RobotCloudEffects } from './effects/robot.cloud.effects';
 import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog';
 import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
+import { RobotWiredEffects } from './effects/robot.wired.effects';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog
         BackEndCloudEffects,
         BlocklyEditorEffects,
         DialogEffects,
-        RobotEffects
+        RobotCloudEffects,
+        RobotWiredEffects
       ], useFactory: () => () => null, multi: true}
   ],
   bootstrap: [AppComponent],

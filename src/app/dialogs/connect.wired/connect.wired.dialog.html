@@ -5,7 +5,7 @@
 
   <p>Click the button to detect connected robots</p>
   <button mat-button (click)="onDetectRobotsClick()">Detect</button>
-  <p *ngIf="robotState.robotPort$ | async as port">Found board on port {{port}}!</p>
+  <p *ngIf="robotWiredState.robotPort$ | async as port">Found board on port {{port}}!</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close] cdkFocusInitial>Done</button>

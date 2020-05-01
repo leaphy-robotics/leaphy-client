@@ -3,8 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConnectCloudDialog } from '../dialogs/connect.cloud/connect.cloud.dialog';
 import { filter, switchMap, withLatestFrom } from 'rxjs/operators';
 import { DialogState } from '../state/dialog.state';
-import { RobotState } from '../state/robot.state';
+import { RobotCloudState } from '../state/robot.cloud.state';
 import { ConnectWiredDialog } from '../dialogs/connect.wired/connect.wired.dialog';
+import { AppState } from '../state/app.state';
 
 @Injectable({
     providedIn: 'root',
@@ -14,21 +15,22 @@ import { ConnectWiredDialog } from '../dialogs/connect.wired/connect.wired.dialo
 export class DialogEffects {
 
     constructor(
-        private robotState: RobotState,
         private dialogState: DialogState,
+        private appState: AppState,
+        private robotCloudState: RobotCloudState,
         private dialog: MatDialog
     ) {
         this.dialogState.isConnectDialogVisible$
             .pipe(filter(isVisible => !!isVisible))
-            .pipe(withLatestFrom(this.robotState.robotPort$, this.robotState.pairingCode$))
-            .subscribe(([, robotPort, pairingCode]) => {
+            .pipe(withLatestFrom(this.appState.isRobotWired$, this.robotCloudState.pairingCode$))
+            .subscribe(([, isRobotWired, pairingCode]) => {
                 let component: any;
                 let data: any;
-                if (robotPort === 'OTA') {
+                if (isRobotWired) {
+                    component = ConnectWiredDialog;
+                } else {
                     component = ConnectCloudDialog;
                     data = { pairingCode };
-                } else {
-                    component = ConnectWiredDialog;
                 }
                 const dialogRef = this.dialog.open(component, {
                     width: '450px',

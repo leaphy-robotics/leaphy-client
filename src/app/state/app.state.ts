@@ -21,7 +21,7 @@ export class AppState {
         this.availableRobotTypes$ = this.isDesktop$
             .pipe(map(isDesktop => {
                 if (isDesktop) {
-                    return [this.leaphyOriginalRobotType, this.leaphyFlitzRobotType]
+                    return [this.leaphyOriginalRobotType, this.leaphyFlitzRobotType, this.leaphyWiFiRobotType]
                 } else {
                     return [this.leaphyWiFiRobotType]
                 }

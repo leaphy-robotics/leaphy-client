@@ -6,7 +6,7 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
 import { combineLatest } from 'rxjs';
-import { RobotState } from '../state/robot.state';
+import { RobotCloudState } from '../state/robot.cloud.state';
 import { BackEndMessage } from '../domain/backend.message';
 import { AppState } from '../state/app.state';
 
@@ -26,7 +26,7 @@ export class BackEndCloudEffects {
         private backEndState: BackEndState,
         private appState: AppState,
         private blocklyEditorState: BlocklyEditorState,
-        private robotState: RobotState
+        private robotCloudState: RobotCloudState
     ) {
         this.backEndState.setconnectionStatus(ConnectionStatus.ConnectedToBackend);
         this.myWebSocket.asObservable().subscribe(
@@ -38,7 +38,7 @@ export class BackEndCloudEffects {
             }
         );
 
-        this.robotState.pairingCode$
+        this.robotCloudState.pairingCode$
             .pipe(filter(pairingCode => !!pairingCode))
             .subscribe(pairingCode => {
                 console.log('Sending pairing request with pairing code:', pairingCode);
@@ -48,7 +48,7 @@ export class BackEndCloudEffects {
         // When the robot id is set but we are not yet connected to it
         // This means the robotId is set from localstorage and we must
         // initiate reconnecting.
-        combineLatest([this.robotState.robotId$, this.backEndState.connectionStatus$])
+        combineLatest([this.robotCloudState.robotId$, this.backEndState.connectionStatus$])
             .pipe(filter(([robotId]) => !!robotId))
             .subscribe(([robotId, connectionStatus]) => {
                 switch (connectionStatus) {
@@ -61,8 +61,7 @@ export class BackEndCloudEffects {
 
         // What to do when the sketchstatus changes
         this.blocklyEditorState.sketchStatus$
-            .pipe(withLatestFrom(this.blocklyEditorState.code$, this.robotState.robotId$, this.robotState.robotPort$))
-            .pipe(filter(([, , , robotPort]) => robotPort === 'OTA'))
+            .pipe(withLatestFrom(this.blocklyEditorState.code$, this.robotCloudState.robotId$))
             .subscribe(([status, code, robotId]) => {
                 switch (status) {
                     case SketchStatus.Sending:
