@@ -10,25 +10,29 @@ import { RobotWiredState } from '../state/robot.wired.state';
 export class RobotWiredEffects {
 
     constructor(
-        private robotCloudState: RobotWiredState,
+        private robotWiredState: RobotWiredState,
         private backEndState: BackEndState
     ) {
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
             .subscribe(message => {
                 switch (message.event) {
-                    case 'ROBOT_FOUND_ON_PORT':
-                        this.robotCloudState.setRobotPort(message.message);
+                    case 'NO_DEVICES_FOUND':
+                        this.robotWiredState.setRobotPort(null);
+                        break;
+                    case 'DEVICES_FOUND':
+                        console.log('Received DEVICES_FOUND event:', message.message);
+                        this.robotWiredState.setSerialDevices(message.message);
                         break;
                     default:
                         break;
                 }
             });
 
-        this.robotCloudState.isRobotDriverInstalling$
+        this.robotWiredState.isRobotDriverInstalling$
             .pipe(filter(isInstalling => !!isInstalling))
             .subscribe(() => {
-                this.robotCloudState.setIsRobotDriverInstalling(false);
+                this.robotWiredState.setIsRobotDriverInstalling(false);
             });
 
     }

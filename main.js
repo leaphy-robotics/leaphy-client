@@ -161,7 +161,7 @@ ipcMain.on('install-board', async (event, payload) => {
 });
 
 
-ipcMain.on('get-board-port', async (event) => {
+ipcMain.on('get-serial-devices', async (event) => {
     const updateIndexParams = ["core", "update-index"];
     console.log(await tryRunArduinoCli(updateIndexParams));
 
@@ -169,9 +169,9 @@ ipcMain.on('get-board-port', async (event) => {
     const connectedBoards = JSON.parse(await tryRunArduinoCli(listBoardsParams));
     let message;
     if (!connectedBoards.length) {
-        message = { event: "NO_ROBOT_FOUND", message: "No connected robot found" };
+        message = { event: "NO_DEVICES_FOUND", message: "No connected serial devices found" };
     } else {
-        message = { event: "ROBOT_FOUND_ON_PORT", message: connectedBoards[0].address };
+        message = { event: "DEVICES_FOUND", message: connectedBoards };
     }
     event.sender.send('backend-message', message);
 });

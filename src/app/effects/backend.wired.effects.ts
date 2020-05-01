@@ -47,7 +47,7 @@ export class BackendWiredEffects {
                 this.appState.isRobotWired$
                     .pipe(filter(isWired => !!isWired))
                     .subscribe(() => {
-                        this.send('get-board-port');
+                        this.send('get-serial-devices');
                     })
 
                 this.blocklyEditorState.sketchStatus$
@@ -77,11 +77,10 @@ export class BackendWiredEffects {
                     .pipe(filter(message => !!message))
                     .subscribe((message) => {
                         switch (message.event) {
-                            case 'NO_ROBOT_FOUND':
-                                this.robotWiredState.setRobotPort(null);
+                            case 'NO_DEVICES_FOUND':
                                 this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
                                 break;
-                            case 'ROBOT_FOUND_ON_PORT':
+                            case 'DEVICES_FOUND':
                                 this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot);
                                 break;
                             default:
@@ -94,7 +93,7 @@ export class BackendWiredEffects {
                         switch (connectionStatus) {
                             case ConnectionStatus.StartPairing:
                                 console.log('Electron Effect detecting boards');
-                                this.send('get-board-port');
+                                this.send('get-serial-devices');
                         }
                     });
 
