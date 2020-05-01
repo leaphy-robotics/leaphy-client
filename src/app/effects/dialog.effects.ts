@@ -6,6 +6,7 @@ import { DialogState } from '../state/dialog.state';
 import { RobotCloudState } from '../state/robot.cloud.state';
 import { ConnectWiredDialog } from '../dialogs/connect.wired/connect.wired.dialog';
 import { AppState } from '../state/app.state';
+import { RobotWiredState } from '../state/robot.wired.state';
 
 @Injectable({
     providedIn: 'root',
@@ -18,8 +19,19 @@ export class DialogEffects {
         private dialogState: DialogState,
         private appState: AppState,
         private robotCloudState: RobotCloudState,
+        private robotWiredState: RobotWiredState,
         private dialog: MatDialog
     ) {
+        this.robotWiredState.serialDevices$
+            .pipe(withLatestFrom(this.dialogState.isConnectDialogVisible$))
+            .pipe(filter(([devices, isDialogOpen]) => !!devices.length && !isDialogOpen))
+            .subscribe(() => {
+                const dialogRef = this.dialog.open(ConnectWiredDialog, {
+                    width: '450px',
+                });
+                this.dialogState.setConnectDialog(dialogRef);
+            });
+
         this.dialogState.isConnectDialogVisible$
             .pipe(filter(isVisible => !!isVisible))
             .pipe(withLatestFrom(this.appState.isRobotWired$, this.robotCloudState.pairingCode$))

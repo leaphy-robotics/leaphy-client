@@ -44,16 +44,30 @@ export class BackendWiredEffects {
                     });
                 });
 
-                this.appState.isRobotWired$
-                    .pipe(filter(isWired => !!isWired))
+                // When wired robot is selected, verify that all prerequisites are installed
+                this.appState.selectedRobotType$
+                    .pipe(filter(robotType => !!robotType && !!robotType.isWired))
+                    .subscribe(robotType => {
+                        this.send('verify-installation', robotType);
+                    });
+
+                // If the installation of prequisites is verified, get the serial devices
+                this.robotWiredState.isInstallationVerified$
+                    .pipe(filter(isVerified => !!isVerified))
                     .subscribe(() => {
                         this.send('get-serial-devices');
-                    })
+                    });
 
+                // When a serial device is selected, set the connection status to "PairedWithRobot"
+                this.robotWiredState.selectedSerialDevice$
+                    .pipe(filter(serialDevice => !!serialDevice))
+                    .subscribe(() => this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot));
+
+                // When the sketch status is set to sending, send a compile request to backend
                 this.blocklyEditorState.sketchStatus$
-                    .pipe(withLatestFrom(this.blocklyEditorState.code$, this.appState.selectedRobotType$, this.robotWiredState.robotPort$))
-                    .pipe(filter(([, , , robotPort]) => robotPort !== 'OTA'))
-                    .subscribe(([status, code, robotType, robotPort]) => {
+                    .pipe(withLatestFrom(this.blocklyEditorState.code$, this.appState.selectedRobotType$, this.robotWiredState.selectedSerialDevice$))
+                    .pipe(filter(([,,robotType,]) => !!robotType && !!robotType.isWired))
+                    .subscribe(([status, code, robotType, serialDevice]) => {
                         switch (status) {
                             case SketchStatus.Sending:
                                 const payload = {
@@ -61,7 +75,7 @@ export class BackendWiredEffects {
                                     fqbn: robotType.fqbn,
                                     ext: robotType.ext,
                                     core: robotType.core,
-                                    port: robotPort,
+                                    port: serialDevice.address,
                                     name: robotType.name,
                                     board: robotType.board,
                                     libs: robotType.libs
@@ -79,9 +93,6 @@ export class BackendWiredEffects {
                         switch (message.event) {
                             case 'NO_DEVICES_FOUND':
                                 this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
-                                break;
-                            case 'DEVICES_FOUND':
-                                this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot);
                                 break;
                             default:
                                 break;

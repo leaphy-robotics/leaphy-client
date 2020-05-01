@@ -47,64 +47,65 @@ export class BackEndCloudEffects {
                         // Called when connection is closed (for whatever reason)
                         this.backEndState.setconnectionStatus(ConnectionStatus.Disconnected);
                     }
-                );        
+                );
+
+                this.robotCloudState.pairingCode$
+                    .pipe(filter(pairingCode => !!pairingCode))
+                    .subscribe(pairingCode => {
+                        console.log('Sending pairing request with pairing code:', pairingCode);
+                        this.myWebSocket.next({ action: 'pair-client', pairingCode });
+                    });
+
+                // When the robot id is set but we are not yet connected to it
+                // This means the robotId is set from localstorage and we must
+                // initiate reconnecting.
+                combineLatest([this.robotCloudState.robotId$, this.backEndState.connectionStatus$])
+                    .pipe(filter(([robotId]) => !!robotId))
+                    .subscribe(([robotId, connectionStatus]) => {
+                        switch (connectionStatus) {
+                            case ConnectionStatus.StartPairing:
+                            case ConnectionStatus.ConnectedToBackend:
+                                console.log('Sending reconnect request with robot id:', robotId);
+                                this.myWebSocket.next({ action: 'reconnect-client', robotId });
+                        }
+                    });
+
+                // What to do when the sketchstatus changes
+                this.blocklyEditorState.sketchStatus$
+                    .pipe(withLatestFrom(this.blocklyEditorState.code$, this.robotCloudState.robotId$))
+                    .subscribe(([status, code, robotId]) => {
+                        switch (status) {
+                            case SketchStatus.Sending:
+                                this.myWebSocket.next({ action: 'compile', robotId, sketch: code });
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+
+                this.backEndState.backEndMessages$
+                    .pipe(filter(message => !!message))
+                    .pipe(withLatestFrom(this.blocklyEditorState.sketchStatus$))
+                    .subscribe(([message, sketchStatus]) => {
+                        switch (message.event) {
+                            case 'ROBOT_REGISTERED':
+                                this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);
+                                break;
+                            case 'CLIENT_PAIRED_WITH_ROBOT':
+                            case 'CLIENT_RECONNECTED_WITH_ROBOT':
+                                this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot);
+                                break;
+                            case 'ROBOT_NOT_REGISTERED':
+                                if (sketchStatus !== SketchStatus.Sending) {
+                                    this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    });
             })
 
 
-        this.robotCloudState.pairingCode$
-            .pipe(filter(pairingCode => !!pairingCode))
-            .subscribe(pairingCode => {
-                console.log('Sending pairing request with pairing code:', pairingCode);
-                this.myWebSocket.next({ action: 'pair-client', pairingCode });
-            });
-
-        // When the robot id is set but we are not yet connected to it
-        // This means the robotId is set from localstorage and we must
-        // initiate reconnecting.
-        combineLatest([this.robotCloudState.robotId$, this.backEndState.connectionStatus$])
-            .pipe(filter(([robotId]) => !!robotId))
-            .subscribe(([robotId, connectionStatus]) => {
-                switch (connectionStatus) {
-                    case ConnectionStatus.StartPairing:
-                    case ConnectionStatus.ConnectedToBackend:
-                        console.log('Sending reconnect request with robot id:', robotId);
-                        this.myWebSocket.next({ action: 'reconnect-client', robotId });
-                }
-            });
-
-        // What to do when the sketchstatus changes
-        this.blocklyEditorState.sketchStatus$
-            .pipe(withLatestFrom(this.blocklyEditorState.code$, this.robotCloudState.robotId$))
-            .subscribe(([status, code, robotId]) => {
-                switch (status) {
-                    case SketchStatus.Sending:
-                        this.myWebSocket.next({ action: 'compile', robotId, sketch: code });
-                        break;
-                    default:
-                        break;
-                }
-            });
-
-        this.backEndState.backEndMessages$
-            .pipe(filter(message => !!message))
-            .pipe(withLatestFrom(this.blocklyEditorState.sketchStatus$))
-            .subscribe(([message, sketchStatus]) => {
-                switch (message.event) {
-                    case 'ROBOT_REGISTERED':
-                        this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);
-                        break;
-                    case 'CLIENT_PAIRED_WITH_ROBOT':
-                    case 'CLIENT_RECONNECTED_WITH_ROBOT':
-                        this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot);
-                        break;
-                    case 'ROBOT_NOT_REGISTERED':
-                        if (sketchStatus !== SketchStatus.Sending) {
-                            this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            });
     }
 }

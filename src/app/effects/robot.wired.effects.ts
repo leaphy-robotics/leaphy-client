@@ -17,11 +17,13 @@ export class RobotWiredEffects {
             .pipe(filter(message => !!message))
             .subscribe(message => {
                 switch (message.event) {
+                    case 'INSTALLATION_VERIFIED':
+                        this.robotWiredState.setIsInstallationVerified(true);
+                        break;
                     case 'NO_DEVICES_FOUND':
-                        this.robotWiredState.setRobotPort(null);
+                        this.robotWiredState.setSelectedSerialDevice(null);
                         break;
                     case 'DEVICES_FOUND':
-                        console.log('Received DEVICES_FOUND event:', message.message);
                         this.robotWiredState.setSerialDevices(message.message);
                         break;
                     default:

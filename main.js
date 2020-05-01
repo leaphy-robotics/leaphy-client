@@ -119,6 +119,15 @@ async function verifyInstalledLibsAsync(event, name, libs) {
     });
 }
 
+ipcMain.on('verify-installation', async (event, payload) => {
+    await verifyInstalledCoreAsync(event, payload.name, payload.core);
+    await verifyInstalledLibsAsync(event, payload.name, payload.libs);
+    // TODO check installation of windows usb drivers
+
+    const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "All prerequisites for this robot have been installed" };
+    event.sender.send('backend-message', installationVerifiedMessage);
+});
+
 ipcMain.on('compile', async (event, payload) => {
 
     const sketchPath = writeCodeToCompileLocation(payload.code);

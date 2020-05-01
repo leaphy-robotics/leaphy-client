@@ -1,4 +1,5 @@
 export class SerialDevice {
-    public name: string;
-    public port: string
+    public address: string;
+    public protocol: string
+    public protocol_label: string
 }
