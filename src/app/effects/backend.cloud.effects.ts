@@ -20,7 +20,8 @@ export class BackEndCloudEffects {
     private apiId = '6lge1rqji3';
     private region = 'eu-west-1';
     private env = 'test';
-    myWebSocket: WebSocketSubject<any> = webSocket(`wss://${this.apiId}.execute-api.${this.region}.amazonaws.com/${this.env}`);
+
+    myWebSocket: WebSocketSubject<any>;
 
     constructor(
         private backEndState: BackEndState,
@@ -28,15 +29,27 @@ export class BackEndCloudEffects {
         private blocklyEditorState: BlocklyEditorState,
         private robotCloudState: RobotCloudState
     ) {
-        this.backEndState.setconnectionStatus(ConnectionStatus.ConnectedToBackend);
-        this.myWebSocket.asObservable().subscribe(
-            message => this.backEndState.setBackendMessage(message as BackEndMessage), // Called whenever there is a message from the server
-            err => console.log(err), // Called if WebSocket API signals some kind of error
-            () => {
-                // Called when connection is closed (for whatever reason)
-                this.backEndState.setconnectionStatus(ConnectionStatus.Disconnected);
-            }
-        );
+        this.appState.isRobotWired$
+            .pipe(filter(isRobotWired => !isRobotWired))
+            .subscribe(() => {
+                try {
+                    this.myWebSocket = webSocket(`wss://${this.apiId}.execute-api.${this.region}.amazonaws.com/${this.env}`);
+                } catch (error) {
+                    console.log('Error occurred while connecting to websocket:', error);
+                    this.backEndState.setconnectionStatus(ConnectionStatus.Disconnected);
+                }
+                this.backEndState.setconnectionStatus(ConnectionStatus.ConnectedToBackend);
+
+                this.myWebSocket.asObservable().subscribe(
+                    message => this.backEndState.setBackendMessage(message as BackEndMessage), // Called whenever there is a message from the server
+                    err => console.log(err), // Called if WebSocket API signals some kind of error
+                    () => {
+                        // Called when connection is closed (for whatever reason)
+                        this.backEndState.setconnectionStatus(ConnectionStatus.Disconnected);
+                    }
+                );        
+            })
+
 
         this.robotCloudState.pairingCode$
             .pipe(filter(pairingCode => !!pairingCode))
@@ -76,7 +89,6 @@ export class BackEndCloudEffects {
             .pipe(filter(message => !!message))
             .pipe(withLatestFrom(this.blocklyEditorState.sketchStatus$))
             .subscribe(([message, sketchStatus]) => {
-                console.log('Received message from backend:', message);
                 switch (message.event) {
                     case 'ROBOT_REGISTERED':
                         this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);

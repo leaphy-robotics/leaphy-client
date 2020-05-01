@@ -35,12 +35,20 @@ export class BackendWiredEffects {
                     throw e;
                 }
 
+                this.backEndState.setconnectionStatus(ConnectionStatus.ConnectedToBackend);
+
                 // This is needed to trigger UI refresh from IPC events
                 this.on('backend-message', (event: any, message: BackEndMessage) => {
                     this.zone.run(() => {
                         this.backEndState.setBackendMessage(message);
                     });
                 });
+
+                this.appState.isRobotWired$
+                    .pipe(filter(isWired => !!isWired))
+                    .subscribe(() => {
+                        this.send('get-board-port');
+                    })
 
                 this.blocklyEditorState.sketchStatus$
                     .pipe(withLatestFrom(this.blocklyEditorState.code$, this.appState.selectedRobotType$, this.robotWiredState.robotPort$))
@@ -68,7 +76,6 @@ export class BackendWiredEffects {
                 this.backEndState.backEndMessages$
                     .pipe(filter(message => !!message))
                     .subscribe((message) => {
-                        console.log('Received message from backend:', message);
                         switch (message.event) {
                             case 'NO_ROBOT_FOUND':
                                 this.robotWiredState.setRobotPort(null);
@@ -91,11 +98,6 @@ export class BackendWiredEffects {
                         }
                     });
 
-                this.appState.selectedRobotType$
-                    .pipe(filter(robotType => !!robotType))
-                    .subscribe(() => {
-                        this.send('get-board-port');
-                    })
 
                 this.robotWiredState.isRobotDriverInstalling$
                     .pipe(filter(isInstalling => !!isInstalling))
@@ -103,7 +105,6 @@ export class BackendWiredEffects {
                     .subscribe(([, robotType]) => {
                         this.send('install-board', robotType);
                     });
-
             });
     }
 
