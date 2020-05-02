@@ -12,6 +12,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { BackendWiredEffects } from './effects/backend.wired.effects';
 import { BackEndCloudEffects } from './effects/backend.cloud.effects';
@@ -39,7 +40,8 @@ import { RobotWiredEffects } from './effects/robot.wired.effects';
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     // Initialize the Effects on startup

@@ -24,7 +24,7 @@ export class DialogEffects {
     ) {
         this.robotWiredState.serialDevices$
             .pipe(withLatestFrom(this.dialogState.isConnectDialogVisible$))
-            .pipe(filter(([devices, isDialogOpen]) => !!devices.length && !isDialogOpen))
+            .pipe(filter(([devices, isDialogOpen]) => devices.length > 1 && !isDialogOpen))
             .subscribe(() => {
                 const dialogRef = this.dialog.open(ConnectWiredDialog, {
                     width: '450px',

@@ -12,7 +12,7 @@
     "e2e": "ng e2e",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
     "package:electron": "ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --overwrite --verbose --asar",
-    "installer:electron:darwin": "electron-installer-dmg ./leaphy_client-darwin-x64/leaphy_client.app Robocoder"
+    "installer:electron:darwin": "electron-installer-dmg --overwrite ./leaphy_client-darwin-x64/leaphy_client.app Robocoder"
   },
   "private": true,
   "dependencies": {

@@ -131,10 +131,6 @@ ipcMain.on('verify-installation', async (event, payload) => {
 ipcMain.on('compile', async (event, payload) => {
 
     const sketchPath = writeCodeToCompileLocation(payload.code);
-
-    await verifyInstalledCoreAsync(event, payload.name, payload.core);
-    await verifyInstalledLibsAsync(event, payload.name, payload.libs);
-
     const compileParams = ["compile", "--fqbn", payload.fqbn, sketchPath];
     const compilingMessage = { event: "COMPILATION_STARTED", message: "Compiling..." };
     event.sender.send('backend-message', compilingMessage);
@@ -175,12 +171,13 @@ ipcMain.on('get-serial-devices', async (event) => {
     console.log(await tryRunArduinoCli(updateIndexParams));
 
     const listBoardsParams = ["board", "list", "--format", "json"];
-    const connectedBoards = JSON.parse(await tryRunArduinoCli(listBoardsParams));
+    const connectedDevices = JSON.parse(await tryRunArduinoCli(listBoardsParams));
+    const eligibleBoards = connectedDevices.filter(device => device.protocol_label == "Serial Port (USB)");
     let message;
-    if (!connectedBoards.length) {
-        message = { event: "NO_DEVICES_FOUND", message: "No connected serial devices found" };
+    if (!eligibleBoards.length) {
+        message = { event: "NO_DEVICES_FOUND", message: "No connected robots found" };
     } else {
-        message = { event: "DEVICES_FOUND", message: connectedBoards };
+        message = { event: "DEVICES_FOUND", message: eligibleBoards };
     }
     event.sender.send('backend-message', message);
 });
