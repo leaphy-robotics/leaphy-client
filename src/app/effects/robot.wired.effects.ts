@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { BackEndState } from '../state/backend.state';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { AppState } from '../state/app.state';
-import { DialogState } from '../state/dialog.state';
 
 @Injectable({
     providedIn: 'root',
@@ -14,9 +13,9 @@ export class RobotWiredEffects {
     constructor(
         private robotWiredState: RobotWiredState,
         private backEndState: BackEndState,
-        private appState: AppState,
-        private dialogState: DialogState
+        private appState: AppState
     ) {
+        // React to messages from the Electron backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
             .subscribe(message => {
@@ -30,6 +29,9 @@ export class RobotWiredEffects {
                         break;
                     case 'DEVICES_FOUND':
                         this.robotWiredState.setSerialDevices(message.message);
+                        if(message.message.length === 1) {
+                            this.robotWiredState.setSelectedSerialDevice(message.message[0]);
+                        }
                         break;
                     default:
                         break;

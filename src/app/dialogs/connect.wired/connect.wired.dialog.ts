@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BackEndState } from 'src/app/state/backend.state';
 import { ConnectionStatus } from 'src/app/domain/connection.status';
 import { RobotWiredState } from 'src/app/state/robot.wired.state';
@@ -16,12 +16,10 @@ export class ConnectWiredDialog {
 
   onDeviceSelectionChange(event: MatSelectChange){
     this.robotWiredState.setSelectedSerialDevice(event.value);
-    //this.dialogRef.close();
     this.dialogState.toggleIsConnectDialogVisible();
   }
 
-  onNoClick(): void {
-    //this.dialogRef.close();
+  onDoneClick(): void {
     this.dialogState.toggleIsConnectDialogVisible();
   }
 
