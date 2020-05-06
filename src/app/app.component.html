@@ -3,7 +3,7 @@
   <span id="title">robocoder</span>
   <span class="spacer"></span>
   <div>
-    <mat-progress-spinner id="spinner" *ngIf="(appState.selectedRobotType$ | async) && (appState.isRobotWired$ | async) && (!(robotWiredState.isInstallationVerified$ | async) || !(robotWiredState.selectedSerialDevice$ | async))" mode="indeterminate" diameter="30" color="warn"></mat-progress-spinner>
+    <mat-progress-spinner id="spinner" *ngIf="(appState.selectedRobotType$ | async) && (appState.isRobotWired$ | async) && !(robotWiredState.isInstallationVerified$ | async)" mode="indeterminate" diameter="30" color="warn"></mat-progress-spinner>
   </div>
   
   <mat-select id="robot-selector" placeholder="Select Robot" (selectionChange)="onRobotSelectionChange($event)" [value]="appState.selectedRobotType$ | async">

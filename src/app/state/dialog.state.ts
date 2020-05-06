@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
+import { scan } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialogState {
 
-  private isConnectDialogVisibleSubject$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  public isConnectDialogVisible$ = this.isConnectDialogVisibleSubject$.asObservable();
+  private isConnectDialogVisibleSubject$ = new BehaviorSubject(false);
+  public isConnectDialogVisible$ = this.isConnectDialogVisibleSubject$.asObservable()
+    .pipe(scan((current) => !current));
 
   private connectDialogSubject$: BehaviorSubject<MatDialogRef<unknown, any>> = new BehaviorSubject(null);
   public connectDialog$ = this.connectDialogSubject$.asObservable();
 
-  public setIsConnectDialogVisible(isOpen: boolean) {
-    this.isConnectDialogVisibleSubject$.next(isOpen);
+  public toggleIsConnectDialogVisible() {
+    this.isConnectDialogVisibleSubject$.next(true);
   }
 
   public setConnectDialog(dialogRef: MatDialogRef<unknown, any>) {

@@ -46,8 +46,8 @@ void loop()
     this.sketchStatusMessageSubject$.next(message);
   }
 
-  public setIsSideNavOpen(isOpen: boolean) {
-    this.isSideNavOpenSubject$.next(isOpen);
+  public toggleIsSideNavOpen() {
+    this.isSideNavOpenSubject$.next(true);
   }
 
   public setToolboxXml(toolboxXml: any) {

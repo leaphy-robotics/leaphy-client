@@ -4,6 +4,7 @@ import { ConnectionStatus } from 'src/app/domain/connection.status';
 import { RobotWiredState } from 'src/app/state/robot.wired.state';
 import { MatSelectChange } from '@angular/material/select';
 import { MatDialogRef } from '@angular/material/dialog';
+import { DialogState } from 'src/app/state/dialog.state';
 
 @Component({
   selector: 'app-connect.wired',
@@ -11,18 +12,20 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./connect.wired.dialog.scss']
 })
 export class ConnectWiredDialog {
-  constructor(public dialogRef: MatDialogRef<ConnectWiredDialog>, public robotWiredState: RobotWiredState, private backEndState: BackEndState) { }
+  constructor(public dialogRef: MatDialogRef<ConnectWiredDialog>, public robotWiredState: RobotWiredState, private backEndState: BackEndState, private dialogState: DialogState) { }
 
   onDeviceSelectionChange(event: MatSelectChange){
     this.robotWiredState.setSelectedSerialDevice(event.value);
-    this.dialogRef.close();
+    //this.dialogRef.close();
+    this.dialogState.toggleIsConnectDialogVisible();
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    //this.dialogRef.close();
+    this.dialogState.toggleIsConnectDialogVisible();
   }
 
   public onDetectRobotsClick() {
-    this.backEndState.setconnectionStatus(ConnectionStatus.StartPairing);
+    this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
   }
 }

@@ -51,11 +51,33 @@ export class BackendWiredEffects {
                         this.send('verify-installation', robotType);
                     });
 
-                // If the installation of prequisites is verified, get the serial devices
+                // If the installation of prequisites is verified, start detecting
                 this.robotWiredState.isInstallationVerified$
                     .pipe(filter(isVerified => !!isVerified))
                     .subscribe(() => {
-                        this.send('get-serial-devices');
+                        this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
+                    });
+
+                // Get the devices when the ConnectionStatus is set to DetectingDevices
+                this.backEndState.connectionStatus$
+                    .subscribe(connectionStatus => {
+                        switch (connectionStatus) {
+                            case ConnectionStatus.DetectingDevices:
+                                this.send('get-serial-devices');
+                        }
+                    });
+
+                // If no devices found, set the status to WaitForRobot
+                this.backEndState.backEndMessages$
+                    .pipe(filter(message => !!message))
+                    .subscribe((message) => {
+                        switch (message.event) {
+                            case 'NO_DEVICES_FOUND':
+                                this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
+                                break;
+                            default:
+                                break;
+                        }
                     });
 
                 // When a serial device is selected, set the connection status to "PairedWithRobot"
@@ -66,7 +88,7 @@ export class BackendWiredEffects {
                 // When the sketch status is set to sending, send a compile request to backend
                 this.blocklyEditorState.sketchStatus$
                     .pipe(withLatestFrom(this.blocklyEditorState.code$, this.appState.selectedRobotType$, this.robotWiredState.selectedSerialDevice$))
-                    .pipe(filter(([,,robotType,]) => !!robotType && !!robotType.isWired))
+                    .pipe(filter(([, , robotType,]) => !!robotType && !!robotType.isWired))
                     .subscribe(([status, code, robotType, serialDevice]) => {
                         switch (status) {
                             case SketchStatus.Sending:
@@ -87,26 +109,7 @@ export class BackendWiredEffects {
                         }
                     });
 
-                this.backEndState.backEndMessages$
-                    .pipe(filter(message => !!message))
-                    .subscribe((message) => {
-                        switch (message.event) {
-                            case 'NO_DEVICES_FOUND':
-                                this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
-                                break;
-                            default:
-                                break;
-                        }
-                    });
 
-                this.backEndState.connectionStatus$
-                    .subscribe(connectionStatus => {
-                        switch (connectionStatus) {
-                            case ConnectionStatus.StartPairing:
-                                console.log('Electron Effect detecting boards');
-                                this.send('get-serial-devices');
-                        }
-                    });
 
 
                 this.robotWiredState.isRobotDriverInstalling$

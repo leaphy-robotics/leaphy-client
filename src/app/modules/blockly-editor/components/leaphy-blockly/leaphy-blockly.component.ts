@@ -4,6 +4,7 @@ import { SketchStatus } from 'src/app/domain/sketch.status';
 import { BackEndState } from 'src/app/state/backend.state';
 import { DialogState } from 'src/app/state/dialog.state';
 import { filter } from 'rxjs/operators';
+import { ConnectionStatus } from 'src/app/domain/connection.status';
 
 declare var Blockly: any;
 
@@ -55,6 +56,6 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
     }
 
     public onConnectClicked() {
-        this.dialogState.setIsConnectDialogVisible(true);
+        this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
     }
 }

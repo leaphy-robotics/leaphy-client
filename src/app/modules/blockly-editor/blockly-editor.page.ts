@@ -11,6 +11,6 @@ export class BlocklyEditorPage {
   constructor(public blocklyState: BlocklyEditorState) { }
 
   public onCodeViewClicked() {
-    this.blocklyState.setIsSideNavOpen(true);
+    this.blocklyState.toggleIsSideNavOpen();
   }
 }

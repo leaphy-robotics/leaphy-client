@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { filter } from 'rxjs/operators';
+import { filter, withLatestFrom } from 'rxjs/operators';
 import { BackEndState } from '../state/backend.state';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { AppState } from '../state/app.state';
+import { DialogState } from '../state/dialog.state';
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +14,8 @@ export class RobotWiredEffects {
     constructor(
         private robotWiredState: RobotWiredState,
         private backEndState: BackEndState,
-        private appState: AppState
+        private appState: AppState,
+        private dialogState: DialogState
     ) {
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
@@ -41,11 +43,6 @@ export class RobotWiredEffects {
                 this.robotWiredState.setIsInstallationVerified(false);
                 this.robotWiredState.setSelectedSerialDevice(null);
             });
-
-        // If there's only one eligible device, autoselect it
-        this.robotWiredState.serialDevices$
-            .pipe(filter(devices => devices.length === 1))
-            .subscribe(devices => this.robotWiredState.setSelectedSerialDevice(devices[0]));
 
         this.robotWiredState.isRobotDriverInstalling$
             .pipe(filter(isInstalling => !!isInstalling))
