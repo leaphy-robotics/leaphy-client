@@ -10,9 +10,9 @@ import { RobotWiredState } from './state/robot.wired.state';
 })
 export class AppComponent {
   constructor(public appState: AppState, public robotWiredState: RobotWiredState){
-
+    
   }
-  title = 'Leaphy Robocoder';
+  title = 'Leaphy Easybloqs';
 
   onRobotSelectionChange(event: MatSelectChange){
     this.appState.setSelectedRobotType(event.value);

@@ -1,0 +1,18 @@
+{
+    "SELECTROBOT": "Selecteer Robot",
+    "CONNECT": {
+        "CLOUD": {
+            "DIALOGTITLE": "Verbind met een robot",
+            "DIALOGMESSAGE": "Voer de code in die getoond wordt op de robot",
+            "PAIRINGCODE": "Robot code"
+        },
+        "WIRED": {
+            "DIALOGTITLE": "Selecteer het Robot Apparaat",
+            "SELECTDEVICE": "Selecteer Apparaat"
+        }
+    },
+    "CANCEL": "Annuleer",
+    "REFRESH": "Ververs",
+    "OK": "Ok",
+    "DONE": "Klaar"
+}

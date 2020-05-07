@@ -1,0 +1,18 @@
+{
+    "SELECTROBOT": "Select Robot",
+    "CONNECT": {
+        "CLOUD": {
+            "DIALOGTITLE": "Connect to a robot",
+            "DIALOGMESSAGE": "Enter the pairing code displayed on the robot",
+            "PAIRINGCODE": "Pairing code"
+        },
+        "WIRED": {
+            "DIALOGTITLE": "Select the Robot Device",
+            "SELECTDEVICE": "Select Device"
+        }
+    },
+    "CANCEL": "Cancel",
+    "REFRESH": "Refresh",
+    "OK": "Ok",
+    "DONE": "Done"
+}

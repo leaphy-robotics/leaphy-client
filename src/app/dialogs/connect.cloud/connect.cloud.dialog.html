@@ -1,12 +1,12 @@
-<h1 mat-dialog-title>Connect to a robot</h1>
+<h1 mat-dialog-title>{{ "CONNECT.CLOUD.DIALOGTITLE" | translate}}</h1>
 <div mat-dialog-content>
-  <p>Enter the pairing code displayed on the robot</p>
+  <p>{{ "CONNECT.CLOUD.DIALOGMESSAGE" | translate}}</p>
   <mat-form-field>
-    <mat-label>Pairing code</mat-label>
+    <mat-label>{{"CONNECT.CLOUD.PAIRINGCODE" | translate }}</mat-label>
     <input matInput [(ngModel)]="robotId">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="robotId" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()">{{"CANCEL"|translate}}</button>
+  <button mat-button [mat-dialog-close]="robotId" cdkFocusInitial>{{"OK"|translate}}</button>
 </div>

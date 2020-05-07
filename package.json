@@ -26,6 +26,8 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/http-loader": "^4.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",
     "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#c648dc5",

@@ -1,11 +1,11 @@
-<h1 mat-dialog-title>Select Robot Device</h1>
+<h1 mat-dialog-title>{{"CONNECT.WIRED.DIALOGTITLE" | async }}</h1>
 <div mat-dialog-content>
-  <button mat-button (click)="onDetectRobotsClick()">Refresh</button>
-  <mat-select id="device-selector" placeholder="Select Device" (selectionChange)="onDeviceSelectionChange($event)" [value]="robotWiredState.selectedSerialDevice$ | async">
+  <button mat-button (click)="onDetectRobotsClick()">{{"REFRESH"|translate}}</button>
+  <mat-select id="device-selector" placeholder="{{'CONNECT.WIRED.SELECTDEVICE'|translate}}" (selectionChange)="onDeviceSelectionChange($event)" [value]="robotWiredState.selectedSerialDevice$ | async">
     <mat-option *ngFor="let device of robotWiredState.serialDevices$ | async" [value]="device">{{device.protocol_label}} - {{device.address}}</mat-option>
   </mat-select>
   
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onDoneClick()">Done</button>
+  <button mat-button (click)="onDoneClick()">{{"DONE"|translate}}</button>
 </div>

@@ -1,11 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -22,6 +25,11 @@ import { RobotCloudEffects } from './effects/robot.cloud.effects';
 import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog';
 import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
 import { RobotWiredEffects } from './effects/robot.wired.effects';
+import { AppEffects } from './effects/app.effects';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -41,12 +49,21 @@ import { RobotWiredEffects } from './effects/robot.wired.effects';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     // Initialize the Effects on startup
     {provide: APP_INITIALIZER, deps:
       [
+        AppEffects,
         BackendWiredEffects,
         BackEndCloudEffects,
         BlocklyEditorEffects,

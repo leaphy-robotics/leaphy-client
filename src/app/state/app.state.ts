@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
 import { map, filter } from 'rxjs/operators';
+import { Language } from '../domain/language';
 
 @Injectable({
     providedIn: 'root'
@@ -36,11 +37,21 @@ export class AppState {
     private selectedRobotTypeSubject$ = new BehaviorSubject<RobotType>(null);
     public selectedRobotType$ = this.selectedRobotTypeSubject$.asObservable();
 
+    private defaultLanguageSubject$ = new BehaviorSubject<Language>(Language.NL);
+    public defaultLanguage$ = this.defaultLanguageSubject$.asObservable();
+
+    private selectedLanguageSubject$ = new BehaviorSubject<Language>(Language.NL);
+    public selectedLanguage$ = this.selectedLanguageSubject$.asObservable();
+
     public isRobotWired$: Observable<boolean> = this.selectedRobotType$
         .pipe(filter(selectedRobotType => !!selectedRobotType))
         .pipe(map(selectedRobotType => selectedRobotType.isWired));
 
     public setSelectedRobotType(robotType: RobotType) {
         this.selectedRobotTypeSubject$.next(robotType);
+    }
+
+    public setSelectedLanguage(language: Language) {
+        this.selectedLanguageSubject$.next(language);
     }
 }
