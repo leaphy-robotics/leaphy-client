@@ -30,7 +30,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",
-    "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#c648dc5",
+    "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#4ba26d8ed22b5a84636fa259ce0a55dade897bfe",
     "prismjs": "^1.17.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
