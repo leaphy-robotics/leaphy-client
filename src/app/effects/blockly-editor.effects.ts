@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
-import { combineLatest } from 'rxjs';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
 import { filter } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { combineLatest } from 'rxjs';
+
+declare var Blockly: any;
 
 @Injectable({
     providedIn: 'root',
@@ -19,6 +21,21 @@ export class BlocklyEditorEffects {
         private backEndState: BackEndState,
         private http: HttpClient
     ) {
+        // Create the Blockly Workspace
+        combineLatest(this.blocklyEditorState.blocklyElement$, this.blocklyEditorState.blocklyConfig$, this.blocklyEditorState.toolboxXml$)
+            .pipe(filter(([element, config, toolbox]) => !!element && !!config && !!toolbox))
+            .subscribe(([element, config, toolbox]) => {
+                config.toolbox = toolbox;
+                const workspace = Blockly.inject(element, config);
+                this.blocklyEditorState.setBlocklyWorkspace(workspace);
+            });
+
+        // Subscribe to generated code changes when the workspace is set
+        this.blocklyEditorState.blocklyWorkspace$
+            .pipe(filter(workspace => !!workspace))
+            .subscribe(workspace => workspace.addChangeListener(async (event) => {
+                this.blocklyEditorState.setCode(Blockly.Arduino.workspaceToCode(workspace));
+            }));
 
         this.backEndState.connectionStatus$
             .subscribe(connectionStatus => {

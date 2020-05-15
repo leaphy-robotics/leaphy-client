@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SketchStatus } from '../domain/sketch.status';
 import { scan } from 'rxjs/operators';
@@ -31,6 +31,31 @@ void loop()
   public isSideNavOpen$ = this.isSideNavOpenSubject$.asObservable()
     .pipe(scan((current) => !current));
 
+  private blocklyElementSubject$ = new BehaviorSubject<ElementRef<any>>(null);
+  public blocklyElement$ = this.blocklyElementSubject$.asObservable();
+
+  private blocklyWorkspaceSubject$ = new BehaviorSubject<any>(null);
+  public blocklyWorkspace$ = this.blocklyWorkspaceSubject$.asObservable();
+
+  private blocklyConfigSubject$ = new BehaviorSubject<any>({
+    scrollbars: true,
+    zoom: {
+      controls: true,
+      wheel: false,
+      startScale: 1.0,
+      maxScale: 3,
+      minScale: 0.3,
+      scaleSpeed: 1.2
+    },
+    trashcan: true,
+    move: {
+      scrollbars: true,
+      drag: true,
+      wheel: true
+    }
+  });
+  public blocklyConfig$ = this.blocklyConfigSubject$.asObservable();
+
   private toolboxXmlSubject$ = new BehaviorSubject(null);
   public toolboxXml$ = this.toolboxXmlSubject$.asObservable();
 
@@ -48,6 +73,14 @@ void loop()
 
   public toggleIsSideNavOpen() {
     this.isSideNavOpenSubject$.next(true);
+  }
+
+  public setBlocklyElement(element: ElementRef<any>) {
+    this.blocklyElementSubject$.next(element);
+  }
+
+  public setBlocklyWorkspace(workspace: any) {
+    this.blocklyWorkspaceSubject$.next(workspace);
   }
 
   public setToolboxXml(toolboxXml: any) {
