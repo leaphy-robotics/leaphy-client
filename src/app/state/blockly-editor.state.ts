@@ -1,7 +1,10 @@
 import { Injectable, ElementRef } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { SketchStatus } from '../domain/sketch.status';
-import { scan } from 'rxjs/operators';
+import { scan, filter, map, tap } from 'rxjs/operators';
+import { WorkspaceStatus } from '../domain/workspace.status';
+
+declare var Blockly: any;
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +37,8 @@ void loop()
   private blocklyElementSubject$ = new BehaviorSubject<ElementRef<any>>(null);
   public blocklyElement$ = this.blocklyElementSubject$.asObservable();
 
-  private blocklyWorkspaceSubject$ = new BehaviorSubject<any>(null);
-  public blocklyWorkspace$ = this.blocklyWorkspaceSubject$.asObservable();
+  private workspaceStatusSubject$: BehaviorSubject<WorkspaceStatus> = new BehaviorSubject(WorkspaceStatus.Clean);
+  public workspaceStatus$ = this.workspaceStatusSubject$.asObservable();
 
   private blocklyConfigSubject$ = new BehaviorSubject<any>({
     scrollbars: true,
@@ -59,6 +62,24 @@ void loop()
   private toolboxXmlSubject$ = new BehaviorSubject(null);
   public toolboxXml$ = this.toolboxXmlSubject$.asObservable();
 
+  public workspace$ = combineLatest(this.blocklyElement$, this.blocklyConfig$, this.toolboxXml$)
+    .pipe(tap(() => "Creating workspace"))
+    .pipe(filter(([element, config, toolbox]) => !!element && !!config && !!toolbox))
+    .pipe(map(([element, config, toolbox]) => {
+      config.toolbox = toolbox;
+      return Blockly.inject(element, config);
+    }));
+
+  public workspaceXmlToSave$ = combineLatest(this.workspaceStatus$, this.workspace$)
+    .pipe(filter(([status,]) => status === WorkspaceStatus.Saving))
+    .pipe(map(([,workspace]) => {
+      var xml = Blockly.Xml.workspaceToDom(workspace);
+      var data = Blockly.Xml.domToPrettyText(xml);
+      console.log(data);
+      return data;
+    }))
+
+
   public setCode(code: string): void {
     this.codeSubject$.next(code);
   }
@@ -79,8 +100,8 @@ void loop()
     this.blocklyElementSubject$.next(element);
   }
 
-  public setBlocklyWorkspace(workspace: any) {
-    this.blocklyWorkspaceSubject$.next(workspace);
+  public setWorkspaceStatus(status: WorkspaceStatus) {
+    this.workspaceStatusSubject$.next(status);
   }
 
   public setToolboxXml(toolboxXml: any) {

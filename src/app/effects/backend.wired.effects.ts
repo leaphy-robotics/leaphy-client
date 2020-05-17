@@ -26,19 +26,23 @@ export class BackendWiredEffects {
         private robotWiredState: RobotWiredState,
         private zone: NgZone
     ) {
+        // Only set up these effects when we're in Desktop mode
         this.appState.isDesktop$
             .pipe(filter(isDesktop => !!isDesktop))
             .subscribe(() => {
+                // Get the connection to the Electron process
                 try {
                     this.ipc = window.require('electron').ipcRenderer;
                 } catch (e) {
                     throw e;
                 }
 
+                // If that worked, set the backend Connection status
                 this.backEndState.setconnectionStatus(ConnectionStatus.ConnectedToBackend);
 
-                // This is needed to trigger UI refresh from IPC events
+                // Relay messages from Electron to the Backend State
                 this.on('backend-message', (event: any, message: BackEndMessage) => {
+                    // This is needed to trigger UI refresh from IPC events
                     this.zone.run(() => {
                         this.backEndState.setBackendMessage(message);
                     });
@@ -109,9 +113,13 @@ export class BackendWiredEffects {
                         }
                     });
 
+                // When the workspace is being saved, relay the command to Electron
+                this.blocklyEditorState.workspaceXmlToSave$
+                    .subscribe(workspaceXml => {
+                        this.send('save-workspace', workspaceXml);
+                    })
 
-
-
+                // TODO: Reevaluate this here effect on Windows
                 this.robotWiredState.isRobotDriverInstalling$
                     .pipe(filter(isInstalling => !!isInstalling))
                     .pipe(withLatestFrom(this.appState.selectedRobotType$))

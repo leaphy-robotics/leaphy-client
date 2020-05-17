@@ -10,12 +10,18 @@
         </div>
     </div>
 
+    <button mat-fab id="save-button" (click)="onSaveWorkspaceClicked()"
+        [disabled]="(blocklyState.workspaceStatus$ | async) == 2 ">
+        <mat-icon>save</mat-icon>
+    </button>
+
     <button mat-fab id="upload-button" (click)="onUploadClicked()"
         [disabled]="(blocklyState.sketchStatus$ | async) > 0 ">
         <mat-icon>cloud_upload</mat-icon>
     </button>
 
-    <button mat-fab id="connect-button" (click)="onConnectClicked()" [color]="'Color'+(backEndState.connectionStatus$ | async)">
+    <button mat-fab id="connect-button" (click)="onConnectClicked()"
+        [color]="'Color'+(backEndState.connectionStatus$ | async)">
         <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 4">check</mat-icon>
         <span *ngIf="(backEndState.connectionStatus$ | async) == 3" class="button-icon-text">?</span>
         <mat-icon *ngIf="(backEndState.connectionStatus$ | async) == 2">sync</mat-icon>

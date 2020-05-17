@@ -3,6 +3,7 @@ import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import { SketchStatus } from 'src/app/domain/sketch.status';
 import { BackEndState } from 'src/app/state/backend.state';
 import { ConnectionStatus } from 'src/app/domain/connection.status';
+import { WorkspaceStatus } from 'src/app/domain/workspace.status';
 
 @Component({
     selector: 'app-leaphy-blockly',
@@ -28,5 +29,9 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
 
     public onConnectClicked() {
         this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
+    }
+
+    public onSaveWorkspaceClicked() {
+        this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Saving);
     }
 }

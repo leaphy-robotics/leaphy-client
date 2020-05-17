@@ -1,5 +1,5 @@
 //if (require('electron-squirrel-startup')) return;
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require("path");
 
 if (handleSquirrelEvent()) {
@@ -179,6 +179,20 @@ ipcMain.on('get-serial-devices', async (event) => {
     } else {
         message = { event: "DEVICES_FOUND", message: eligibleBoards };
     }
+    event.sender.send('backend-message', message);
+});
+
+ipcMain.on('save-workspace', async (event, payload) => {
+    const response = await dialog.showSaveDialog({});
+    console.log(response);
+    if(response.canceled) {
+        // TODO: Do something more appropriate here
+        const message = { event: "WORKSPACE_SAVED", message: "Saved the workspace" };
+        event.sender.send('backend-message', message);
+        return;
+    } 
+    fs.writeFileSync(response.filePath, payload);
+    const message = { event: "WORKSPACE_SAVED", message: "Saved the workspace" };
     event.sender.send('backend-message', message);
 });
 
