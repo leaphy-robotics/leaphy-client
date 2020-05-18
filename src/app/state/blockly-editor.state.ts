@@ -1,7 +1,7 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { SketchStatus } from '../domain/sketch.status';
-import { scan, filter, map, tap } from 'rxjs/operators';
+import { scan } from 'rxjs/operators';
 import { WorkspaceStatus } from '../domain/workspace.status';
 
 declare var Blockly: any;
@@ -62,23 +62,11 @@ void loop()
   private toolboxXmlSubject$ = new BehaviorSubject(null);
   public toolboxXml$ = this.toolboxXmlSubject$.asObservable();
 
-  public workspace$ = combineLatest(this.blocklyElement$, this.blocklyConfig$, this.toolboxXml$)
-    .pipe(tap(() => "Creating workspace"))
-    .pipe(filter(([element, config, toolbox]) => !!element && !!config && !!toolbox))
-    .pipe(map(([element, config, toolbox]) => {
-      config.toolbox = toolbox;
-      return Blockly.inject(element, config);
-    }));
+  private workspaceSubject$ = new BehaviorSubject<any>(null);
+  public workspace$ = this.workspaceSubject$.asObservable();
 
-  public workspaceXmlToSave$ = combineLatest(this.workspaceStatus$, this.workspace$)
-    .pipe(filter(([status,]) => status === WorkspaceStatus.Saving))
-    .pipe(map(([,workspace]) => {
-      var xml = Blockly.Xml.workspaceToDom(workspace);
-      var data = Blockly.Xml.domToPrettyText(xml);
-      console.log(data);
-      return data;
-    }))
-
+  private workspaceXmlSubject$ = new BehaviorSubject(null);
+  public workspaceXml$ = this.workspaceXmlSubject$.asObservable();
 
   public setCode(code: string): void {
     this.codeSubject$.next(code);
@@ -106,5 +94,13 @@ void loop()
 
   public setToolboxXml(toolboxXml: any) {
     this.toolboxXmlSubject$.next(toolboxXml);
+  }
+
+  public setWorkspace(workspace: any) {
+    this.workspaceSubject$.next(workspace);
+  }
+
+  public setWorkspaceXml(workspaceXml: any) {
+    this.workspaceXmlSubject$.next(workspaceXml);
   }
 }

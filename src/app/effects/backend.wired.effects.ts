@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { filter, withLatestFrom, switchMap, tap } from 'rxjs/operators';
 import { BackEndState } from '../state/backend.state';
 
 import { IpcRenderer } from 'electron';
@@ -9,6 +9,7 @@ import { BackEndMessage } from '../domain/backend.message';
 import { ConnectionStatus } from '../domain/connection.status';
 import { AppState } from '../state/app.state';
 import { RobotWiredState } from '../state/robot.wired.state';
+import { WorkspaceStatus } from '../domain/workspace.status';
 
 @Injectable({
     providedIn: 'root',
@@ -113,11 +114,21 @@ export class BackendWiredEffects {
                         }
                     });
 
+                // When a workspace is being loaded, relay the command to Electron
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(filter(status => status === WorkspaceStatus.Finding))
+                    .subscribe(() => {
+                        this.send('restore-workspace');
+                    });
+
                 // When the workspace is being saved, relay the command to Electron
-                this.blocklyEditorState.workspaceXmlToSave$
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(tap(status => console.log(status)))
+                    .pipe(filter(status => status === WorkspaceStatus.Saving))
+                    .pipe(switchMap(() => this.blocklyEditorState.workspaceXml$))
                     .subscribe(workspaceXml => {
                         this.send('save-workspace', workspaceXml);
-                    })
+                    });
 
                 // TODO: Reevaluate this here effect on Windows
                 this.robotWiredState.isRobotDriverInstalling$

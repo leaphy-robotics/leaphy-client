@@ -34,4 +34,8 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
     public onSaveWorkspaceClicked() {
         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Saving);
     }
+
+    public onLoadWorkspaceClicked() {
+        this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Finding);
+    }
 }

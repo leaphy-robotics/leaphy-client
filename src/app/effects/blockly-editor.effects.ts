@@ -3,7 +3,7 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { filter } from 'rxjs/operators';
+import { filter, tap, withLatestFrom } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
@@ -35,12 +35,36 @@ export class BlocklyEditorEffects {
             })
             .subscribe(toolbox => this.blocklyEditorState.setToolboxXml(toolbox), error => console.log('Error loading toolbox', error));
 
-        // Subscribe to generated code changes when the workspace is set
+        // Create a new workspace when all prerequisites are there
+        combineLatest(this.blocklyEditorState.blocklyElement$, this.blocklyEditorState.blocklyConfig$, this.blocklyEditorState.toolboxXml$)
+            .pipe(tap(() => "Creating Blockly workspace"))
+            .pipe(filter(([element, config, toolbox]) => !!element && !!config && !!toolbox))
+            .subscribe(([element, config, toolbox]) => {
+                console.log("Building workspace");
+                config.toolbox = toolbox;
+                const workspace = Blockly.inject(element, config);
+                this.blocklyEditorState.setWorkspace(workspace);
+            });
+
+        // Subscribe to changes when the workspace is set
         this.blocklyEditorState.workspace$
             .pipe(filter(workspace => !!workspace))
             .subscribe(workspace => workspace.addChangeListener(async (event) => {
                 this.blocklyEditorState.setCode(Blockly.Arduino.workspaceToCode(workspace));
+                var xml = Blockly.Xml.workspaceToDom(workspace);
+                var data = Blockly.Xml.domToPrettyText(xml);
+                this.blocklyEditorState.setWorkspaceXml(data);
             }));
+
+        // When the WorkspaceStatus is set to loading, load in the latest workspace XML
+        this.blocklyEditorState.workspaceStatus$
+            .pipe(filter(status => status === WorkspaceStatus.Restoring))
+            .pipe(withLatestFrom(this.blocklyEditorState.workspaceXml$, this.blocklyEditorState.workspace$))
+            .subscribe(([,workspaceXml, workspace]) => {
+                const xml = Blockly.Xml.textToDom(workspaceXml);
+                Blockly.Xml.domToWorkspace(xml, workspace);
+                this.blocklyEditorState.setWorkspaceStatus(WorkspaceStatus.Clean);
+            });
 
         // Changes in ConnectionStatus result in changes in SketchStatus
         this.backEndState.connectionStatus$
@@ -77,6 +101,10 @@ export class BlocklyEditorEffects {
                         break;
                     case 'WORKSPACE_SAVED':
                         this.blocklyEditorState.setWorkspaceStatus(WorkspaceStatus.Clean);
+                        break;
+                    case 'WORKSPACE_RESTORING':
+                        this.blocklyEditorState.setWorkspaceXml(message.message);
+                        this.blocklyEditorState.setWorkspaceStatus(WorkspaceStatus.Restoring);
                         break;
                     default:
                         break;

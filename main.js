@@ -196,6 +196,20 @@ ipcMain.on('save-workspace', async (event, payload) => {
     event.sender.send('backend-message', message);
 });
 
+ipcMain.on('restore-workspace', async (event) => {
+    const response = await dialog.showOpenDialog({});
+    console.log(response);
+    if(response.canceled) {
+        const message = { event: "WORKSPACE_RESTORE_CANCELLED", message: "Workspace restore cancelled" };
+        event.sender.send('backend-message', message);
+        return;
+    } 
+    const workspaceXml = fs.readFileSync(response.filePaths[0], "utf8");
+    const message = { event: "WORKSPACE_RESTORING", message: workspaceXml };
+    event.sender.send('backend-message', message);
+});
+
+
 async function tryRunArduinoCli(params) {
     return await tryRunExecutable(arduinoCliPath, params);
 }

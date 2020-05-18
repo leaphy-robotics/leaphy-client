@@ -10,8 +10,13 @@
         </div>
     </div>
 
+    <button mat-fab id="load-button" (click)="onLoadWorkspaceClicked()"
+        [disabled]="(blocklyState.workspaceStatus$ | async) == 0 ">
+        <mat-icon>insert_drive_file</mat-icon>
+    </button>
+
     <button mat-fab id="save-button" (click)="onSaveWorkspaceClicked()"
-        [disabled]="(blocklyState.workspaceStatus$ | async) == 2 ">
+        [disabled]="(blocklyState.workspaceStatus$ | async) == 3 ">
         <mat-icon>save</mat-icon>
     </button>
 
