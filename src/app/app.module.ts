@@ -26,7 +26,9 @@ import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog
 import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
 import { RobotWiredEffects } from './effects/robot.wired.effects';
 import { AppEffects } from './effects/app.effects';
-
+import { HeaderComponent } from './components/header/header.component';
+import { MatIconModule } from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -35,7 +37,8 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     ConnectWiredDialog,
-    ConnectCloudDialog
+    ConnectCloudDialog,
+    HeaderComponent
 
   ],
   imports: [
@@ -46,7 +49,9 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     MatToolbarModule,
     MatDialogModule,
-    MatInputModule,
+    MatInputModule,    
+    MatIconModule,
+    MatMenuModule,
     MatButtonModule,
     MatSelectModule,
     MatProgressSpinnerModule,

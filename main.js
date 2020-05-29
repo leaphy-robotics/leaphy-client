@@ -182,7 +182,7 @@ ipcMain.on('get-serial-devices', async (event) => {
     event.sender.send('backend-message', message);
 });
 
-ipcMain.on('save-workspace', async (event, payload) => {
+ipcMain.on('save-workspace-as', async (event, payload) => {
     const response = await dialog.showSaveDialog({});
     console.log(response);
     if(response.canceled) {

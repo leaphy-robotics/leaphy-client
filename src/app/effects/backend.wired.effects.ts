@@ -124,10 +124,10 @@ export class BackendWiredEffects {
                 // When the workspace is being saved, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(tap(status => console.log(status)))
-                    .pipe(filter(status => status === WorkspaceStatus.Saving))
+                    .pipe(filter(status => status === WorkspaceStatus.SavingAs))
                     .pipe(switchMap(() => this.blocklyEditorState.workspaceXml$))
                     .subscribe(workspaceXml => {
-                        this.send('save-workspace', workspaceXml);
+                        this.send('save-workspace-as', workspaceXml);
                     });
 
                 // TODO: Reevaluate this here effect on Windows

@@ -1,0 +1,46 @@
+#logo {
+    height: 30px;
+    margin-right: 10px;
+}
+#title {
+    font-size: 2.4rem;
+}
+#robot-selector {
+    width: 170px;
+}
+.spacer {
+    flex: 1 1 auto;
+}
+#spinner {
+    margin-right: 10px;
+}
+#connect-button {
+}
+#spinner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 50px;
+    padding-right: 10px;
+}
+.mat-Color0 {
+    background-color: darkgrey;
+    color: #fff;
+}
+.mat-Color1 {
+    background-color: yellow;
+    color: black;
+}
+.mat-Color2 {
+    background-color: blue($color: #000000);
+    color: #fff;
+}
+.mat-Color3 {
+    background-color: orange;
+    color:black;
+}
+.mat-Color4 {
+    background-color: lightgreen;
+    color: #fff;
+}
