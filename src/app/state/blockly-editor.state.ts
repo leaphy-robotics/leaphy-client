@@ -1,10 +1,8 @@
 import { Injectable, ElementRef } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { SketchStatus } from '../domain/sketch.status';
-import { scan } from 'rxjs/operators';
+import { scan, map, filter } from 'rxjs/operators';
 import { WorkspaceStatus } from '../domain/workspace.status';
-
-declare var Blockly: any;
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +66,16 @@ void loop()
   private workspaceXmlSubject$ = new BehaviorSubject(null);
   public workspaceXml$ = this.workspaceXmlSubject$.asObservable();
 
+  private projectFilePathSubject$ = new BehaviorSubject<string>(null);
+  public projectFilePath$ = this.projectFilePathSubject$.asObservable();
+
+  public projectName$ = this.projectFilePath$
+    .pipe(filter(filePath => !!filePath))
+    .pipe(map(filePath => {
+      const fileName = filePath.replace(/^.*[\\\/]/, '');
+      return fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+    }));
+
   public setCode(code: string): void {
     this.codeSubject$.next(code);
   }
@@ -102,5 +110,9 @@ void loop()
 
   public setWorkspaceXml(workspaceXml: any) {
     this.workspaceXmlSubject$.next(workspaceXml);
+  }
+
+  public setProjectFilePath(path: string) {
+    this.projectFilePathSubject$.next(path);
   }
 }

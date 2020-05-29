@@ -60,7 +60,8 @@ export class BlocklyEditorEffects {
         this.blocklyEditorState.workspaceStatus$
             .pipe(filter(status => status === WorkspaceStatus.Restoring))
             .pipe(withLatestFrom(this.blocklyEditorState.workspaceXml$, this.blocklyEditorState.workspace$))
-            .subscribe(([,workspaceXml, workspace]) => {
+            .subscribe(([, workspaceXml, workspace]) => {
+                workspace.clear();
                 const xml = Blockly.Xml.textToDom(workspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
                 this.blocklyEditorState.setWorkspaceStatus(WorkspaceStatus.Clean);
@@ -99,11 +100,16 @@ export class BlocklyEditorEffects {
                         this.blocklyEditorState.setSketchStatus(SketchStatus.ReadyToSend);
                         this.blocklyEditorState.setSketchStatusMessage(null);
                         break;
+                    case 'WORKSPACE_SAVE_CANCELLED':
+                        this.blocklyEditorState.setWorkspaceStatus(WorkspaceStatus.Clean);
+                        break;
                     case 'WORKSPACE_SAVED':
+                        this.blocklyEditorState.setProjectFilePath(message.message);
                         this.blocklyEditorState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;
                     case 'WORKSPACE_RESTORING':
-                        this.blocklyEditorState.setWorkspaceXml(message.message);
+                        this.blocklyEditorState.setWorkspaceXml(message.message.workspaceXml as string);
+                        this.blocklyEditorState.setProjectFilePath(message.message.projectFilePath);
                         this.blocklyEditorState.setWorkspaceStatus(WorkspaceStatus.Restoring);
                         break;
                     default:

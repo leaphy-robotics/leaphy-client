@@ -41,7 +41,6 @@ export class RobotCloudEffects {
             .pipe(filter(dialogRef => !!dialogRef))
             .pipe(switchMap(dialogRef => dialogRef.afterClosed()))
             .subscribe(result => {
-                console.log(result);
                 this.robotCloudState.setPairingCode(result);
             });
 

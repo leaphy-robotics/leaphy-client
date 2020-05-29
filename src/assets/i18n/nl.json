@@ -14,5 +14,8 @@
     "CANCEL": "Annuleer",
     "REFRESH": "Ververs",
     "OK": "Ok",
-    "DONE": "Klaar"
+    "DONE": "Klaar",
+    "OPEN": "Open",
+    "SAVE": "Opslaan",
+    "SAVEAS": "Opslaan als ..."
 }

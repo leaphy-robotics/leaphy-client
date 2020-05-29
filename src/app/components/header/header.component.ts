@@ -34,10 +34,10 @@ export class HeaderComponent {
   }
 
   public onSaveWorkspaceClicked() {
-    //this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Saving);
+    this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Saving);
   }
 
-  public onSaveAsWorkspaceClicked() {
+  public onSaveWorkspaceAsClicked() {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingAs);
   }
 }

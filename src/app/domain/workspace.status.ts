@@ -3,5 +3,6 @@ export enum WorkspaceStatus {
     Restoring = 4,
     Clean = 1,
     Dirty = 2,
-    SavingAs = 3
+    SavingAs = 3,
+    Saving = 5
 }

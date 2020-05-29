@@ -117,17 +117,28 @@ export class BackendWiredEffects {
                 // When a workspace is being loaded, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.Finding))
-                    .subscribe(() => {
-                        this.send('restore-workspace');
+                    .pipe(withLatestFrom(this.appState.selectedRobotType$))
+                    .subscribe(([,robotType]) => {
+                        this.send('restore-workspace', robotType);
                     });
 
                 // When the workspace is being saved, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
-                    .pipe(tap(status => console.log(status)))
+                    .pipe(filter(status => status === WorkspaceStatus.Saving))
+                    .pipe(withLatestFrom(this.blocklyEditorState.projectFilePath$, this.blocklyEditorState.workspaceXml$))
+                    .pipe(filter(([, projectFilePath, ]) => !!projectFilePath))
+                    .subscribe(([, projectFilePath, workspaceXml]) => {
+                        const payload = { projectFilePath, workspaceXml };
+                        this.send('save-workspace', payload);
+                    });
+
+                // When the workspace is being saved, relay the command to Electron
+                this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.SavingAs))
-                    .pipe(switchMap(() => this.blocklyEditorState.workspaceXml$))
-                    .subscribe(workspaceXml => {
-                        this.send('save-workspace-as', workspaceXml);
+                    .pipe(withLatestFrom(this.blocklyEditorState.projectFilePath$, this.blocklyEditorState.workspaceXml$, this.appState.selectedRobotType$))
+                    .subscribe(([, projectFilePath, workspaceXml, robotType]) => {
+                        const payload = { projectFilePath, workspaceXml, robotType };
+                        this.send('save-workspace-as', payload);
                     });
 
                 // TODO: Reevaluate this here effect on Windows

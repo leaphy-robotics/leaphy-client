@@ -182,30 +182,50 @@ ipcMain.on('get-serial-devices', async (event) => {
     event.sender.send('backend-message', message);
 });
 
-ipcMain.on('save-workspace-as', async (event, payload) => {
-    const response = await dialog.showSaveDialog({});
-    console.log(response);
-    if(response.canceled) {
-        // TODO: Do something more appropriate here
-        const message = { event: "WORKSPACE_SAVED", message: "Saved the workspace" };
-        event.sender.send('backend-message', message);
-        return;
-    } 
-    fs.writeFileSync(response.filePath, payload);
-    const message = { event: "WORKSPACE_SAVED", message: "Saved the workspace" };
+ipcMain.on('save-workspace', async (event, payload) => {
+    console.log("Saving workingspace as current project");
+    fs.writeFileSync(payload.projectFilePath, payload.workspaceXml);
+    const message = { event: "WORKSPACE_SAVED", message: payload.projectFilePath };
     event.sender.send('backend-message', message);
 });
 
-ipcMain.on('restore-workspace', async (event) => {
-    const response = await dialog.showOpenDialog({});
-    console.log(response);
-    if(response.canceled) {
+ipcMain.on('save-workspace-as', async (event, payload) => {
+    console.log("Saving workingspace as new project");
+    const saveAsOptions = {
+        filters: [
+            { name: `${payload.robotType.id} files`, extensions: [payload.robotType.id] }
+        ]
+    }
+    if (payload.projectFilePath) {
+        saveAsOptions.defaultPath = payload.projectFilePath;
+    }
+    const response = await dialog.showSaveDialog(saveAsOptions);
+    if (response.canceled) {
+        const message = { event: "WORKSPACE_SAVE_CANCELLED", message: "Workspace not saved" };
+        event.sender.send('backend-message', message);
+        return;
+    }
+    fs.writeFileSync(response.filePath, payload.workspaceXml);
+    const message = { event: "WORKSPACE_SAVED", message: response.filePath };
+    event.sender.send('backend-message', message);
+});
+
+ipcMain.on('restore-workspace', async (event, robotType) => {
+    console.log("Loading workspace");
+    const openDialogOptions = {
+        filters: [
+            { name: `${robotType.id} files`, extensions: [robotType.id] }
+        ]
+    }
+    const response = await dialog.showOpenDialog(openDialogOptions);
+    if (response.canceled) {
         const message = { event: "WORKSPACE_RESTORE_CANCELLED", message: "Workspace restore cancelled" };
         event.sender.send('backend-message', message);
         return;
-    } 
+    }
     const workspaceXml = fs.readFileSync(response.filePaths[0], "utf8");
-    const message = { event: "WORKSPACE_RESTORING", message: workspaceXml };
+    const payload = { projectFilePath: response.filePaths[0], workspaceXml };
+    const message = { event: "WORKSPACE_RESTORING", message: payload };
     event.sender.send('backend-message', message);
 });
 

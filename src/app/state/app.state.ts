@@ -8,9 +8,9 @@ import { Language } from '../domain/language';
     providedIn: 'root'
 })
 export class AppState {
-    private leaphyOriginalRobotType = new RobotType('Leaphy Original', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Original Extension']);
-    private leaphyFlitzRobotType = new RobotType('Leaphy Flitz', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Flitz Extension']);
-    private leaphyWiFiRobotType = new RobotType('Leaphy WiFi', 'NodeMCU', 'esp8266:esp8266:nodemcuv2', 'bin', 'esp8266:esp8266', ['Leaphy WiFi Extension'], false);
+    private leaphyOriginalRobotType = new RobotType('l_original', 'Leaphy Original', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Original Extension']);
+    private leaphyFlitzRobotType = new RobotType('l_flitz', 'Leaphy Flitz', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Flitz Extension']);
+    private leaphyWiFiRobotType = new RobotType('l_wifi', 'Leaphy WiFi', 'NodeMCU', 'esp8266:esp8266:nodemcuv2', 'bin', 'esp8266:esp8266', ['Leaphy WiFi Extension'], false);
 
     constructor() {
         if (window.require) {

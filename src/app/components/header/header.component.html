@@ -29,16 +29,17 @@
     <img src="./assets/leaphy-logo-white.png" id="logo">
 </mat-toolbar>
 <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="onLoadWorkspaceClicked()">
+    <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onLoadWorkspaceClicked()">
       <mat-icon>folder</mat-icon>
-      <span>Open</span>
+      <span>{{ 'OPEN' | translate }}</span>
     </button>
-    <button mat-menu-item (click)="onSaveWorkspaceClicked()">
+    <span mat-menu-item disabled *ngIf="blocklyState.projectName$ | async as projectName">{{projectName}}</span>
+    <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async) || !(blocklyState.projectFilePath$ | async)" (click)="onSaveWorkspaceClicked()">
       <mat-icon>save</mat-icon>
-      <span>Save</span>
+      <span>{{ 'SAVE' | translate }}</span>
     </button>
-    <button mat-menu-item (click)="onSaveWorkspaceAsClicked()">
+    <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onSaveWorkspaceAsClicked()">
       <mat-icon>save</mat-icon>
-      <span>Save as...</span>
+      <span>{{ 'SAVEAS' | translate }}</span>
     </button>
   </mat-menu>
