@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{"CONNECT.WIRED.DIALOGTITLE" | async }}</h1>
+<h1 mat-dialog-title>{{"CONNECT.WIRED.DIALOGTITLE" | translate }}</h1>
 <div mat-dialog-content>
   <button mat-button (click)="onDetectRobotsClick()">{{"REFRESH"|translate}}</button>
   <mat-select id="device-selector" placeholder="{{'CONNECT.WIRED.SELECTDEVICE'|translate}}" (selectionChange)="onDeviceSelectionChange($event)" [value]="robotWiredState.selectedSerialDevice$ | async">
