@@ -1,3 +1,18 @@
+#message-container {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#blockly-container {
+    width: 100%;
+    height: 100%;
+}
+
 #upload-button {
     position: absolute;
     top: 10px;
@@ -28,4 +43,8 @@
 
 .button-icon-text {
     font-size: x-large;
+}
+
+#no-robot-selected {
+
 }

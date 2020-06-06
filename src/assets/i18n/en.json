@@ -17,5 +17,6 @@
     "DONE": "Done",
     "OPEN": "Open",
     "SAVE": "Save",
-    "SAVEAS": "Save as ..."
+    "SAVEAS": "Save as ...",
+    "NOROBOTMESSAGE": "To start, please select a robot"
 }

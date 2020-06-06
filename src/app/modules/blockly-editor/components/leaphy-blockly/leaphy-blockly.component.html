@@ -1,5 +1,4 @@
-<div #blockContent id="blocklyDiv" style="width: 100%; height: 100%">
-
+<div #blockContent id="blockly-container">
     <div id="messages-window" *ngIf="(blocklyState.sketchStatus$ | async) > 1">
         <div id="message-content" *ngIf="blocklyState.sketchStatusMessage$ | async as message">
             {{message}}
@@ -14,4 +13,7 @@
         [disabled]="(blocklyState.sketchStatus$ | async) > 0 ">
         <mat-icon>cloud_upload</mat-icon>
     </button>
+</div>
+<div *ngIf="!(blocklyState.toolboxXml$ | async)" id="message-container">
+    <div>{{ "NOROBOTMESSAGE" | translate }}</div>
 </div>

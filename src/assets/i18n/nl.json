@@ -17,5 +17,6 @@
     "DONE": "Klaar",
     "OPEN": "Open",
     "SAVE": "Opslaan",
-    "SAVEAS": "Opslaan als ..."
+    "SAVEAS": "Opslaan als ...",
+    "NOROBOTMESSAGE": "Om te beginnen, selecteer een robot"
 }

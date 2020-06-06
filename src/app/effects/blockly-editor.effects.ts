@@ -3,10 +3,11 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { filter, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, withLatestFrom } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
+import { AppState } from '../state/app.state';
 
 declare var Blockly: any;
 
@@ -20,28 +21,36 @@ export class BlocklyEditorEffects {
     constructor(
         private blocklyEditorState: BlocklyEditorState,
         private backEndState: BackEndState,
+        private appState: AppState,
         private http: HttpClient
     ) {
-        // Load the toolbox when the effect is loaded
-        this.http
-            .get('./assets/leaphy-toolbox.xml', {
-                headers: new HttpHeaders()
-                    .set('Content-Type', 'text/xml')
-                    .append('Access-Control-Allow-Methods', 'GET')
-                    .append('Access-Control-Allow-Origin', '*')
-                    .append('Access-Control-Allow-Headers',
-                        'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'),
-                responseType: 'text'
-            })
-            .subscribe(toolbox => this.blocklyEditorState.setToolboxXml(toolbox), error => console.log('Error loading toolbox', error));
+        // Set the toolbox when the robot selection changes
+        this.appState.selectedRobotType$
+            .pipe(filter(robotType => !!robotType))
+            .pipe(withLatestFrom(this.getXmlContent('./assets/base-toolbox.xml'), this.getXmlContent('./assets/leaphy-toolbox.xml')))
+            .subscribe(([robotType, baseToolboxXml, leaphyToolboxXml]) => {
+                const parser = new DOMParser();
+                const toolboxXmlDoc = parser.parseFromString(baseToolboxXml, 'text/xml');
+                const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
+                const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
+                const leaphyCategory = leaphyCategories.getElementById(robotType.id);
+                toolboxElement.appendChild(leaphyCategory);
+                const serializer = new XMLSerializer();
+                const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
+                this.blocklyEditorState.setToolboxXml(toolboxXmlString);
+            });
+
+        // Update the toolbox once it is complete
+        this.blocklyEditorState.toolboxXml$
+            .pipe(withLatestFrom(this.blocklyEditorState.workspace$))
+            .pipe(filter(([toolbox, workspace]) => !!toolbox && !!workspace))
+            .subscribe(([toolbox, workspace]) => workspace.updateToolbox(toolbox))
 
         // Create a new workspace when all prerequisites are there
-        combineLatest(this.blocklyEditorState.blocklyElement$, this.blocklyEditorState.blocklyConfig$, this.blocklyEditorState.toolboxXml$)
-            .pipe(tap(() => "Creating Blockly workspace"))
-            .pipe(filter(([element, config, toolbox]) => !!element && !!config && !!toolbox))
-            .subscribe(([element, config, toolbox]) => {
-                console.log("Building workspace");
-                config.toolbox = toolbox;
+        combineLatest(this.blocklyEditorState.blocklyElement$, this.blocklyEditorState.blocklyConfig$)
+            .pipe(filter(([element, config]) => !!element && !!config))
+            .subscribe(([element, config]) => {
+                config.toolbox = '<xml><category></category></xml>'; // Dummy toolbox to allow update later
                 const workspace = Blockly.inject(element, config);
                 this.blocklyEditorState.setWorkspace(workspace);
             });
@@ -116,5 +125,18 @@ export class BlocklyEditorEffects {
                         break;
                 }
             });
+    }
+
+    private getXmlContent(path: string): Observable<string> {
+        return this.http
+            .get(path, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'text/xml')
+                    .append('Access-Control-Allow-Methods', 'GET')
+                    .append('Access-Control-Allow-Origin', '*')
+                    .append('Access-Control-Allow-Headers',
+                        'Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method'),
+                responseType: 'text'
+            })
     }
 }

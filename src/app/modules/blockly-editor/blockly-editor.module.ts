@@ -13,6 +13,7 @@ import { BlocklyEditorPageRoutingModule } from './blockly-editor-routing.module'
 import { BlocklyEditorPage } from './blockly-editor.page';
 import { LeaphyBlocklyComponent } from './components/leaphy-blockly/leaphy-blockly.component';
 import { CodeViewComponent } from './components/code-view/code-view.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { CodeViewComponent } from './components/code-view/code-view.component';
     MatIconModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    TranslateModule
   ],
   entryComponents: []
 })
