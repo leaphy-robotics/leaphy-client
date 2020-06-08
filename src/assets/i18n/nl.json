@@ -21,5 +21,6 @@
     "NOROBOTMESSAGE": "Om te beginnen, selecteer een robot",
     "SHOWLEAPHYEXTRA": "Toon Leaphy Extra tools",
     "NODEVICEFOUND": "Geen apparaten gevonden. Verbindt een robot en klik \"Ververs\".",
-    "SELECTDEVICE": "Selecteer het Leaphy robot apparaat en klik \"Klaar\"."
+    "SELECTDEVICE": "Selecteer het Leaphy robot apparaat en klik \"Klaar\".",
+    "INSTALLUSBDRIVER": "Installeer USB Driver"
 }

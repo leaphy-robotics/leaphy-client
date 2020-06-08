@@ -8,9 +8,11 @@ import { Language } from '../domain/language';
     providedIn: 'root'
 })
 export class AppState {
+    // tslint:disable: max-line-length
     private leaphyOriginalRobotType = new RobotType('l_original', 'Leaphy Original', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Original Extension']);
     private leaphyFlitzRobotType = new RobotType('l_flitz', 'Leaphy Flitz', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Flitz Extension']);
     private leaphyWiFiRobotType = new RobotType('l_wifi', 'Leaphy WiFi', 'NodeMCU', 'esp8266:esp8266:nodemcuv2', 'bin', 'esp8266:esp8266', ['Leaphy WiFi Extension'], false);
+    // tslint:enable: max-line-length
 
     constructor() {
         if (window.require) {

@@ -26,8 +26,8 @@ export class DialogEffects {
         // Open the connect dialog if closed when starting to detect devices
         this.backEndState.connectionStatus$
             .pipe(withLatestFrom(this.dialogState.isConnectDialogVisible$))
-            .pipe(filter(([,isDialogVisible]) => !isDialogVisible))
-            .subscribe(([connectionStatus,]) => {
+            .pipe(filter(([, isDialogVisible]) => !isDialogVisible))
+            .subscribe(([connectionStatus, ]) => {
                 switch (connectionStatus) {
                     case ConnectionStatus.DetectingDevices:
                         this.dialogState.toggleIsConnectDialogVisible();
@@ -40,6 +40,7 @@ export class DialogEffects {
             .pipe(filter(([isVisible, dialogRef]) => !isVisible && !!dialogRef))
             .subscribe(([, dialogRef]) => dialogRef.close());
 
+        // Open the dialog with the proper configuration and data
         this.dialogState.isConnectDialogVisible$
             .pipe(filter(isVisible => !!isVisible))
             .pipe(withLatestFrom(this.appState.isRobotWired$, this.robotCloudState.pairingCode$))
@@ -54,6 +55,7 @@ export class DialogEffects {
                 }
                 const dialogRef = this.dialog.open(component, {
                     width: '450px',
+                    disableClose: true,
                     data
                 });
                 this.dialogState.setConnectDialog(dialogRef);

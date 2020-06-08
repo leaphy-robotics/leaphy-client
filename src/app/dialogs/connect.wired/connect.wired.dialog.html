@@ -17,6 +17,7 @@
     <span id="no-device-message" *ngIf="connectionStatus != 3">{{"SELECTDEVICE"|translate}}</span>
   </div>
   <div mat-dialog-actions>
-    <button mat-button (click)="onDoneClick()" [disabled]="connectionStatus == 5">{{"DONE"|translate}}</button>
+    <button mat-button cdkFocusInitial (click)="onDoneClick()" [disabled]="connectionStatus == 5">{{"DONE"|translate}}</button>
+    <button mat-button (click)="onInstallUsbDriverClick()" *ngIf="true" [disabled]="connectionStatus == 5">{{"INSTALLUSBDRIVER"|translate}}</button>
   </div>
 </ng-container>

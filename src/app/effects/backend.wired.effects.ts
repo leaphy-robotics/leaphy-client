@@ -119,7 +119,7 @@ export class BackendWiredEffects {
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.Finding))
                     .pipe(withLatestFrom(this.appState.selectedRobotType$))
-                    .subscribe(([,robotType]) => {
+                    .subscribe(([, robotType]) => {
                         this.send('restore-workspace', robotType);
                     });
 
@@ -127,7 +127,7 @@ export class BackendWiredEffects {
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.Saving))
                     .pipe(withLatestFrom(this.blocklyEditorState.projectFilePath$, this.blocklyEditorState.workspaceXml$))
-                    .pipe(filter(([, projectFilePath, ]) => !!projectFilePath))
+                    .pipe(filter(([, projectFilePath,]) => !!projectFilePath))
                     .subscribe(([, projectFilePath, workspaceXml]) => {
                         const payload = { projectFilePath, workspaceXml };
                         this.send('save-workspace', payload);
@@ -136,18 +136,22 @@ export class BackendWiredEffects {
                 // When the workspace is being saved, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.SavingAs))
-                    .pipe(withLatestFrom(this.blocklyEditorState.projectFilePath$, this.blocklyEditorState.workspaceXml$, this.appState.selectedRobotType$))
+                    .pipe(withLatestFrom(
+                        this.blocklyEditorState.projectFilePath$,
+                        this.blocklyEditorState.workspaceXml$,
+                        this.appState.selectedRobotType$
+                    ))
                     .subscribe(([, projectFilePath, workspaceXml, robotType]) => {
                         const payload = { projectFilePath, workspaceXml, robotType };
                         this.send('save-workspace-as', payload);
                     });
 
-                // TODO: Reevaluate this here effect on Windows
+                // When the Install USB driver is being installed, relay the command to Electron
                 this.robotWiredState.isRobotDriverInstalling$
                     .pipe(filter(isInstalling => !!isInstalling))
                     .pipe(withLatestFrom(this.appState.selectedRobotType$))
                     .subscribe(([, robotType]) => {
-                        this.send('install-board', robotType);
+                        this.send('install-usb-driver', robotType);
                     });
             });
     }

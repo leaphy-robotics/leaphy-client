@@ -1,4 +1,3 @@
-//if (require('electron-squirrel-startup')) return;
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require("path");
 
@@ -10,7 +9,7 @@ const url = require("url");
 const fs = require('fs');
 const os = require("os");
 const util = require('util');
-const runExecutable = util.promisify(require('child_process').execFile);
+const runExecutableAsync = util.promisify(require('child_process').execFile);
 
 let mainWindow;
 
@@ -64,9 +63,7 @@ let ch341DriverInstallerPath;
 setupExecutables();
 
 async function installCore(core) {
-    const updateIndexParams = ["core", "update-index"];
     const installCoreParams = ["core", "install", core];
-    console.log(await tryRunArduinoCli(updateIndexParams));
     console.log(await tryRunArduinoCli(installCoreParams));
 }
 
@@ -92,7 +89,7 @@ async function verifyInstalledCoreAsync(event, name, core) {
     const isRequiredCoreInstalled = installedCores.map(v => v.ID).includes(core);
     if (isRequiredCoreInstalled) {
         console.log("Required core already installed");
-        return
+        return;
     };
     const installingCoreMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Installing Arduino Core for ${name}` };
     event.sender.send('backend-message', installingCoreMessage);
@@ -111,18 +108,20 @@ async function verifyInstalledLibsAsync(event, name, libs) {
     const installingLibsMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Installing Leaphy Libraries for ${name}` };
     event.sender.send('backend-message', installingLibsMessage);
 
-    const updateIndexParams = ["lib", "update-index"];
-    console.log(await tryRunArduinoCli(updateIndexParams));
-
     missingLibs.forEach(async missingLib => {
         await installLib(missingLib);
     });
 }
 
 ipcMain.on('verify-installation', async (event, payload) => {
+
+    const updateCoreIndexParams = ["core", "update-index"];
+    console.log(await tryRunArduinoCli(updateCoreIndexParams));
+    const updateLibIndexParams = ["lib", "update-index"];
+    console.log(await tryRunArduinoCli(updateLibIndexParams));
+
     await verifyInstalledCoreAsync(event, payload.name, payload.core);
     await verifyInstalledLibsAsync(event, payload.name, payload.libs);
-    // TODO check installation of windows usb drivers
 
     const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "All prerequisites for this robot have been installed" };
     event.sender.send('backend-message', installationVerifiedMessage);
@@ -152,13 +151,14 @@ ipcMain.on('compile', async (event, payload) => {
 });
 
 
-ipcMain.on('install-board', async (event, payload) => {
-
-    await installCore(payload.core);
+ipcMain.on('install-usb-driver', async (event, payload) => {
+    // Only do this for windows
+    const platform = os.platform;
+    if (platform != "win32") return;
 
     switch (payload.fqbn) {
         case 'arduino:avr:uno':
-            console.log(await tryRunExecutable(ch341DriverInstallerPath, []));
+            console.log(await tryRunExecutableAsync(ch341DriverInstallerPath, []));
             break;
         default:
             break;
@@ -231,12 +231,12 @@ ipcMain.on('restore-workspace', async (event, robotType) => {
 
 
 async function tryRunArduinoCli(params) {
-    return await tryRunExecutable(arduinoCliPath, params);
+    return await tryRunExecutableAsync(arduinoCliPath, params);
 }
 
-async function tryRunExecutable(path, params) {
+async function tryRunExecutableAsync(path, params) {
     try {
-        const { stdout, stderr } = await runExecutable(path, params);
+        const { stdout, stderr } = await runExecutableAsync(path, params);
         if (stderr) {
             console.log('stderr:', stderr);
         }

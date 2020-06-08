@@ -46,6 +46,7 @@ export class RobotWiredEffects {
                 this.robotWiredState.setSelectedSerialDevice(null);
             });
 
+        // Set the IsRobotInstalling flag right back to false
         this.robotWiredState.isRobotDriverInstalling$
             .pipe(filter(isInstalling => !!isInstalling))
             .subscribe(() => {

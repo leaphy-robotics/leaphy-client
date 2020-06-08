@@ -11,19 +11,29 @@ import { DialogState } from 'src/app/state/dialog.state';
   templateUrl: './connect.wired.dialog.html',
   styleUrls: ['./connect.wired.dialog.scss']
 })
+// tslint:disable-next-line: component-class-suffix
 export class ConnectWiredDialog {
-  constructor(public dialogRef: MatDialogRef<ConnectWiredDialog>, public robotWiredState: RobotWiredState, private backEndState: BackEndState, private dialogState: DialogState) { }
+  constructor(
+    public dialogRef: MatDialogRef<ConnectWiredDialog>,
+    public robotWiredState: RobotWiredState,
+    private backEndState: BackEndState,
+    private dialogState: DialogState
+  ) { }
 
-  onDeviceSelectionChange(event: MatSelectChange){
+  public onDeviceSelectionChange(event: MatSelectChange) {
     this.robotWiredState.setSelectedSerialDevice(event.value);
     this.dialogState.toggleIsConnectDialogVisible();
   }
 
-  onDoneClick(): void {
+  public onDoneClick(): void {
     this.dialogState.toggleIsConnectDialogVisible();
   }
 
   public onDetectRobotsClick() {
     this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
+  }
+
+  public onInstallUsbDriverClick() {
+    this.robotWiredState.setIsRobotDriverInstalling(true);
   }
 }
