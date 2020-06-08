@@ -19,5 +19,7 @@
     "SAVE": "Opslaan",
     "SAVEAS": "Opslaan als ...",
     "NOROBOTMESSAGE": "Om te beginnen, selecteer een robot",
-    "SHOWLEAPHYEXTRA": "Toon Leaphy Extra tools"
+    "SHOWLEAPHYEXTRA": "Toon Leaphy Extra tools",
+    "NODEVICEFOUND": "Geen apparaten gevonden. Verbindt een robot en klik \"Ververs\".",
+    "SELECTDEVICE": "Selecteer het Leaphy robot apparaat en klik \"Klaar\"."
 }

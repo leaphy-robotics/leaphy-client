@@ -1,9 +1,13 @@
-#container {
+.container {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 #device-selector {
     width: 300px;
     border: 1px solid black;
     margin-left: 10px;
+}
+#no-device-message {
+    font-size: small;
 }

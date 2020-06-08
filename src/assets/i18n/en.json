@@ -19,5 +19,7 @@
     "SAVE": "Save",
     "SAVEAS": "Save as ...",
     "NOROBOTMESSAGE": "To start, please select a robot",
-    "SHOWLEAPHYEXTRA": "Show Leaphy Extra tools"
+    "SHOWLEAPHYEXTRA": "Show Leaphy Extra tools",
+    "NODEVICEFOUND": "No devices found. Connect a robot and click \"Refresh\".",
+    "SELECTDEVICE": "Select the Leaphy robot device and click \"Done\"."
 }
