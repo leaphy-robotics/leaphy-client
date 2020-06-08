@@ -76,6 +76,11 @@ void loop()
       return fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
     }));
 
+  private showLeaphyExtraSubject$ = new BehaviorSubject(false);
+  public showLeaphyExtra$ = this.showLeaphyExtraSubject$.asObservable()
+    .pipe(scan((current) => !current));
+
+
   public setCode(code: string): void {
     this.codeSubject$.next(code);
   }
@@ -114,5 +119,9 @@ void loop()
 
   public setProjectFilePath(path: string) {
     this.projectFilePathSubject$.next(path);
+  }
+
+  public toggleShowLeaphyExtra() {
+    this.showLeaphyExtraSubject$.next(true);
   }
 }

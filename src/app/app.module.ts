@@ -1,21 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSelectModule} from '@angular/material/select';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { BackendWiredEffects } from './effects/backend.wired.effects';
 import { BackEndCloudEffects } from './effects/backend.cloud.effects';
@@ -28,7 +28,9 @@ import { RobotWiredEffects } from './effects/robot.wired.effects';
 import { AppEffects } from './effects/app.effects';
 import { HeaderComponent } from './components/header/header.component';
 import { MatIconModule } from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -49,11 +51,12 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     MatToolbarModule,
     MatDialogModule,
-    MatInputModule,    
+    MatInputModule,
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatProgressSpinnerModule,
     HttpClientModule,
     TranslateModule.forRoot({
@@ -66,16 +69,18 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     // Initialize the Effects on startup
-    {provide: APP_INITIALIZER, deps:
-      [
-        AppEffects,
-        BackendWiredEffects,
-        BackEndCloudEffects,
-        BlocklyEditorEffects,
-        DialogEffects,
-        RobotCloudEffects,
-        RobotWiredEffects
-      ], useFactory: () => () => null, multi: true}
+    {
+      provide: APP_INITIALIZER, deps:
+        [
+          AppEffects,
+          BackendWiredEffects,
+          BackEndCloudEffects,
+          BlocklyEditorEffects,
+          DialogEffects,
+          RobotCloudEffects,
+          RobotWiredEffects
+        ], useFactory: () => () => null, multi: true
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [ConnectWiredDialog, ConnectCloudDialog]

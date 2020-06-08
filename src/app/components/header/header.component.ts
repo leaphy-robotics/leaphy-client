@@ -40,4 +40,8 @@ export class HeaderComponent {
   public onSaveWorkspaceAsClicked() {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingAs);
   }
+
+  public onShowLeaphyExtraToggled() {
+    this.blocklyState.toggleShowLeaphyExtra();
+  }
 }

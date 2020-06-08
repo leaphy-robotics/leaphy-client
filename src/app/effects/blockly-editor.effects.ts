@@ -33,14 +33,34 @@ export class BlocklyEditorEffects {
                 const toolboxXmlDoc = parser.parseFromString(baseToolboxXml, 'text/xml');
                 const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
                 const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
-                const leaphyCategory = leaphyCategories.getElementById(robotType.id);
-                toolboxElement.appendChild(leaphyCategory);
+                const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
+                toolboxElement.appendChild(leaphyRobotCategory);
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 this.blocklyEditorState.setToolboxXml(toolboxXmlString);
             });
 
-        // Update the toolbox once it is complete
+        // Add or remove the Leaphy Extra category when toggled
+        this.blocklyEditorState.showLeaphyExtra$
+            .pipe(withLatestFrom(this.blocklyEditorState.toolboxXml$, this.getXmlContent('./assets/leaphy-toolbox.xml')))
+            .subscribe(([showLeaphyExtra, toolboxXml, leaphyToolboxXml]) => {
+                const parser = new DOMParser();
+                const toolboxXmlDoc = parser.parseFromString(toolboxXml, 'text/xml');
+                if (showLeaphyExtra) {
+                    const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
+                    const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
+                    const leaphyExtraCategory = leaphyCategories.getElementById('l_extra');
+                    toolboxElement.appendChild(leaphyExtraCategory);
+                } else {
+                    const leaphyExtraCategory = toolboxXmlDoc.getElementById('l_extra');
+                    leaphyExtraCategory.remove();
+                }
+                const serializer = new XMLSerializer();
+                const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
+                this.blocklyEditorState.setToolboxXml(toolboxXmlString);
+            });
+
+        // Update the toolbox when it changes
         this.blocklyEditorState.toolboxXml$
             .pipe(withLatestFrom(this.blocklyEditorState.workspace$))
             .pipe(filter(([toolbox, workspace]) => !!toolbox && !!workspace))

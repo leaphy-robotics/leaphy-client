@@ -18,5 +18,6 @@
     "OPEN": "Open",
     "SAVE": "Save",
     "SAVEAS": "Save as ...",
-    "NOROBOTMESSAGE": "To start, please select a robot"
+    "NOROBOTMESSAGE": "To start, please select a robot",
+    "SHOWLEAPHYEXTRA": "Show Leaphy Extra tools"
 }
