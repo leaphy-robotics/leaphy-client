@@ -53,6 +53,7 @@ export class BackendWiredEffects {
                 this.appState.selectedRobotType$
                     .pipe(filter(robotType => !!robotType && !!robotType.isWired))
                     .subscribe(robotType => {
+                        this.backEndState.setconnectionStatus(ConnectionStatus.VerifyingPrerequisites);
                         this.send('verify-installation', robotType);
                     });
 

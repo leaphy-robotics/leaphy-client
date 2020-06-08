@@ -1,19 +1,4 @@
-<div #blockContent id="blockly-container">
-    <div id="messages-window" *ngIf="(blocklyState.sketchStatus$ | async) > 1">
-        <div id="message-content" *ngIf="blocklyState.sketchStatusMessage$ | async as message">
-            {{message}}
-        </div>
-        <div id="spinner">
-            <mat-progress-spinner mode="indeterminate" diameter="30">
-            </mat-progress-spinner>
-        </div>
-    </div>
-
-    <button mat-fab id="upload-button" (click)="onUploadClicked()"
-        [disabled]="(blocklyState.sketchStatus$ | async) > 0 ">
-        <mat-icon>cloud_upload</mat-icon>
-    </button>
-</div>
+<div #blockContent id="blockly-container"></div>
 <div *ngIf="!(blocklyState.toolboxXml$ | async)" id="message-container">
     <div>{{ "NOROBOTMESSAGE" | translate }}</div>
 </div>

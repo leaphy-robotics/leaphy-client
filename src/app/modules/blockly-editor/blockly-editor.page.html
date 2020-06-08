@@ -1,8 +1,8 @@
 <div id="container">
-    <button mat-fab id="code-view-button" (click)="onCodeViewClicked()">
+    <button mat-fab id="code-view-button" *ngIf="appState.selectedRobotType$ | async" (click)="onCodeViewClicked()">
         <mat-icon>code</mat-icon>
     </button>
-    <mat-sidenav-container class="example-container">
+    <mat-sidenav-container class="sidenav-container">
         <mat-sidenav-content>
             <app-leaphy-blockly></app-leaphy-blockly>
         </mat-sidenav-content>

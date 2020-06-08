@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
+import { AppState } from 'src/app/state/app.state';
 
 @Component({
   selector: 'app-blockly-editor',
@@ -8,7 +9,10 @@ import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 })
 // tslint:disable-next-line: component-class-suffix
 export class BlocklyEditorPage {
-  constructor(public blocklyState: BlocklyEditorState) { }
+  constructor(
+    public blocklyState: BlocklyEditorState,
+    public appState: AppState
+  ) { }
 
   public onCodeViewClicked() {
     this.blocklyState.toggleIsSideNavOpen();

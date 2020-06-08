@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { RobotConnection } from '../domain/robot.connection';
 
 @Injectable({
     providedIn: 'root'
