@@ -16,7 +16,7 @@ export class ConnectWiredDialog {
   constructor(
     public dialogRef: MatDialogRef<ConnectWiredDialog>,
     public robotWiredState: RobotWiredState,
-    private backEndState: BackEndState,
+    public backEndState: BackEndState,
     private dialogState: DialogState
   ) { }
 

@@ -4,7 +4,7 @@ const electronInstaller = require('electron-winstaller');
       outputDirectory: '/tmp/installer64',
       authors: 'Leaphy Robotics',
       exe: 'leaphy_client.exe',
-      description: 'Leaphy Robocoder Client',
+      description: 'Leaphy Easybloqs Client',
       noMsi: true
     })
     .then(success => {
