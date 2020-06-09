@@ -114,6 +114,8 @@ async function verifyInstalledLibsAsync(event, name, libs) {
 }
 
 ipcMain.on('verify-installation', async (event, payload) => {
+    const checkingPrerequisitesMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Checking prerequisites for ${payload.name}` };
+    event.sender.send('backend-message', checkingPrerequisitesMessage);
 
     const updateCoreIndexParams = ["core", "update-index"];
     console.log(await tryRunArduinoCli(updateCoreIndexParams));

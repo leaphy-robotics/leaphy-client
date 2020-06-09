@@ -1,4 +1,10 @@
-<div #blockContent id="blockly-container"></div>
+<div #blockContent id="blockly-container">
+    <div id="messages-window" *ngIf="(blocklyState.sketchStatus$ | async) > 1 || (backEndState.connectionStatus$ | async) == 6">
+        <div id="message-content" *ngIf="blocklyState.sketchStatusMessage$ | async as message">
+            {{message}}
+        </div>
+    </div>
+</div>
 <div *ngIf="!(blocklyState.toolboxXml$ | async)" id="message-container">
     <div>{{ "NOROBOTMESSAGE" | translate }}</div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
+import { BackEndState } from 'src/app/state/backend.state';
 
 @Component({
     selector: 'app-leaphy-blockly',
@@ -11,7 +12,9 @@ export class LeaphyBlocklyComponent implements AfterViewInit {
     @ViewChild('blockContent', { static: false }) blockContent: ElementRef;
 
     constructor(
-        public blocklyState: BlocklyEditorState) {
+        public blocklyState: BlocklyEditorState,
+        public backEndState: BackEndState
+    ) {
     }
 
     ngAfterViewInit() {
