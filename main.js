@@ -31,6 +31,9 @@ function createWindow() {
             nodeIntegration: true
         }
     })
+    
+    mainWindow.setMenu(null);
+    mainWindow.setMenuBarVisibility(false);
 
     loadUrl(mainWindow);
 
