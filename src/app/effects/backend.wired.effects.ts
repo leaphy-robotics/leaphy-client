@@ -11,6 +11,8 @@ import { AppState } from '../state/app.state';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { WorkspaceStatus } from '../domain/workspace.status';
 
+declare var Blockly: any;
+
 @Injectable({
     providedIn: 'root',
 })
@@ -31,9 +33,19 @@ export class BackendWiredEffects {
         this.appState.isDesktop$
             .pipe(filter(isDesktop => !!isDesktop))
             .subscribe(() => {
-                // Get the connection to the Electron process
                 try {
+                    // Open communications to the Electron process
                     this.ipc = window.require('electron').ipcRenderer;
+                    // Replace the Prompt used by Blockly Variables with something that works in Electron
+                    const electronPrompt = window.require('electron-prompt')
+                    Blockly.prompt = (msg, defaultValue, callback) => {
+                        electronPrompt
+                            ({
+                                title: 'Variable',
+                                label: msg,
+                                type: 'input'
+                            }).then(name => { callback(name) })
+                    }
                 } catch (e) {
                     throw e;
                 }

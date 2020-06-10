@@ -28,6 +28,7 @@
     "@angular/router": "~8.2.14",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
+    "electron-prompt": "^1.5.1",
     "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",
     "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#d33a38170ceb671fd948279746bbaa12f3c99cb8",
