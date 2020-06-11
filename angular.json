@@ -43,6 +43,7 @@
               "./node_modules/leaphy-blockly/blockly/msg/js/en.js",
               "./node_modules/leaphy-blockly/blocklyduino/msg/blocks_nl.js",
               "./node_modules/leaphy-blockly/blocklyduino/msg/categories_nl.js",
+              "./node_modules/leaphy-blockly/blocklyduino/blocks/type_variable.js",
               "./node_modules/leaphy-blockly/blocklyduino/blocks/arduino_base/arduino_base.js",
               "./node_modules/leaphy-blockly/blocklyduino/themes/bw.js",
               "./node_modules/leaphy-blockly/blocklyduino/themes/themes_blocks.js",
