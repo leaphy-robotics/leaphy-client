@@ -37,6 +37,7 @@
 	</category>
 	<category id="l_flitz" name="%{BKY_CAT_LEAPHY_FLITZ}" categorystyle="leaphy_category">
 		<block type="leaphy_flitz_read_stomach_sensor"></block>
+		<block type="leaphy_flitz_read_hand_sensor"></block>
 	</category>
 	<category id="l_wifi" name="%{BKY_CAT_LEAPHY_WIFI}" categorystyle="leaphy_category">
 		<block type="leaphy_original_set_led">

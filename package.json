@@ -32,7 +32,7 @@
     "electron-prompt": "^1.5.1",
     "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",
-    "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#2bcb9e5c47aa300056c42a884b69abc7fc0dcff0",
+    "leaphy-blockly": "github:leaphy-robotics/leaphy-blockly#e898c1b72404e973e1e64aab8eb9848cd6ee953c",
     "prismjs": "^1.17.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
