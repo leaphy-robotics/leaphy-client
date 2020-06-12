@@ -32,6 +32,8 @@
 				</shadow>
 			</value>
 		</block>
+		<block type="leaphy_original_digital_read"></block>
+		<block type="leaphy_original_analog_read"></block>
 	</category>
 	<category id="l_flitz" name="%{BKY_CAT_LEAPHY_FLITZ}" categorystyle="leaphy_category">
 		<block type="leaphy_original_set_led">
@@ -66,6 +68,8 @@
 				</shadow>
 			</value>
 		</block>
+		<block type="leaphy_original_digital_read"></block>
+		<block type="leaphy_original_analog_read"></block>
 	</category>
 	<category id="l_wifi" name="%{BKY_CAT_LEAPHY_WIFI}" categorystyle="leaphy_category">
 		<block type="leaphy_original_set_led">
@@ -100,6 +104,8 @@
 				</shadow>
 			</value>
 		</block>
+		<block type="leaphy_original_digital_read"></block>
+		<block type="leaphy_original_analog_read"></block>
 	</category>
 		<category id="l_extra" name="%{BKY_CAT_LEAPHY_EXTRA}" categorystyle="leaphy_category">
 		<block type="leaphy_original_set_led">
