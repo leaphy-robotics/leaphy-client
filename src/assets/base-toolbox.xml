@@ -26,6 +26,13 @@
 				</shadow>
 			</value>
 		</block>
+		<block type="arduino_base_delay">
+			<value name="DELAY_TIME">
+				<shadow type="math_number">
+					<field name="NUM">1000</field>
+				</shadow>
+			</value>
+		</block>
 		<block type="controls_forEach"></block>
 		<block type="controls_flow_statements"></block>
 	</category>
