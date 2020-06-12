@@ -40,13 +40,17 @@
               "./node_modules/leaphy-blockly/blockly/blockly_compressed.js",
               "./node_modules/leaphy-blockly/blockly/blocks_compressed.js",
               "./node_modules/leaphy-blockly/blockly/closure/goog/base.js",
+              "./node_modules/leaphy-blockly/blockly/msg/js/nl.js",
               "./node_modules/leaphy-blockly/blocklyduino/msg/blocks_nl.js",
               "./node_modules/leaphy-blockly/blocklyduino/msg/categories_nl.js",
-              "./node_modules/leaphy-blockly/blocklyduino/blocks/type_variable.js",
-              "./node_modules/leaphy-blockly/blocklyduino/blocks/arduino_base/arduino_base.js",
+              "./node_modules/leaphy-blockly/blocklyduino/blocks/leaphy.js",
+              "./node_modules/leaphy-blockly/blocklyduino/blocks/typed_variables.js",
+              "./node_modules/leaphy-blockly/blocklyduino/blocks/arduino.js",
               "./node_modules/leaphy-blockly/blocklyduino/themes/themes_blocks.js",
               "./node_modules/leaphy-blockly/blocklyduino/themes/themes_categories.js",
               "./node_modules/leaphy-blockly/blocklyduino/generators/arduino_generator.js",
+              "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/arduino.js",
+              "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/leaphy.js",
               "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/colour.js",
               "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/lists.js",
               "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/logic.js",
@@ -55,8 +59,7 @@
               "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/procedures.js",
               "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/text.js",
               "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/variables.js",
-              "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/variables_dynamic.js",
-              "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/arduino_base.js"
+              "./node_modules/leaphy-blockly/blocklyduino/generators/arduino/blockly/variables_dynamic.js"
             ]
           },
           "configurations": {
