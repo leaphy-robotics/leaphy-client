@@ -46,6 +46,7 @@
               "./node_modules/leaphy-blockly/blocklyduino/blocks/leaphy.js",
               "./node_modules/leaphy-blockly/blocklyduino/blocks/typed_variables.js",
               "./node_modules/leaphy-blockly/blocklyduino/blocks/arduino.js",
+              "./node_modules/leaphy-blockly/blocklyduino/blocks/other.js",
               "./node_modules/leaphy-blockly/blocklyduino/themes/themes_blocks.js",
               "./node_modules/leaphy-blockly/blocklyduino/themes/themes_categories.js",
               "./node_modules/leaphy-blockly/blocklyduino/generators/arduino_generator.js",
