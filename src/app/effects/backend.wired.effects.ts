@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
-import { filter, withLatestFrom, switchMap, tap } from 'rxjs/operators';
+import { filter, withLatestFrom } from 'rxjs/operators';
 import { BackEndState } from '../state/backend.state';
 
 import { IpcRenderer } from 'electron';
@@ -91,6 +91,7 @@ export class BackendWiredEffects {
                     .subscribe((message) => {
                         switch (message.event) {
                             case 'NO_DEVICES_FOUND':
+                            case 'DEVICES_FOUND':
                                 this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
                                 break;
                             default:

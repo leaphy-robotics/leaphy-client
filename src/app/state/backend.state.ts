@@ -15,6 +15,7 @@ export class BackEndState {
   public backEndMessages$ = this.backEndMessagesSubject$.asObservable();
 
   public setconnectionStatus(status: ConnectionStatus) {
+    //console.log('ConnectionStatus Set:', status);
     this.connectionStatusSubject$.next(status);
   }
 

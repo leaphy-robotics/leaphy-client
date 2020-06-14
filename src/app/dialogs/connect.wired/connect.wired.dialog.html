@@ -1,23 +1,27 @@
 <ng-container *ngIf="backEndState.connectionStatus$ | async as connectionStatus">
-  <h1 mat-dialog-title>{{"CONNECT.WIRED.DIALOGTITLE" | translate }}</h1>
-  <div mat-dialog-content class="container">
-    <mat-select id="device-selector" [disabled]="connectionStatus == 5"
-      placeholder="{{'CONNECT.WIRED.SELECTDEVICE'|translate}}" (selectionChange)="onDeviceSelectionChange($event)"
-      [value]="robotWiredState.selectedSerialDevice$ | async">
-      <mat-option *ngFor="let device of robotWiredState.serialDevices$ | async" [value]="device">
-        {{device.protocol_label}} - {{device.address}}</mat-option>
-    </mat-select>
-    <mat-spinner *ngIf="connectionStatus == 5" diameter="20"></mat-spinner>
-    <button [disabled]="connectionStatus == 5" mat-button (click)="onDetectRobotsClick()">
-      {{"REFRESH"|translate}}
-    </button>
-  </div>
-  <div class="container">
-    <span id="no-device-message" *ngIf="connectionStatus == 3">{{"NODEVICEFOUND"|translate}}</span>
-    <span id="no-device-message" *ngIf="connectionStatus != 3">{{"SELECTDEVICE"|translate}}</span>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button cdkFocusInitial (click)="onDoneClick()" [disabled]="connectionStatus == 5">{{"DONE"|translate}}</button>
-    <button mat-button (click)="onInstallUsbDriverClick()" *ngIf="true" [disabled]="connectionStatus == 5">{{"INSTALLUSBDRIVER"|translate}}</button>
-  </div>
+  <ng-container *ngIf="robotWiredState.serialDevices$ | async as serialDevices">
+    <h1 mat-dialog-title>{{"CONNECT.WIRED.DIALOGTITLE" | translate }}</h1>
+    <div mat-dialog-content class="container">
+      <mat-select id="device-selector" [disabled]="connectionStatus == 5"
+        placeholder="{{'CONNECT.WIRED.SELECTDEVICE'|translate}}" (selectionChange)="onDeviceSelectionChange($event)"
+        [value]="robotWiredState.selectedSerialDevice$ | async">
+        <mat-option *ngFor="let device of serialDevices" [value]="device">
+          {{device.protocol_label}} - {{device.address}}</mat-option>
+      </mat-select>
+      <mat-spinner *ngIf="connectionStatus == 5" diameter="20"></mat-spinner>
+      <button [disabled]="connectionStatus == 5" mat-button (click)="onDetectRobotsClick()">
+        {{"REFRESH"|translate}}
+      </button>
+    </div>
+    <div class="container">
+      <span id="no-device-message" *ngIf="connectionStatus == 3 && serialDevices.length == 0">{{"NODEVICEFOUND"|translate}}</span>
+      <span id="no-device-message" *ngIf="serialDevices.length > 0">{{"SELECTDEVICE"|translate}}</span>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button cdkFocusInitial (click)="onDoneClick()"
+        [disabled]="connectionStatus == 5">{{"DONE"|translate}}</button>
+      <button mat-button (click)="onInstallUsbDriverClick()" *ngIf="true"
+        [disabled]="connectionStatus == 5">{{"INSTALLUSBDRIVER"|translate}}</button>
+    </div>
+  </ng-container>
 </ng-container>
