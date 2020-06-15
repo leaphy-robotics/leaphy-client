@@ -1,6 +1,5 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="easyBloqsToolbox" style="display: none">
 	<category name="%{BKY_CATSITUATION}" categorystyle="loop_category">
-		<block type="controls_repeat_forever"></block>
 		<block type="controls_repeat_ext">
 			<value name="TIMES">
 				<shadow type="math_number">
@@ -8,24 +7,9 @@
 				</shadow>
 			</value>
 		</block>
+		<block type="controls_repeat_forever"></block>
+		<block type="controls_if"></block>
 		<block type="controls_whileUntil"></block>
-		<block type="controls_for">
-			<value name="FROM">
-				<shadow type="math_number">
-					<field name="NUM">1</field>
-				</shadow>
-			</value>
-			<value name="TO">
-				<shadow type="math_number">
-					<field name="NUM">10</field>
-				</shadow>
-			</value>
-			<value name="BY">
-				<shadow type="math_number">
-					<field name="NUM">1</field>
-				</shadow>
-			</value>
-		</block>
 		<block type="arduino_base_delay">
 			<value name="DELAY_TIME">
 				<shadow type="math_number">
@@ -33,13 +17,12 @@
 				</shadow>
 			</value>
 		</block>
-		<block type="controls_forEach"></block>
-		<block type="controls_flow_statements"></block>
 	</category>
 	<category name="%{BKY_CATNUMBERS}" categorystyle="logic_category">
 		<block type="math_number">
 			<field name="NUM">123</field>
 		</block>
+		<block type="logic_compare"></block>
 		<block type="math_arithmetic">
 			<value name="A">
 				<shadow type="math_number">
@@ -49,47 +32,6 @@
 			<value name="B">
 				<shadow type="math_number">
 					<field name="NUM">1</field>
-				</shadow>
-			</value>
-		</block>
-		<block type="math_single">
-			<value name="NUM">
-				<shadow type="math_number">
-					<field name="NUM">9</field>
-				</shadow>
-			</value>
-		</block>
-		<block type="math_trig">
-			<value name="NUM">
-				<shadow type="math_number">
-					<field name="NUM">45</field>
-				</shadow>
-			</value>
-		</block>
-		<block type="math_constant"></block>
-		<block type="math_number_property">
-			<value name="NUMBER_TO_CHECK">
-				<shadow type="math_number">
-					<field name="NUM">0</field>
-				</shadow>
-			</value>
-		</block>
-		<block type="math_round">
-			<value name="NUM">
-				<shadow type="math_number">
-					<field name="NUM">3.1</field>
-				</shadow>
-			</value>
-		</block>
-		<block type="math_modulo">
-			<value name="DIVIDEND">
-				<shadow type="math_number">
-					<field name="NUM">64</field>
-				</shadow>
-			</value>
-			<value name="DIVISOR">
-				<shadow type="math_number">
-					<field name="NUM">10</field>
 				</shadow>
 			</value>
 		</block>
@@ -105,14 +47,23 @@
 				</shadow>
 			</value>
 		</block>
-		<block type="math_random_float"></block>
-		<block type="controls_if"></block>
-		<block type="logic_compare"></block>
 		<block type="logic_operation"></block>
-		<block type="logic_negate"></block>
 		<block type="logic_boolean"></block>
-		<block type="logic_null"></block>
-		<block type="logic_ternary"></block>
+		<block type="logic_negate"></block>
+		<block type="math_round">
+			<value name="NUM">
+				<shadow type="math_number">
+					<field name="NUM">3.1</field>
+				</shadow>
+			</value>
+		</block>
+		<block type="math_number_property">
+			<value name="NUMBER_TO_CHECK">
+				<shadow type="math_number">
+					<field name="NUM">0</field>
+				</shadow>
+			</value>
+		</block>
 	</category>
 	<category name="%{BKY_CATVARIABLES}" categorystyle="variable_category" custom="VARIABLE_DYNAMIC"></category>
 	<category name="%{BKY_CATFUNCTIONS}" categorystyle="procedure_category" custom="PROCEDURE"></category>
