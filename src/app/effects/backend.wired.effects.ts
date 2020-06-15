@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { filter, withLatestFrom, distinctUntilChanged } from 'rxjs/operators';
 import { BackEndState } from '../state/backend.state';
 
 import { IpcRenderer } from 'electron';
@@ -63,6 +63,7 @@ export class BackendWiredEffects {
 
                 // When wired robot is selected, verify that all prerequisites are installed
                 this.appState.selectedRobotType$
+                    .pipe(distinctUntilChanged())
                     .pipe(filter(robotType => !!robotType && !!robotType.isWired))
                     .subscribe(robotType => {
                         this.backEndState.setconnectionStatus(ConnectionStatus.VerifyingPrerequisites);
