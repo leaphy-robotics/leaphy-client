@@ -3,7 +3,7 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { filter, withLatestFrom, distinctUntilChanged } from 'rxjs/operators';
+import { filter, withLatestFrom } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest, Observable } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
@@ -26,7 +26,6 @@ export class BlocklyEditorEffects {
     ) {
         // Set the toolbox and initialWorkspace when the robot selection changes
         this.appState.selectedRobotType$
-            .pipe(distinctUntilChanged())
             .pipe(withLatestFrom(this.blocklyState.workspace$))
             .pipe(filter(([robotType, workspace]) => !!robotType && !!workspace))
             .pipe(withLatestFrom(

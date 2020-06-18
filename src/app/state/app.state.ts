@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, distinctUntilChanged } from 'rxjs/operators';
 import { Language } from '../domain/language';
 
 @Injectable({
@@ -37,7 +37,8 @@ export class AppState {
     public availableRobotTypes$: Observable<RobotType[]>;
 
     private selectedRobotTypeSubject$ = new BehaviorSubject<RobotType>(null);
-    public selectedRobotType$ = this.selectedRobotTypeSubject$.asObservable();
+    public selectedRobotType$ = this.selectedRobotTypeSubject$.asObservable()
+        .pipe(distinctUntilChanged());
 
     private defaultLanguageSubject$ = new BehaviorSubject<Language>(Language.NL);
     public defaultLanguage$ = this.defaultLanguageSubject$.asObservable();
