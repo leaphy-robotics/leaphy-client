@@ -9,6 +9,9 @@
 		</block>
 		<block type="controls_repeat_forever"></block>
 		<block type="controls_if"></block>
+		<block type="controls_if">
+        	<mutation else="1"/>
+      	</block>
 		<block type="controls_whileUntil"></block>
 		<block type="arduino_base_delay">
 			<value name="DELAY_TIME">
