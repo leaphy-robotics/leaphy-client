@@ -140,6 +140,11 @@ export class BlocklyEditorEffects {
                         this.blocklyState.setSketchStatus(SketchStatus.ReadyToSend);
                         this.blocklyState.setSketchStatusMessage(null);
                         break;
+                    case 'COMPILATION_FAILED':
+                    case 'UPLOAD_FAILED':
+                        this.blocklyState.setSketchStatus(SketchStatus.UnableToSend);
+                        this.blocklyState.setSketchStatusMessage(null);
+                        break;
                     case 'WORKSPACE_SAVE_CANCELLED':
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;

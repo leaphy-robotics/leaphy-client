@@ -1,5 +1,5 @@
 export enum SketchStatus {
-    ReadyToSend,
-    UnableToSend,
-    Sending
+    UnableToSend = 1,
+    ReadyToSend = 2,
+    Sending = 3
 }

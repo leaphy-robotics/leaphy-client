@@ -138,7 +138,13 @@ ipcMain.on('compile', async (event, payload) => {
     const compileParams = ["compile", "--fqbn", payload.fqbn, sketchPath];
     const compilingMessage = { event: "COMPILATION_STARTED", message: "Compiling..." };
     event.sender.send('backend-message', compilingMessage);
-    await tryRunArduinoCli(compileParams);
+    try {
+        await tryRunArduinoCli(compileParams);
+    } catch (error) {
+        compilationFailedMessage = { event: "COMPILATION_FAILED", message: "Compilation error" };
+        event.sender.send('backend-message', compilationFailedMessage);
+        return;
+    }
 
     const updatingMessage = { event: "ROBOT_UPDATING", message: "Updating robot..." };
     event.sender.send('backend-message', updatingMessage);
@@ -146,7 +152,7 @@ ipcMain.on('compile', async (event, payload) => {
     try {
         await tryRunArduinoCli(uploadParams);
     } catch (error) {
-        unsuccesfulUploadMessage = { event: "NO_ROBOT_FOUND", message: "No connected robot found to upload to" };
+        unsuccesfulUploadMessage = { event: "UPLOAD_FAILED", message: "Uploading compiled sketch failed" };
         event.sender.send('backend-message', unsuccesfulUploadMessage);
         return;
     }

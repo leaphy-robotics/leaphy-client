@@ -10,9 +10,10 @@
   <ng-container *ngIf="backEndState.connectionStatus$ | async as connectionStatus">
     <ng-container *ngIf="appState.selectedRobotType$ | async as robot">
       <ng-container *ngIf="connectionStatus == 4 else connect">
-        <button mat-mini-fab id="upload-button" (click)="onUploadClicked()" [disabled]="(blocklyState.sketchStatus$ | async) > 0">
-          <mat-icon *ngIf="(blocklyState.sketchStatus$ | async) == 0" >cloud_upload</mat-icon>
-          <mat-spinner *ngIf="(blocklyState.sketchStatus$ | async) > 0" diameter="24" color="warn"></mat-spinner>
+        <button mat-mini-fab id="upload-button" (click)="onUploadClicked()" *ngIf="blocklyState.sketchStatus$ | async as sketchStatus" [disabled]="sketchStatus == 3">
+          <mat-icon *ngIf="sketchStatus == 1" >error_outline</mat-icon>
+          <mat-icon *ngIf="sketchStatus == 2" >cloud_upload</mat-icon>
+          <mat-spinner *ngIf="sketchStatus == 3" diameter="24" color="warn"></mat-spinner>
         </button>
       </ng-container>
       <ng-template #connect>
