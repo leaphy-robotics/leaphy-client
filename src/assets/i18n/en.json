@@ -22,5 +22,7 @@
     "SHOWLEAPHYEXTRA": "Show Leaphy Extra tools",
     "NODEVICEFOUND": "No devices found. Connect a robot and click \"Refresh\".",
     "SELECTDEVICE": "Select the Leaphy robot device and click \"Done\".",
-    "INSTALLUSBDRIVER": "Install USB Driver"
+    "INSTALLUSBDRIVER": "Install USB Driver",
+    "CONNECTIONINSTRUCTIONS": "Select the COM-poort your robot is connected to. It's usually the HIGHEST NUMBER. Not working? Try the other ports.",
+    "ACTIVATECONNECTION": "Activate Connection"
 }

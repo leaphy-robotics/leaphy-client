@@ -12,5 +12,11 @@
     font-size: small;
 }
 .mat-dialog-actions {
-    justify-content: space-between;
+    justify-content: center;
+}
+#instructions {
+    font-size: small;
+    padding: 5px;
+    background-color: #DBE3F3;
+    white-space: pre-wrap;
 }

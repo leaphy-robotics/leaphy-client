@@ -22,5 +22,7 @@
     "SHOWLEAPHYEXTRA": "Toon Leaphy Extra tools",
     "NODEVICEFOUND": "Geen apparaten gevonden. Verbindt een robot en klik \"Ververs\".",
     "SELECTDEVICE": "Selecteer het Leaphy robot apparaat en klik \"Klaar\".",
-    "INSTALLUSBDRIVER": "Installeer USB Driver"
+    "INSTALLUSBDRIVER": "Installeer USB driver",
+    "CONNECTIONINSTRUCTIONS": "Selecteer de COM-poort waarop je robot is aangesloten.\nMeestal is het die met het HOOGSTE GETAL.\nWerkt die niet? Probeer dan de andere com-poorten.",
+    "ACTIVATECONNECTION": "Activeer Verbinding"
 }
