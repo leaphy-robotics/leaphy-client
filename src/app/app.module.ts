@@ -30,6 +30,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -57,6 +58,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatButtonModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     HttpClientModule,
     TranslateModule.forRoot({

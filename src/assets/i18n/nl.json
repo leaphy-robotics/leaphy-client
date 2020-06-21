@@ -23,6 +23,7 @@
     "NODEVICEFOUND": "Geen apparaten gevonden. Verbindt een robot en klik \"Ververs\".",
     "SELECTDEVICE": "Selecteer het Leaphy robot apparaat en klik \"Klaar\".",
     "INSTALLUSBDRIVER": "Installeer USB driver",
+    "INSTALLUSBDRIVERTOOLTIP": "Eerste keer op deze computer? Klik eerst de knop om driver te installeren!",
     "CONNECTIONINSTRUCTIONS": "Selecteer de COM-poort waarop je robot is aangesloten.\nMeestal is het die met het HOOGSTE GETAL.\nWerkt die niet? Probeer dan de andere com-poorten.",
     "ACTIVATECONNECTION": "Activeer Verbinding"
 }

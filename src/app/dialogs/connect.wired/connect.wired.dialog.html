@@ -16,8 +16,9 @@
     <div mat-dialog-actions>
       <button mat-raised-button color="primary" (click)="onDoneClick()"
         [disabled]="connectionStatus == 5">{{"ACTIVATECONNECTION"|translate}}</button>
-      <button mat-button (click)="onInstallUsbDriverClick()" *ngIf="true"
-        [disabled]="connectionStatus == 5">{{"INSTALLUSBDRIVER"|translate}}</button>
+      <button mat-button (click)="onInstallUsbDriverClick()" *ngIf="true" [disabled]="connectionStatus == 5"
+        #tooltip="matTooltip" matTooltip="{{'INSTALLUSBDRIVERTOOLTIP'|translate}}"
+        matTooltipPosition="below">{{"INSTALLUSBDRIVER"|translate}}</button>
     </div>
   </ng-container>
 </ng-container>

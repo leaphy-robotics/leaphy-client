@@ -23,6 +23,7 @@
     "NODEVICEFOUND": "No devices found. Connect a robot and click \"Refresh\".",
     "SELECTDEVICE": "Select the Leaphy robot device and click \"Done\".",
     "INSTALLUSBDRIVER": "Install USB Driver",
+    "INSTALLUSBDRIVERTOOLTIP": "First time on this computer? First click the button to install the driver",
     "CONNECTIONINSTRUCTIONS": "Select the COM-poort your robot is connected to. It's usually the HIGHEST NUMBER. Not working? Try the other ports.",
     "ACTIVATECONNECTION": "Activate Connection"
 }
