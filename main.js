@@ -240,6 +240,13 @@ ipcMain.on('restore-workspace', async (event, robotType) => {
     event.sender.send('backend-message', message);
 });
 
+ipcMain.on('report-os', async (event) => {
+    const platform = os.platform;
+    const message = { event: "OS_DETERMINED", message: platform };
+    event.sender.send('backend-message', message);
+    if(platform != "win32") return;
+    console.log(tryRunExecutableAsync("driverquery"));
+});
 
 async function tryRunArduinoCli(params) {
     return await tryRunExecutableAsync(arduinoCliPath, params);
