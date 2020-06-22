@@ -43,7 +43,8 @@ export class BlocklyEditorEffects {
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 this.blocklyState.setToolboxXml(toolboxXmlString);
-
+                
+                workspace.clear();
                 const xml = Blockly.Xml.textToDom(startWorkspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
             });

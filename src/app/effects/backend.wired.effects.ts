@@ -92,7 +92,8 @@ export class BackendWiredEffects {
                         switch (message.event) {
                             case 'NO_DEVICES_FOUND':
                             case 'DEVICES_FOUND':
-                                this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
+                            case 'UPLOAD_FAILED':
+                                    this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
                                 break;
                             default:
                                 break;
