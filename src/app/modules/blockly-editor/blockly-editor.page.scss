@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: stretch;
   height: calc(100% - 64px);
+  overflow: hidden;
 }
 .sidenav-container {
   flex: 1 1 auto;
@@ -18,7 +19,6 @@
   right: -23px;
   z-index: 2;
   transition: right 0.5s;
-  overflow: clip;
 }
 
 #code-view-button:hover {

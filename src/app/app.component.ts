@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppState } from './state/app.state';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Leaphy Easybloqs';
+  constructor(
+    public appState: AppState
+  ) { }
 }
