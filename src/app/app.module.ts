@@ -32,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { RobotSelectionComponent } from './components/robot-selection/robot-selection.component';
+import { StartComponent } from './components/start/start.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -43,7 +44,8 @@ export function createTranslateLoader(http: HttpClient) {
     ConnectWiredDialog,
     ConnectCloudDialog,
     HeaderComponent,
-    RobotSelectionComponent
+    RobotSelectionComponent,
+    StartComponent
 
   ],
   imports: [

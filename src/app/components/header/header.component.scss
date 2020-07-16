@@ -1,43 +1,15 @@
 #logo {
     height: 30px;
     margin-right: 10px;
+    margin-left: 10px;
 }
 #title {
     font-size: 2.4rem;
-}
-#robot-selector {
     margin-right: 10px;
+
 }
 .spacer {
     flex: 1 1 auto;
-}
-.mat-Color0 {
-    background-color: darkgrey;
-    color: #fff;
-}
-.mat-Color1 {
-    background-color: yellow;
-    color: black;
-}
-.mat-Color2 {
-    background-color: blue($color: #000000);
-    color: #fff;
-}
-.mat-Color3 {
-    background-color: orange;
-    color:black;
-}
-.mat-Color4 {
-    background-color: lightgreen;
-    color: #fff;
-}
-.mat-Color5 {
-    background-color: darkgrey;
-    color: #fff;
-}
-.mat-Color6 {
-    background-color: darkgrey;
-    color: #fff;
 }
 .button-icon-text {
     font-size: x-large;

@@ -1,37 +1,12 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <button mat-mini-fab id="robot-selector" [matMenuTriggerFor]="robotSelection"
-    [color]="'Color'+(backEndState.connectionStatus$ | async)">
-    <mat-icon>adb</mat-icon>
-  </button>
-
-  <ng-container *ngIf="backEndState.connectionStatus$ | async as connectionStatus">
-    <ng-container *ngIf="appState.selectedRobotType$ | async as robot">
-      <ng-container *ngIf="connectionStatus == 4 else connect">
-        <button mat-mini-fab id="upload-button" (click)="onUploadClicked()" *ngIf="blocklyState.sketchStatus$ | async as sketchStatus" [disabled]="sketchStatus == 3">
-          <mat-icon *ngIf="sketchStatus == 1" >error_outline</mat-icon>
-          <mat-icon *ngIf="sketchStatus == 2" >cloud_upload</mat-icon>
-          <mat-spinner *ngIf="sketchStatus == 3" diameter="24" color="warn"></mat-spinner>
-        </button>
-      </ng-container>
-      <ng-template #connect>
-        <button mat-mini-fab id="connect-button" (click)="onConnectClicked()" [color]="'Color'+connectionStatus">
-          <mat-icon *ngIf="connectionStatus == 4">check</mat-icon>
-          <span *ngIf="connectionStatus == 3" class="button-icon-text">?</span>
-          <mat-icon *ngIf="connectionStatus == 2">sync</mat-icon>
-          <mat-icon *ngIf="connectionStatus == 1">link</mat-icon>
-          <mat-icon *ngIf="connectionStatus == 0">block</mat-icon>
-          <mat-spinner *ngIf="connectionStatus == 5 || connectionStatus == 6" diameter="24"></mat-spinner>
-        </button>
-      </ng-template>
-    </ng-container>
-  </ng-container>
-
-  <span class="spacer"></span>
+<mat-toolbar color="primary" id="header-container">
   <span id="title">Easybloqs</span>
+
+  <button mat-raised-button [matMenuTriggerFor]="menu" *ngIf="appState.selectedRobotType$ | async else start">
+    Project
+  </button>
+
   <span class="spacer"></span>
+  <button mat-raised-button *ngIf="appState.selectedRobotType$ | async else start">Upload</button>
   <img src="./assets/leaphy-logo-white.png" id="logo">
 
 </mat-toolbar>
@@ -53,11 +28,4 @@
   <span mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)">
     <mat-checkbox (change)="onShowLeaphyExtraToggled()"><span>{{ 'SHOWLEAPHYEXTRA' | translate }}</span></mat-checkbox>
   </span>
-</mat-menu>
-
-<mat-menu #robotSelection="matMenu">
-  <button mat-menu-item *ngFor="let robot of appState.availableRobotTypes$ | async" (click)="onRobotSelected(robot)">
-    <mat-icon>adb</mat-icon>
-    <span>{{ robot.name }}</span>
-  </button>
 </mat-menu>

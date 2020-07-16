@@ -69,12 +69,12 @@ export class BackendWiredEffects {
                         this.send('verify-installation', robotType);
                     });
 
-                // If the installation of prequisites is verified, start detecting
-                this.robotWiredState.isInstallationVerified$
-                    .pipe(filter(isVerified => !!isVerified))
-                    .subscribe(() => {
-                        this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
-                    });
+                // // If the installation of prequisites is verified, start detecting
+                // this.robotWiredState.isInstallationVerified$
+                //     .pipe(filter(isVerified => !!isVerified))
+                //     .subscribe(() => {
+                //         this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
+                //     });
 
                 // Get the devices when the ConnectionStatus is set to DetectingDevices
                 this.backEndState.connectionStatus$

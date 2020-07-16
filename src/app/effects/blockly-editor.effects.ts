@@ -24,6 +24,32 @@ export class BlocklyEditorEffects {
         private appState: AppState,
         private http: HttpClient
     ) {
+        // Create a new workspace when all prerequisites are there
+        combineLatest(this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$)
+            .pipe(withLatestFrom(this.appState.selectedRobotType$))
+            .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
+            .pipe(withLatestFrom(
+                this.getXmlContent('./assets/base-toolbox.xml'),
+                this.getXmlContent('./assets/leaphy-toolbox.xml'),
+                this.getXmlContent('./assets/leaphy-start.xml'),
+            ))
+            .subscribe(([[[element, config], robotType],baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
+                const parser = new DOMParser();
+                const toolboxXmlDoc = parser.parseFromString(baseToolboxXml, 'text/xml');
+                const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
+                const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
+                const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
+                toolboxElement.appendChild(leaphyRobotCategory);
+                const serializer = new XMLSerializer();
+                const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
+                config.toolbox = toolboxXmlString; 
+                const workspace = Blockly.inject(element, config);
+                const xml = Blockly.Xml.textToDom(startWorkspaceXml);
+                Blockly.Xml.domToWorkspace(xml, workspace);
+                this.blocklyState.setWorkspace(workspace);
+                this.blocklyState.setToolboxXml(toolboxXmlString);
+            });
+
         // Set the toolbox and initialWorkspace when the robot selection changes
         this.appState.selectedRobotType$
             .pipe(withLatestFrom(this.blocklyState.workspace$))
@@ -43,7 +69,7 @@ export class BlocklyEditorEffects {
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 this.blocklyState.setToolboxXml(toolboxXmlString);
-                
+
                 workspace.clear();
                 const xml = Blockly.Xml.textToDom(startWorkspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
@@ -74,15 +100,6 @@ export class BlocklyEditorEffects {
             .pipe(withLatestFrom(this.blocklyState.workspace$))
             .pipe(filter(([toolbox, workspace]) => !!toolbox && !!workspace))
             .subscribe(([toolbox, workspace]) => workspace.updateToolbox(toolbox))
-
-        // Create a new workspace when all prerequisites are there
-        combineLatest(this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$)
-            .pipe(filter(([element, config]) => !!element && !!config))
-            .subscribe(([element, config]) => {
-                config.toolbox = '<xml><category></category></xml>'; // Dummy toolbox to allow update later
-                const workspace = Blockly.inject(element, config);
-                this.blocklyState.setWorkspace(workspace);
-            });
 
         // Subscribe to changes when the workspace is set
         this.blocklyState.workspace$

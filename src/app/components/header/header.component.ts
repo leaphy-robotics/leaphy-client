@@ -22,14 +22,6 @@ export class HeaderComponent {
     public blocklyState: BlocklyEditorState
   ) { }
 
-  public onRobotSelected(robot: RobotType) {
-    this.appState.setSelectedRobotType(robot);
-  }
-
-  public onConnectClicked() {
-    this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
-  }
-
   public onLoadWorkspaceClicked() {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Finding);
   }
