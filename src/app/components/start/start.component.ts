@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
+import { WorkspaceStatus } from 'src/app/domain/workspace.status';
 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.scss']
 })
-export class StartComponent implements OnInit {
+export class StartComponent {
 
-  constructor() { }
+  constructor(private blocklyState: BlocklyEditorState) { }
 
-  ngOnInit() {
+  public onLoadWorkspaceClicked() {
+    this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Finding);
   }
-
 }

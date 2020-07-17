@@ -6,7 +6,8 @@
   </button>
 
   <span class="spacer"></span>
-  <button mat-raised-button *ngIf="appState.selectedRobotType$ | async" (click)="onUploadClicked()">Upload</button>
+  <button mat-raised-button [class.spinner]="isBackEndBusy$ | async" *ngIf="appState.selectedRobotType$ | async" (click)="onUploadClicked()"
+    [disabled]="!(canUpload$ | async)">Upload</button>
   <img src="./assets/leaphy-logo-white.png" id="logo">
 
 </mat-toolbar>
