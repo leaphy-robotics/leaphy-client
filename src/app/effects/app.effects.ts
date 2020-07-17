@@ -23,6 +23,7 @@ export class AppEffects {
         this.appState.selectedLanguage$
             .subscribe(language => this.translate.use(language));
 
+        // Enable to debugging to console.log all backend messages
         this.backEndState.backEndMessages$
             .pipe(filter(() => this.isDebug))
             .subscribe(message => console.log(message));

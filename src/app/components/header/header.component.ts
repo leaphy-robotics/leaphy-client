@@ -22,6 +22,10 @@ export class HeaderComponent {
     public blocklyState: BlocklyEditorState
   ) { }
 
+  public onNewProjectClicked() {
+    this.appState.setSelectedRobotType(null);
+  }
+
   public onLoadWorkspaceClicked() {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Finding);
   }

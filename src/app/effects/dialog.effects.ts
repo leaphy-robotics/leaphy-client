@@ -23,7 +23,6 @@ export class DialogEffects {
             .pipe(withLatestFrom(this.dialogState.connectDialog$))
             .pipe(filter(([connectionStatus, dialog]) => connectionStatus == ConnectionStatus.WaitForRobot && !dialog))
             .subscribe(() => {
-                console.log('Opening connect instructions dialog');
                 const component = ConnectWiredDialog;
                 const dialogRef = this.dialog.open(component, {
                     width: '450px',
@@ -37,7 +36,6 @@ export class DialogEffects {
             .pipe(filter(dialogRef => !!dialogRef))
             .pipe(switchMap(dialogRef => dialogRef.afterClosed()))
             .subscribe(() => {
-                console.log('Dialog after close');
                 this.dialogState.setConnectDialog(null);
             });
     }

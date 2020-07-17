@@ -4,15 +4,34 @@
   <button mat-raised-button [matMenuTriggerFor]="menu" *ngIf="appState.selectedRobotType$ | async">
     Project
   </button>
+  <button mat-raised-button *ngIf="appState.selectedRobotType$ | async" disabled>
+    Help
+  </button>
 
   <span class="spacer"></span>
-  <button mat-raised-button [class.spinner]="isBackEndBusy$ | async" *ngIf="appState.selectedRobotType$ | async" (click)="onUploadClicked()"
-    [disabled]="!(canUpload$ | async)">Upload</button>
-  <img src="./assets/leaphy-logo-white.png" id="logo">
+  <div *ngIf="appState.selectedRobotType$ | async">
+    <button mat-icon-button disabled>
+      <mat-icon>save</mat-icon>
+    </button>
+    <button mat-icon-button disabled>
+      <mat-icon>undo</mat-icon>
+    </button>
+    <button mat-icon-button disabled>
+      <mat-icon>redo</mat-icon>
+    </button>
 
+  </div>
+  <span class="spacer"></span>
+
+  <button mat-raised-button [class.spinner]="isBackEndBusy$ | async" *ngIf="appState.selectedRobotType$ | async"
+    (click)="onUploadClicked()" [disabled]="!(canUpload$ | async)">Upload</button>
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
+  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onNewProjectClicked()">
+    <mat-icon>insert_drive_file</mat-icon>
+    <span>{{ 'NEW' | translate }}</span>
+  </button>
   <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onLoadWorkspaceClicked()">
     <mat-icon>folder</mat-icon>
     <span>{{ 'OPEN' | translate }}</span>

@@ -123,7 +123,6 @@ export class BackendWiredEffects {
                     .pipe(withLatestFrom(this.robotWiredState.verifiedSerialDevice$))
                     .pipe(filter(([message, verifiedDevice]) => !!verifiedDevice && !!message && message.event == 'UPDATE_FAILED' && message.payload.address == verifiedDevice.address))
                     .subscribe(() => {
-                        console.log('Verified device not found, getting all devices');
                         this.send('get-serial-devices');
                     });
 

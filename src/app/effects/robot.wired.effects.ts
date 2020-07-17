@@ -3,6 +3,7 @@ import { filter, withLatestFrom } from 'rxjs/operators';
 import { BackEndState } from '../state/backend.state';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { SerialDevice } from '../domain/serial.device';
+import { AppState } from '../state/app.state';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +13,8 @@ export class RobotWiredEffects {
 
     constructor(
         private robotWiredState: RobotWiredState,
-        private backEndState: BackEndState
+        private backEndState: BackEndState,
+        private appState: AppState
     ) {
         // React to messages from the Electron backend
         this.backEndState.backEndMessages$
@@ -37,6 +39,11 @@ export class RobotWiredEffects {
                         break;
                 }
             });
+
+        // When the robotType is reset, we should reset the installation verified flag
+        this.appState.selectedRobotType$
+            .pipe(filter(robotType => !robotType))
+            .subscribe(() => this.robotWiredState.setIsInstallationVerified(false));
 
         // When uploading to a device fails, remove it from the devices to try
         // If it was the verified device, reset the verified device
