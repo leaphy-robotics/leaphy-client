@@ -117,6 +117,7 @@ async function verifyInstalledLibsAsync(event, name, libs) {
 }
 
 ipcMain.on('verify-installation', async (event, payload) => {
+    console.log('Verify Installation command received');
     const checkingPrerequisitesMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: `Checking prerequisites for ${payload.name}` };
     event.sender.send('backend-message', checkingPrerequisitesMessage);
 
@@ -133,7 +134,7 @@ ipcMain.on('verify-installation', async (event, payload) => {
 });
 
 ipcMain.on('compile', async (event, payload) => {
-
+    console.log('Compile command received');
     const sketchPath = writeCodeToCompileLocation(payload.code);
     const compileParams = ["compile", "--fqbn", payload.fqbn, sketchPath];
     const compilingMessage = { event: "COMPILATION_STARTED", message: "Compiling..." };
@@ -146,23 +147,30 @@ ipcMain.on('compile', async (event, payload) => {
         return;
     }
 
-    const updatingMessage = { event: "ROBOT_UPDATING", message: "Updating robot..." };
+    const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", payload: sketchPath };
+    event.sender.send('backend-message', compilationCompleteMessage);
+});
+
+ipcMain.on('update-device', async (event, payload) => {
+    console.log('Update Device command received');
+    const updatingMessage = { event: "UPDATE_STARTED", message: "Updating robot..." };
     event.sender.send('backend-message', updatingMessage);
-    const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.port, "-i", `${sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
+    const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
     try {
         await tryRunArduinoCli(uploadParams);
     } catch (error) {
-        unsuccesfulUploadMessage = { event: "UPLOAD_FAILED", message: "Uploading compiled sketch failed" };
+        unsuccesfulUploadMessage = { event: "UPDATE_FAILED", message: "Uploading compiled sketch failed", payload: payload };
         event.sender.send('backend-message', unsuccesfulUploadMessage);
         return;
     }
 
-    const allDoneMessage = { event: "ROBOT_UPDATED", message: "Robot is ready for next sketch" };
-    event.sender.send('backend-message', allDoneMessage);
+    const updateCompleteMessage = { event: "UPDATE_COMPLETE", message: "Robot is ready for next sketch", payload: payload };
+    event.sender.send('backend-message', updateCompleteMessage);
 });
 
 
 ipcMain.on('install-usb-driver', async (event, payload) => {
+    console.log('Install USB Driver command received');
     // Only do this for windows
     const platform = os.platform;
     if (platform != "win32") return;
@@ -176,8 +184,8 @@ ipcMain.on('install-usb-driver', async (event, payload) => {
     }
 });
 
-
 ipcMain.on('get-serial-devices', async (event) => {
+    console.log('Get Serial Devices command received');
     const updateIndexParams = ["core", "update-index"];
     console.log(await tryRunArduinoCli(updateIndexParams));
 
@@ -188,20 +196,20 @@ ipcMain.on('get-serial-devices', async (event) => {
     if (!eligibleBoards.length) {
         message = { event: "NO_DEVICES_FOUND", message: "No connected robots found" };
     } else {
-        message = { event: "DEVICES_FOUND", message: eligibleBoards };
+        message = { event: "DEVICES_FOUND", payload: eligibleBoards };
     }
     event.sender.send('backend-message', message);
 });
 
 ipcMain.on('save-workspace', async (event, payload) => {
-    console.log("Saving workingspace as current project");
+    console.log("Save Workspace command received");
     fs.writeFileSync(payload.projectFilePath, payload.workspaceXml);
-    const message = { event: "WORKSPACE_SAVED", message: payload.projectFilePath };
+    const message = { event: "WORKSPACE_SAVED", payload: payload.projectFilePath };
     event.sender.send('backend-message', message);
 });
 
 ipcMain.on('save-workspace-as', async (event, payload) => {
-    console.log("Saving workingspace as new project");
+    console.log("Save Workspace As command received");
     const saveAsOptions = {
         filters: [
             { name: `${payload.robotType.id} files`, extensions: [payload.robotType.id] }
@@ -217,12 +225,12 @@ ipcMain.on('save-workspace-as', async (event, payload) => {
         return;
     }
     fs.writeFileSync(response.filePath, payload.workspaceXml);
-    const message = { event: "WORKSPACE_SAVED", message: response.filePath };
+    const message = { event: "WORKSPACE_SAVED", payload: response.filePath };
     event.sender.send('backend-message', message);
 });
 
 ipcMain.on('restore-workspace', async (event, robotType) => {
-    console.log("Loading workspace");
+    console.log("Restore Workspace command received");
     const openDialogOptions = {
         filters: [
             { name: `${robotType.id} files`, extensions: [robotType.id] }
@@ -236,13 +244,14 @@ ipcMain.on('restore-workspace', async (event, robotType) => {
     }
     const workspaceXml = fs.readFileSync(response.filePaths[0], "utf8");
     const payload = { projectFilePath: response.filePaths[0], workspaceXml };
-    const message = { event: "WORKSPACE_RESTORING", message: payload };
+    const message = { event: "WORKSPACE_RESTORING", payload: payload };
     event.sender.send('backend-message', message);
 });
 
 ipcMain.on('report-os', async (event) => {
+    console.log("Report OS command received")
     const platform = os.platform;
-    const message = { event: "OS_DETERMINED", message: platform };
+    const message = { event: "OS_DETERMINED", payload: platform };
     event.sender.send('backend-message', message);
     if(platform != "win32") return;
     console.log(tryRunExecutableAsync("driverquery"));

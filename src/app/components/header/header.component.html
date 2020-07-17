@@ -1,15 +1,16 @@
 <mat-toolbar color="primary" id="header-container">
   <span id="title">Easybloqs</span>
 
-  <button mat-raised-button [matMenuTriggerFor]="menu" *ngIf="appState.selectedRobotType$ | async else start">
+  <button mat-raised-button [matMenuTriggerFor]="menu" *ngIf="appState.selectedRobotType$ | async">
     Project
   </button>
 
   <span class="spacer"></span>
-  <button mat-raised-button *ngIf="appState.selectedRobotType$ | async else start">Upload</button>
+  <button mat-raised-button *ngIf="appState.selectedRobotType$ | async" (click)="onUploadClicked()">Upload</button>
   <img src="./assets/leaphy-logo-white.png" id="logo">
 
 </mat-toolbar>
+
 <mat-menu #menu="matMenu">
   <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onLoadWorkspaceClicked()">
     <mat-icon>folder</mat-icon>

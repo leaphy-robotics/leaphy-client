@@ -2,7 +2,6 @@ import { Injectable, NgZone } from '@angular/core';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { filter, withLatestFrom } from 'rxjs/operators';
 import { BackEndState } from '../state/backend.state';
-
 import { IpcRenderer } from 'electron';
 import { SketchStatus } from '../domain/sketch.status';
 import { BackEndMessage } from '../domain/backend.message';
@@ -69,47 +68,11 @@ export class BackendWiredEffects {
                         this.send('verify-installation', robotType);
                     });
 
-                // // If the installation of prequisites is verified, start detecting
-                // this.robotWiredState.isInstallationVerified$
-                //     .pipe(filter(isVerified => !!isVerified))
-                //     .subscribe(() => {
-                //         this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
-                //     });
-
-                // Get the devices when the ConnectionStatus is set to DetectingDevices
-                this.backEndState.connectionStatus$
-                    .subscribe(connectionStatus => {
-                        switch (connectionStatus) {
-                            case ConnectionStatus.DetectingDevices:
-                                this.send('get-serial-devices');
-                        }
-                    });
-
-                // If no devices found, set the status to WaitForRobot
-                this.backEndState.backEndMessages$
-                    .pipe(filter(message => !!message))
-                    .subscribe((message) => {
-                        switch (message.event) {
-                            case 'NO_DEVICES_FOUND':
-                            case 'DEVICES_FOUND':
-                            case 'UPLOAD_FAILED':
-                                    this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
-                                break;
-                            default:
-                                break;
-                        }
-                    });
-
-                // When a serial device is selected, set the connection status to "PairedWithRobot"
-                this.robotWiredState.selectedSerialDevice$
-                    .pipe(filter(serialDevice => !!serialDevice))
-                    .subscribe(() => this.backEndState.setconnectionStatus(ConnectionStatus.PairedWithRobot));
-
                 // When the sketch status is set to sending, send a compile request to backend
                 this.blocklyEditorState.sketchStatus$
-                    .pipe(withLatestFrom(this.blocklyEditorState.code$, this.appState.selectedRobotType$, this.robotWiredState.selectedSerialDevice$))
+                    .pipe(withLatestFrom(this.blocklyEditorState.code$, this.appState.selectedRobotType$))
                     .pipe(filter(([, , robotType,]) => !!robotType && !!robotType.isWired))
-                    .subscribe(([status, code, robotType, serialDevice]) => {
+                    .subscribe(([status, code, robotType]) => {
                         switch (status) {
                             case SketchStatus.Sending:
                                 const payload = {
@@ -117,13 +80,89 @@ export class BackendWiredEffects {
                                     fqbn: robotType.fqbn,
                                     ext: robotType.ext,
                                     core: robotType.core,
-                                    port: serialDevice.address,
                                     name: robotType.name,
                                     board: robotType.board,
                                     libs: robotType.libs
                                 };
                                 this.send('compile', payload);
                                 break;
+                            default:
+                                break;
+                        }
+                    });
+
+                // When the ConnectionStatus is set to DetectingDevices
+                // Double Check that the installation is verified, and there is a sketch location
+                // If there's already a verified device, try uploading the compiled sketch to it
+                // If there's not, have the backend get the devices to try
+                this.backEndState.connectionStatus$
+                    .pipe(withLatestFrom(
+                        this.appState.selectedRobotType$,
+                        this.robotWiredState.isInstallationVerified$,
+                        this.backEndState.sketchLocation$,
+                        this.robotWiredState.verifiedSerialDevice$
+                    ))
+                    .pipe(filter(([connectionStatus, , isInstallationVerified, sketchLocation,]) =>
+                        connectionStatus == ConnectionStatus.DetectingDevices && isInstallationVerified && !!sketchLocation))
+                    .subscribe(([, robotType, , sketchLocation, verifiedDevice]) => {
+                        if (!verifiedDevice) {
+                            this.send('get-serial-devices');
+                            return;
+                        }
+                        const payload = {
+                            ...robotType,
+                            ...verifiedDevice,
+                            sketchPath: sketchLocation
+                        }
+                        this.send('update-device', payload);
+                    });
+
+                // When the verified device fails to update
+                // Get all serial devices
+                this.backEndState.backEndMessages$
+                    .pipe(withLatestFrom(this.robotWiredState.verifiedSerialDevice$))
+                    .pipe(filter(([message, verifiedDevice]) => !!verifiedDevice && !!message && message.event == 'UPDATE_FAILED' && message.payload.address == verifiedDevice.address))
+                    .subscribe(() => {
+                        console.log('Verified device not found, getting all devices');
+                        this.send('get-serial-devices');
+                    });
+
+
+                // When the Serial Devices to try are updated, try to upload to the first one
+                // If none left, set the connections status to waiting for robot
+                this.robotWiredState.serialDevicesToTry$
+                    .pipe(withLatestFrom(
+                        this.appState.selectedRobotType$,
+                        this.robotWiredState.isInstallationVerified$,
+                        this.backEndState.sketchLocation$
+                    ))
+                    .pipe(filter(([, , isInstallationVerified, sketchLocation]) => isInstallationVerified && !!sketchLocation))
+                    .subscribe(([devices, robotType, , sketchLocation]) => {
+                        if (!devices.length) {
+                            this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
+                            return;
+                        }
+                        const payload = {
+                            ...robotType,
+                            ...devices[0],
+                            sketchPath: sketchLocation
+                        }
+                        this.send('update-device', payload);
+                    })
+
+                // React to messages from the backend
+                this.backEndState.backEndMessages$
+                    .pipe(filter(message => !!message))
+                    .subscribe((message) => {
+                        switch (message.event) {
+                            // If no devices found, set the status to WaitForRobot
+                            case 'NO_DEVICES_FOUND':
+                                this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
+                                break;
+                            // When compilation completes, start detecting devices
+                            case 'COMPILATION_COMPLETE':
+                                this.backEndState.setSketchLocation(message.payload);
+                                this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
                             default:
                                 break;
                         }

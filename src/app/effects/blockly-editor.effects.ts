@@ -150,16 +150,16 @@ export class BlocklyEditorEffects {
                     case 'PREPARING_COMPILATION_ENVIRONMENT':
                     case 'COMPILATION_STARTED':
                     case 'COMPILATION_COMPLETE':
-                    case 'ROBOT_UPDATING':
+                    case 'UPDATE_STARTED':
                         this.blocklyState.setSketchStatusMessage(message.message);
                         break;
                     case 'ROBOT_REGISTERED':
-                    case 'ROBOT_UPDATED':
+                    case 'UPDATE_COMPLETE':
                         this.blocklyState.setSketchStatus(SketchStatus.ReadyToSend);
                         this.blocklyState.setSketchStatusMessage(null);
                         break;
                     case 'COMPILATION_FAILED':
-                    case 'UPLOAD_FAILED':
+                    case 'UPDATE_FAILED':
                         this.blocklyState.setSketchStatus(SketchStatus.UnableToSend);
                         this.blocklyState.setSketchStatusMessage(null);
                         break;
@@ -167,12 +167,12 @@ export class BlocklyEditorEffects {
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;
                     case 'WORKSPACE_SAVED':
-                        this.blocklyState.setProjectFilePath(message.message);
+                        this.blocklyState.setProjectFilePath(message.payload);
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;
                     case 'WORKSPACE_RESTORING':
-                        this.blocklyState.setWorkspaceXml(message.message.workspaceXml as string);
-                        this.blocklyState.setProjectFilePath(message.message.projectFilePath);
+                        this.blocklyState.setWorkspaceXml(message.payload.workspaceXml as string);
+                        this.blocklyState.setProjectFilePath(message.payload.projectFilePath);
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Restoring);
                         break;
                     default:

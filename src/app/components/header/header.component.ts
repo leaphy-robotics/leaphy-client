@@ -2,11 +2,9 @@ import { Component } from '@angular/core';
 import { AppState } from 'src/app/state/app.state';
 import { RobotWiredState } from 'src/app/state/robot.wired.state';
 import { BackEndState } from 'src/app/state/backend.state';
-import { ConnectionStatus } from 'src/app/domain/connection.status';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import { WorkspaceStatus } from 'src/app/domain/workspace.status';
 import { SketchStatus } from 'src/app/domain/sketch.status';
-import { RobotType } from 'src/app/domain/robot.type';
 
 @Component({
   selector: 'app-header',

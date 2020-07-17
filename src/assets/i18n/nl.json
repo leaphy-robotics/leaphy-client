@@ -24,6 +24,6 @@
     "SELECTDEVICE": "Selecteer het Leaphy robot apparaat en klik \"Klaar\".",
     "INSTALLUSBDRIVER": "Installeer USB driver",
     "INSTALLUSBDRIVERTOOLTIP": "Eerste keer op deze computer? Klik eerst de knop om driver te installeren!",
-    "CONNECTIONINSTRUCTIONS": "Selecteer de USB-poort waarop je robot is aangesloten.\nMeestal is het die met het HOOGSTE GETAL.",
+    "CONNECTIONINSTRUCTIONS": "Geen aangesloten robot gevonden. Sluit een Leaphy robot aan en probeer opnieuw.",
     "ACTIVATECONNECTION": "Activeer Verbinding"
 }

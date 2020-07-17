@@ -21,7 +21,7 @@ export class ConnectWiredDialog {
   ) { }
 
   public onDeviceSelectionChange(event: MatSelectChange) {
-    this.robotWiredState.setSelectedSerialDevice(event.value);
+    this.robotWiredState.setVerifiedSerialDevice(event.value);
     this.dialogState.toggleIsConnectDialogVisible();
   }
 
