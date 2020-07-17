@@ -24,6 +24,7 @@ import { DialogEffects } from './effects/dialog.effects';
 import { RobotCloudEffects } from './effects/robot.cloud.effects';
 import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog';
 import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
+import { InstallDriverDialog } from './dialogs/install-driver/install-driver.dialog';
 import { RobotWiredEffects } from './effects/robot.wired.effects';
 import { AppEffects } from './effects/app.effects';
 import { HeaderComponent } from './components/header/header.component';
@@ -43,6 +44,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent,
     ConnectWiredDialog,
     ConnectCloudDialog,
+    InstallDriverDialog,
     HeaderComponent,
     RobotSelectionComponent,
     StartComponent
@@ -89,6 +91,6 @@ export function createTranslateLoader(http: HttpClient) {
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConnectWiredDialog, ConnectCloudDialog]
+  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog]
 })
 export class AppModule { }

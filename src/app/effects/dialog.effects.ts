@@ -5,6 +5,7 @@ import { DialogState } from '../state/dialog.state';
 import { ConnectWiredDialog } from '../dialogs/connect.wired/connect.wired.dialog';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
+import { InstallDriverDialog } from '../dialogs/install-driver/install-driver.dialog';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +22,7 @@ export class DialogEffects {
         // Open the connect dialog if closed when waiting for robot
         this.backEndState.connectionStatus$
             .pipe(withLatestFrom(this.dialogState.connectDialog$))
-            .pipe(filter(([connectionStatus, dialog]) => connectionStatus == ConnectionStatus.WaitForRobot && !dialog))
+            .pipe(filter(([connectionStatus, dialogRef]) => connectionStatus === ConnectionStatus.WaitForRobot && !dialogRef))
             .subscribe(() => {
                 const component = ConnectWiredDialog;
                 const dialogRef = this.dialog.open(component, {
@@ -31,12 +32,32 @@ export class DialogEffects {
                 this.dialogState.setConnectDialog(dialogRef);
             });
 
-        // Set the connect dialog to null after it closes
+        // When the connect dialog is set, subscribe to the close event
+        // So we can set the connect dialog to null after it closes
         this.dialogState.connectDialog$
             .pipe(filter(dialogRef => !!dialogRef))
             .pipe(switchMap(dialogRef => dialogRef.afterClosed()))
             .subscribe(() => {
                 this.dialogState.setConnectDialog(null);
             });
+
+        // React to messages received from the Backend
+        this.backEndState.backEndMessages$
+            .pipe(filter(message => !!message))
+            .subscribe(message => {
+                switch (message.event) {
+                    case 'DRIVER_INSTALLATION_REQUIRED':
+                        const component = InstallDriverDialog;
+                        const dialogRef = this.dialog.open(component, {
+                            width: '450px',
+                            disableClose: true,
+                        });
+                        this.dialogState.setConnectDialog(dialogRef);
+                        break;
+                    default:
+                        break;
+                }
+            });
     }
+
 }

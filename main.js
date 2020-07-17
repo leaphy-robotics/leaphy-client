@@ -31,7 +31,7 @@ function createWindow() {
             nodeIntegration: true
         }
     })
-    
+
     mainWindow.setMenu(null);
     mainWindow.setMenuBarVisibility(false);
 
@@ -129,9 +129,39 @@ ipcMain.on('verify-installation', async (event, payload) => {
     await verifyInstalledCoreAsync(event, payload.name, payload.core);
     await verifyInstalledLibsAsync(event, payload.name, payload.libs);
 
+    const platform = os.platform;
+    if (platform == "win32") {
+        const allDrivers = await tryRunExecutableAsync("driverquery");
+        const isCH340DriverInstalled = allDrivers.indexOf("CH341SER_A64") > -1;
+        if(!isCH340DriverInstalled){
+            const driverInstallationRequiredMessage =  { event: "DRIVER_INSTALLATION_REQUIRED", message: "USB Driver installation is needed"};
+            event.sender.send('backend-message', driverInstallationRequiredMessage);
+            return;    
+        }
+    }
+
     const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "All prerequisites for this robot have been installed" };
     event.sender.send('backend-message', installationVerifiedMessage);
 });
+
+ipcMain.on('install-usb-driver', async (event, payload) => {
+    console.log('Install USB Driver command received');
+    // Only do this for windows
+    const platform = os.platform;
+    if (platform != "win32") return;
+
+    switch (payload.fqbn) {
+        case 'arduino:avr:uno':
+            console.log(await tryRunExecutableAsync(ch341DriverInstallerPath, []));
+            break;
+        default:
+            break;
+    }
+
+    const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "All prerequisites for this robot have been installed" };
+    event.sender.send('backend-message', installationVerifiedMessage);
+});
+
 
 ipcMain.on('compile', async (event, payload) => {
     console.log('Compile command received');
@@ -166,22 +196,6 @@ ipcMain.on('update-device', async (event, payload) => {
 
     const updateCompleteMessage = { event: "UPDATE_COMPLETE", message: "Robot is ready for next sketch", payload: payload };
     event.sender.send('backend-message', updateCompleteMessage);
-});
-
-
-ipcMain.on('install-usb-driver', async (event, payload) => {
-    console.log('Install USB Driver command received');
-    // Only do this for windows
-    const platform = os.platform;
-    if (platform != "win32") return;
-
-    switch (payload.fqbn) {
-        case 'arduino:avr:uno':
-            console.log(await tryRunExecutableAsync(ch341DriverInstallerPath, []));
-            break;
-        default:
-            break;
-    }
 });
 
 ipcMain.on('get-serial-devices', async (event) => {
@@ -246,15 +260,6 @@ ipcMain.on('restore-workspace', async (event, robotType) => {
     const payload = { projectFilePath: response.filePaths[0], workspaceXml };
     const message = { event: "WORKSPACE_RESTORING", payload: payload };
     event.sender.send('backend-message', message);
-});
-
-ipcMain.on('report-os', async (event) => {
-    console.log("Report OS command received")
-    const platform = os.platform;
-    const message = { event: "OS_DETERMINED", payload: platform };
-    event.sender.send('backend-message', message);
-    if(platform != "win32") return;
-    console.log(tryRunExecutableAsync("driverquery"));
 });
 
 async function tryRunArduinoCli(params) {

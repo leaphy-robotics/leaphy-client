@@ -108,8 +108,8 @@ export class BlocklyEditorEffects {
                 workspace.addChangeListener(Blockly.Events.disableOrphans);
                 workspace.addChangeListener(async () => {
                     this.blocklyState.setCode(Blockly.Arduino.workspaceToCode(workspace));
-                    var xml = Blockly.Xml.workspaceToDom(workspace);
-                    var data = Blockly.Xml.domToPrettyText(xml);
+                    const xml = Blockly.Xml.workspaceToDom(workspace);
+                    const data = Blockly.Xml.domToPrettyText(xml);
                     this.blocklyState.setWorkspaceXml(data);
                 });
             });
