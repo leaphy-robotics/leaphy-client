@@ -14,12 +14,18 @@ export class BackEndState {
   private backEndMessagesSubject$ = new BehaviorSubject<BackEndMessage>(null);
   public backEndMessages$ = this.backEndMessagesSubject$.asObservable();
 
+  private sketchLocationSubject$ = new BehaviorSubject<string>(null);
+  public sketchLocation$ = this.sketchLocationSubject$.asObservable();
+
   public setconnectionStatus(status: ConnectionStatus) {
-    //console.log('ConnectionStatus Set:', status);
     this.connectionStatusSubject$.next(status);
   }
 
   public setBackendMessage(message: BackEndMessage) {
     this.backEndMessagesSubject$.next(message);
+  }
+
+  public setSketchLocation(location: string) {
+    this.sketchLocationSubject$.next(location);
   }
 }

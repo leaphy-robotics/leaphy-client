@@ -1,29 +1,14 @@
 {
-    "SELECTROBOT": "Selecteer Robot",
-    "CONNECT": {
-        "CLOUD": {
-            "DIALOGTITLE": "Verbind met een robot",
-            "DIALOGMESSAGE": "Voer de code in die getoond wordt op de robot",
-            "PAIRINGCODE": "Robot code"
-        },
-        "WIRED": {
-            "DIALOGTITLE": "Selecteer het Robot Apparaat",
-            "SELECTDEVICE": "Selecteer Apparaat"
-        }
-    },
     "CANCEL": "Annuleer",
     "REFRESH": "Ververs",
     "OK": "Ok",
     "DONE": "Klaar",
+    "NEW": "Nieuw",
     "OPEN": "Open",
     "SAVE": "Opslaan",
     "SAVEAS": "Opslaan als ...",
-    "NOROBOTMESSAGE": "Om te beginnen, selecteer een robot",
+    "INSTALL": "Installeer",
     "SHOWLEAPHYEXTRA": "Toon Leaphy Extra tools",
-    "NODEVICEFOUND": "Geen apparaten gevonden. Verbindt een robot en klik \"Ververs\".",
-    "SELECTDEVICE": "Selecteer het Leaphy robot apparaat en klik \"Klaar\".",
-    "INSTALLUSBDRIVER": "Installeer USB driver",
-    "INSTALLUSBDRIVERTOOLTIP": "Eerste keer op deze computer? Klik eerst de knop om driver te installeren!",
-    "CONNECTIONINSTRUCTIONS": "Selecteer de USB-poort waarop je robot is aangesloten.\nMeestal is het die met het HOOGSTE GETAL.",
-    "ACTIVATECONNECTION": "Activeer Verbinding"
+    "DRIVERINSTALLATIONINSTRUCTIONS": "Eenmalige installatie van USB driver is vereist. Klik op de Installeer knop en volg de instructies.",
+    "CONNECTIONINSTRUCTIONS": "Geen aangesloten robot gevonden. Sluit een Leaphy robot aan en probeer opnieuw."
 }

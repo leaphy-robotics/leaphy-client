@@ -1,2 +1,5 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
+<router-outlet *ngIf="appState.selectedRobotType$ | async else start"></router-outlet>
+<ng-template #start>
+    <app-start></app-start>
+</ng-template>

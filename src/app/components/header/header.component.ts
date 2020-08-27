@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { AppState } from 'src/app/state/app.state';
 import { RobotWiredState } from 'src/app/state/robot.wired.state';
 import { BackEndState } from 'src/app/state/backend.state';
-import { ConnectionStatus } from 'src/app/domain/connection.status';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import { WorkspaceStatus } from 'src/app/domain/workspace.status';
 import { SketchStatus } from 'src/app/domain/sketch.status';
-import { RobotType } from 'src/app/domain/robot.type';
+import { Observable, combineLatest, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -22,12 +22,8 @@ export class HeaderComponent {
     public blocklyState: BlocklyEditorState
   ) { }
 
-  public onRobotSelected(robot: RobotType) {
-    this.appState.setSelectedRobotType(robot);
-  }
-
-  public onConnectClicked() {
-    this.backEndState.setconnectionStatus(ConnectionStatus.DetectingDevices);
+  public onNewProjectClicked() {
+    this.appState.setSelectedRobotType(null);
   }
 
   public onLoadWorkspaceClicked() {
@@ -49,4 +45,22 @@ export class HeaderComponent {
   public onUploadClicked() {
     this.blocklyState.setSketchStatus(SketchStatus.Sending);
   }
+
+  public isBackEndBusy$: Observable<boolean> = combineLatest(
+    this.robotWiredState.isInstallationVerified$,
+    this.appState.selectedRobotType$,
+    this.blocklyState.sketchStatus$
+  )
+    .pipe(switchMap(([isVerified, robotType, sketchStatus]) => {
+      return of((!!robotType && !isVerified) || sketchStatus == SketchStatus.Sending);
+    }));
+
+  public canUpload$: Observable<boolean> = combineLatest(
+    this.robotWiredState.isInstallationVerified$,
+    this.blocklyState.sketchStatus$
+  )
+    .pipe(switchMap(([isVerified, sketchStatus]) => {
+      return of(isVerified && sketchStatus < SketchStatus.Sending);
+    }));
+
 }

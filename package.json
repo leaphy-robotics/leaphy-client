@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "clean:darwin": "rm -f Easybloqs.dmg && rm -rf dist && rm -rf leaphy_client-darwin-x64",
     "start:electron": "ng build --base-href ./ && electron .",
     "build": "ng build",
     "test": "ng test",
@@ -12,7 +13,7 @@
     "e2e": "ng e2e",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
     "package:electron": "npm install && ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --overwrite --verbose --asar",
-    "installer:electron:darwin": "npm run package:electron && electron-installer-dmg --overwrite ./leaphy_client-darwin-x64/leaphy_client.app Easybloqs",
+    "installer:electron:darwin": "npm run clean:darwin && npm run package:electron && electron-installer-dmg --overwrite ./leaphy_client-darwin-x64/leaphy_client.app Easybloqs",
     "installer:electron:win32": "npm run package:electron && node ./ci/build-installer.js"
   },
   "private": true,

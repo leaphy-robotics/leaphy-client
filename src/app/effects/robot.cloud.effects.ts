@@ -49,7 +49,7 @@ export class RobotCloudEffects {
             .subscribe(message => {
                 switch (message.event) {
                     case 'CLIENT_PAIRED_WITH_ROBOT':
-                        this.robotCloudState.setRobotId(message.message);
+                        this.robotCloudState.setRobotId(message.payload);
                         break;
                     default:
                         break;
