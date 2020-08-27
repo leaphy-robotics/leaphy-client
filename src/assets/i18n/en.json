@@ -1,16 +1,4 @@
 {
-    "SELECTROBOT": "Select Robot",
-    "CONNECT": {
-        "CLOUD": {
-            "DIALOGTITLE": "Connect to a robot",
-            "DIALOGMESSAGE": "Enter the pairing code displayed on the robot",
-            "PAIRINGCODE": "Pairing code"
-        },
-        "WIRED": {
-            "DIALOGTITLE": "Select the Robot Device",
-            "SELECTDEVICE": "Select Device"
-        }
-    },
     "CANCEL": "Cancel",
     "REFRESH": "Refresh",
     "OK": "Ok",
@@ -19,12 +7,8 @@
     "OPEN": "Open",
     "SAVE": "Save",
     "SAVEAS": "Save as ...",
-    "NOROBOTMESSAGE": "To start, please select a robot",
+    "INSTALL": "Install",
     "SHOWLEAPHYEXTRA": "Show Leaphy Extra tools",
-    "NODEVICEFOUND": "No devices found. Connect a robot and click \"Refresh\".",
-    "SELECTDEVICE": "Select the Leaphy robot device and click \"Done\".",
-    "INSTALLUSBDRIVER": "Install USB Driver",
-    "INSTALLUSBDRIVERTOOLTIP": "First time on this computer? First click the button to install the driver",
-    "CONNECTIONINSTRUCTIONS": "No connected robot found. Connect a Leaphy robot and try again.",
-    "ACTIVATECONNECTION": "Activate Connection"
+    "DRIVERINSTALLATIONINSTRUCTIONS": "One-time installation of USB driver is needed. Please click the Install button and follow the instructions.",
+    "CONNECTIONINSTRUCTIONS": "No connected robot found. Connect a Leaphy robot and try again."
 }
