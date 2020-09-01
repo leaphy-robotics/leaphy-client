@@ -14,6 +14,7 @@ import { BlocklyEditorPage } from './blockly-editor.page';
 import { LeaphyBlocklyComponent } from './components/leaphy-blockly/leaphy-blockly.component';
 import { CodeViewComponent } from './components/code-view/code-view.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { RobotSelectionComponent } from 'src/app/components/robot-selection/robot-selection.component';
 
 
 @NgModule({

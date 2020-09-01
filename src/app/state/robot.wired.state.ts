@@ -10,25 +10,25 @@ export class RobotWiredState {
     private isInstallationVerifiedSubject$ = new BehaviorSubject<boolean>(false);
     public isInstallationVerified$ = this.isInstallationVerifiedSubject$.asObservable();
 
-    private serialDevicesSubject$ = new BehaviorSubject<SerialDevice[]>([]);
-    public serialDevices$ = this.serialDevicesSubject$.asObservable();
+    private serialDevicesToTrySubject$ = new BehaviorSubject<SerialDevice[]>([]);
+    public serialDevicesToTry$ = this.serialDevicesToTrySubject$.asObservable();
 
     private isRobotDriverInstallingSubject$ = new BehaviorSubject<boolean>(false);
     public isRobotDriverInstalling$ = this.isRobotDriverInstallingSubject$.asObservable();
 
-    private selectedSerialDeviceSubject$ = new BehaviorSubject<SerialDevice>(null);
-    public selectedSerialDevice$ = this.selectedSerialDeviceSubject$.asObservable();
+    private verifiedSerialDeviceSubject$ = new BehaviorSubject<SerialDevice>(null);
+    public verifiedSerialDevice$ = this.verifiedSerialDeviceSubject$.asObservable();
 
     public setIsInstallationVerified(isVerified: boolean): void {
         this.isInstallationVerifiedSubject$.next(isVerified);
     }
 
-    public setSerialDevices(serialDevices: SerialDevice[]) {
-        this.serialDevicesSubject$.next(serialDevices);
+    public setSerialDevicesToTry(serialDevices: SerialDevice[]) {
+        this.serialDevicesToTrySubject$.next(serialDevices);
     }
 
-    public setSelectedSerialDevice(serialDevice: SerialDevice): void {
-        this.selectedSerialDeviceSubject$.next(serialDevice);
+    public setVerifiedSerialDevice(serialDevice: SerialDevice): void {
+        this.verifiedSerialDeviceSubject$.next(serialDevice);
     }
 
     public setIsRobotDriverInstalling(isInstalling: boolean): void {

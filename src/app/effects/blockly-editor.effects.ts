@@ -24,6 +24,32 @@ export class BlocklyEditorEffects {
         private appState: AppState,
         private http: HttpClient
     ) {
+        // Create a new workspace when all prerequisites are there
+        combineLatest(this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$)
+            .pipe(withLatestFrom(this.appState.selectedRobotType$))
+            .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
+            .pipe(withLatestFrom(
+                this.getXmlContent('./assets/base-toolbox.xml'),
+                this.getXmlContent('./assets/leaphy-toolbox.xml'),
+                this.getXmlContent('./assets/leaphy-start.xml'),
+            ))
+            .subscribe(([[[element, config], robotType],baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
+                const parser = new DOMParser();
+                const toolboxXmlDoc = parser.parseFromString(baseToolboxXml, 'text/xml');
+                const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
+                const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
+                const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
+                toolboxElement.appendChild(leaphyRobotCategory);
+                const serializer = new XMLSerializer();
+                const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
+                config.toolbox = toolboxXmlString; 
+                const workspace = Blockly.inject(element, config);
+                const xml = Blockly.Xml.textToDom(startWorkspaceXml);
+                Blockly.Xml.domToWorkspace(xml, workspace);
+                this.blocklyState.setWorkspace(workspace);
+                this.blocklyState.setToolboxXml(toolboxXmlString);
+            });
+
         // Set the toolbox and initialWorkspace when the robot selection changes
         this.appState.selectedRobotType$
             .pipe(withLatestFrom(this.blocklyState.workspace$))
@@ -43,7 +69,7 @@ export class BlocklyEditorEffects {
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 this.blocklyState.setToolboxXml(toolboxXmlString);
-                
+
                 workspace.clear();
                 const xml = Blockly.Xml.textToDom(startWorkspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
@@ -75,15 +101,6 @@ export class BlocklyEditorEffects {
             .pipe(filter(([toolbox, workspace]) => !!toolbox && !!workspace))
             .subscribe(([toolbox, workspace]) => workspace.updateToolbox(toolbox))
 
-        // Create a new workspace when all prerequisites are there
-        combineLatest(this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$)
-            .pipe(filter(([element, config]) => !!element && !!config))
-            .subscribe(([element, config]) => {
-                config.toolbox = '<xml><category></category></xml>'; // Dummy toolbox to allow update later
-                const workspace = Blockly.inject(element, config);
-                this.blocklyState.setWorkspace(workspace);
-            });
-
         // Subscribe to changes when the workspace is set
         this.blocklyState.workspace$
             .pipe(filter(workspace => !!workspace))
@@ -91,8 +108,8 @@ export class BlocklyEditorEffects {
                 workspace.addChangeListener(Blockly.Events.disableOrphans);
                 workspace.addChangeListener(async () => {
                     this.blocklyState.setCode(Blockly.Arduino.workspaceToCode(workspace));
-                    var xml = Blockly.Xml.workspaceToDom(workspace);
-                    var data = Blockly.Xml.domToPrettyText(xml);
+                    const xml = Blockly.Xml.workspaceToDom(workspace);
+                    const data = Blockly.Xml.domToPrettyText(xml);
                     this.blocklyState.setWorkspaceXml(data);
                 });
             });
@@ -133,16 +150,16 @@ export class BlocklyEditorEffects {
                     case 'PREPARING_COMPILATION_ENVIRONMENT':
                     case 'COMPILATION_STARTED':
                     case 'COMPILATION_COMPLETE':
-                    case 'ROBOT_UPDATING':
+                    case 'UPDATE_STARTED':
                         this.blocklyState.setSketchStatusMessage(message.message);
                         break;
                     case 'ROBOT_REGISTERED':
-                    case 'ROBOT_UPDATED':
+                    case 'UPDATE_COMPLETE':
                         this.blocklyState.setSketchStatus(SketchStatus.ReadyToSend);
                         this.blocklyState.setSketchStatusMessage(null);
                         break;
                     case 'COMPILATION_FAILED':
-                    case 'UPLOAD_FAILED':
+                    case 'UPDATE_FAILED':
                         this.blocklyState.setSketchStatus(SketchStatus.UnableToSend);
                         this.blocklyState.setSketchStatusMessage(null);
                         break;
@@ -150,12 +167,12 @@ export class BlocklyEditorEffects {
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;
                     case 'WORKSPACE_SAVED':
-                        this.blocklyState.setProjectFilePath(message.message);
+                        this.blocklyState.setProjectFilePath(message.payload);
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;
                     case 'WORKSPACE_RESTORING':
-                        this.blocklyState.setWorkspaceXml(message.message.workspaceXml as string);
-                        this.blocklyState.setProjectFilePath(message.message.projectFilePath);
+                        this.blocklyState.setWorkspaceXml(message.payload.workspaceXml as string);
+                        this.blocklyState.setProjectFilePath(message.payload.projectFilePath);
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Restoring);
                         break;
                     default:
