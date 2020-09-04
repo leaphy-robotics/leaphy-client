@@ -33,7 +33,7 @@
     "electron-prompt": "^1.5.1",
     "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",
-    "blockly": "github:paulleaphy/blockly#888e6e586d2c2a8fc8d1b554fab87f6e01d41cd6",
+    "blockly": "github:paulleaphy/blockly#b1e8eb31da2f64a461dd06375e806e22c507bad2",
     "prismjs": "^1.17.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
