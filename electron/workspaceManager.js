@@ -27,7 +27,7 @@ class WorkspaceManager {
             event.sender.send('backend-message', message);
             return;
         }
-        thisfs.writeFileSync(response.filePath, payload.workspaceXml);
+        this.fs.writeFileSync(response.filePath, payload.workspaceXml);
         const message = { event: "WORKSPACE_SAVED", payload: response.filePath };
         event.sender.send('backend-message', message);
     }

@@ -9,7 +9,7 @@ class DeviceManager {
         event.sender.send('backend-message', updatingMessage);
         const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
         try {
-            await this.arduinoCli.run(uploadParams);
+            await this.arduinoCli.runAsync(uploadParams);
         } catch (error) {
             unsuccesfulUploadMessage = { event: "UPDATE_FAILED", message: "Uploading compiled sketch failed", payload: payload };
             event.sender.send('backend-message', unsuccesfulUploadMessage);
@@ -23,10 +23,10 @@ class DeviceManager {
     getDevices = async (event) => {
         console.log('Get Serial Devices command received');
         const updateIndexParams = ["core", "update-index"];
-        console.log(await this.arduinoCli.run(updateIndexParams));
+        console.log(await this.arduinoCli.runAsync(updateIndexParams));
     
         const listBoardsParams = ["board", "list", "--format", "json"];
-        const connectedDevices = JSON.parse(await this.arduinoCli.run(listBoardsParams));
+        const connectedDevices = JSON.parse(await this.arduinoCli.runAsync(listBoardsParams));
         const eligibleBoards = connectedDevices.filter(device => device.protocol_label == "Serial Port (USB)");
         let message;
         if (!eligibleBoards.length) {

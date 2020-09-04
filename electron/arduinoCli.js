@@ -1,6 +1,6 @@
 class ArduinoCli {
-    constructor(asyncExecFile, os, path, app) {
-        this.asyncExecFile = asyncExecFile;
+    constructor(executable, os, path, app) {
+        this.executable = executable;
         this.arduinoCliPath = this.getArduinoCliPath(os, path, app);
     }
 
@@ -19,18 +19,7 @@ class ArduinoCli {
         return arduinoCliPath;
     }
 
-    run = async (params) => {
-        try {
-            const { stdout, stderr } = await this.asyncExecFile(this.arduinoCliPath, params);
-            if (stderr) {
-                console.log('stderr:', stderr);
-            }
-            return stdout;
-        } catch (e) {
-            console.error(e);
-            throw (e);
-        }
-    }
+    runAsync = async (params) => await this.executable.runAsync(this.arduinoCliPath, params);
 }
 
 module.exports = ArduinoCli;

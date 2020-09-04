@@ -23,7 +23,7 @@ class Compiler {
         const compilingMessage = { event: "COMPILATION_STARTED", message: "Compiling..." };
         event.sender.send('backend-message', compilingMessage);
         try {
-            await this.arduinoCli.run(compileParams);
+            await this.arduinoCli.runAsync(compileParams);
         } catch (error) {
             const compilationFailedMessage = { event: "COMPILATION_FAILED", message: "Compilation error" };
             event.sender.send('backend-message', compilationFailedMessage);
