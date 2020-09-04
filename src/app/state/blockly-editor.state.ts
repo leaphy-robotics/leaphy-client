@@ -43,7 +43,7 @@ void loop()
     zoom: {
       controls: true,
       wheel: false,
-      startScale: 1.0,
+      startScale: 0.8,
       maxScale: 3,
       minScale: 0.3,
       scaleSpeed: 1.2
@@ -53,7 +53,8 @@ void loop()
       scrollbars: true,
       drag: true,
       wheel: true
-    }
+    },
+    renderer: 'zelos'
   });
   public blocklyConfig$ = this.blocklyConfigSubject$.asObservable();
 
