@@ -1,6 +1,13 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require("path");
 
+// We're using this little require here, in order to make electron recompile on a changed file. Delete for releases. 
+
+/* require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+    hardResetMethod: 'exit'
+  }); */ 
+
 if (handleSquirrelEvent()) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
     return;
@@ -12,6 +19,7 @@ const util = require('util');
 const runExecutableAsync = util.promisify(require('child_process').execFile);
 
 let mainWindow;
+
 
 function loadUrl(mainWindow) {
     mainWindow.loadURL(
