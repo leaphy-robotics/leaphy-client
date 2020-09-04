@@ -1,6 +1,12 @@
 const { app } = require('electron');
 const path = require("path");
 
+// We're using this little require here, in order to make electron recompile on a changed file. Delete for releases. 
+/* require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+    hardResetMethod: 'exit'
+  }); */ 
+
 const squirrel = require('./electron/squirrel.js');
 if (squirrel.handleEvent(app, path)) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
@@ -48,6 +54,7 @@ const workspaceManager = new WorkspaceManager(fs, dialog);
 ipcMain.on('save-workspace', workspaceManager.save);
 ipcMain.on('save-workspace-as', workspaceManager.saveAs);
 ipcMain.on('restore-workspace', workspaceManager.restore);
+
 
 
 function loadUrl(mainWindow) {
