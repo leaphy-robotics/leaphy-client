@@ -1,10 +1,13 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app } = require('electron');
 const path = require("path");
 
-if (handleSquirrelEvent()) {
+const squirrel = require('./electron/squirrel.js');
+if (squirrel.handleEvent(app, path)) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
     return;
 }
+
+const { BrowserWindow, ipcMain, dialog } = require('electron');
 const url = require("url");
 const fs = require('fs');
 const os = require("os");
@@ -59,6 +62,20 @@ app.on('activate', function () {
     if (mainWindow === null) createWindow()
 })
 
+const asyncExecFile = util.promisify(require('child_process').execFile);
+
+const ArduinoCli = require('./electron/arduinoCli.js');
+const arduinoCli = new ArduinoCli(asyncExecFile, os, path, app);
+
+const Compiler = require('./electron/compiler.js');
+const compiler = new Compiler(app, arduinoCli, path, fs);
+
+const DeviceManager = require('./electron/deviceManager.js');
+const deviceManager = new DeviceManager(arduinoCli);
+
+const WorkspaceManager = require('./electron/workspaceManager');
+const workspaceManager = new WorkspaceManager(fs, dialog);
+
 app.setAppLogsPath();
 
 let arduinoCliPath;
@@ -73,17 +90,6 @@ async function installCore(core) {
 async function installLib(library) {
     const installLibParams = ["lib", "install", library];
     console.log(await tryRunArduinoCli(installLibParams));
-}
-
-function writeCodeToCompileLocation(code) {
-    const userDataPath = app.getPath('userData');
-    const sketchFolder = path.join(userDataPath, 'sketch');
-    if (!fs.existsSync(sketchFolder)) {
-        fs.mkdirSync(sketchFolder);
-    }
-    const sketchPath = path.join(sketchFolder, 'sketch.ino');
-    fs.writeFileSync(sketchPath, code);
-    return sketchPath;
 }
 
 async function verifyInstalledCoreAsync(event, name, core) {
@@ -163,104 +169,14 @@ ipcMain.on('install-usb-driver', async (event, payload) => {
 });
 
 
-ipcMain.on('compile', async (event, payload) => {
-    console.log('Compile command received');
-    const sketchPath = writeCodeToCompileLocation(payload.code);
-    const compileParams = ["compile", "--fqbn", payload.fqbn, sketchPath];
-    const compilingMessage = { event: "COMPILATION_STARTED", message: "Compiling..." };
-    event.sender.send('backend-message', compilingMessage);
-    try {
-        await tryRunArduinoCli(compileParams);
-    } catch (error) {
-        compilationFailedMessage = { event: "COMPILATION_FAILED", message: "Compilation error" };
-        event.sender.send('backend-message', compilationFailedMessage);
-        return;
-    }
+ipcMain.on('compile', compiler.compile);
 
-    const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", payload: sketchPath };
-    event.sender.send('backend-message', compilationCompleteMessage);
-});
+ipcMain.on('update-device', deviceManager.updateDevice);
+ipcMain.on('get-serial-devices', deviceManager.getDevices);
 
-ipcMain.on('update-device', async (event, payload) => {
-    console.log('Update Device command received');
-    const updatingMessage = { event: "UPDATE_STARTED", message: "Updating robot..." };
-    event.sender.send('backend-message', updatingMessage);
-    const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
-    try {
-        await tryRunArduinoCli(uploadParams);
-    } catch (error) {
-        unsuccesfulUploadMessage = { event: "UPDATE_FAILED", message: "Uploading compiled sketch failed", payload: payload };
-        event.sender.send('backend-message', unsuccesfulUploadMessage);
-        return;
-    }
-
-    const updateCompleteMessage = { event: "UPDATE_COMPLETE", message: "Robot is ready for next sketch", payload: payload };
-    event.sender.send('backend-message', updateCompleteMessage);
-});
-
-ipcMain.on('get-serial-devices', async (event) => {
-    console.log('Get Serial Devices command received');
-    const updateIndexParams = ["core", "update-index"];
-    console.log(await tryRunArduinoCli(updateIndexParams));
-
-    const listBoardsParams = ["board", "list", "--format", "json"];
-    const connectedDevices = JSON.parse(await tryRunArduinoCli(listBoardsParams));
-    const eligibleBoards = connectedDevices.filter(device => device.protocol_label == "Serial Port (USB)");
-    let message;
-    if (!eligibleBoards.length) {
-        message = { event: "NO_DEVICES_FOUND", message: "No connected robots found" };
-    } else {
-        message = { event: "DEVICES_FOUND", payload: eligibleBoards };
-    }
-    event.sender.send('backend-message', message);
-});
-
-ipcMain.on('save-workspace', async (event, payload) => {
-    console.log("Save Workspace command received");
-    fs.writeFileSync(payload.projectFilePath, payload.workspaceXml);
-    const message = { event: "WORKSPACE_SAVED", payload: payload.projectFilePath };
-    event.sender.send('backend-message', message);
-});
-
-ipcMain.on('save-workspace-as', async (event, payload) => {
-    console.log("Save Workspace As command received");
-    const saveAsOptions = {
-        filters: [
-            { name: `${payload.robotType.id} files`, extensions: [payload.robotType.id] }
-        ]
-    }
-    if (payload.projectFilePath) {
-        saveAsOptions.defaultPath = payload.projectFilePath;
-    }
-    const response = await dialog.showSaveDialog(saveAsOptions);
-    if (response.canceled) {
-        const message = { event: "WORKSPACE_SAVE_CANCELLED", message: "Workspace not saved" };
-        event.sender.send('backend-message', message);
-        return;
-    }
-    fs.writeFileSync(response.filePath, payload.workspaceXml);
-    const message = { event: "WORKSPACE_SAVED", payload: response.filePath };
-    event.sender.send('backend-message', message);
-});
-
-ipcMain.on('restore-workspace', async (event, robotType) => {
-    console.log("Restore Workspace command received");
-    const openDialogOptions = {
-        filters: [
-            { name: `${robotType.id} files`, extensions: [robotType.id] }
-        ]
-    }
-    const response = await dialog.showOpenDialog(openDialogOptions);
-    if (response.canceled) {
-        const message = { event: "WORKSPACE_RESTORE_CANCELLED", message: "Workspace restore cancelled" };
-        event.sender.send('backend-message', message);
-        return;
-    }
-    const workspaceXml = fs.readFileSync(response.filePaths[0], "utf8");
-    const payload = { projectFilePath: response.filePaths[0], workspaceXml };
-    const message = { event: "WORKSPACE_RESTORING", payload: payload };
-    event.sender.send('backend-message', message);
-});
+ipcMain.on('save-workspace', workspaceManager.save);
+ipcMain.on('save-workspace-as', workspaceManager.saveAs);
+ipcMain.on('restore-workspace', workspaceManager.restore);
 
 async function tryRunArduinoCli(params) {
     return await tryRunExecutableAsync(arduinoCliPath, params);
@@ -296,66 +212,3 @@ function setupExecutables() {
     arduinoCliPath = path.join(app.getAppPath(), 'lib', platformFolder, 'arduino_cli', arduino_cli);
     ch341DriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'ch341_driver_installer', ch341_driver_installer);
 }
-
-function handleSquirrelEvent() {
-    if (process.argv.length === 1) {
-        return false;
-    }
-    console.log("Handling Squirrel Event");
-
-    const ChildProcess = require('child_process');
-
-    const appFolder = path.resolve(process.execPath, '..');
-    const rootAtomFolder = path.resolve(appFolder, '..');
-    const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
-    const exeName = path.basename(process.execPath);
-
-    const spawn = function (command, args) {
-        let spawnedProcess, error;
-
-        try {
-            spawnedProcess = ChildProcess.spawn(command, args, { detached: true });
-        } catch (error) { }
-
-        return spawnedProcess;
-    };
-
-    const spawnUpdate = function (args) {
-        return spawn(updateDotExe, args);
-    };
-
-    const squirrelEvent = process.argv[1];
-    switch (squirrelEvent) {
-        case '--squirrel-install':
-        case '--squirrel-updated':
-            // Optionally do things such as:
-            // - Add your .exe to the PATH
-            // - Write to the registry for things like file associations and
-            //   explorer context menus
-
-            // Install desktop and start menu shortcuts
-            spawnUpdate(['--createShortcut', exeName]);
-
-            setTimeout(app.quit, 1000);
-            return true;
-
-        case '--squirrel-uninstall':
-            // Undo anything you did in the --squirrel-install and
-            // --squirrel-updated handlers
-
-            // Remove desktop and start menu shortcuts
-            spawnUpdate(['--removeShortcut', exeName]);
-
-            setTimeout(app.quit, 1000);
-            return true;
-
-        case '--squirrel-obsolete':
-            // This is called on the outgoing version of your app before
-            // we update to the new version - it's the opposite of
-            // --squirrel-updated
-
-            app.quit();
-            return true;
-    }
-};
-
