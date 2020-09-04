@@ -1,5 +1,5 @@
-<mat-toolbar color="primary" id="header-container">
-  <span id="title">Easybloqs</span>
+<mat-toolbar class="shadow-sm" style="background-color:white" id="header-container">
+  <span id="title"><img src="./assets/logo.svg"></span>
 
   <button mat-raised-button class="header-button" [matMenuTriggerFor]="menu" *ngIf="appState.selectedRobotType$ | async">
     Project
