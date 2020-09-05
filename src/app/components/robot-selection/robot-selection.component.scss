@@ -1,6 +1,45 @@
-.vertical-center
-{
+.vertical-center {
   display: table-cell;
   float: none;
   vertical-align: middle;
+}
+
+.watermark-container {
+  margin-bottom:2%;
+}
+
+.watermark {
+  height: auto;
+  width: 30%;
+  margin-top: 4%;
+  max-height: 10%;
+}
+
+.robot-par {
+  margin-top:3%;
+}
+
+.robot-button {
+  background-color:#ffff !important;
+  border: solid 1px #f1f1f1 !important;
+  width: 180px !important;
+  height: 180px !important;
+}
+
+.robot-row {
+  margin-top:5%;
+}
+
+h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  line-height: 35px;
+  font-weight: 700;
+}
+
+h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 28px;
+  font-weight: 400;
 }
