@@ -9,10 +9,9 @@
 }
 
 .watermark {
-  height: auto;
   width: 30%;
-  margin-top: 4%;
-  max-height: 10%;
+  margin-top: 3%;
+  max-height: 30%;
 }
 
 .robot-par {
@@ -28,6 +27,16 @@
 
 .robot-row {
   margin-top:5%;
+}
+
+.project-button {
+  background-color: #fff;
+}
+
+
+.project-button:hover {
+  background-color: #007bff;
+  color:white;
 }
 
 h1 {
