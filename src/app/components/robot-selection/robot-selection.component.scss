@@ -25,6 +25,14 @@
   height: 180px !important;
 }
 
+.zoomed {
+  transition: transform 0.3s;
+}
+
+.zoomed:hover {
+  transform: scale(1.03);
+}
+
 .robot-row {
   margin-top:5%;
 }
