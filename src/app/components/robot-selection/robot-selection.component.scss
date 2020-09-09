@@ -9,11 +9,12 @@
 }
 
 .watermark {
-  width: 20%;
+  width: 30%;
   margin-top: 3%;
   max-height: 20%;
   min-height: 10%;
 }
+
 
 .robot-par {
   margin-top:3%;
@@ -27,7 +28,7 @@
 }
 
 .zoomed {
-  transition: transform 0.3s;
+  transition: transform 0.1s;
 }
 
 .zoomed:hover {
