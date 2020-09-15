@@ -43,7 +43,7 @@ class PrerequisiteManager {
 
         switch (payload.fqbn) {
             case 'arduino:avr:uno':
-                console.log(await his.executable.runAsync(this.ch341DriverInstallerPath, []));
+                console.log(await this.executable.runAsync(this.ch341DriverInstallerPath, []));
                 break;
             default:
                 break;
