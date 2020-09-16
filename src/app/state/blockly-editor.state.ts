@@ -81,6 +81,8 @@ void loop()
   public showLeaphyExtra$ = this.showLeaphyExtraSubject$.asObservable()
     .pipe(scan((current) => !current));
 
+  private undoSubject$ = new BehaviorSubject<boolean>(false);
+  public undo$ = this.undoSubject$.asObservable();
 
   public setCode(code: string): void {
     this.codeSubject$.next(code);
@@ -124,5 +126,9 @@ void loop()
 
   public toggleShowLeaphyExtra() {
     this.showLeaphyExtraSubject$.next(true);
+  }
+
+  public setUndo(redo: boolean){
+    this.undoSubject$.next(redo);
   }
 }

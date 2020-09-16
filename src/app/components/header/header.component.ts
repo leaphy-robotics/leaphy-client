@@ -14,7 +14,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
+  
   constructor(
     public appState: AppState,
     public robotWiredState: RobotWiredState,
@@ -44,6 +44,14 @@ export class HeaderComponent {
 
   public onUploadClicked() {
     this.blocklyState.setSketchStatus(SketchStatus.Sending);
+  }
+
+  public onUndoClicked() {
+    this.blocklyState.setUndo(false);
+  }
+
+  public onRedoClicked() {
+    this.blocklyState.setUndo(true);
   }
 
   public isBackEndBusy$: Observable<boolean> = combineLatest(
