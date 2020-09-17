@@ -10,7 +10,7 @@
 
   <span class="spacer"></span>
   <div *ngIf="appState.selectedRobotType$ | async">
-    <button mat-icon-button disabled>
+    <button mat-icon-button (click)="onSaveWorkspaceClicked()">
       <mat-icon>save</mat-icon>
     </button>
     <button mat-icon-button (click)="onUndoClicked()">

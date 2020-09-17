@@ -7,6 +7,7 @@ import { WorkspaceStatus } from 'src/app/domain/workspace.status';
 import { SketchStatus } from 'src/app/domain/sketch.status';
 import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  
+
   constructor(
     public appState: AppState,
     public robotWiredState: RobotWiredState,
@@ -32,6 +33,12 @@ export class HeaderComponent {
 
   public onSaveWorkspaceClicked() {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Saving);
+  }
+
+  // To capture the keyboard shortcut
+  @HostListener('document:keydown.control.s', ['$event']) onCtrlS(event: KeyboardEvent) {
+    this.onSaveWorkspaceClicked();
+    event.preventDefault();
   }
 
   public onSaveWorkspaceAsClicked() {
