@@ -4,7 +4,7 @@
   <button mat-raised-button class="header-button" [matMenuTriggerFor]="menu" *ngIf="appState.selectedRobotType$ | async">
     Project
   </button>
-  <button mat-raised-button class="header-button" *ngIf="appState.selectedRobotType$ | async" disabled>
+  <button mat-raised-button class="header-button" *ngIf="appState.selectedRobotType$ | async" (click)="onHelpClicked()">
     Help
   </button>
 

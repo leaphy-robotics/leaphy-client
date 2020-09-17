@@ -50,11 +50,18 @@ export class AppState {
         .pipe(filter(selectedRobotType => !!selectedRobotType))
         .pipe(map(selectedRobotType => selectedRobotType.isWired));
 
+    private showHelpPageSubject$ = new BehaviorSubject<boolean>(false);
+    public showHelpPage$ = this.showHelpPageSubject$.asObservable();
+
     public setSelectedRobotType(robotType: RobotType) {
         this.selectedRobotTypeSubject$.next(robotType);
     }
 
     public setSelectedLanguage(language: Language) {
         this.selectedLanguageSubject$.next(language);
+    }
+
+    public setShowHelpPage(show: boolean) {
+        this.showHelpPageSubject$.next(show);
     }
 }

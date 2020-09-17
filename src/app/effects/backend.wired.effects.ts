@@ -213,6 +213,11 @@ export class BackendWiredEffects {
                     .subscribe(([, robotType]) => {
                         this.send('install-usb-driver', robotType);
                     });
+
+                // When the user clicks help, open the default OS browser with the leaphy Forum
+                this.appState.showHelpPage$
+                    .pipe(filter(show => !!show))
+                    .subscribe(() => this.send('open-browser-page', "https://forum.leaphy.nl/"));
             });
     }
 

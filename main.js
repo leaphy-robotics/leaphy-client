@@ -55,7 +55,9 @@ ipcMain.on('save-workspace', workspaceManager.save);
 ipcMain.on('save-workspace-as', workspaceManager.saveAs);
 ipcMain.on('restore-workspace', workspaceManager.restore);
 
-
+const WebBrowserLauncher = require('./electron/webBrowserLauncher');
+const webBrowserLauncher = new WebBrowserLauncher(os);
+ipcMain.on('open-browser-page', webBrowserLauncher.openWebPage);
 
 function loadUrl(mainWindow) {
     mainWindow.loadURL(

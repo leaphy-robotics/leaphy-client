@@ -61,6 +61,10 @@ export class HeaderComponent {
     this.blocklyState.setUndo(true);
   }
 
+  public onHelpClicked() {
+    this.appState.setShowHelpPage(true);
+  }
+
   public isBackEndBusy$: Observable<boolean> = combineLatest(
     this.robotWiredState.isInstallationVerified$,
     this.appState.selectedRobotType$,
