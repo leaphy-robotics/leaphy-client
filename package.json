@@ -31,7 +31,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "angular": "^1.8.0",
-    "blockly": "github:paulleaphy/blockly#7449c0da3007a5452cfb19f3e6d7250ba190b961",
+    "blockly": "github:paulleaphy/blockly#a467f2f8715dcca7918ba0381cb42d8e817b77a0",
     "bootstrap": "^4.5.2",
     "electron-prompt": "^1.6.0",
     "electron-squirrel-startup": "^1.0.0",
