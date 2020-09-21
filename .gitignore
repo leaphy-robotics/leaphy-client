@@ -10,8 +10,8 @@
 /bazel-out
 
 # packaged
-/leaphy_client-win32-x64
-/leaphy_client-darwin-x64
+/easybloqs-win32-x64
+/easybloqs-darwin-x64
 
 # installers
 *.dmg

@@ -1,11 +1,15 @@
 const electronInstaller = require('electron-winstaller');
     electronInstaller.createWindowsInstaller({
-      appDirectory: './leaphy_client-win32-x64',
+      appDirectory: './easybloqs-win32-x64',
       outputDirectory: './installers/win32',
       authors: 'Leaphy Robotics',
-      exe: 'leaphy_client.exe',
-      description: 'Leaphy Easybloqs Client',
-      noMsi: true
+      exe: 'easybloqs.exe',
+      description: 'Leaphy Easybloqs',
+      noMsi: true,
+      iconUrl: 'C:/repos/leaphy-client/easybloqs-icon.ico',
+      setupIcon: 'C:/repos/leaphy-client/easybloqs-icon.ico',
+      setupExe: 'EasybloqsSetup.exe',
+      loadingGif: 'C:/repos/leaphy-client/easybloqs-loading.gif'
     })
     .then(success => {
         console.log('It worked!');

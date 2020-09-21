@@ -75,7 +75,8 @@ function createWindow() {
         height: 600,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        icon: __dirname + '/easybloqs-icon.ico'
     })
 
     mainWindow.setMenu(null);
