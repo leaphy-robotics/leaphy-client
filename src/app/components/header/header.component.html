@@ -4,19 +4,19 @@
   <button mat-raised-button class="header-button" [matMenuTriggerFor]="menu" *ngIf="appState.selectedRobotType$ | async">
     Project
   </button>
-  <button mat-raised-button class="header-button" *ngIf="appState.selectedRobotType$ | async" disabled>
+  <button mat-raised-button class="header-button" *ngIf="appState.selectedRobotType$ | async" (click)="onHelpClicked()">
     Help
   </button>
 
   <span class="spacer"></span>
   <div *ngIf="appState.selectedRobotType$ | async">
-    <button mat-icon-button disabled>
+    <button mat-icon-button (click)="onSaveWorkspaceClicked()">
       <mat-icon>save</mat-icon>
     </button>
-    <button mat-icon-button disabled>
+    <button mat-icon-button (click)="onUndoClicked()">
       <mat-icon>undo</mat-icon>
     </button>
-    <button mat-icon-button disabled>
+    <button mat-icon-button (click)="onRedoClicked()">
       <mat-icon>redo</mat-icon>
     </button>
 

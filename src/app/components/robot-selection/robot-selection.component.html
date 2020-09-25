@@ -1,8 +1,8 @@
 <div>
   <div class="row">
     <div class="col align-self-center text-center" style="margin-top:10%;">
-      <h1 style="font-family: 'Inter', sans-serif; font-size: 24px; line-height: 35px; font-weight: 700;">KIES EEN ROBOT</h1>
-      <h3 style="font-family: 'Inter', sans-serif; font-size: 17px; line-height: 28px; font-weight: 450;">Selecteer een robot en start een nieuw project</h3>
+      <h1>KIES EEN ROBOT</h1>
+      <h3>Selecteer een robot en start een nieuw project</h3>
     </div>
   </div>
   <div class="row" style="margin-top:5%">
@@ -13,7 +13,7 @@
       <button class="btn shadow-sm btn-primary " [ngClass]="{'selected': toggle}"  (click)="clickEvent($event)" style="background-color:#ffff !important; border: solid 1px #f1f1f1; !important; width:180px !important; height:180px !important;">
         <img class="imgcenter" src="./assets/{{robot.svgname}}">
       </button>
-      <p style="margin-top:3%">{{robot.name}}</p>
+      <p class="robot-par">{{robot.name}}</p>
     </div>
   </div>
   <div class="row my-3 d-flex justify-content-center">
@@ -25,7 +25,7 @@
       <button (click)="onRobotSelected(robot)" type="button" class="btn btn-primary" style="background-color: #0FB900; border:none; color:white;">Start een nieuw project <i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
-  <div class="fixed-bottom" style="margin-bottom: 4%;">
-    <img class="mx-auto d-block" src="./assets/leaphy.svg">
+  <div class="fixed-bottom watermark-container">
+    <img class="mx-auto d-block watermark" src="./assets/leaphy.svg">
   </div>
 </div>

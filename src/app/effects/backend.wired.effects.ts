@@ -178,11 +178,19 @@ export class BackendWiredEffects {
                 // When the workspace is being saved, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.Saving))
-                    .pipe(withLatestFrom(this.blocklyEditorState.projectFilePath$, this.blocklyEditorState.workspaceXml$))
-                    .pipe(filter(([, projectFilePath,]) => !!projectFilePath))
-                    .subscribe(([, projectFilePath, workspaceXml]) => {
-                        const payload = { projectFilePath, workspaceXml };
-                        this.send('save-workspace', payload);
+                    .pipe(withLatestFrom(
+                        this.blocklyEditorState.projectFilePath$,
+                        this.blocklyEditorState.workspaceXml$,
+                        this.appState.selectedRobotType$
+                    ))
+                    .subscribe(([, projectFilePath, workspaceXml, robotType]) => {
+                        if (projectFilePath) {
+                            const payload = { projectFilePath, workspaceXml };
+                            this.send('save-workspace', payload);
+                        } else {
+                            const payload = { projectFilePath, workspaceXml, robotType };
+                            this.send('save-workspace-as', payload);
+                        }
                     });
 
                 // When the workspace is being saved, relay the command to Electron
@@ -205,6 +213,11 @@ export class BackendWiredEffects {
                     .subscribe(([, robotType]) => {
                         this.send('install-usb-driver', robotType);
                     });
+
+                // When the user clicks help, open the default OS browser with the leaphy Forum
+                this.appState.showHelpPage$
+                    .pipe(filter(show => !!show))
+                    .subscribe(() => this.send('open-browser-page', "https://forum.leaphy.nl/"));
             });
     }
 

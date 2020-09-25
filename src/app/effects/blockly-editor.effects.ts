@@ -33,7 +33,7 @@ export class BlocklyEditorEffects {
                 this.getXmlContent('./assets/leaphy-toolbox.xml'),
                 this.getXmlContent('./assets/leaphy-start.xml'),
             ))
-            .subscribe(([[[element, config], robotType],baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
+            .subscribe(([[[element, config], robotType], baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
                 const parser = new DOMParser();
                 const toolboxXmlDoc = parser.parseFromString(baseToolboxXml, 'text/xml');
                 const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
@@ -42,7 +42,7 @@ export class BlocklyEditorEffects {
                 toolboxElement.appendChild(leaphyRobotCategory);
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
-                config.toolbox = toolboxXmlString; 
+                config.toolbox = toolboxXmlString;
                 const workspace = Blockly.inject(element, config);
                 const xml = Blockly.Xml.textToDom(startWorkspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
@@ -105,6 +105,7 @@ export class BlocklyEditorEffects {
         this.blocklyState.workspace$
             .pipe(filter(workspace => !!workspace))
             .subscribe(workspace => {
+                workspace.clearUndo();
                 workspace.addChangeListener(Blockly.Events.disableOrphans);
                 workspace.addChangeListener(async () => {
                     this.blocklyState.setCode(Blockly.Arduino.workspaceToCode(workspace));
@@ -124,6 +125,12 @@ export class BlocklyEditorEffects {
                 Blockly.Xml.domToWorkspace(xml, workspace);
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
             });
+
+        // When the user presses undo or redo, trigger undo or redo on the workspace
+        this.blocklyState.undo$
+            .pipe(withLatestFrom(this.blocklyState.workspace$))
+            .pipe(filter(([, workspace]) => !!workspace))
+            .subscribe(([redo, workspace]) => workspace.undo(redo));
 
         // Changes in ConnectionStatus result in changes in SketchStatus
         this.backEndState.connectionStatus$

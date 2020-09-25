@@ -43,7 +43,7 @@ class PrerequisiteManager {
 
         switch (payload.fqbn) {
             case 'arduino:avr:uno':
-                console.log(await his.executable.runAsync(this.ch341DriverInstallerPath, []));
+                console.log(await this.executable.runAsync(this.ch341DriverInstallerPath, []));
                 break;
             default:
                 break;
@@ -101,8 +101,8 @@ class PrerequisiteManager {
             platformFolder = "win32";
             ch341_driver_installer = "CH341SER.EXE";
         } 
-        ch341DriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'ch341_driver_installer', ch341_driver_installer);
-        return this.ch341DriverInstallerPath;
+        const ch341DriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'ch341_driver_installer', ch341_driver_installer);
+        return ch341DriverInstallerPath;
     }
 }
 

@@ -43,7 +43,7 @@ void loop()
     zoom: {
       controls: true,
       wheel: false,
-      startScale: 1.0,
+      startScale: 0.8,
       maxScale: 3,
       minScale: 0.3,
       scaleSpeed: 1.2
@@ -53,7 +53,8 @@ void loop()
       scrollbars: true,
       drag: true,
       wheel: true
-    }
+    },
+    renderer: 'zelos'
   });
   public blocklyConfig$ = this.blocklyConfigSubject$.asObservable();
 
@@ -80,6 +81,8 @@ void loop()
   public showLeaphyExtra$ = this.showLeaphyExtraSubject$.asObservable()
     .pipe(scan((current) => !current));
 
+  private undoSubject$ = new BehaviorSubject<boolean>(false);
+  public undo$ = this.undoSubject$.asObservable();
 
   public setCode(code: string): void {
     this.codeSubject$.next(code);
@@ -123,5 +126,9 @@ void loop()
 
   public toggleShowLeaphyExtra() {
     this.showLeaphyExtraSubject$.next(true);
+  }
+
+  public setUndo(redo: boolean){
+    this.undoSubject$.next(redo);
   }
 }

@@ -7,6 +7,7 @@ import { WorkspaceStatus } from 'src/app/domain/workspace.status';
 import { SketchStatus } from 'src/app/domain/sketch.status';
 import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -34,6 +35,12 @@ export class HeaderComponent {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Saving);
   }
 
+  // To capture the keyboard shortcut
+  @HostListener('document:keydown.control.s', ['$event']) onCtrlS(event: KeyboardEvent) {
+    this.onSaveWorkspaceClicked();
+    event.preventDefault();
+  }
+
   public onSaveWorkspaceAsClicked() {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingAs);
   }
@@ -44,6 +51,18 @@ export class HeaderComponent {
 
   public onUploadClicked() {
     this.blocklyState.setSketchStatus(SketchStatus.Sending);
+  }
+
+  public onUndoClicked() {
+    this.blocklyState.setUndo(false);
+  }
+
+  public onRedoClicked() {
+    this.blocklyState.setUndo(true);
+  }
+
+  public onHelpClicked() {
+    this.appState.setShowHelpPage(true);
   }
 
   public isBackEndBusy$: Observable<boolean> = combineLatest(
