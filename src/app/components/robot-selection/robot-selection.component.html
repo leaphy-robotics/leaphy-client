@@ -10,19 +10,10 @@
 
       <!-- TODO: op een klik worden beide buttons groen omstreept. Heb maar wat geprobeerd, kijk maar of er een betere optie is. -->
 
-      <button class="btn shadow-sm btn-primary " [ngClass]="{'selected': toggle}"  (click)="clickEvent($event)" style="background-color:#ffff !important; border: solid 1px #f1f1f1; !important; width:180px !important; height:180px !important;">
+      <button class="btn shadow-sm btn-primary " [ngClass]="{'selected': (appState.selectedRobotType$ | async) == robot}" (click)="onRobotSelected(robot)" style="background-color:#ffff !important; border: solid 1px #f1f1f1; !important; width:180px !important; height:180px !important;">
         <img class="imgcenter" src="./assets/{{robot.svgname}}">
       </button>
       <p class="robot-par">{{robot.name}}</p>
-    </div>
-  </div>
-  <div class="row my-3 d-flex justify-content-center">
-    <div class="col col-sm-6 text-center">
-      <button type="button" class="btn btn-outline-primary">Open een project</button>
-
-      <!--TODO: hieronder staat een foute functie, maar deze moet er wel staan voor de volgende stap. Paul, kan jij dit fixen? -->
-      <!-- TODO: Ook staan beide buttons er, maar ze moeten dus modulair zijn. Robot geselecteerd -> laat button van hieronder zien. -->
-      <button (click)="onRobotSelected(robot)" type="button" class="btn btn-primary" style="background-color: #0FB900; border:none; color:white;">Start een nieuw project <i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
   <div class="fixed-bottom watermark-container">

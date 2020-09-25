@@ -10,14 +10,7 @@ import { RobotType } from 'src/app/domain/robot.type';
 export class RobotSelectionComponent {
 
   constructor(public appState: AppState) { }
-  private toggle = false;
-  public isToggled = false;
   public onRobotSelected(robot: RobotType) {
     this.appState.setSelectedRobotType(robot);
-  }
-
-  clickEvent(event) {
-    this.toggle = !this.toggle;
-    this.isToggled = true;
   }
 }
