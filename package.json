@@ -13,9 +13,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
-    "package:electron:darwin": "npm install && ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/win32 --ignore=/leaphy_client-win32-x64 --overwrite --verbose --asar",
-    "package:electron:win32": "npm install && ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/darwin --ignore=/leaphy_client-win32-x64 --overwrite --verbose --asar --icon=easybloqs-icon.ico",
-    "installer:electron:darwin": "npm run clean:darwin && npm run package:electron:darwin && electron-installer-dmg",
+    "package:electron:darwin": "npm install && ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/win32 --ignore=/easybloqs-darwin-x64 --overwrite --verbose --asar",
+    "package:electron:win32": "npm install && ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/darwin --ignore=/easybloqs-win32-x64 --overwrite --verbose --asar --icon=easybloqs-icon.ico",
+    "installer:electron:darwin": "npm run clean:darwin && npm run package:electron:darwin && electron-installer-dmg  --overwrite ./easybloqs-darwin-x64/easybloqs.app Easybloqs",
     "installer:electron:win32": "npm run clean:win32 && npm run package:electron:win32 && node ./ci/build-installer.js"
   },
   "private": true,
