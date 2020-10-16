@@ -9,6 +9,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { StatusMessageDialog } from '../dialogs/status-message/status-message.dialog';
 
 declare var Blockly: any;
 
@@ -155,10 +156,11 @@ export class BlocklyEditorEffects {
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
             .subscribe(message => {
-                this.snackBar.open(message.event, '', {
+                this.snackBar.openFromComponent(StatusMessageDialog, {
                     duration: 3000,
                     horizontalPosition: 'center',
-                    verticalPosition: 'bottom'
+                    verticalPosition: 'bottom',
+                    data: message
                   })
                 switch (message.event) {
                     case 'PREPARING_COMPILATION_ENVIRONMENT':

@@ -5,18 +5,18 @@ class DeviceManager {
 
     updateDevice = async (event, payload) => {
         console.log('Update Device command received');
-        const updatingMessage = { event: "UPDATE_STARTED", message: "Updating robot..." };
+        const updatingMessage = { event: "UPDATE_STARTED", message: "UPDATE_STARTED" };
         event.sender.send('backend-message', updatingMessage);
         const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
         try {
             await this.arduinoCli.runAsync(uploadParams);
         } catch (error) {
-            unsuccesfulUploadMessage = { event: "UPDATE_FAILED", message: "Uploading compiled sketch failed", payload: payload };
+            unsuccesfulUploadMessage = { event: "UPDATE_FAILED", message: "UPDATE_FAILED", payload: payload };
             event.sender.send('backend-message', unsuccesfulUploadMessage);
             return;
         }
     
-        const updateCompleteMessage = { event: "UPDATE_COMPLETE", message: "Robot is ready for next sketch", payload: payload };
+        const updateCompleteMessage = { event: "UPDATE_COMPLETE", message: "UPDATE_COMPLETE", payload: payload };
         event.sender.send('backend-message', updateCompleteMessage);
     }
 
@@ -30,9 +30,9 @@ class DeviceManager {
         const eligibleBoards = connectedDevices.filter(device => device.protocol_label == "Serial Port (USB)");
         let message;
         if (!eligibleBoards.length) {
-            message = { event: "NO_DEVICES_FOUND", message: "No connected robots found" };
+            message = { event: "NO_DEVICES_FOUND", message: "NO_DEVICES_FOUND" };
         } else {
-            message = { event: "DEVICES_FOUND", payload: eligibleBoards };
+            message = { event: "DEVICES_FOUND", message: "DEVICES_FOUND", payload: eligibleBoards };
         }
         event.sender.send('backend-message', message);
     }

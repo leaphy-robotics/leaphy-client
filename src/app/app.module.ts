@@ -28,11 +28,12 @@ import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
 import { DialogEffects } from './effects/dialog.effects';
 import { RobotCloudEffects } from './effects/robot.cloud.effects';
 import { AppEffects } from './effects/app.effects';
+import { RobotWiredEffects } from './effects/robot.wired.effects';
 
 import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog';
 import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
 import { InstallDriverDialog } from './dialogs/install-driver/install-driver.dialog';
-import { RobotWiredEffects } from './effects/robot.wired.effects';
+import { StatusMessageDialog } from './dialogs/status-message/status-message.dialog';
 
 import { HeaderComponent } from './components/header/header.component';
 import { RobotSelectionComponent } from './components/robot-selection/robot-selection.component';
@@ -50,8 +51,8 @@ export function createTranslateLoader(http: HttpClient) {
     InstallDriverDialog,
     HeaderComponent,
     RobotSelectionComponent,
-    StartComponent
-
+    StartComponent,
+    StatusMessageDialog
   ],
   imports: [
     BrowserModule,
@@ -95,6 +96,6 @@ export function createTranslateLoader(http: HttpClient) {
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog]
+  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, StatusMessageDialog]
 })
 export class AppModule { }

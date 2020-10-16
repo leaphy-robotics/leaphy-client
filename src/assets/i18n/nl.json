@@ -10,5 +10,22 @@
     "INSTALL": "Installeer",
     "SHOWLEAPHYEXTRA": "Toon Leaphy Extra tools",
     "DRIVERINSTALLATIONINSTRUCTIONS": "Eenmalige installatie van USB driver is vereist. Klik op de Installeer knop en volg de instructies.",
-    "CONNECTIONINSTRUCTIONS": "Geen aangesloten robot gevonden. Sluit een Leaphy robot aan en probeer opnieuw."
+    "CONNECTIONINSTRUCTIONS": "Geen aangesloten robot gevonden. Sluit een Leaphy robot aan en probeer opnieuw.",
+    "PREPARING_COMPILATION_ENVIRONMENT": "Benodigdheden installeren voor {{data}}",
+    "DRIVER_INSTALLATION_REQUIRED": "USB Driver installatie vereist",
+    "INSTALLING_ARDUINO_CORE": "Arduino Core installeren voor {{data}}...",
+    "INSTALLING_LEAPHY_LIBRARIES": "Leaphy blokken installeren voor {{data}}...",
+    "INSTALLATION_VERIFIED": "Alle benodigheden voor {{data}} succesvol geinstalleerd",
+    "COMPILATION_STARTED": "Compileren...",
+    "COMPILATION_FAILED": "Compilatiefout!",
+    "COMPILATION_COMPLETE": "Compilatie voltooid",
+    "UPDATE_STARTED": "Robot updaten...",
+    "UPDATE_FAILED": "Robot updaten mislukt!",
+    "UPDATE_COMPLETE": "Robot update voltooid",
+    "NO_DEVICES_FOUND": "Geen robots gedetecteerd!",
+    "DEVICES_FOUND": "Robot gedetecteerd",
+    "WORKSPACE_RESTORING": "Project laden...",
+    "WORKSPACE_RESTORE_CANCELLED": "Project laden geannuleerd",
+    "WORKSPACE_SAVE_CANCELLED": "Project opslaan geannuleerd",
+    "WORKSPACE_SAVED": "Project opgeslagen"
 }

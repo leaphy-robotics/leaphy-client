@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
-import { BackEndState } from 'src/app/state/backend.state';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-blockly-editor',

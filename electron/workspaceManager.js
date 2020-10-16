@@ -7,7 +7,7 @@ class WorkspaceManager {
     save = async (event, payload) => {
         console.log("Save Workspace command received");
         this.fs.writeFileSync(payload.projectFilePath, payload.workspaceXml);
-        const message = { event: "WORKSPACE_SAVED", payload: payload.projectFilePath };
+        const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: payload.projectFilePath };
         event.sender.send('backend-message', message);
     }
 
@@ -23,12 +23,12 @@ class WorkspaceManager {
         }
         const response = await this.dialog.showSaveDialog(saveAsOptions);
         if (response.canceled) {
-            const message = { event: "WORKSPACE_SAVE_CANCELLED", message: "Workspace not saved" };
+            const message = { event: "WORKSPACE_SAVE_CANCELLED", message: "WORKSPACE_SAVE_CANCELLED" };
             event.sender.send('backend-message', message);
             return;
         }
         this.fs.writeFileSync(response.filePath, payload.workspaceXml);
-        const message = { event: "WORKSPACE_SAVED", payload: response.filePath };
+        const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: response.filePath };
         event.sender.send('backend-message', message);
     }
 
@@ -41,13 +41,13 @@ class WorkspaceManager {
         }
         const response = await this.dialog.showOpenDialog(openDialogOptions);
         if (response.canceled) {
-            const message = { event: "WORKSPACE_RESTORE_CANCELLED", message: "Workspace restore cancelled" };
+            const message = { event: "WORKSPACE_RESTORE_CANCELLED", message: "WORKSPACE_RESTORE_CANCELLED" };
             event.sender.send('backend-message', message);
             return;
         }
         const workspaceXml = this.fs.readFileSync(response.filePaths[0], "utf8");
         const payload = { projectFilePath: response.filePaths[0], workspaceXml };
-        const message = { event: "WORKSPACE_RESTORING", payload: payload };
+        const message = { event: "WORKSPACE_RESTORING", message: "WORKSPACE_RESTORING", payload: payload };
         event.sender.send('backend-message', message);
     }
 }
