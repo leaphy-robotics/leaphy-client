@@ -16,22 +16,25 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { BackendWiredEffects } from './effects/backend.wired.effects';
 import { BackEndCloudEffects } from './effects/backend.cloud.effects';
 import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
 import { DialogEffects } from './effects/dialog.effects';
 import { RobotCloudEffects } from './effects/robot.cloud.effects';
+import { AppEffects } from './effects/app.effects';
+
 import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog';
 import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
 import { InstallDriverDialog } from './dialogs/install-driver/install-driver.dialog';
 import { RobotWiredEffects } from './effects/robot.wired.effects';
-import { AppEffects } from './effects/app.effects';
+
 import { HeaderComponent } from './components/header/header.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import { RobotSelectionComponent } from './components/robot-selection/robot-selection.component';
 import { StartComponent } from './components/start/start.component';
 
@@ -66,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatCheckboxModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

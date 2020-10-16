@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest, Observable } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 declare var Blockly: any;
 
@@ -22,7 +23,8 @@ export class BlocklyEditorEffects {
         private blocklyState: BlocklyEditorState,
         private backEndState: BackEndState,
         private appState: AppState,
-        private http: HttpClient
+        private http: HttpClient,
+        private snackBar: MatSnackBar,
     ) {
         // Create a new workspace when all prerequisites are there
         combineLatest(this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$)
@@ -148,11 +150,16 @@ export class BlocklyEditorEffects {
                         break;
                 }
             });
-
+            
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
             .subscribe(message => {
+                this.snackBar.open(message.event, '', {
+                    duration: 3000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'bottom'
+                  })
                 switch (message.event) {
                     case 'PREPARING_COMPILATION_ENVIRONMENT':
                     case 'COMPILATION_STARTED':
