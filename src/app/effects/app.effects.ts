@@ -3,6 +3,8 @@ import { AppState } from '../state/app.state';
 import { TranslateService } from '@ngx-translate/core';
 import { BackEndState } from '../state/backend.state';
 import { filter } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { StatusMessageDialog } from '../dialogs/status-message/status-message.dialog';
 
 @Injectable({
     providedIn: 'root',
@@ -11,9 +13,10 @@ import { filter } from 'rxjs/operators';
 export class AppEffects {
     private isDebug = false;
     constructor(
-        private appState: AppState, 
+        private appState: AppState,
         private translate: TranslateService,
-        private backEndState: BackEndState) {
+        private backEndState: BackEndState,
+        private snackBar: MatSnackBar) {
 
         // Set the default language as default
         this.appState.defaultLanguage$
@@ -27,5 +30,17 @@ export class AppEffects {
         this.backEndState.backEndMessages$
             .pipe(filter(() => this.isDebug))
             .subscribe(message => console.log(message));
-    }
+
+        // React to messages received from the Backend
+        this.backEndState.backEndMessages$
+            .pipe(filter(message => !!message))
+            .subscribe(message => {
+                this.snackBar.openFromComponent(StatusMessageDialog, {
+                    duration: message.displayTimeout,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'bottom',
+                    data: message
+                })
+            });
+        }
 }

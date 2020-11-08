@@ -8,8 +8,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest, Observable } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { StatusMessageDialog } from '../dialogs/status-message/status-message.dialog';
 
 declare var Blockly: any;
 
@@ -24,8 +22,7 @@ export class BlocklyEditorEffects {
         private blocklyState: BlocklyEditorState,
         private backEndState: BackEndState,
         private appState: AppState,
-        private http: HttpClient,
-        private snackBar: MatSnackBar,
+        private http: HttpClient
     ) {
         // Create a new workspace when all prerequisites are there
         combineLatest(this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$)
@@ -42,15 +39,19 @@ export class BlocklyEditorEffects {
                 const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
                 const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
                 const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
-                toolboxElement.appendChild(leaphyRobotCategory);
+                toolboxElement.prepend(leaphyRobotCategory);
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 config.toolbox = toolboxXmlString;
                 const workspace = Blockly.inject(element, config);
+                const toolbox = workspace.getToolbox();
+                toolbox.getFlyout().autoClose = false;
                 const xml = Blockly.Xml.textToDom(startWorkspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
                 this.blocklyState.setWorkspace(workspace);
                 this.blocklyState.setToolboxXml(toolboxXmlString);
+                toolbox.selectItemByPosition(0);
+                toolbox.refreshTheme();
             });
 
         // Set the toolbox and initialWorkspace when the robot selection changes
@@ -68,7 +69,7 @@ export class BlocklyEditorEffects {
                 const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
                 const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
                 const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
-                toolboxElement.appendChild(leaphyRobotCategory);
+                toolboxElement.prepend(leaphyRobotCategory);
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 this.blocklyState.setToolboxXml(toolboxXmlString);
@@ -156,12 +157,6 @@ export class BlocklyEditorEffects {
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
             .subscribe(message => {
-                this.snackBar.openFromComponent(StatusMessageDialog, {
-                    duration: 3000,
-                    horizontalPosition: 'center',
-                    verticalPosition: 'bottom',
-                    data: message
-                  })
                 switch (message.event) {
                     case 'PREPARING_COMPILATION_ENVIRONMENT':
                     case 'COMPILATION_STARTED':

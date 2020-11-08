@@ -20,17 +20,17 @@ class Compiler {
         console.log('Compile command received');
         this.writeCodeToCompileLocation(payload.code);
         const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath];
-        const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED" };
+        const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', compilingMessage);
         try {
             await this.arduinoCli.runAsync(compileParams);
         } catch (error) {
-            const compilationFailedMessage = { event: "COMPILATION_FAILED", message: "COMPILATION_FAILED" };
+            const compilationFailedMessage = { event: "COMPILATION_FAILED", message: "COMPILATION_FAILED", displayTimeout: 0 };
             event.sender.send('backend-message', compilationFailedMessage);
             return;
         }
     
-        const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.sketchPath };
+        const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.sketchPath, displayTimeout: 0 };
         event.sender.send('backend-message', compilationCompleteMessage);
     }
 }

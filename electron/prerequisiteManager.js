@@ -9,7 +9,7 @@ class PrerequisiteManager {
 
     verifyInstallation = async (event, payload) => {
         console.log('Verify Installation command received');
-        const checkingPrerequisitesMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "PREPARING_COMPILATION_ENVIRONMENT", payload: payload.name };
+        const checkingPrerequisitesMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "PREPARING_COMPILATION_ENVIRONMENT", payload: payload.name, displayTimeout: 0 };
         event.sender.send('backend-message', checkingPrerequisitesMessage);
 
         const updateCoreIndexParams = ["core", "update-index"];
@@ -25,13 +25,13 @@ class PrerequisiteManager {
             const allDrivers = await this.executable.runAsync("driverquery");
             const isCH340DriverInstalled = allDrivers.indexOf("CH341SER_A64") > -1;
             if (!isCH340DriverInstalled) {
-                const driverInstallationRequiredMessage = { event: "DRIVER_INSTALLATION_REQUIRED", message: "DRIVER_INSTALLATION_REQUIRED" };
+                const driverInstallationRequiredMessage = { event: "DRIVER_INSTALLATION_REQUIRED", message: "DRIVER_INSTALLATION_REQUIRED", displayTimeout: 0 };
                 event.sender.send('backend-message', driverInstallationRequiredMessage);
                 return;
             }
         }
 
-        const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "INSTALLATION_VERIFIED", payload: payload.name };
+        const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "INSTALLATION_VERIFIED", payload: payload.name, displayTimeout: 3000 };
         event.sender.send('backend-message', installationVerifiedMessage);
     }
 
@@ -49,7 +49,7 @@ class PrerequisiteManager {
                 break;
         }
 
-        const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "INSTALLATION_VERIFIED", payload: payload.name };
+        const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "INSTALLATION_VERIFIED", payload: payload.name, displayTimeout: 3000 };
         event.sender.send('backend-message', installationVerifiedMessage);
     }
 
@@ -71,7 +71,7 @@ class PrerequisiteManager {
             console.log("Required core already installed");
             return;
         };
-        const installingCoreMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "INSTALLING_ARDUINO_CORE", payload: name };
+        const installingCoreMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "INSTALLING_ARDUINO_CORE", payload: name, displayTimeout: 0 };
         event.sender.send('backend-message', installingCoreMessage);
         await this.installCore(core);
     }
@@ -85,7 +85,7 @@ class PrerequisiteManager {
             return;
         }
 
-        const installingLibsMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "INSTALLING_LEAPHY_LIBRARIES", payload: name };
+        const installingLibsMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "INSTALLING_LEAPHY_LIBRARIES", payload: name, displayTimeout: 0 };
         event.sender.send('backend-message', installingLibsMessage);
 
         missingLibs.forEach(async missingLib => {
