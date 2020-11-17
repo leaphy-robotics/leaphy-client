@@ -33,7 +33,7 @@ export class AppEffects {
 
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
-            .pipe(filter(message => !!message))
+            .pipe(filter(message => !!message && message.displayTimeout >= 0))
             .subscribe(message => {
                 this.snackBar.openFromComponent(StatusMessageDialog, {
                     duration: message.displayTimeout,

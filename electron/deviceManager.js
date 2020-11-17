@@ -30,7 +30,7 @@ class DeviceManager {
         const eligibleBoards = connectedDevices.filter(device => device.protocol_label == "Serial Port (USB)");
         let message;
         if (!eligibleBoards.length) {
-            message = { event: "NO_DEVICES_FOUND", message: "NO_DEVICES_FOUND", displayTimeout: 3000 };
+            message = { event: "NO_DEVICES_FOUND", message: "NO_DEVICES_FOUND", displayTimeout: -1 };
         } else {
             message = { event: "DEVICES_FOUND", message: "DEVICES_FOUND", payload: eligibleBoards, displayTimeout: 0 };
         }

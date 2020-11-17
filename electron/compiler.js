@@ -25,12 +25,12 @@ class Compiler {
         try {
             await this.arduinoCli.runAsync(compileParams);
         } catch (error) {
-            const compilationFailedMessage = { event: "COMPILATION_FAILED", message: "COMPILATION_FAILED", displayTimeout: 0 };
+            const compilationFailedMessage = { event: "COMPILATION_FAILED", message: "COMPILATION_FAILED", displayTimeout: 3000 };
             event.sender.send('backend-message', compilationFailedMessage);
             return;
         }
     
-        const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.sketchPath, displayTimeout: 0 };
+        const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.sketchPath, displayTimeout: 1000 };
         event.sender.send('backend-message', compilationCompleteMessage);
     }
 }
