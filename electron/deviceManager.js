@@ -11,7 +11,7 @@ class DeviceManager {
         try {
             await this.arduinoCli.runAsync(uploadParams);
         } catch (error) {
-            unsuccesfulUploadMessage = { event: "UPDATE_FAILED", message: "UPDATE_FAILED", payload: payload, displayTimeout: 3000 };
+            var unsuccesfulUploadMessage = { event: "UPDATE_FAILED", message: "UPDATE_FAILED", payload: payload, displayTimeout: 3000 };
             event.sender.send('backend-message', unsuccesfulUploadMessage);
             return;
         }
