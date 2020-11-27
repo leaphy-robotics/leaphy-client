@@ -1,15 +1,13 @@
 <mat-toolbar class="shadow-sm" style="background-color:white" id="header-container">
-  <span id="title"><img src="./assets/logo.svg"></span>
 
-  <button mat-raised-button class="header-button" [matMenuTriggerFor]="projectMenu" *ngIf="appState.selectedRobotType$ | async">
-    {{ 'PROJECT' | translate }}
-  </button>
-  <button mat-raised-button class="header-button" [matMenuTriggerFor]="helpMenu" *ngIf="appState.selectedRobotType$ | async">
-    {{ 'HELP' | translate }}
-  </button>
+  <span id="title"><img class="helper-block" src="./assets/logo.svg"></span>
+  <div>
+    <a class="header-text ml-1" [matMenuTriggerFor]="projectMenu" *ngIf="appState.selectedRobotType$ | async">{{ 'PROJECT' | translate }}</a>
+    <a class="header-text ml-3" [matMenuTriggerFor]="helpMenu" *ngIf="appState.selectedRobotType$ | async">{{ 'HELP' | translate }}</a>
+  </div>
 
-  <span class="spacer"></span>
-  <div *ngIf="appState.selectedRobotType$ | async">
+
+  <div class="centered-div" *ngIf="appState.selectedRobotType$ | async">
     <button mat-icon-button (click)="onSaveWorkspaceClicked()">
       <mat-icon>save</mat-icon>
     </button>
@@ -19,17 +17,13 @@
     <button mat-icon-button (click)="onRedoClicked()">
       <mat-icon>redo</mat-icon>
     </button>
-
   </div>
-  <span class="spacer"></span>
 
-  <button mat-raised-button [class.spinner]="isBackEndBusy$ | async" *ngIf="appState.selectedRobotType$ | async"
-    (click)="onUploadClicked()" [disabled]="!(canUpload$ | async)">
-    {{ 'UPLOAD' | translate }}
-  </button>
+  <button class="btn btn-outline-primary rounded-pill upload-button float-right mr-1"  [class.spinner]="isBackEndBusy$ | async" *ngIf="appState.selectedRobotType$ | async"
+          (click)="onUploadClicked()" [disabled]="!(canUpload$ | async)">{{ 'UPLOAD' | translate }}</button>
 </mat-toolbar>
 
-<mat-menu #projectMenu="matMenu">
+<mat-menu #projectMenu="matMenu" class="matmenus">
   <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onNewProjectClicked()">
     <mat-icon>insert_drive_file</mat-icon>
     <span>{{ 'NEW' | translate }}</span>
@@ -53,7 +47,7 @@
   </span>
 </mat-menu>
 
-<mat-menu #helpMenu="matMenu">
+<mat-menu #helpMenu="matMenu" class="matmenus">
   <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onHelpClicked()">
     <mat-icon>help_center</mat-icon>
     <span>{{ 'HELP_FORUM' | translate }}</span>
