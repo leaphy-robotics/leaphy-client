@@ -1,11 +1,11 @@
 <mat-toolbar class="shadow-sm" style="background-color:white" id="header-container">
   <span id="title"><img src="./assets/logo.svg"></span>
 
-  <button mat-raised-button class="header-button" [matMenuTriggerFor]="menu" *ngIf="appState.selectedRobotType$ | async">
-    Project
+  <button mat-raised-button class="header-button" [matMenuTriggerFor]="projectMenu" *ngIf="appState.selectedRobotType$ | async">
+    {{ 'PROJECT' | translate }}
   </button>
-  <button mat-raised-button class="header-button" *ngIf="appState.selectedRobotType$ | async" (click)="onHelpClicked()">
-    Help
+  <button mat-raised-button class="header-button" [matMenuTriggerFor]="helpMenu" *ngIf="appState.selectedRobotType$ | async">
+    {{ 'HELP' | translate }}
   </button>
 
   <span class="spacer"></span>
@@ -24,10 +24,12 @@
   <span class="spacer"></span>
 
   <button mat-raised-button [class.spinner]="isBackEndBusy$ | async" *ngIf="appState.selectedRobotType$ | async"
-    (click)="onUploadClicked()" [disabled]="!(canUpload$ | async)">Upload</button>
+    (click)="onUploadClicked()" [disabled]="!(canUpload$ | async)">
+    {{ 'UPLOAD' | translate }}
+  </button>
 </mat-toolbar>
 
-<mat-menu #menu="matMenu">
+<mat-menu #projectMenu="matMenu">
   <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onNewProjectClicked()">
     <mat-icon>insert_drive_file</mat-icon>
     <span>{{ 'NEW' | translate }}</span>
@@ -49,4 +51,11 @@
   <span mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)">
     <mat-checkbox (change)="onShowLeaphyExtraToggled()"><span>{{ 'SHOWLEAPHYEXTRA' | translate }}</span></mat-checkbox>
   </span>
+</mat-menu>
+
+<mat-menu #helpMenu="matMenu">
+  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onHelpClicked()">
+    <mat-icon>help_center</mat-icon>
+    <span>{{ 'HELP_FORUM' | translate }}</span>
+  </button>
 </mat-menu>
