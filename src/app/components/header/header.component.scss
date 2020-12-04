@@ -32,9 +32,17 @@
 }
 
 .upload-button {
-  width:10%;
+  height:auto;
+  width:20%;
   background-color: #007bff;
   color: white;
+}
+
+.workspace-button {
+  height:auto;
+  width:10%;
+  background-color: white;
+  color: black;
 }
 
 .header-text {
