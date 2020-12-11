@@ -1,6 +1,5 @@
-<mat-toolbar class="shadow-sm" style="background-color:white" id="header-container">
-
-  <span id="title"><img class="helper-block" src="./assets/logo.svg"></span>
+<mat-toolbar class="shadow-sm" style="background-color:#003a96" id="header-container">
+  <span><h2 style="font-family: 'Maven Pro'; font-weight: bolder; color:white; font-size:2.1rem;">EASYBLOQS</h2></span>
   <div>
     <a class="header-text ml-1" [matMenuTriggerFor]="projectMenu" *ngIf="appState.selectedRobotType$ | async">{{ 'PROJECT' | translate }}</a>
     <a class="header-text ml-3" [matMenuTriggerFor]="helpMenu" *ngIf="appState.selectedRobotType$ | async">{{ 'HELP' | translate }}</a>
@@ -8,13 +7,13 @@
 
 
   <div class="centered-div" *ngIf="appState.selectedRobotType$ | async">
-    <button mat-icon-button (click)="onSaveWorkspaceClicked()">
+    <button class="btn btn-outline-primary rounded-pill workspace-button" (click)="onSaveWorkspaceClicked()">
       <mat-icon>save</mat-icon>
     </button>
-    <button mat-icon-button (click)="onUndoClicked()">
+    <button class="btn btn-outline-primary rounded-pill workspace-button" (click)="onUndoClicked()">
       <mat-icon>undo</mat-icon>
     </button>
-    <button mat-icon-button (click)="onRedoClicked()">
+    <button class="btn btn-outline-primary rounded-pill workspace-button"  (click)="onRedoClicked()">
       <mat-icon>redo</mat-icon>
     </button>
   </div>
