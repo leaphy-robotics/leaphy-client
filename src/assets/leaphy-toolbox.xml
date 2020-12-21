@@ -24,7 +24,6 @@
           </shadow>
         </value>
       </block>
-      <block type="leaphy_original_get_distance"></block>
       <block type="leaphy_original_move_motors">
         <value name="MOTOR_SPEED">
           <shadow type="math_number">
@@ -32,6 +31,14 @@
           </shadow>
         </value>
       </block>
+      <block type="leaphy_buzz">
+        <value name="DURATION">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="leaphy_original_get_distance"></block>
       <block type="leaphy_original_digital_read"></block>
       <block type="leaphy_original_analog_read"></block>
     </category>
@@ -42,14 +49,41 @@
 	<category id="l_wifi" name="%{BKY_LEAPHY_WIFI_CATEGORY}" categorystyle="leaphy_category">
 	</category>
 	<category id="l_extra" name="%{BKY_LEAPHY_EXTRA_CATEGORY}" categorystyle="leaphy_category">
-    <block type="leaphy_rgb_read_sensor"></block>
-    <block type="leaphy_rgb_color_red"></block>
-    <block type="leaphy_rgb_color_green"></block>
-    <block type="leaphy_rgb_color_blue"></block>
-    <block type="leaphy_rgb_raw_color_red"></block>
-    <block type="leaphy_rgb_raw_color_green"></block>
-    <block type="leaphy_rgb_raw_color_blue"></block>
-    <block type="leaphy_led_set_strip">
+    <block type="leaphy_buzz">
+        <value name="DURATION">
+          <shadow type="math_number">
+            <field name="NUM">100</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="leaphy_io_digitalwrite">
+      </block>
+      <block type="leaphy_io_analogwrite">
+        <value name="NUM">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="leaphy_servo_write">
+        <value name="SERVO_ANGLE">
+          <shadow type="math_number">
+            <field name="NUM">90</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="leaphy_servo_read">
+      </block>
+      <block type="leaphy_sonar_read">
+      </block>
+      <block type="leaphy_rgb_read_sensor"></block>
+      <block type="leaphy_rgb_color_red"></block>
+      <block type="leaphy_rgb_color_green"></block>
+      <block type="leaphy_rgb_color_blue"></block>
+      <block type="leaphy_rgb_raw_color_red"></block>
+      <block type="leaphy_rgb_raw_color_green"></block>
+      <block type="leaphy_rgb_raw_color_blue"></block>
+      <block type="leaphy_led_set_strip">
         <value name="LED_SET_PIN">
           <shadow type="math_number">
             <field name="NUM">0</field>
@@ -102,24 +136,6 @@
           </shadow>
         </value>
         <value name="LED_STRIP_DEMO_BLUE">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="leaphy_servo_write">
-        <value name="SERVO_ANGLE">
-          <shadow type="math_number">
-            <field name="NUM">90</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="leaphy_servo_read">
-      </block>
-      <block type="leaphy_io_digitalwrite">
-      </block>
-      <block type="leaphy_io_analogwrite">
-        <value name="NUM">
           <shadow type="math_number">
             <field name="NUM">0</field>
           </shadow>
