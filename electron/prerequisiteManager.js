@@ -58,38 +58,54 @@ class PrerequisiteManager {
         console.log(await this.arduinoCli.runAsync(installCoreParams));
     }
 
+    upgradeCore = async (core) => {
+        const upgradeCoreParams = ["core", "upgrade", core];
+        console.log(await this.arduinoCli.runAsync(upgradeCoreParams));
+    }
+
     installLib = async (library) => {
         const installLibParams = ["lib", "install", library];
         console.log(await this.arduinoCli.runAsync(installLibParams));
+    }
+
+    upgradeLib = async (library) => {
+        const upgradeLibParams = ["lib", "upgrade", library];
+        console.log(await this.arduinoCli.runAsync(upgradeLibParams));
     }
 
     verifyInstalledCoreAsync = async (event, name, core) => {
         const checkCoreParams = ["core", "list", "--format", "json"];
         const installedCores = JSON.parse(await this.arduinoCli.runAsync(checkCoreParams));
         const isRequiredCoreInstalled = installedCores.map(v => v.ID).includes(core);
-        if (isRequiredCoreInstalled) {
-            console.log("Required core already installed");
-            return;
-        };
+
         const installingCoreMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "INSTALLING_ARDUINO_CORE", payload: name, displayTimeout: 0 };
         event.sender.send('backend-message', installingCoreMessage);
+
+        if (isRequiredCoreInstalled) {
+            console.log(`Required Core ${core} already installed, attempting upgrade...`);
+            await this.upgradeCore(core);
+            return;
+        };
+        console.log(`Required Core ${core} not found, installing...`);
         await this.installCore(core);
     }
 
     verifyInstalledLibsAsync = async (event, name, libs) => {
         const checkLibsParams = ["lib", "list", "--format", "json"];
         const installedLibs = JSON.parse(await this.arduinoCli.runAsync(checkLibsParams));
-        const missingLibs = libs.filter(requiredLib => !installedLibs.map(l => l.library.real_name).includes(requiredLib));
-        if (!missingLibs.length) {
-            console.log("All required libraries already installed");
-            return;
-        }
+        const installedLibsRealNames = installedLibs.map(l => l.library.real_name);
 
         const installingLibsMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "INSTALLING_LEAPHY_LIBRARIES", payload: name, displayTimeout: 0 };
         event.sender.send('backend-message', installingLibsMessage);
 
-        missingLibs.forEach(async missingLib => {
-            await this.installLib(missingLib);
+        libs.forEach(async requiredLib => {
+            if(installedLibsRealNames.includes(requiredLib)){
+                console.log(`Required Library ${requiredLib} already installed, attempting upgrade...`);
+                await this.installLib(requiredLib); // Should be upgrade but that's not working, see https://github.com/arduino/arduino-cli/issues/1041
+            } else {
+                console.log(`Required Library ${requiredLib} not found, installing...`);
+                await this.installLib(requiredLib);
+            }
         });
     }
 
