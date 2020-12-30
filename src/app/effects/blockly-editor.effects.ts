@@ -40,6 +40,8 @@ export class BlocklyEditorEffects {
                 const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
                 const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
                 toolboxElement.prepend(leaphyRobotCategory);
+                const leaphyExtraCategory = leaphyCategories.getElementById('l_extra');
+                toolboxElement.appendChild(leaphyExtraCategory);
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 config.toolbox = toolboxXmlString;
@@ -77,26 +79,6 @@ export class BlocklyEditorEffects {
                 workspace.clear();
                 const xml = Blockly.Xml.textToDom(startWorkspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
-            });
-
-        // Add or remove the Leaphy Extra category when toggled
-        this.blocklyState.showLeaphyExtra$
-            .pipe(withLatestFrom(this.blocklyState.toolboxXml$, this.getXmlContent('./assets/leaphy-toolbox.xml')))
-            .subscribe(([showLeaphyExtra, toolboxXml, leaphyToolboxXml]) => {
-                const parser = new DOMParser();
-                const toolboxXmlDoc = parser.parseFromString(toolboxXml, 'text/xml');
-                if (showLeaphyExtra) {
-                    const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
-                    const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
-                    const leaphyExtraCategory = leaphyCategories.getElementById('l_extra');
-                    toolboxElement.appendChild(leaphyExtraCategory);
-                } else {
-                    const leaphyExtraCategory = toolboxXmlDoc.getElementById('l_extra');
-                    leaphyExtraCategory.remove();
-                }
-                const serializer = new XMLSerializer();
-                const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
-                this.blocklyState.setToolboxXml(toolboxXmlString);
             });
 
         // Update the toolbox when it changes

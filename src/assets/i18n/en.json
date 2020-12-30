@@ -12,7 +12,6 @@
     "HELP": "Help",
     "HELP_FORUM": "Doctor Leaphy Forum",
     "UPLOAD": "Upload to robot",
-    "SHOWLEAPHYEXTRA": "Show Leaphy Extra tools",
     "DRIVERINSTALLATIONINSTRUCTIONS": "One-time installation of USB driver is needed. Please click the Install button and follow the instructions.",
     "CONNECTIONINSTRUCTIONS": "No connected robot found. Connect a Leaphy robot and try again.",
     "PREPARING_COMPILATION_ENVIRONMENT": "Installing prerequisites for {{data}}",

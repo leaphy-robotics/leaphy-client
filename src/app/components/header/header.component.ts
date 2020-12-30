@@ -45,10 +45,6 @@ export class HeaderComponent {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingAs);
   }
 
-  public onShowLeaphyExtraToggled() {
-    this.blocklyState.toggleShowLeaphyExtra();
-  }
-
   public onUploadClicked() {
     this.blocklyState.setSketchStatus(SketchStatus.Sending);
   }

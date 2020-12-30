@@ -41,9 +41,6 @@
     <mat-icon>save</mat-icon>
     <span>{{ 'SAVEAS' | translate }}</span>
   </button>
-  <span mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)">
-    <mat-checkbox (change)="onShowLeaphyExtraToggled()"><span>{{ 'SHOWLEAPHYEXTRA' | translate }}</span></mat-checkbox>
-  </span>
 </mat-menu>
 
 <mat-menu #helpMenu="matMenu" class="matmenus">

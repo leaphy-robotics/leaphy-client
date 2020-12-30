@@ -77,10 +77,6 @@ void loop()
       return fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
     }));
 
-  private showLeaphyExtraSubject$ = new BehaviorSubject(false);
-  public showLeaphyExtra$ = this.showLeaphyExtraSubject$.asObservable()
-    .pipe(scan((current) => !current));
-
   private undoSubject$ = new BehaviorSubject<boolean>(false);
   public undo$ = this.undoSubject$.asObservable();
 
@@ -122,10 +118,6 @@ void loop()
 
   public setProjectFilePath(path: string) {
     this.projectFilePathSubject$.next(path);
-  }
-
-  public toggleShowLeaphyExtra() {
-    this.showLeaphyExtraSubject$.next(true);
   }
 
   public setUndo(redo: boolean){

@@ -12,7 +12,6 @@
     "HELP": "Help",
     "HELP_FORUM": "Dokter Leaphy Forum",
     "UPLOAD": "Upload naar robot",
-    "SHOWLEAPHYEXTRA": "Toon Leaphy Extra tools",
     "DRIVERINSTALLATIONINSTRUCTIONS": "Om je robot met de software te laten samenwerken, is een USB-driver nodig. Klik op de knop om die te installeren.",
     "CONNECTIONINSTRUCTIONS": "Het lijkt erop dat je robot niet goed is aangesloten. Controleer de aansluiting en probeer het nog een keer.",
     "PREPARING_COMPILATION_ENVIRONMENT": "Benodigdheden installeren voor {{data}}",
