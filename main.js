@@ -1,5 +1,6 @@
 const { app } = require('electron');
 const path = require("path");
+const nativeImage = require('electron').nativeImage;
 
 // We're using this little require here, in order to make electron recompile on a changed file. Delete for releases. 
 /* require('electron-reload')(__dirname, {
@@ -69,6 +70,9 @@ function loadUrl(mainWindow) {
     );
 }
 
+var image = nativeImage.createFromPath(__dirname + '/src/assets/easybloqs-logo-large.png'); 
+image.setTemplateImage(true);
+
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
@@ -76,7 +80,7 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true
         },
-        icon: __dirname + '/easybloqs-icon.ico'
+        icon: image
     })
 
     mainWindow.setMenu(null);
