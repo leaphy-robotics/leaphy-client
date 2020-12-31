@@ -1,11 +1,11 @@
 const { app } = require('electron');
 const path = require("path");
 
-// We're using this little require here, in order to make electron recompile on a changed file. Delete for releases. 
+// We're using this little require here, in order to make electron recompile on a changed file. Delete for releases.
 /* require('electron-reload')(__dirname, {
     electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
     hardResetMethod: 'exit'
-  }); */ 
+  }); */
 
 const squirrel = require('./electron/squirrel.js');
 if (squirrel.handleEvent(app, path)) {
@@ -45,7 +45,7 @@ const compiler = new Compiler(app, arduinoCli, path, fs);
 ipcMain.on('compile', compiler.compile);
 
 const DeviceManager = require('./electron/deviceManager.js');
-const deviceManager = new DeviceManager(arduinoCli);
+const deviceManager = new DeviceManager(arduinoCli, path);
 ipcMain.on('update-device', deviceManager.updateDevice);
 ipcMain.on('get-serial-devices', deviceManager.getDevices);
 

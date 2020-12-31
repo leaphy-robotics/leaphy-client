@@ -19,7 +19,7 @@ class Compiler {
     compile = async (event, payload) => {
         console.log('Compile command received');
         this.writeCodeToCompileLocation(payload.code);
-        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath];
+        const compileParams = ["compile", "--fqbn", payload.fqbn, "--export-binaries", this.sketchPath];
         const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', compilingMessage);
         try {
@@ -29,7 +29,7 @@ class Compiler {
             event.sender.send('backend-message', compilationFailedMessage);
             return;
         }
-    
+
         const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.sketchPath, displayTimeout: 1000 };
         event.sender.send('backend-message', compilationCompleteMessage);
     }
