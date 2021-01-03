@@ -4,10 +4,10 @@ class DeviceManager {
     }
 
     updateDevice = async (event, payload) => {
-        console.log('Update Device command received');
+        console.log('Update Device command received', payload);
         const updatingMessage = { event: "UPDATE_STARTED", message: "UPDATE_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', updatingMessage);
-        const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.fqbn.split(":").join(".")}.${payload.ext}`];
+        const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.ext}`];
         try {
             await this.arduinoCli.runAsync(uploadParams);
         } catch (error) {

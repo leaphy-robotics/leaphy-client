@@ -2,24 +2,24 @@ class Compiler {
     constructor(app, arduinoCli, path, fs){
         this.arduinoCli = arduinoCli;
         this.fs = fs;
-        this.sketchPath = this.getSketchPath(app, path);
+        this.sketchFolder = this.getSketchFolder(app, path);
+        this.sketchPath = path.join(this.sketchFolder, 'sketch.ino');
     }
-    getSketchPath = (app, path) => {
+    getSketchFolder = (app, path) => {
         const userDataPath = app.getPath('userData');
         const sketchFolder = path.join(userDataPath, 'sketch');
         if (!this.fs.existsSync(sketchFolder)) {
             this.fs.mkdirSync(sketchFolder);
         }
-        const sketchPath = path.join(sketchFolder, 'sketch.ino');
-        return sketchPath;
+        return sketchFolder;
     }
     writeCodeToCompileLocation = (code) => {
         this.fs.writeFileSync(this.sketchPath, code);
     }
     compile = async (event, payload) => {
-        console.log('Compile command received');
+        console.log('Compile command received', payload);
         this.writeCodeToCompileLocation(payload.code);
-        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath];
+        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath, "--build-path", this.sketchFolder];
         const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', compilingMessage);
         try {
