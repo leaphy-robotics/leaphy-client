@@ -34,6 +34,7 @@ import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog
 import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
 import { InstallDriverDialog } from './dialogs/install-driver/install-driver.dialog';
 import { StatusMessageDialog } from './dialogs/status-message/status-message.dialog';
+import { CreditsDialog } from './dialogs/credits/credits.dialog';
 
 import { HeaderComponent } from './components/header/header.component';
 import { RobotSelectionComponent } from './components/robot-selection/robot-selection.component';
@@ -52,7 +53,8 @@ export function createTranslateLoader(http: HttpClient) {
     HeaderComponent,
     RobotSelectionComponent,
     StartComponent,
-    StatusMessageDialog
+    StatusMessageDialog,
+    CreditsDialog
   ],
   imports: [
     BrowserModule,
@@ -96,6 +98,6 @@ export function createTranslateLoader(http: HttpClient) {
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, StatusMessageDialog]
+  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, StatusMessageDialog, CreditsDialog]
 })
 export class AppModule { }

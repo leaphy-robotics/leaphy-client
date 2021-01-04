@@ -36,6 +36,7 @@
     "angular": "^1.8.1",
     "blockly": "github:leaphy-robotics/leaphy-blockly#f727af3148e840696638ce0c75a3941b52ef75f0",
     "bootstrap": "^4.5.3",
+    "electron-first-run": "^3.0.0",
     "electron-prompt": "^1.6.0",
     "electron-squirrel-startup": "^1.0.0",
     "hammerjs": "^2.0.8",

@@ -60,6 +60,11 @@ const WebBrowserLauncher = require('./electron/webBrowserLauncher');
 const webBrowserLauncher = new WebBrowserLauncher(os);
 ipcMain.on('open-browser-page', webBrowserLauncher.openWebPage);
 
+const firstRun = require('electron-first-run');
+const FirstRunDetector = require('./electron/firstRunDetector');
+const firstRunDetector = new FirstRunDetector(firstRun);
+ipcMain.on('detect-first-run', firstRunDetector.detectFirstRun);
+
 function loadUrl(mainWindow) {
     mainWindow.loadURL(
         url.format({
@@ -70,10 +75,10 @@ function loadUrl(mainWindow) {
     );
 }
 
-var image = nativeImage.createFromPath(__dirname + '/src/assets/easybloqs-logo-large.png'); 
-image.setTemplateImage(true);
-
 function createWindow() {
+    var image = nativeImage.createFromPath(__dirname + '/src/assets/easybloqs-logo-large.png'); 
+    image.setTemplateImage(true);
+
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,

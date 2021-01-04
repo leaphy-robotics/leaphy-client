@@ -31,7 +31,7 @@ export class AppEffects {
             .pipe(filter(() => this.isDebug))
             .subscribe(message => console.log(message));
 
-        // React to messages received from the Backend
+        // Show snackbar based on messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message && message.displayTimeout >= 0))
             .subscribe(message => {
@@ -42,5 +42,5 @@ export class AppEffects {
                     data: message
                 })
             });
-        }
+    }
 }
