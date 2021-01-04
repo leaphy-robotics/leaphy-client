@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#credits{
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#namesContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+#names{
+    flex: 0 1 auto;
+
+}
+#roles{
+    flex: 0 1 auto;
+
+}
+#thankYous{
+    flex: 0 1 auto;
+}
+#buttons{
+    flex: 0 1 auto;
+
+}

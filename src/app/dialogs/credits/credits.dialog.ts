@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-credits',
   templateUrl: './credits.dialog.html',
   styleUrls: ['./credits.dialog.scss']
 })
-export class CreditsDialog implements OnInit {
+export class CreditsDialog  {
+  constructor(
+    public dialogRef: MatDialogRef<CreditsDialog>
+  ) { }
 
-  constructor() { }
-
-  ngOnInit() {
+  public onDialogClosed() {
+    this.dialogRef.close();
   }
-
 }
