@@ -60,6 +60,10 @@ export class BackendWiredEffects {
                     });
                 });
 
+                // Detect first run in the beginning
+                this.appState.isDesktop$
+                    .subscribe(() => this.send('detect-first-run'));
+
                 // When wired robot is selected, verify that all prerequisites are installed
                 this.appState.selectedRobotType$
                     .pipe(filter(robotType => !!robotType && !!robotType.isWired))

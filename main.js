@@ -2,12 +2,6 @@ const { app } = require('electron');
 const path = require("path");
 const nativeImage = require('electron').nativeImage;
 
-// We're using this little require here, in order to make electron recompile on a changed file. Delete for releases. 
-/* require('electron-reload')(__dirname, {
-    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-    hardResetMethod: 'exit'
-  }); */ 
-
 const squirrel = require('./electron/squirrel.js');
 if (squirrel.handleEvent(app, path)) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
@@ -20,8 +14,8 @@ const url = require("url");
 let mainWindow;
 
 app.on('ready', createWindow)
-app.on('window-all-closed', function () {if (process.platform !== 'darwin') app.quit()})
-app.on('activate', function () {if (mainWindow === null) createWindow()})
+app.on('window-all-closed', function () { if (process.platform !== 'darwin') app.quit() })
+app.on('activate', function () { if (mainWindow === null) createWindow() })
 app.setAppLogsPath();
 
 const { ipcMain, dialog } = require('electron');
@@ -60,6 +54,11 @@ const WebBrowserLauncher = require('./electron/webBrowserLauncher');
 const webBrowserLauncher = new WebBrowserLauncher(os);
 ipcMain.on('open-browser-page', webBrowserLauncher.openWebPage);
 
+const firstRun = require('electron-first-run');
+const FirstRunDetector = require('./electron/firstRunDetector');
+const firstRunDetector = new FirstRunDetector(firstRun);
+ipcMain.on('detect-first-run', firstRunDetector.detectFirstRun);
+
 function loadUrl(mainWindow) {
     mainWindow.loadURL(
         url.format({
@@ -70,19 +69,18 @@ function loadUrl(mainWindow) {
     );
 }
 
-var image = nativeImage.createFromPath(__dirname + '/src/assets/easybloqs-logo-large.png'); 
-image.setTemplateImage(true);
-
 function createWindow() {
+    var image = nativeImage.createFromPath(__dirname + '/src/assets/easybloqs-logo-large.png');
+    image.setTemplateImage(true);
+
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
         webPreferences: {
             nodeIntegration: true
         },
         icon: image
     })
 
+    mainWindow.maximize();
     mainWindow.setMenu(null);
     mainWindow.setMenuBarVisibility(false);
 
