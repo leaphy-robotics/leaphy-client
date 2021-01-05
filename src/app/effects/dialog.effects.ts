@@ -58,7 +58,7 @@ export class DialogEffects {
                     case 'FIRST_RUN':
                         const creditsDialogComponent = CreditsDialog;
                         const creditsDialogRef = this.dialog.open(creditsDialogComponent, {
-                            width: '600px',
+                            width: '800px',
                             disableClose: true,
                         });
                         this.dialogState.setConnectDialog(creditsDialogRef);                        

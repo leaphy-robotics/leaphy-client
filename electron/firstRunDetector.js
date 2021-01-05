@@ -7,10 +7,10 @@ class FirstRunDetector {
         // Clear the firstRun setting, don't do this
         //this.firstRun.clear();
 
-        //if(isFirstRun){
+        if(isFirstRun){
             const firstRunDetectedMessage = { event: "FIRST_RUN" };
             event.sender.send('backend-message', firstRunDetectedMessage);
-        //}
+        }
     }
 }
 
