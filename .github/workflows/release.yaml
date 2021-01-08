@@ -75,3 +75,51 @@ jobs:
         asset_name: EasyBloqsSetup-${{ needs.release.outputs.version }}.exe
         asset_path: installers/win32/EasyBloqsSetup.exe
         asset_content_type: application/exe
+
+  build_macos:
+    name: Build MacOS
+    runs-on: macos-latest
+    needs: release
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - name: Restore Cache
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Install Dependencies
+      run: yarn install --frozen-lockfile
+
+    - name: Package
+      run: yarn run package:electron:darwin
+
+    - name: Build Installer
+      run: yarn run build-installer:electron:darwin
+      env:
+        CI: true
+        DEBUG: electron-installer-dmg:*
+
+    - name: Upload MacOS Install Package
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.release.outputs.upload_url }}
+        asset_name: Easybloqs-${{ needs.release.outputs.version }}.dmg
+        asset_path: installers/darwin/Easybloqs.dmg
+        asset_content_type: application/exe
