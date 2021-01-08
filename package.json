@@ -15,7 +15,7 @@
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
     "package:electron:darwin": "yarn install && ng build --prod --base-href ./ && electron-packager . --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/win32 --ignore=/easybloqs-darwin-x64 --overwrite --verbose --asar",
     "package:electron:win32": "yarn install && ng build --prod --base-href ./ && electron-packager . --platform=win32 --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/darwin --ignore=/easybloqs-win32-x64 --overwrite --verbose --asar --icon=easybloqs-icon.ico",
-    "build-installer:electron:darwin": "electron-installer-dmg --overwrite ./easybloqs-darwin-x64/easybloqs.app Easybloqs",
+    "build-installer:electron:darwin": "electron-installer-dmg --debug --overwrite --out=./installers/darwin ./easybloqs-darwin-x64/easybloqs.app Easybloqs",
     "build-installer:electron:win32": "node ./ci/build-installer.js",
     "installer:electron:darwin": "yarn run clean:darwin && yarn run package:electron:darwin && yarn run build-installer:electron:darwin",
     "installer:electron:win32": "yarn run clean:win32 && yarn run package:electron:win32 && yarn run build-installer:electron:win32"
