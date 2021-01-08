@@ -114,6 +114,9 @@ jobs:
         CI: true
         DEBUG: electron-installer-dmg:*
 
+    - name: show files
+      run: find . | grep -v node_modules
+
     - name: Upload MacOS Install Package
       uses: actions/upload-release-asset@v1
       env:
