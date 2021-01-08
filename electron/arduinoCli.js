@@ -5,18 +5,9 @@ class ArduinoCli {
     }
 
     getArduinoCliPath = (os, path, app) => {
-        let platformFolder;
-        let arduino_cli;    
-        const platform = os.platform;
-        if (platform == "win32") {
-            platformFolder = "win32";
-            arduino_cli = "arduino-cli.exe";
-        } else if (platform == "darwin") {
-            platformFolder = "darwin";
-            arduino_cli = "arduino-cli";
-        }
-        const arduinoCliPath = path.join(app.getAppPath(), 'lib', platformFolder, 'arduino_cli', arduino_cli);
-        return arduinoCliPath;
+        const platform = os.platform()
+        const arduino_cli = (platform == "win32") ? "arduino-cli.exe" : "arduino-cli";
+        return path.join(app.getAppPath(), 'lib', platform, 'arduino_cli', arduino_cli);
     }
 
     runAsync = async (params) => await this.executable.runAsync(this.arduinoCliPath, params);
