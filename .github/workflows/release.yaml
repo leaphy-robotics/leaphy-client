@@ -28,6 +28,51 @@ jobs:
           draft: false
           prerelease: ${{ contains(github.ref, 'pre') }}
 
+  build_linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - name: Restore Cache
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Install Dependencies
+      run: yarn install --frozen-lockfile
+
+    - name: Package
+      run: yarn run package:electron:linux
+
+    - name: Build Installer
+      run: yarn run build-installer:electron:linux
+
+    - name: Upload Linux Package
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.release.outputs.upload_url }}
+        asset_name: easybloqs-linux-x64-${{ needs.release.outputs.version }}.zip
+        asset_path: installers/linux/easybloqs-linux-x64.zip
+        asset_content_type: application/zip
+
   build_windows:
     name: Build Windows
     runs-on: windows-latest
