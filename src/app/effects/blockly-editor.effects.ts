@@ -29,9 +29,9 @@ export class BlocklyEditorEffects {
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
             .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
             .pipe(withLatestFrom(
-                this.getXmlContent('./assets/base-toolbox.xml'),
-                this.getXmlContent('./assets/leaphy-toolbox.xml'),
-                this.getXmlContent('./assets/leaphy-start.xml'),
+                this.getXmlContent('./assets/blockly/base-toolbox.xml'),
+                this.getXmlContent('./assets/blockly/leaphy-toolbox.xml'),
+                this.getXmlContent('./assets/blockly/leaphy-start.xml'),
             ))
             .subscribe(([[[element, config], robotType], baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
                 const parser = new DOMParser();
@@ -40,8 +40,10 @@ export class BlocklyEditorEffects {
                 const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
                 const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
                 toolboxElement.prepend(leaphyRobotCategory);
-                const leaphyExtraCategory = leaphyCategories.getElementById('l_extra');
-                toolboxElement.appendChild(leaphyExtraCategory);
+                if(robotType.showLeaphyExtra){
+                    const leaphyExtraCategory = leaphyCategories.getElementById('l_extra');
+                    toolboxElement.appendChild(leaphyExtraCategory);    
+                }
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 config.toolbox = toolboxXmlString;
@@ -61,9 +63,9 @@ export class BlocklyEditorEffects {
             .pipe(withLatestFrom(this.blocklyState.workspace$))
             .pipe(filter(([robotType, workspace]) => !!robotType && !!workspace))
             .pipe(withLatestFrom(
-                this.getXmlContent('./assets/base-toolbox.xml'),
-                this.getXmlContent('./assets/leaphy-toolbox.xml'),
-                this.getXmlContent('./assets/leaphy-start.xml'),
+                this.getXmlContent('./assets/blockly/base-toolbox.xml'),
+                this.getXmlContent('./assets/blockly/leaphy-toolbox.xml'),
+                this.getXmlContent('./assets/blockly/leaphy-start.xml'),
             ))
             .subscribe(([[robotType, workspace], baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
                 const parser = new DOMParser();
