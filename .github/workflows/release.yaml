@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-      version: ${{ github.ref }}
+      version: ${{ steps.set_version.outputs.version }}
     steps:
+      - name: Set Version
+        id: set_version
+        run: echo "::set-output name=version::$(basename $${{ github.ref}} )"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -29,7 +33,7 @@ jobs:
     runs-on: windows-latest
     needs: release
     steps:
-    - name: Checkout code
+    - name: Checkout Code
       uses: actions/checkout@v2
 
     - name: Use Node.js 14.x
@@ -50,19 +54,19 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
 
-    - name: yarn install
+    - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
-    - name: package
+    - name: Package
       run: yarn run package:electron:win32
 
-    - name: build installer
+    - name: Build Installer
       run: yarn run build-installer:electron:win32
       env:
         CI: true
         DEBUG: electron-windows-installer:*
 
-    - name: Upload Windows setup binary
+    - name: Upload Windows Setup Binary
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
