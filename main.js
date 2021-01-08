@@ -70,7 +70,7 @@ function loadUrl(mainWindow) {
 }
 
 function createWindow() {
-    var image = nativeImage.createFromPath(__dirname + '/src/assets/easybloqs-logo-large.png');
+    var image = nativeImage.createFromPath(__dirname + '/easybloqs-app-icon.png');
     image.setTemplateImage(true);
 
     mainWindow = new BrowserWindow({
