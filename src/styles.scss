@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 @import url('https://rsms.me/inter/inter.css');
 @font-face {
   font-family: "Maven Pro";
@@ -24,4 +23,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 pre[class*='language-']:before,
 pre[class*='language-']:after {
   display: none;
+}
+
+// global variables 
+
+:root {
+  --leaphy-color-primary: #06778F;
+  --leaphy-color-secundary: #32A5A9;
+  --leaphy-color-dark: #343444;
+
+  --leaphy-block-green: #06778F;
+  --leaphy-block-yellow: #D9B53F;
+  --leaphy-block-green: #75B342;
+  --leaphy-block-orange: #DE7C3B;
+  --leaphy-block-blue: #4095CE;
+  --leaphy-block-yellow: #D9B53F;
 }

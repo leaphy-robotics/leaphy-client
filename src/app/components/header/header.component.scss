@@ -1,3 +1,12 @@
+.header-container {
+  background-color: var(--leaphy-color-primary);
+}
+
+.logo {
+  height: 20px;
+  width: auto;
+}
+
 #title {
   font-size: 2.4rem;
   margin-right: 10px;
@@ -34,15 +43,15 @@
 .upload-button {
   height:auto;
   width:20%;
-  background-color: #007bff;
+  background-color: var(--leaphy-color-secundary);
   color: white;
 }
 
 .workspace-button {
-  height:auto;
-  width:10%;
-  background-color: white;
-  color: black;
+  background-color: transparent;
+  border: 1px solid var(--leaphy-color-secundary);
+  margin-right: 10px;
+  box-shadow: none;
 }
 
 .header-text {

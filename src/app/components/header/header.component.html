@@ -1,5 +1,5 @@
-<mat-toolbar class="shadow-sm" style="background-color:#003a96" id="header-container">
-  <span><h2 style="font-family: 'Maven Pro'; font-weight: bolder; color:white; font-size:2.1rem;">EASYBLOQS</h2></span>
+<mat-toolbar class="shadow-sm header-container" id="header-container">
+  <img src="/assets/leaphy-logo.svg" class="header-logo">
   <div>
     <a class="header-text ml-1" [matMenuTriggerFor]="projectMenu" *ngIf="appState.selectedRobotType$ | async">{{ 'PROJECT' | translate }}</a>
     <a class="header-text ml-3" [matMenuTriggerFor]="helpMenu" *ngIf="appState.selectedRobotType$ | async">{{ 'HELP' | translate }}</a>
@@ -7,15 +7,18 @@
 
 
   <div class="centered-div" *ngIf="appState.selectedRobotType$ | async">
-    <button class="btn btn-outline-primary rounded-pill workspace-button" (click)="onSaveWorkspaceClicked()">
+    <button mat-mini-fab class="workspace-button" (click)="onSaveWorkspaceClicked()">
       <mat-icon>save</mat-icon>
     </button>
-    <button class="btn btn-outline-primary rounded-pill workspace-button" (click)="onUndoClicked()">
+    
+    <button mat-mini-fab class="workspace-button" (click)="onUndoClicked()">
       <mat-icon>undo</mat-icon>
     </button>
-    <button class="btn btn-outline-primary rounded-pill workspace-button"  (click)="onRedoClicked()">
+
+    <button mat-mini-fab class="workspace-button" (click)="onRedoClicked()">
       <mat-icon>redo</mat-icon>
     </button>
+
   </div>
 
   <button class="btn btn-outline-primary rounded-pill upload-button float-right mr-1"  [class.spinner]="isBackEndBusy$ | async" *ngIf="appState.selectedRobotType$ | async"
