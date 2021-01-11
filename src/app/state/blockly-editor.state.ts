@@ -3,24 +3,27 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { SketchStatus } from '../domain/sketch.status';
 import { scan, map, filter } from 'rxjs/operators';
 import { WorkspaceStatus } from '../domain/workspace.status';
+import 'prismjs';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-c';
+import 'prismjs/components/prism-cpp';
+import 'prismjs/components/prism-arduino';
+
+declare var Prism: any;
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlocklyEditorState {
 
-  private initialCode = `void setup()
-{
-
-}
-
-void loop()
-{
-
-}
-  `;
-  private codeSubject$ = new BehaviorSubject(this.initialCode);
+  private codeSubject$ = new BehaviorSubject('');
   public code$ = this.codeSubject$.asObservable();
+
+  public tokenizedCode$ = this.code$
+  .pipe(filter(code => !!code))
+  .pipe(map(code => {
+    return Prism.highlight(code, Prism.languages.arduino)
+  }));
 
   private sketchStatusSubject$: BehaviorSubject<SketchStatus> = new BehaviorSubject(SketchStatus.UnableToSend);
   public sketchStatus$ = this.sketchStatusSubject$.asObservable();

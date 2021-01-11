@@ -43,7 +43,12 @@
               "./node_modules/blockly/arduino_compressed.js",
               "./node_modules/blockly/msg/js/nl.js",
               "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "./node_modules/prismjs/prism.js",
+              "./node_modules/prismjs/components/prism-clike.js",
+              "./node_modules/prismjs/components/prism-c.js",
+              "./node_modules/prismjs/components/prism-cpp.js",
+              "./node_modules/prismjs/components/prism-arduino.js"
             ]
           },
           "configurations": {
