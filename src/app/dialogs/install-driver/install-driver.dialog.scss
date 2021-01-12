@@ -1,11 +1,19 @@
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+[mat-flat-button] {
+    color: var(--leaphy-color-light);
+    background-color: var(--leaphy-color-secundary);
+    border-color: none;
+    font-size: 12px;
+    font-weight: normal;
+    border-radius: 20px;
+    outline: none;
 }
-#instructions {
-    font-size: small;
-    padding: 5px;
-    background-color: #DBE3F3;
-    white-space: pre-wrap;
+  
+[mat-dialog-title] {
+    text-transform: uppercase;
+    text-align: center;
 }
+
+[mat-dialog-actions] {
+    margin-bottom: 10px;
+}
+  
