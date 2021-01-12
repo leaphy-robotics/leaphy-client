@@ -1,0 +1,18 @@
+[mat-flat-button] {
+    color: var(--leaphy-color-light);
+    background-color: var(--leaphy-color-secundary);
+    border-color: none;
+    font-size: 12px;
+    font-weight: normal;
+    border-radius: 20px;
+    outline: none;
+}
+  
+[mat-dialog-title] {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+[mat-dialog-actions] {
+    margin-bottom: 10px;
+}
