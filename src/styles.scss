@@ -1,26 +1,75 @@
 /* You can add global styles to this file, and also import other style files */
-
-@import url('https://rsms.me/inter/inter.css');
+@import url("https://rsms.me/inter/inter.css");
 @font-face {
   font-family: "Maven Pro";
   src: url("./assets/MavenPro.ttf");
 }
-html { font-family: 'Inter', sans-serif; }
+html {
+  font-family: "Inter", sans-serif;
+}
 @supports (font-variation-settings: normal) {
-  html { font-family: 'Inter var', sans-serif; }
+  html {
+    font-family: "Inter var", sans-serif;
+  }
 }
 
-html, body {
+html,
+body {
   height: 100%;
   background-color: #f1f1f1;
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 @import '~prismjs/themes/prism.css';
 @import '~prismjs/themes/prism-coy.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-pre[class*='language-']:before,
-pre[class*='language-']:after {
+pre[class*="language-"]:before,
+pre[class*="language-"]:after {
   display: none;
+}
+
+.blocklyToolboxCategory {
+  margin: 3px 0;
+
+  .blocklyTreeRow {
+    box-sizing: content-box;
+    border-left: 6px solid var(--leaphy-color-primary);
+
+    &#l_situation {
+      border-color: var(--leaphy-block-yellow);
+    }
+
+    &#l_numbers {
+      border-color: var(--leaphy-block-green);
+    }
+
+    &#l_variables {
+      border-color: var(--leaphy-block-orange);
+    }
+
+    &#l_functions {
+      border-color: var(--leaphy-block-blue);
+    }
+  }
+}
+
+// global variables
+
+:root {
+  --leaphy-color-primary: #06778f;
+  --leaphy-color-secundary: #32a5a9;
+  --leaphy-color-dark: #343444;
+  --leaphy-color-light: #ffffff;
+
+  --leaphy-block-green: #06778f;
+  --leaphy-block-yellow: #d9b53f;
+  --leaphy-block-green: #75b342;
+  --leaphy-block-orange: #de7c3b;
+  --leaphy-block-blue: #4095ce;
+  --leaphy-block-yellow: #d9b53f;
+  --leaphy-block-grey: #7d7d80;
 }

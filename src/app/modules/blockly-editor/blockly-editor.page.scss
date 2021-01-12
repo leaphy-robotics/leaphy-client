@@ -15,9 +15,11 @@
 }
 
 #code-view-button {
+  outline: none;
+  background-color: var(--leaphy-color-primary);
   position: absolute;
   top: 74px;
-  right: 0px;
+  right: 10px;
   z-index: 2;
   transition: right 0.5s;
   overflow: hidden;
