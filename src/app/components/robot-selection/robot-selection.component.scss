@@ -21,10 +21,16 @@
 }
 
 .robot-button {
-  background-color:#ffff !important;
-  border: solid 1px #f1f1f1 !important;
+  background-color: #ffffff;
+  border: solid 1px #f1f1f1;
   width: 180px !important;
   height: 180px !important;
+
+  &:hover,
+  &:active {
+    background-color: #ffffff !important;
+    border: 3px solid var(--leaphy-color-primary) !important;
+  }
 }
 
 .zoomed {
