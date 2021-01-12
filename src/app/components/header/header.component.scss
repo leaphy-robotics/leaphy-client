@@ -11,6 +11,17 @@ button {
   outline: none;
 }
 
+[mat-menu-item] {
+  font-size: 12px;
+  line-height: 36px;
+  height: 40px;
+
+  mat-icon {
+    color: var(--leaphy-color-primary);
+    margin-right: 5px;
+  }
+}
+
 [mat-stroked-button],
 [mat-flat-button] {
   color: var(--leaphy-color-light);
@@ -25,6 +36,10 @@ button {
   border-color: none;
 }
 
+::ng-deep .mat-menu-panel {
+  margin-top: 10px;
+}
+
 .icon-button {
   padding: 0;
   width: 35px;
@@ -33,16 +48,7 @@ button {
 }
 
 button mat-icon + span {
-  margin-left: 10px;
-}
-
-.upload-button {
-  color: white;
-  min-width: 200px;
-}
-
-.matmenus {
-  margin-top: 10%;
+  margin-left: 5px;
 }
 
 .flex-header {
@@ -55,7 +61,7 @@ button mat-icon + span {
 
 .flex-buttons {
   button {
-    margin: 0 10px;
+    margin: 0 5px;
   }
 }
 
