@@ -23,10 +23,9 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-@import "~prismjs/themes/prism.css";
-@import "~prismjs/themes/prism-coy.css";
-@import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~prismjs/themes/prism.css';
+@import '~prismjs/themes/prism-coy.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 pre[class*="language-"]:before,
 pre[class*="language-"]:after {
