@@ -1,4 +1,11 @@
-<div class="container" id="instructions">
-    <p>{{"DRIVERINSTALLATIONINSTRUCTIONS"|translate}}</p>
-    <button mat-raised-button (click)="onInstallDriverClicked()">{{"INSTALL"|translate}}</button>
+<h1 mat-dialog-title>
+  {{ "DRIVERINSTALLATIONINSTRUCTIONS_TITLE" | translate}}
+</h1>
+<div mat-dialog-content>
+  <p>{{"DRIVERINSTALLATIONINSTRUCTIONS"|translate}}</p>
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-flat-button (click)="onInstallDriverClicked()">
+    {{"INSTALL"|translate}}
+  </button>
 </div>

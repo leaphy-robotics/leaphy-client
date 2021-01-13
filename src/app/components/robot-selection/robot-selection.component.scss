@@ -1,30 +1,18 @@
-.vertical-center {
-  display: table-cell;
-  float: none;
-  vertical-align: middle;
-}
-
-.watermark-container {
-  margin-bottom:2%;
-}
-
-.watermark {
-  width: 30%;
-  margin-top: 3%;
-  max-height: 20%;
-  min-height: 10%;
-}
-
-
-.robot-par {
-  margin-top:3%;
+.robot-name {
+  margin-top: 10px;
 }
 
 .robot-button {
-  background-color:#ffff !important;
-  border: solid 1px #f1f1f1 !important;
+  background-color: #ffffff;
+  border: solid 1px #f1f1f1;
   width: 180px !important;
   height: 180px !important;
+
+  &:hover,
+  &:active {
+    background-color: #ffffff !important;
+    border: 3px solid var(--leaphy-color-primary) !important;
+  }
 }
 
 .zoomed {
@@ -36,7 +24,7 @@
 }
 
 .robot-row {
-  margin-top:5%;
+  margin: 50px 0;
 }
 
 h1 {
@@ -52,3 +40,13 @@ h3 {
   line-height: 28px;
   font-weight: 400;
 }
+
+.watermark-container {
+  margin-bottom: 50px;
+}
+
+.watermark {
+  width: 300px;
+  height: auto;
+}
+

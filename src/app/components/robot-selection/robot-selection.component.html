@@ -10,7 +10,7 @@
       <button class="btn shadow-sm btn-primary robot-button" [ngClass]="{'selected': (appState.selectedRobotType$ | async) == robot}" (click)="onRobotSelected(robot)" >
         <img class="imgcenter" src="./assets/{{robot.svgname}}">
       </button>
-      <p class="robot-par">{{robot.name}}</p>
+      <p class="robot-name">{{robot.name}}</p>
     </div>
   </div>
   <div class="fixed-bottom watermark-container">

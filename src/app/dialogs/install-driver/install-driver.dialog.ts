@@ -5,7 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-install-driver',
   templateUrl: './install-driver.dialog.html',
-  styleUrls: ['./install-driver.dialog.scss']
+  styleUrls: ['../dialog-styles.scss', './install-driver.dialog.scss']
 })
 // tslint:disable-next-line: component-class-suffix
 export class InstallDriverDialog {
