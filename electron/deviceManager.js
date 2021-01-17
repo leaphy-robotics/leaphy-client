@@ -8,6 +8,7 @@ class DeviceManager {
         const updatingMessage = { event: "UPDATE_STARTED", message: "UPDATE_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', updatingMessage);
         const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.ext}`];
+
         try {
             await this.arduinoCli.runAsync(uploadParams);
         } catch (error) {
@@ -15,7 +16,20 @@ class DeviceManager {
             event.sender.send('backend-message', unsuccesfulUploadMessage);
             return;
         }
-    
+
+        var SerialPort = require('serialport');
+
+        const ports = await SerialPort.list();
+        console.log(ports);
+
+        var serialPort = new SerialPort(payload.address, {
+            baudRate: 9600
+        });
+
+        serialPort.on('data', function (data) {
+            console.log('Data:', data);
+        });
+        
         const updateCompleteMessage = { event: "UPDATE_COMPLETE", message: "UPDATE_COMPLETE", payload: payload, displayTimeout: 3000 };
         event.sender.send('backend-message', updateCompleteMessage);
     }
