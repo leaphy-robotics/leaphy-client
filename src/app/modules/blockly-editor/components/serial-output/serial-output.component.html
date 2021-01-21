@@ -1,0 +1,5 @@
+<div id="serial-output">
+    <li *ngFor="let item of (robotWiredState.serialData$ | async)">
+        {{item}}
+    </li>
+</div>

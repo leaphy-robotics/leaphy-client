@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { filter, scan } from 'rxjs/operators';
 import { SerialDevice } from '../domain/serial.device';
 
 @Injectable({
@@ -19,6 +20,11 @@ export class RobotWiredState {
     private verifiedSerialDeviceSubject$ = new BehaviorSubject<SerialDevice>(null);
     public verifiedSerialDevice$ = this.verifiedSerialDeviceSubject$.asObservable();
 
+    private incomingSerialDataSubject$ = new BehaviorSubject<any>(null);
+    public serialData$ = this.incomingSerialDataSubject$.asObservable()
+        .pipe(filter(current => !!current))
+        .pipe(scan((all, current) => [...all, current], []));
+
     public setIsInstallationVerified(isVerified: boolean): void {
         this.isInstallationVerifiedSubject$.next(isVerified);
     }
@@ -33,5 +39,9 @@ export class RobotWiredState {
 
     public setIsRobotDriverInstalling(isInstalling: boolean): void {
         this.isRobotDriverInstallingSubject$.next(isInstalling);
+    }
+
+    public setIncomingSerialData(data: any): void {
+        this.incomingSerialDataSubject$.next(data);
     }
 }

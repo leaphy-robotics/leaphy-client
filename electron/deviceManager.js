@@ -1,10 +1,25 @@
+const SerialPort = require('serialport');
+
 class DeviceManager {
-    constructor(arduinoCli){
+    constructor(arduinoCli) {
         this.arduinoCli = arduinoCli;
+        this.activeSerial = null;
+    }
+
+    subscribeToSerialData = async (event, payload) => {
+        this.activeSerial = new SerialPort(payload.address, { baudRate: 9600 }).setEncoding('utf8');
+        this.activeSerial.on('data', function (data) {
+            const serialDataReceivedMessage = { event: "SERIAL_DATA", payload: data };
+            event.sender.send('backend-message', serialDataReceivedMessage);
+        });
     }
 
     updateDevice = async (event, payload) => {
+        
         console.log('Update Device command received', payload);
+
+        this.activeSerial?.close();
+
         const updatingMessage = { event: "UPDATE_STARTED", message: "UPDATE_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', updatingMessage);
         const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.ext}`];
@@ -17,19 +32,8 @@ class DeviceManager {
             return;
         }
 
-        var SerialPort = require('serialport');
+        await this.subscribeToSerialData(event, payload);
 
-        const ports = await SerialPort.list();
-        console.log(ports);
-
-        var serialPort = new SerialPort(payload.address, {
-            baudRate: 9600
-        });
-
-        serialPort.on('data', function (data) {
-            console.log('Data:', data);
-        });
-        
         const updateCompleteMessage = { event: "UPDATE_COMPLETE", message: "UPDATE_COMPLETE", payload: payload, displayTimeout: 3000 };
         event.sender.send('backend-message', updateCompleteMessage);
     }
@@ -38,7 +42,7 @@ class DeviceManager {
         console.log('Get Serial Devices command received');
         const updateIndexParams = ["core", "update-index"];
         console.log(await this.arduinoCli.runAsync(updateIndexParams));
-    
+
         const listBoardsParams = ["board", "list", "--format", "json"];
         const connectedDevices = JSON.parse(await this.arduinoCli.runAsync(listBoardsParams));
         const eligibleBoards = connectedDevices.filter(device => device.protocol_label == "Serial Port (USB)");

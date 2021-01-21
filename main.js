@@ -41,8 +41,9 @@ ipcMain.on('compile', compiler.compile);
 
 const DeviceManager = require('./electron/deviceManager.js');
 const deviceManager = new DeviceManager(arduinoCli);
-ipcMain.on('update-device', deviceManager.updateDevice);
-ipcMain.on('get-serial-devices', deviceManager.getDevices);
+ipcMain
+    .on('update-device', deviceManager.updateDevice)
+    .on('get-serial-devices', deviceManager.getDevices);
 
 const WorkspaceManager = require('./electron/workspaceManager');
 const workspaceManager = new WorkspaceManager(fs, dialog);
@@ -87,7 +88,7 @@ function createWindow() {
     loadUrl(mainWindow);
 
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', function () {
         mainWindow = null

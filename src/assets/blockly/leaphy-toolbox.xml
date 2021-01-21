@@ -1,5 +1,7 @@
 <xml xmlns="https://developers.google.com/blockly/xml" style="display: none">
     <category id="l_original" name="%{BKY_LEAPHY_ORIGINAL_CATEGORY}" categorystyle="leaphy_category">
+          <block type="leaphy_tmp_print_serial"></block>
+
       <block type="leaphy_original_set_led">
         <value name="LED_RED">
           <shadow type="math_number">
