@@ -43,6 +43,25 @@
           </shadow>
         </value>
       </block>
+      <block type="leaphy_serial_print_line">
+        <value name="VALUE">
+          <shadow type="text">
+            <field name="TEXT">tekst</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="leaphy_serial_print_value">
+        <value name="NAME">
+          <shadow type="text">
+            <field name="TEXT">tekst</field>
+          </shadow>
+        </value>
+        <value name="VALUE">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
       <block type="leaphy_original_get_distance"></block>
       <block type="leaphy_original_digital_read"></block>
       <block type="leaphy_original_analog_read"></block>
@@ -67,6 +86,25 @@
         </shadow>
       </value>
     </block>
+    <block type="leaphy_serial_print_line">
+      <value name="VALUE">
+        <shadow type="text">
+          <field name="TEXT">tekst</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="leaphy_serial_print_value">
+      <value name="NAME">
+        <shadow type="text">
+          <field name="TEXT">tekst</field>
+        </shadow>
+      </value>
+      <value name="VALUE">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
 	</category>
 	<category id="l_uno" name="%{BKY_LEAPHY_UNO_CATEGORY}" categorystyle="leaphy_category">
     <block type="leaphy_io_digitalwrite">
@@ -84,7 +122,26 @@
           <field name="NUM">90</field>
         </shadow>
       </value>
-    </block>      
+    </block>
+    <block type="leaphy_serial_print_line">
+      <value name="VALUE">
+        <shadow type="text">
+          <field name="TEXT">tekst</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="leaphy_serial_print_value">
+      <value name="NAME">
+        <shadow type="text">
+          <field name="TEXT">tekst</field>
+        </shadow>
+      </value>
+      <value name="VALUE">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
     <block type="leaphy_servo_read">
     </block>
     <block type="leaphy_original_digital_read"></block>
