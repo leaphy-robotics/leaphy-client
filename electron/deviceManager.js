@@ -1,4 +1,4 @@
-const SerialPort = require('serialport');
+const SerialPort = require("serialport");
 
 class DeviceManager {
     constructor(arduinoCli) {
@@ -7,15 +7,17 @@ class DeviceManager {
     }
 
     subscribeToSerialData = async (event, payload) => {
-        this.activeSerial = new SerialPort(payload.address, { baudRate: 9600 }).setEncoding('utf8');
-        this.activeSerial.on('data', function (data) {
+        const lineParser = new SerialPort.parsers.Readline("\n");
+        this.activeSerial = new SerialPort(payload.address, { baudRate: 115200 });
+        this.activeSerial.pipe(lineParser)
+        lineParser.on('data', function (data) {
             const serialDataReceivedMessage = { event: "SERIAL_DATA", payload: data };
             event.sender.send('backend-message', serialDataReceivedMessage);
         });
     }
 
     updateDevice = async (event, payload) => {
-        
+
         console.log('Update Device command received', payload);
 
         this.activeSerial?.close();
