@@ -142,12 +142,9 @@
         </shadow>
       </value>
     </block>
-    <block type="leaphy_servo_read">
-    </block>
     <block type="leaphy_original_digital_read"></block>
     <block type="leaphy_original_analog_read"></block>
-    <block type="leaphy_sonar_read">
-    </block>
+    <block type="leaphy_sonar_read"></block>
 	</category>
 	<category id="l_wifi" name="%{BKY_LEAPHY_WIFI_CATEGORY}" categorystyle="leaphy_category">
 	</category>
