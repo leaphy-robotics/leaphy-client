@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest, Observable } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
+import { RobotWiredState } from '../state/robot.wired.state';
 
 declare var Blockly: any;
 
@@ -21,6 +22,7 @@ export class BlocklyEditorEffects {
     constructor(
         private blocklyState: BlocklyEditorState,
         private backEndState: BackEndState,
+        private robotWiredState: RobotWiredState,
         private appState: AppState,
         private http: HttpClient
     ) {
@@ -137,6 +139,12 @@ export class BlocklyEditorEffects {
                 }
             });
             
+        // Open a closed sideNav when serial messages start appearing
+        this.robotWiredState.serialData$
+            .pipe(withLatestFrom(this.blocklyState.isSideNavOpen$))
+            .pipe(filter(([messages, isSideNavOpen]) => messages.length === 1 && !isSideNavOpen))
+            .subscribe(() => this.blocklyState.toggleIsSideNavOpen());
+
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))

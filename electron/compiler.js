@@ -17,7 +17,7 @@ class Compiler {
         this.fs.writeFileSync(this.sketchPath, code);
     }
     compile = async (event, payload) => {
-        console.log('Compile command received', payload);
+        console.log('Compile command received');
         this.writeCodeToCompileLocation(payload.code);
         const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath, "--build-path", this.sketchFolder];
         const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED", displayTimeout: 0 };

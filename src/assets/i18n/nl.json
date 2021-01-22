@@ -32,5 +32,6 @@
   "WORKSPACE_RESTORING": "Project laden...",
   "WORKSPACE_RESTORE_CANCELLED": "Project laden geannuleerd",
   "WORKSPACE_SAVE_CANCELLED": "Project opslaan geannuleerd",
-  "WORKSPACE_SAVED": "Project opgeslagen"
+  "WORKSPACE_SAVED": "Project opgeslagen",
+  "SERIAL_OUTPUT": "Seriële output"
 }

@@ -18,7 +18,7 @@ class DeviceManager {
 
     updateDevice = async (event, payload) => {
 
-        console.log('Update Device command received', payload);
+        console.log('Update Device command received');
 
         this.activeSerial?.close();
 

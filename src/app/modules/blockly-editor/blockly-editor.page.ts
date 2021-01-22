@@ -13,7 +13,7 @@ export class BlocklyEditorPage {
   ) {
   }
 
-  public onCodeViewClicked() {
+  public onSideNavClicked() {
     this.blocklyState.toggleIsSideNavOpen();
   }
 }

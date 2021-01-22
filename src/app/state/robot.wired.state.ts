@@ -22,8 +22,13 @@ export class RobotWiredState {
 
     private incomingSerialDataSubject$ = new BehaviorSubject<any>(null);
     public serialData$ = this.incomingSerialDataSubject$.asObservable()
-        .pipe(filter(current => !!current))
-        .pipe(scan((all, current) => [...all, current], []));
+        .pipe(filter(incoming => !!incoming))
+        .pipe(scan((all, incoming) => {
+            if(incoming.toString() === this.poisonPill){
+                return [];
+            }
+            return [...all, { time: new Date(), data: incoming }]
+        },[]));
 
     public setIsInstallationVerified(isVerified: boolean): void {
         this.isInstallationVerifiedSubject$.next(isVerified);
@@ -44,4 +49,10 @@ export class RobotWiredState {
     public setIncomingSerialData(data: any): void {
         this.incomingSerialDataSubject$.next(data);
     }
+
+    public clearSerialData(): void {
+        this.setIncomingSerialData(this.poisonPill);
+    }
+
+    private readonly poisonPill: string = "caaa61a6-a666-4c0b-83b4-ebc75b08fecb"
 }

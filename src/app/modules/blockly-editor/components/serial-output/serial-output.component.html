@@ -1,5 +1,15 @@
-<div id="serial-output">
-    <li *ngFor="let item of (robotWiredState.serialData$ | async)">
-        {{item}}
-    </li>
+<div id="container">
+    <div id="header">
+        {{ "SERIAL_OUTPUT" | translate}}
+        <div id="button-container">
+            <button mat-stroked-button class="icon-button" (click)="onClearSerialDataClicked()">
+                <mat-icon>delete</mat-icon>
+              </button>
+        </div>
+    </div>
+    <div id="serial-output" #content>
+        <div class="output-item" *ngFor="let item of (robotWiredState.serialData$ | async)" #messages>
+            <div class="output-time">{{item.time | date:'HH:mm:ss:SSS'}}</div><div class="output-data">{{item.data}}</div>
+        </div>
+    </div>
 </div>

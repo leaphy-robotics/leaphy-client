@@ -32,5 +32,6 @@
   "WORKSPACE_RESTORING": "Loading project...",
   "WORKSPACE_RESTORE_CANCELLED": "Loading project cancelled",
   "WORKSPACE_SAVE_CANCELLED": "Saving project cancelled",
-  "WORKSPACE_SAVED": "Project saved"
+  "WORKSPACE_SAVED": "Project saved",
+  "SERIAL_OUTPUT": "Serial output"
 }
