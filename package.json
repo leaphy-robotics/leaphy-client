@@ -13,7 +13,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electronV": "electron -v",
+    "electron-rebuild": "electron-rebuild -f -w serialport",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
     "package:electron:darwin": "yarn install && ng build --prod --base-href ./ && electron-packager . --platform=darwin --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/win32 --ignore=/lib/linux --ignore=/easybloqs-darwin-x64 --overwrite --verbose --asar",
     "package:electron:linux": "yarn install && ng build --prod --base-href ./ && electron-packager . --platform=linux --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/darwin --ignore=/lib/win32 --ignore=/easybloqs-linux-x64 --overwrite --verbose --asar",
