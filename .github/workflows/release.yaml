@@ -60,11 +60,11 @@ jobs:
     - name: Package and Build Installer
       run: yarn run make
 
-      - name: Set Version
-        id: version
-        run: |
-          echo "::set-output name=deb::$(echo ${{ needs.release.outputs.version }} | tr '-' '~')"
-          echo "::set-output name=rpm::$(echo ${{ needs.release.outputs.version }} | tr '-' '.')"
+    - name: Set Version
+      id: version
+      run: |
+        echo "::set-output name=deb::$(echo ${{ needs.release.outputs.version }} | tr '-' '~')"
+        echo "::set-output name=rpm::$(echo ${{ needs.release.outputs.version }} | tr '-' '.')"
 
     - name: Upload Linux Deb
       uses: actions/upload-release-asset@v1
