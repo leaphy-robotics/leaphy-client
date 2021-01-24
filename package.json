@@ -93,7 +93,13 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "easybloqs"
+            "name": "easybloqs",
+            "setupExe": "EasyBloqsSetup.exe",
+            "loadingGif": "./easybloqs-loading.gif",
+            "exe": "easybloqs.exe",
+            "noMsi": true,
+            "iconUrl": "./easybloqs-icon.ico",
+            "setupIcon": "./easybloqs-icon.ico"
           }
         },
         {
