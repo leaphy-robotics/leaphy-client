@@ -1,37 +1,25 @@
-<div class="container" id="instructions">
-    <div id="header">
-        <img id="leaphyLogo" src="./assets/leaphy.svg">
-    </div>
-    <div id="credits">
-        <div id="namesContainer">
-            <div id="roles">
-                <div class="role">Architectuur en Backend development:</div>
-                <div class="role">UI-design:</div>
-                <div class="role">Frontend development:</div>
-                <div class="role">Frontend development:</div>
-                <div class="role">Block-definition:</div>
-                <div class="role">Projectleiding:</div>
-                <div class="role">Opdrachtgever:</div>
-            </div>
-            <div id="names">
-                <div class="name">Paul Siersma</div>
-                <div class="name">Bas Hoebink</div>
-                <div class="name">Job Cremers</div>
-                <div class="name">Jeroen Ooms</div>
-                <div class="name">Yousif Al-Fraji</div>
-                <div class="name">Roeland Smith & Olivier van Beekum </div>
-                <div class="name">Stichting Leaphy</div>
-            </div>
-        </div>
-        <div id="thankYous">
-            <div class="thankYou">Met dank aan alle open source-softwareontwikkelaars op Github.</div>
-            <div class="thankYou">En met dank aan de financiële en morele steun van de Contribute Foundation!</div>
-        </div>
-        <div id="sponsorImages">
-            <img id="contributeLogo" src="./assets/contribute-foundation.png">
-        </div>
-    </div>
-    <div id="buttons">
-        <button mat-raised-button (click)="onDialogClosed()">{{"OK"|translate}}</button>
-    </div>
+<div class="credits">
+  <h4>EASYBLOQS is an educational open source product of</h4>
+  <img class="leaphyLogo" src="./assets/leaphy-logo-color.svg" />
+
+  <h4>made with support of the</h4>
+  <img class="contributeLogo" src="./assets/contribute-foundation.png" />
+  <p>
+    Paul Siersma (architecture, backend development), Job Cremers, Yousif
+    Al-Fraji, Bas Hoebink, Jeroen Ooms, Bastiaan Bakker, Jort Vooijs, Jelmer
+    Schulenklopper and lots of other Github contributers.
+  </p>
+
+  <p>Thank you so much!</p>
+
+  <p>
+    Roeland Smith (project management)<br />
+    Olivier van Beekum (chairman Leaphy foundation)
+  </p>
+
+  <div class="buttons">
+    <button mat-flat-button (click)="onDialogClosed()">
+      {{"START"|translate}}
+    </button>
+  </div>
 </div>
