@@ -3,8 +3,7 @@ class FirstRunDetector {
     this.firstRun = firstRun;
   }
   detectFirstRun = (event) => {
-    //const isFirstRun = this.firstRun();
-    const isFirstRun = true;
+    const isFirstRun = this.firstRun();
     // Clear the firstRun setting, don't do this
     //this.firstRun.clear();
 
