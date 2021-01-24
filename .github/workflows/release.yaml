@@ -15,11 +15,7 @@ jobs:
     steps:
       - name: Set Version
         id: set_version
-        run: |
-          version="$(basename $${{ github.ref}} | cut -b 2-)"
-          echo "::set-output name=version::${version}"
-          echo "::set-output name=version_deb::$(echo ${version} | tr '-' '~')"
-          echo "::set-output name=version_rpm::$(echo ${version} | tr '-' '.')"
+        run: echo "::set-output name=version::$(basename $${{ github.ref}} | cut -b 2-)"
 
       - name: Create Release
         id: create_release
@@ -64,14 +60,20 @@ jobs:
     - name: Package and Build Installer
       run: yarn run make
 
+      - name: Set Version
+        id: version
+        run: |
+          echo "::set-output name=deb::$(echo ${{ needs.release.outputs.version }} | tr '-' '~')"
+          echo "::set-output name=rpm::$(echo ${{ needs.release.outputs.version }} | tr '-' '.')"
+
     - name: Upload Linux Deb
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_name: easybloqs_${{ needs.release.outputs.version_deb }}_amd64.deb
-        asset_path: out/make/deb/x64/easybloqs_${{ needs.release.outputs.version_deb }}_amd64.deb
+        asset_name: easybloqs_${{ steps.version.outputs.deb }}_amd64.deb
+        asset_path: out/make/deb/x64/easybloqs_${{ steps.version.outputs.deb }}_amd64.deb
         asset_content_type: application/vnd.debian.binary-package
 
     - name: Upload Linux RPM
@@ -80,8 +82,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_name: easybloqs-${{ needs.release.outputs.version_rpm }}-1.x86_64.rpm
-        asset_path: out/make/rpm/x64/easybloqs-${{ needs.release.outputs.version_rpm }}-1.x86_64.rpm
+        asset_name: easybloqs-${{ steps.version.outputs.rpm }}-1.x86_64.rpm
+        asset_path: out/make/rpm/x64/easybloqs-${{ steps.version.outputs.rpm }}-1.x86_64.rpm
         asset_content_type: application/x-rpm
 
     - name: Upload Linux Zip
@@ -180,6 +182,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_name: Easybloqs-${{ needs.release.outputs.version }}.dmg
-        asset_path: out/make/dmg/x64/Easybloqs.dmg
+        asset_name: easybloqs-${{ needs.release.outputs.version }}.dmg
+        asset_path: out/make/dmg/x64/easybloqs-${{ needs.release.outputs.version }}.dmg
         asset_content_type: application/exe
