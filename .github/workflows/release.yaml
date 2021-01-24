@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Set Version
         id: set_version
-        run: echo "::set-output name=version::$(basename $${{ github.ref}} )"
+        run: echo "::set-output name=version::$(basename $${{ github.ref}} | cut -b 2-)"
 
       - name: Create Release
         id: create_release
