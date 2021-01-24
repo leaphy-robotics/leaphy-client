@@ -3,24 +3,17 @@
   "author": "Leaphy Robotics",
   "description": "Build Leaphy Arduino programs",
   "version": "0.0.1",
+  "license": "GPLv3",
   "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "electron-forge start",
-    "clean:darwin": "rm -f easybloqs.dmg && rm -rf dist && rm -rf easybloqs-darwin-x64",
-    "clean:linux": "rm -f easybloqs.dmg && rm -rf dist && rm -rf easybloqs-linux-x64",
     "start:electron": "ng build --base-href ./ && electron .",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
-    "package:electron:darwin": "yarn install && ng build --prod --base-href ./ && electron-packager . --platform=darwin --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/win32 --ignore=/lib/linux --ignore=/easybloqs-darwin-x64 --overwrite --verbose --asar",
-    "package:electron:linux": "yarn install && ng build --prod --base-href ./ && electron-packager . --platform=linux --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/darwin --ignore=/lib/win32 --ignore=/easybloqs-linux-x64 --overwrite --verbose --asar",
-    "build-installer:electron:darwin": "electron-installer-dmg --debug --overwrite --out=./installers/darwin ./easybloqs-darwin-x64/easybloqs.app Easybloqs",
-    "build-installer:electron:linux": "electron-installer-zip easybloqs-linux-x64/ installers/linux/easybloqs-linux-x64.zip",
-    "installer:electron:darwin": "yarn run clean:darwin && yarn run package:electron:darwin && yarn run build-installer:electron:darwin",
-    "installer:electron:linux": "yarn run clean:linux && yarn run package:electron:linux && yarn run build-installer:electron:linux",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -36,6 +29,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.54",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
@@ -105,8 +99,14 @@
         {
           "name": "@electron-forge/maker-zip",
           "platforms": [
-            "darwin"
+            "linux"
           ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "iconUrl": "file://easybloqs-icon.ico"
+          }
         },
         {
           "name": "@electron-forge/maker-deb",

@@ -57,21 +57,38 @@ jobs:
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Package
-      run: yarn run package:electron:linux
+    - name: Package and Build Installer
+      run: yarn run make
 
-    - name: Build Installer
-      run: yarn run build-installer:electron:linux
+    - name: Upload Linux Deb
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.release.outputs.upload_url }}
+        asset_name: easybloqs_${{ needs.release.outputs.version }}_amd64.deb
+        asset_path: out/make/deb/x64/easybloqs_${{ needs.release.outputs.version }}_amd64.deb
+        asset_content_type: application/vnd.debian.binary-package
 
-    - name: Upload Linux Package
+    - name: Upload Linux RPM
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.release.outputs.upload_url }}
+        asset_name: easybloqs-${{ needs.release.outputs.version }}-1.x86_64.rpm
+        asset_path: out/make/rpm/x64/easybloqs-${{ needs.release.outputs.version }}-1.x86_64.rpm
+        asset_content_type: application/x-rpm
+
+    - name: Upload Linux Zip
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
         asset_name: easybloqs-linux-x64-${{ needs.release.outputs.version }}.zip
-        asset_path: installers/linux/easybloqs-linux-x64.zip
-        asset_content_type: application/zip
+        asset_path: out/make/zip/linux/x64/easybloqs-linux-x64-${{ needs.release.outputs.version }}.zip
+        asset_content_type: application/x-rpm
 
   build_windows:
     name: Build Windows
@@ -147,14 +164,8 @@ jobs:
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Package
-      run: yarn run package:electron:darwin
-
-    - name: Build Installer
-      run: yarn run build-installer:electron:darwin
-      env:
-        CI: true
-        DEBUG: electron-installer-dmg:*
+    - name: Package and Build Installer
+      run: yarn run make
 
     - name: Upload MacOS Install Package
       uses: actions/upload-release-asset@v1
@@ -163,5 +174,5 @@ jobs:
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
         asset_name: Easybloqs-${{ needs.release.outputs.version }}.dmg
-        asset_path: installers/darwin/Easybloqs.dmg
+        asset_path: out/make/dmg/x64/Easybloqs.dmg
         asset_content_type: application/exe
