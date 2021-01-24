@@ -98,7 +98,7 @@
             "loadingGif": "./easybloqs-loading.gif",
             "exe": "easybloqs.exe",
             "noMsi": true,
-            "iconUrl": "./easybloqs-icon.ico",
+            "iconUrl": "file://easybloqs-icon.ico",
             "setupIcon": "./easybloqs-icon.ico"
           }
         },
