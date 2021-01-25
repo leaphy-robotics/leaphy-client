@@ -60,6 +60,9 @@ jobs:
     - name: Package and Build Installer
       run: yarn run make
 
+    - name: List generated files
+      run: find out/make
+
     - name: Set Version
       id: version
       run: |
@@ -131,6 +134,10 @@ jobs:
         CI: true
         DEBUG: electron-windows-installer:*
 
+    - name: List generated files
+      run: find out/make
+      shell: bash
+
     - name: Upload Windows Setup Binary
       uses: actions/upload-release-asset@v1
       env:
@@ -175,6 +182,9 @@ jobs:
       env:
         CI: true
         DEBUG: electron-installer-dmg:*
+
+    - name: List generated files
+      run: find out/make
 
     - name: Upload MacOS Install Package
       uses: actions/upload-release-asset@v1
