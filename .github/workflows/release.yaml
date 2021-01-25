@@ -193,5 +193,5 @@ jobs:
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
         asset_name: easybloqs-${{ needs.release.outputs.version }}.dmg
-        asset_path: out/make/out/make/easybloqs-${{ needs.release.outputs.version }}.dmg
+        asset_path: out/make/easybloqs-${{ needs.release.outputs.version }}.dmg
         asset_content_type: application/exe
