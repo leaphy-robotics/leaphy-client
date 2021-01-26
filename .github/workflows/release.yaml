@@ -57,47 +57,10 @@ jobs:
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Package and Build Installer
-      run: yarn run make
-
-    - name: List generated files
-      run: find out/make
-
-    - name: Set Version
-      id: version
-      run: |
-        echo "::set-output name=deb::$(echo ${{ needs.release.outputs.version }} | tr '-' '~')"
-        echo "::set-output name=rpm::$(echo ${{ needs.release.outputs.version }} | tr '-' '.')"
-
-    - name: Upload Linux Deb
-      uses: actions/upload-release-asset@v1
+    - name: Build and Publish Packages
+      run: yarn run publish
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_name: easybloqs_${{ steps.version.outputs.deb }}_amd64.deb
-        asset_path: out/make/deb/x64/easybloqs_${{ steps.version.outputs.deb }}_amd64.deb
-        asset_content_type: application/vnd.debian.binary-package
-
-    - name: Upload Linux RPM
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_name: easybloqs-${{ steps.version.outputs.rpm }}-1.x86_64.rpm
-        asset_path: out/make/rpm/x64/easybloqs-${{ steps.version.outputs.rpm }}-1.x86_64.rpm
-        asset_content_type: application/x-rpm
-
-    - name: Upload Linux Zip
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_name: easybloqs-linux-x64-${{ needs.release.outputs.version }}.zip
-        asset_path: out/make/zip/linux/x64/easybloqs-linux-x64-${{ needs.release.outputs.version }}.zip
-        asset_content_type: application/x-rpm
 
   build_windows:
     name: Build Windows
@@ -128,25 +91,10 @@ jobs:
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Package and Build Installer
-      run: yarn run make
-      env:
-        CI: true
-        DEBUG: electron-windows-installer:*
-
-    - name: List generated files
-      run: find out/make
-      shell: bash
-
-    - name: Upload Windows Setup Binary
-      uses: actions/upload-release-asset@v1
+    - name: Build and Publish Packages
+      run: yarn run publish
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_name: EasyBloqsSetup-${{ needs.release.outputs.version }}.exe
-        asset_path: out/make/squirrel.windows/x64/EasyBloqsSetup.exe
-        asset_content_type: application/exe
 
   build_macos:
     name: Build MacOS
@@ -177,21 +125,7 @@ jobs:
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Package and Build Installer
-      run: yarn run make
-      env:
-        CI: true
-        DEBUG: electron-installer-dmg:*
-
-    - name: List generated files
-      run: find out/make
-
-    - name: Upload MacOS Install Package
-      uses: actions/upload-release-asset@v1
+    - name: Build and Publish Packages
+      run: yarn run publish
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_name: easybloqs-${{ needs.release.outputs.version }}.dmg
-        asset_path: out/make/easybloqs-${{ needs.release.outputs.version }}.dmg
-        asset_content_type: application/exe
