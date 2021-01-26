@@ -9,7 +9,7 @@
     "ng": "ng",
     "start": "electron-forge start",
     "start:electron": "ng build --base-href ./ && electron .",
-    "build": "ng build",
+    "build": "ng build --prod --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
