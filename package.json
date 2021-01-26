@@ -15,7 +15,8 @@
     "e2e": "ng e2e",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "private": true,
   "dependencies": {
@@ -57,6 +58,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "@electron-forge/publisher-github": "^6.0.0-beta.54",
     "@types/electron": "^1.6.10",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
@@ -99,6 +101,7 @@
         {
           "name": "@electron-forge/maker-zip",
           "platforms": [
+            "darwin",
             "linux"
           ]
         },
@@ -115,6 +118,19 @@
         {
           "name": "@electron-forge/maker-rpm",
           "config": {}
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "leaphy-robotics",
+              "name": "leaphy-client"
+            },
+            "prerelease": true,
+            "draft": true
+          }
         }
       ]
     }
