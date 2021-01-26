@@ -2,6 +2,7 @@
   "CANCEL": "Cancel",
   "REFRESH": "Refresh",
   "OK": "Ok",
+  "START": "Let's get started!",
   "DONE": "Done",
   "NEW": "New",
   "OPEN": "Open",
@@ -33,5 +34,11 @@
   "WORKSPACE_RESTORE_CANCELLED": "Loading project cancelled",
   "WORKSPACE_SAVE_CANCELLED": "Saving project cancelled",
   "WORKSPACE_SAVED": "Project saved",
-  "SERIAL_OUTPUT": "Serial output"
+  "SERIAL_OUTPUT": "Serial output",
+  "CREDITS_INTRODUCTION": "EASYBLOQS is an educational open source product of",
+  "CREDITS_SUPPORT": "made with support of the",
+  "CREDITS_CONTRIBUTERS": "Paul Siersma (architecture, backend development), Job Cremers, Yousif Al-Fraji, Bas Hoebink, Jeroen Ooms, Bastiaan Bakker, Jort Vooijs, Jelmer Schulenklopper and lots of other Github contributers.",
+  "CREDITS_THANKS": "Thank you so much!",
+  "CREDITS_PROJECTMANAGER": "Roeland Smith (project management)",
+  "CREDITS_CHAIRMAN": "Olivier van Beekum (chairman Leaphy foundation)"
 }

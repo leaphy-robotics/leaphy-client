@@ -2502,7 +2502,7 @@ blocking-proxy@^1.0.0:
   dependencies:
     minimist "^1.2.0"
 
-"blockly@github:leaphy-robotics/leaphy-blockly#86f113e90118943af9479579fb56d2ea30266140":
+"blockly@github:leaphy-robotics/leaphy-blockly#efd108f711c0c76161a530d3d0be3d421dfcf5d5":
   version "3.20200924.0"
   resolved "https://codeload.github.com/leaphy-robotics/leaphy-blockly/tar.gz/86f113e90118943af9479579fb56d2ea30266140"
   dependencies:
