@@ -33,5 +33,11 @@
   "WORKSPACE_RESTORING": "Project laden...",
   "WORKSPACE_RESTORE_CANCELLED": "Project laden geannuleerd",
   "WORKSPACE_SAVE_CANCELLED": "Project opslaan geannuleerd",
-  "WORKSPACE_SAVED": "Project opgeslagen"
+  "WORKSPACE_SAVED": "Project opgeslagen",
+  "CREDITS_INTRODUCTION": "EASYBLOQS is een leerzaam open source product van",
+  "CREDITS_SUPPORT": "gemaakt met behulp van de",
+  "CREDITS_CONTRIBUTERS": "Paul Siersma (architectuur, backend ontwikkeling), Job Cremers, Yousif Al-Fraji, Bas Hoebink, Jeroen Ooms, Bastiaan Bakker, Jort Vooijs, Jelmer Schulenklopper and lots of other Github contributers.",
+  "CREDITS_THANKS": "Heel erg bedankt!",
+  "CREDITS_PROJECTMANAGER": "Roeland Smith (project management)",
+  "CREDITS_CHAIRMAN": "Olivier van Beekum (chairman Leaphy foundation)"
 }
