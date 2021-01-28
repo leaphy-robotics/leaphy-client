@@ -83,16 +83,17 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "asar": true
+        "asar": true,
+        "name": "Leaphy Easybloqs",
+        "icon": "./easybloqs-icon.ico"
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "easybloqs",
+            "name": "LeaphyEasybloqs",
             "setupExe": "EasyBloqsSetup.exe",
             "loadingGif": "./easybloqs-loading.gif",
-            "exe": "easybloqs.exe",
             "noMsi": true,
             "iconUrl": "file://easybloqs-icon.ico",
             "setupIcon": "./easybloqs-icon.ico"
