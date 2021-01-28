@@ -11,12 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-      version: ${{ steps.set_version.outputs.version }}
     steps:
-      - name: Set Version
-        id: set_version
-        run: echo "::set-output name=version::$(basename $${{ github.ref}} | cut -b 2-)"
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
