@@ -35,6 +35,9 @@ export class RobotWiredEffects {
                     case 'UPDATE_COMPLETE':
                         this.robotWiredState.setVerifiedSerialDevice(message.payload as SerialDevice);
                         break;
+                    case 'SERIAL_DATA':
+                        this.robotWiredState.setIncomingSerialData(message.payload);
+                        break;
                     default:
                         break;
                 }
@@ -51,7 +54,7 @@ export class RobotWiredEffects {
             .pipe(withLatestFrom(this.robotWiredState.serialDevicesToTry$, this.robotWiredState.verifiedSerialDevice$))
             .pipe(filter(([message, ,]) => !!message && message.event == 'UPDATE_FAILED'))
             .subscribe(([message, devicesToTry, verifiedDevice]) => {
-                if(verifiedDevice && message.payload.address == verifiedDevice.address){
+                if (verifiedDevice && message.payload.address == verifiedDevice.address) {
                     this.robotWiredState.setVerifiedSerialDevice(null);
                     return;
                 }

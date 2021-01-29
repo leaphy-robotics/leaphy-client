@@ -34,6 +34,7 @@
   "WORKSPACE_RESTORE_CANCELLED": "Loading project cancelled",
   "WORKSPACE_SAVE_CANCELLED": "Saving project cancelled",
   "WORKSPACE_SAVED": "Project saved",
+  "SERIAL_OUTPUT": "Serial output",
   "CREDITS_INTRODUCTION": "EASYBLOQS is an educational open source product of",
   "CREDITS_SUPPORT": "made with support of the",
   "CREDITS_CONTRIBUTERS": "Paul Siersma (architecture, backend development), Job Cremers, Yousif Al-Fraji, Bas Hoebink, Jeroen Ooms, Bastiaan Bakker, Jort Vooijs, Jelmer Schulenklopper and lots of other Github contributers.",

@@ -1,5 +1,5 @@
 <div id="container">
-    <button mat-fab id="code-view-button" (click)="onCodeViewClicked()">
+    <button mat-fab id="sidenav-button" (click)="onSideNavClicked()">
         <mat-icon>code</mat-icon>
     </button>
     <mat-sidenav-container class="sidenav-container">
@@ -8,6 +8,7 @@
         </mat-sidenav-content>
         <mat-sidenav id="sidenav" mode="side" [opened]="blocklyState.isSideNavOpen$ | async" position="end">
             <app-code-view></app-code-view>
+            <app-serial-output></app-serial-output>
         </mat-sidenav>
     </mat-sidenav-container>
 </div>

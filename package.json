@@ -1,28 +1,22 @@
 {
   "name": "easybloqs",
-  "version": "0.0.1",
+  "author": "Leaphy Robotics",
+  "description": "Build Leaphy Arduino programs",
+  "version": "0.2.4-pre.14",
+  "license": "GPLv3",
   "main": "main.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "clean:darwin": "rm -f easybloqs.dmg && rm -rf dist && rm -rf easybloqs-darwin-x64",
-    "clean:linux": "rm -f easybloqs.dmg && rm -rf dist && rm -rf easybloqs-linux-x64",
-    "clean:win32": "del /s /q .\\installers\\win32\\*.* && if exist .\\easybloqs-win32-x64 rmdir /s /q .\\easybloqs-win32-x64",
+    "start": "electron-forge start",
     "start:electron": "ng build --base-href ./ && electron .",
-    "build": "ng build",
+    "build": "ng build --prod --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "aws s3 sync .\\dist s3://liquidlogic.eu --delete --profile ll-liquidlogic",
-    "package:electron:darwin": "yarn install && ng build --prod --base-href ./ && electron-packager . --platform=darwin --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/win32 --ignore=/lib/linux --ignore=/easybloqs-darwin-x64 --overwrite --verbose --asar",
-    "package:electron:linux": "yarn install && ng build --prod --base-href ./ && electron-packager . --platform=linux --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/darwin --ignore=/lib/win32 --ignore=/easybloqs-linux-x64 --overwrite --verbose --asar",
-    "package:electron:win32": "yarn install && ng build --prod --base-href ./ && electron-packager . --platform=win32 --ignore=/e2e --ignore=/src --ignore=/installers --ignore=/lib/darwin --ignore=/lib/linux --ignore=/easybloqs-win32-x64 --overwrite --verbose --asar --icon=easybloqs-icon.ico",
-    "build-installer:electron:darwin": "electron-installer-dmg --debug --overwrite --out=./installers/darwin ./easybloqs-darwin-x64/easybloqs.app Easybloqs",
-    "build-installer:electron:linux": "electron-installer-zip easybloqs-linux-x64/ installers/linux/easybloqs-linux-x64.zip",
-    "build-installer:electron:win32": "node ./ci/build-installer.js",
-    "installer:electron:darwin": "yarn run clean:darwin && yarn run package:electron:darwin && yarn run build-installer:electron:darwin",
-    "installer:electron:linux": "yarn run clean:linux && yarn run package:electron:linux && yarn run build-installer:electron:linux",
-    "installer:electron:win32": "yarn run clean:win32 && yarn run package:electron:win32 && yarn run build-installer:electron:win32"
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +30,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.54",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
@@ -49,6 +44,7 @@
     "jquery": "^3.5.1",
     "prismjs": "^1.22.0",
     "rxjs": "~6.4.0",
+    "serialport": "^9.0.4",
     "tslib": "^1.14.1",
     "zone.js": "~0.9.1"
   },
@@ -57,17 +53,21 @@
     "@angular/cli": "^8.3.29",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "@electron-forge/publisher-github": "^6.0.0-beta.54",
     "@types/electron": "^1.6.10",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^8.10.64",
     "codelyzer": "^5.2.2",
     "electron": "^8.5.2",
-    "electron-installer-dmg": "^3.0.0",
     "electron-installer-zip": "^0.1.2",
-    "electron-packager": "^14.2.1",
+    "electron-rebuild": "^2.3.4",
     "electron-reload": "^1.5.0",
-    "electron-winstaller": "^4.0.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -79,5 +79,60 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "asar": true
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "easybloqs",
+            "setupExe": "EasyBloqsSetup.exe",
+            "loadingGif": "./easybloqs-loading.gif",
+            "exe": "easybloqs.exe",
+            "noMsi": true,
+            "iconUrl": "file://easybloqs-icon.ico",
+            "setupIcon": "./easybloqs-icon.ico"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin",
+            "linux"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "iconUrl": "file://easybloqs-icon.ico"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "leaphy-robotics",
+              "name": "leaphy-client"
+            },
+            "prerelease": true,
+            "draft": true
+          }
+        }
+      ]
+    }
   }
 }

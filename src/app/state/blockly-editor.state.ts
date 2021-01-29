@@ -1,5 +1,5 @@
 import { Injectable, ElementRef } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SketchStatus } from '../domain/sketch.status';
 import { scan, map, filter } from 'rxjs/operators';
 import { WorkspaceStatus } from '../domain/workspace.status';
@@ -20,10 +20,10 @@ export class BlocklyEditorState {
   public code$ = this.codeSubject$.asObservable();
 
   public tokenizedCode$ = this.code$
-  .pipe(filter(code => !!code))
-  .pipe(map(code => {
-    return Prism.highlight(code, Prism.languages.arduino)
-  }));
+    .pipe(filter(code => !!code))
+    .pipe(map(code => {
+      return Prism.highlight(code, Prism.languages.arduino)
+    }));
 
   private sketchStatusSubject$: BehaviorSubject<SketchStatus> = new BehaviorSubject(SketchStatus.UnableToSend);
   public sketchStatus$ = this.sketchStatusSubject$.asObservable();
@@ -123,7 +123,7 @@ export class BlocklyEditorState {
     this.projectFilePathSubject$.next(path);
   }
 
-  public setUndo(redo: boolean){
+  public setUndo(redo: boolean) {
     this.undoSubject$.next(redo);
   }
 }
