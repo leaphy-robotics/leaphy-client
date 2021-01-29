@@ -11,7 +11,7 @@ module.exports = {
         "loadingGif": "./easybloqs-loading.gif",
         "noMsi": true,
         "iconUrl": "file://easybloqs-icon.ico",
-        "setupIcon": "./easybloqs-icon.ico"
+        "setupIcon": "./easybloqs-icon.ico",
         "certificateFile": "./self-signed-cert.pfx",
         "certificatePassword": process.env['CERTIFICATE_PASSWORD']
       }
