@@ -3,7 +3,7 @@
   "author": "Leaphy Robotics",
   "description": "Build Leaphy Arduino programs",
   "productName": "Leaphy Easybloqs",
-  "version": "0.2.4-pre.14",
+  "version": "0.2.4-pre.15",
   "license": "GPLv3",
   "main": "main.js",
   "scripts": {
