@@ -2,6 +2,7 @@
   "name": "easybloqs",
   "author": "Leaphy Robotics",
   "description": "Build Leaphy Arduino programs",
+  "productName": "Leaphy Easybloqs",
   "version": "0.2.4-pre.14",
   "license": "GPLv3",
   "main": "main.js",
@@ -84,14 +85,12 @@
     "forge": {
       "packagerConfig": {
         "asar": true,
-        "name": "Leaphy Easybloqs",
         "icon": "./easybloqs-icon.ico"
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "LeaphyEasybloqs",
             "setupExe": "EasyBloqsSetup.exe",
             "loadingGif": "./easybloqs-loading.gif",
             "noMsi": true,
