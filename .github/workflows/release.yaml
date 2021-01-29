@@ -62,3 +62,5 @@ jobs:
       run: yarn run publish
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WINDOWS_CODESIGN_CERTIFICATE: "./self-signed-cert.pfx"
+        WINDOWS_CODESIGN_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
