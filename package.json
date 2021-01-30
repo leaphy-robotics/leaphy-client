@@ -85,7 +85,8 @@
     "forge": {
       "packagerConfig": {
         "asar": true,
-        "icon": "./easybloqs-icon.ico"
+        "icon": "./easybloqs-icon.ico",
+        "executableName": "Easybloqs"
       },
       "makers": [
         {
