@@ -20,8 +20,10 @@ class DeviceManager {
 
         console.log('Update Device command received');
 
-        this.activeSerial?.close();
-
+        if(this.activeSerial?.isOpen){
+            this.activeSerial.close();
+        }
+        
         const updatingMessage = { event: "UPDATE_STARTED", message: "UPDATE_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', updatingMessage);
         const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.ext}`];
