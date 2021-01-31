@@ -35,7 +35,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "angular": "^1.8.1",
-    "blockly": "github:leaphy-robotics/leaphy-blockly#7b57a6b6cf2ca62c2010fb9364282cebec438208",
+    "blockly": "github:leaphy-robotics/leaphy-blockly#b04f123a7ea303cc094b90c86aa1d5c7d22c0baf",
     "bootstrap": "^4.5.3",
     "electron-first-run": "^3.0.0",
     "electron-prompt": "^1.6.0",
