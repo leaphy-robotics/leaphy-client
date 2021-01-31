@@ -2,7 +2,7 @@
   "CANCEL": "Annuleer",
   "REFRESH": "Ververs",
   "OK": "Ik begrijp het",
-  "START": "Laten we beginnen!",
+  "START": "Aan de slag!",
   "DONE": "Klaar",
   "NEW": "Nieuw",
   "OPEN": "Open",
@@ -35,10 +35,11 @@
   "WORKSPACE_SAVE_CANCELLED": "Project opslaan geannuleerd",
   "WORKSPACE_SAVED": "Project opgeslagen",
   "SERIAL_OUTPUT": "Seriële output",
-  "CREDITS_INTRODUCTION": "EASYBLOQS is een leerzaam open source product van",
-  "CREDITS_SUPPORT": "gemaakt met behulp van de",
-  "CREDITS_CONTRIBUTERS": "Paul Siersma (architectuur, backend ontwikkeling), Job Cremers, Yousif Al-Fraji, Bas Hoebink, Jeroen Ooms, Bastiaan Bakker, Jort Vooijs, Jelmer Schulenklopper and lots of other Github contributers.",
+  "CREDITS_INTRODUCTION": "EASYBLOQS is een educatief open source product van",
+  "CREDITS_SUPPORT": "Gemaakt met steun van de",
+  "CREDITS_CONTRIBUTERS_INTRO": "Iedereen die eraan bij heeft gedagen:",
+  "CREDITS_CONTRIBUTERS": "Paul Siersma (architectuur, backend development), Bas Hoebink, Job Cremers, Yousif Al-Fraji, Jort Vooijs, Bastiaan Bakker, Jeroen Ooms, Jelmer Schulenklopper, Maarten Bosmans en de mensen van Blockly.",
   "CREDITS_THANKS": "Heel erg bedankt!",
-  "CREDITS_PROJECTMANAGER": "Roeland Smith (project management)",
-  "CREDITS_CHAIRMAN": "Olivier van Beekum (chairman Leaphy foundation)"
+  "CREDITS_PROJECTMANAGER": "Roeland Smith (Projectleiding)",
+  "CREDITS_CHAIRMAN": "Olivier van Beekum (Voorzitter Stichting Leaphy)"
 }

@@ -4,48 +4,11 @@
   justify-content: center;
   flex-direction: column;
 }
-#header {
-  margin-top: 20px;
-  margin-bottom: 20px;
+
+.title {
+  font-size: 16px;
 }
-#leaphyLogo {
-  width: 400px;
-}
-#credits {
-  flex: 0 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-#namesContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-}
-#roles {
-  flex: 0 1 auto;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  flex-direction: column;
-  margin-right: 10px;
-}
-.role {
-  flex: 0 1 auto;
-}
-#names {
-  flex: 0 1 auto;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-direction: column;
-  margin-left: 10px;
-}
-.name {
-  flex: 0 1 auto;
-}
+
 
 .credits {
   color: grey;
@@ -55,10 +18,10 @@
 
   img {
     width: 100%;
-    max-width: 250px;
+    max-width: 180px;
     height: auto;
     display: block;
-    margin: 2em auto;
+    margin: 1em auto;
   }
 
   .leaphyLogo {
