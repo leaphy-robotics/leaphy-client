@@ -25,6 +25,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BackendWiredEffects } from './effects/backend.wired.effects';
 import { BackEndCloudEffects } from './effects/backend.cloud.effects';
 import { BlocklyEditorEffects } from './effects/blockly-editor.effects';
+import { CodeEditorEffects } from './effects/code-editor.effects';
 import { DialogEffects } from './effects/dialog.effects';
 import { RobotCloudEffects } from './effects/robot.cloud.effects';
 import { AppEffects } from './effects/app.effects';
@@ -91,6 +92,7 @@ export function createTranslateLoader(http: HttpClient) {
           BackendWiredEffects,
           BackEndCloudEffects,
           BlocklyEditorEffects,
+          CodeEditorEffects,
           DialogEffects,
           RobotCloudEffects,
           RobotWiredEffects

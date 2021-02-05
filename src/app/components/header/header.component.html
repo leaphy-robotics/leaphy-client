@@ -29,6 +29,9 @@
         [disabled]="!(canUpload$ | async)">
         {{ "UPLOAD" | translate }}
       </button>
+      <button mat-flat-button *ngIf="appState.selectedRobotType$ | async" (click)="onBlocklyEditorClicked()">
+        {{ "NORMAL" | translate }}
+      </button>
       <button mat-flat-button *ngIf="appState.selectedRobotType$ | async" (click)="onCodeEditorClicked()">
         {{ "ADVANCED" | translate }}
       </button>

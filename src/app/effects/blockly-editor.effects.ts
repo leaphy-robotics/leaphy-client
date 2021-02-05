@@ -27,7 +27,7 @@ export class BlocklyEditorEffects {
         private http: HttpClient
     ) {
         // Create a new workspace when all prerequisites are there
-        combineLatest(this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$)
+        combineLatest([this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$])
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
             .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
             .pipe(withLatestFrom(

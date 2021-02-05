@@ -32,10 +32,17 @@ export class AppEffects {
 
         this.appState.userMode$
             .subscribe(userMode => {
-                if(userMode === UserMode.Advanced){
-                    this.router.navigate(['/advanced'])
+                switch (userMode) {
+                    case UserMode.Beginner:
+                        this.router.navigate(['']);
+                        break;
+                    case UserMode.Advanced:
+                        this.router.navigate(['/advanced']);
+                        break;
+                    default:
+                        break;
                 }
-            })
+            });
         // Enable to debugging to console.log all backend messages
         this.backEndState.backEndMessages$
             .pipe(filter(() => this.isDebug))

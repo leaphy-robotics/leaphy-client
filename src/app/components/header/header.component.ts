@@ -50,6 +50,10 @@ export class HeaderComponent {
     this.blocklyState.setSketchStatus(SketchStatus.Sending);
   }
 
+  public onBlocklyEditorClicked() {
+    this.appState.setUserMode(UserMode.Beginner);
+  }
+
   public onCodeEditorClicked() {
     this.appState.setUserMode(UserMode.Advanced);
   }
