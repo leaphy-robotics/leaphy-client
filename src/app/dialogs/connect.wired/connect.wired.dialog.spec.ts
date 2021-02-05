@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ConnectWiredDialog } from './connect.wired.dialog';
 
@@ -6,7 +6,7 @@ describe('ConnectWiredDialog', () => {
   let component: ConnectWiredDialog;
   let fixture: ComponentFixture<ConnectWiredDialog>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ConnectWiredDialog ]
     })

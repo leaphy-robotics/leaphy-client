@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BlocklyEditorPage } from './blockly-editor.page';
 
@@ -6,7 +6,7 @@ describe('BlocklyEditorPage', () => {
   let component: BlocklyEditorPage;
   let fixture: ComponentFixture<BlocklyEditorPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BlocklyEditorPage ]
     })
