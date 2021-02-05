@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: '', loadChildren: './modules/blockly-editor/blockly-editor.module#BlocklyEditorPageModule' },
+  { path: '', loadChildren: () => import('./modules/blockly-editor/blockly-editor.module').then(m => m.BlocklyEditorPageModule) },
 ];
 
 @NgModule({

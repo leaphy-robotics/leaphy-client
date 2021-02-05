@@ -9,7 +9,7 @@ import { RobotWiredState } from 'src/app/state/robot.wired.state';
 export class SerialOutputComponent implements AfterViewInit {
 
   @ViewChildren('messages') messages: QueryList<any>;
-  @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('content') content: ElementRef;
   
   constructor(public robotWiredState: RobotWiredState) { }
 
