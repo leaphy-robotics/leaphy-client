@@ -8,6 +8,7 @@ import { SketchStatus } from 'src/app/domain/sketch.status';
 import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HostListener } from '@angular/core';
+import { UserMode } from 'src/app/domain/user.mode';
 
 @Component({
   selector: 'app-header',
@@ -49,6 +50,10 @@ export class HeaderComponent {
     this.blocklyState.setSketchStatus(SketchStatus.Sending);
   }
 
+  public onCodeEditorClicked() {
+    this.appState.setUserMode(UserMode.Advanced);
+  }
+
   public onUndoClicked() {
     this.blocklyState.setUndo(false);
   }
@@ -62,17 +67,16 @@ export class HeaderComponent {
   }
 
   public isBackEndBusy$: Observable<boolean> = combineLatest(
-    this.robotWiredState.isInstallationVerified$,
+    [this.robotWiredState.isInstallationVerified$,
     this.appState.selectedRobotType$,
-    this.blocklyState.sketchStatus$
+    this.blocklyState.sketchStatus$]
   )
     .pipe(switchMap(([isVerified, robotType, sketchStatus]) => {
       return of((!!robotType && !isVerified) || sketchStatus == SketchStatus.Sending);
     }));
 
   public canUpload$: Observable<boolean> = combineLatest(
-    this.robotWiredState.isInstallationVerified$,
-    this.blocklyState.sketchStatus$
+    [this.robotWiredState.isInstallationVerified$, this.blocklyState.sketchStatus$]
   )
     .pipe(switchMap(([isVerified, sketchStatus]) => {
       return of(isVerified && sketchStatus < SketchStatus.Sending);

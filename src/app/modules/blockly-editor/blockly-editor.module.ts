@@ -9,7 +9,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 
-import { BlocklyEditorPageRoutingModule } from './blockly-editor-routing.module';
+import { BlocklyEditorRoutingModule } from './blockly-editor-routing.module';
 import { BlocklyEditorPage } from './blockly-editor.page';
 import { LeaphyBlocklyComponent } from './components/leaphy-blockly/leaphy-blockly.component';
 import { CodeViewComponent } from './components/code-view/code-view.component';
@@ -21,7 +21,7 @@ import { SerialOutputComponent } from './components/serial-output/serial-output.
   declarations: [BlocklyEditorPage, LeaphyBlocklyComponent, CodeViewComponent, SerialOutputComponent],
   imports: [
     CommonModule,
-    BlocklyEditorPageRoutingModule,
+    BlocklyEditorRoutingModule,
     MatSidenavModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -33,4 +33,4 @@ import { SerialOutputComponent } from './components/serial-output/serial-output.
   ],
   entryComponents: []
 })
-export class BlocklyEditorPageModule { }
+export class BlocklyEditorModule { }
