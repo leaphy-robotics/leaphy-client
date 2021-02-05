@@ -2702,11 +2702,11 @@ blocking-proxy@^1.0.0:
   dependencies:
     minimist "^1.2.0"
 
-"blockly@github:leaphy-robotics/leaphy-blockly":
-  version "3.20200924.0"
-  resolved "https://codeload.github.com/leaphy-robotics/leaphy-blockly/tar.gz/bdc4fe8784245497cf7bf27f5aab05a501c6b733"
+"blockly@github:leaphy-robotics/leaphy-blockly#ac7b42d01844ffded14138c17cd4c696d49ea848":
+  version "4.20201217.0"
+  resolved "https://codeload.github.com/leaphy-robotics/leaphy-blockly/tar.gz/ac7b42d01844ffded14138c17cd4c696d49ea848"
   dependencies:
-    jsdom "^15.2.1"
+    jsdom "15.2.1"
 
 bluebird@^3.1.1, bluebird@^3.5.0, bluebird@^3.5.5:
   version "3.7.2"
@@ -6883,7 +6883,7 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
-jsdom@^15.2.1:
+jsdom@15.2.1:
   version "15.2.1"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-15.2.1.tgz#d2feb1aef7183f86be521b8c6833ff5296d07ec5"
   integrity sha512-fAl1W0/7T2G5vURSyxBzrJ1LSdQn6Tr5UX/xD4PXDx/PDgwygedfW6El/KIj3xJ7FU61TTYnc/l/B7P49Eqt6g==
