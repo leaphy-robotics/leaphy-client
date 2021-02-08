@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StatusMessageDialog } from './status-message.dialog';
 
@@ -6,7 +6,7 @@ describe('StatusMessageComponent', () => {
   let component: StatusMessageDialog;
   let fixture: ComponentFixture<StatusMessageDialog>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ StatusMessageDialog ]
     })

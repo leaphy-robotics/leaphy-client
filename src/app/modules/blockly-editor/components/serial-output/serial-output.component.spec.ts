@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SerialOutputComponent } from './serial-output.component';
 
@@ -6,7 +6,7 @@ describe('SerialOutputComponent', () => {
   let component: SerialOutputComponent;
   let fixture: ComponentFixture<SerialOutputComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SerialOutputComponent ]
     })

@@ -9,7 +9,7 @@ import { BackEndState } from 'src/app/state/backend.state';
 })
 export class LeaphyBlocklyComponent implements AfterViewInit {
 
-    @ViewChild('blockContent', { static: false }) blockContent: ElementRef;
+    @ViewChild('blockContent') blockContent: ElementRef;
 
     constructor(
         public blocklyState: BlocklyEditorState,
