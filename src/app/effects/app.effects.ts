@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BackEndState } from '../state/backend.state';
 import { filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { StatusMessageDialog } from '../dialogs/status-message/status-message.dialog';
+import { StatusMessageDialog } from '../modules/core/dialogs/status-message/status-message.dialog';
 import { Router } from '@angular/router';
 import { UserMode } from '../domain/user.mode';
 

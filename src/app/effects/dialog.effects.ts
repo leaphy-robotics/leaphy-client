@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { filter, switchMap, withLatestFrom } from 'rxjs/operators';
 import { DialogState } from '../state/dialog.state';
-import { ConnectWiredDialog } from '../dialogs/connect.wired/connect.wired.dialog';
+import { ConnectWiredDialog } from '../modules/core/dialogs/connect.wired/connect.wired.dialog';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { InstallDriverDialog } from '../dialogs/install-driver/install-driver.dialog';
-import { CreditsDialog } from '../dialogs/credits/credits.dialog';
+import { InstallDriverDialog } from '../modules/core/dialogs/install-driver/install-driver.dialog';
+import { CreditsDialog } from '../modules/core/dialogs/credits/credits.dialog';
 
 @Injectable({
     providedIn: 'root',

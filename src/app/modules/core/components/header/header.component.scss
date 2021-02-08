@@ -47,6 +47,16 @@ button {
   min-width: auto;
 }
 
+#user-mode-toggle {
+  height: 35px;
+  display: flex;
+  font-size: 16px;
+}
+
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content > span {
+  line-height: 24px;
+}
+
 button mat-icon + span {
   margin-left: 5px;
 }

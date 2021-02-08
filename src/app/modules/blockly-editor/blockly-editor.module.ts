@@ -1,35 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatInputModule} from '@angular/material/input';
-
 import { BlocklyEditorRoutingModule } from './blockly-editor-routing.module';
 import { BlocklyEditorPage } from './blockly-editor.page';
 import { LeaphyBlocklyComponent } from './components/leaphy-blockly/leaphy-blockly.component';
 import { CodeViewComponent } from './components/code-view/code-view.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { SerialOutputComponent } from './components/serial-output/serial-output.component';
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [BlocklyEditorPage, LeaphyBlocklyComponent, CodeViewComponent, SerialOutputComponent],
+  declarations: [BlocklyEditorPage, LeaphyBlocklyComponent, CodeViewComponent],
   imports: [
     CommonModule,
     BlocklyEditorRoutingModule,
-    MatSidenavModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    MatInputModule,
-    TranslateModule
+    SharedModule
   ],
   entryComponents: []
 })

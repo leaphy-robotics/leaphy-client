@@ -29,13 +29,13 @@
         [disabled]="!(canUpload$ | async)">
         {{ "UPLOAD" | translate }}
       </button>
-      <button mat-flat-button *ngIf="appState.selectedRobotType$ | async" (click)="onBlocklyEditorClicked()">
-        {{ "NORMAL" | translate }}
-      </button>
-      <button mat-flat-button *ngIf="appState.selectedRobotType$ | async" (click)="onCodeEditorClicked()">
-        {{ "ADVANCED" | translate }}
-      </button>
     </div>
+    <div>
+      <mat-button-toggle-group id="user-mode-toggle" *ngIf="appState.selectedRobotType$ | async">
+        <mat-button-toggle class="user-mode-toggle-button" (click)="onBlocklyEditorClicked()" >{{ "USERMODE_BEGINNER" | translate }}</mat-button-toggle>
+        <mat-button-toggle class="user-mode-toggle-button" (click)="onCodeEditorClicked()">{{ "USERMODE_ADVANCED" | translate }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div> 
   </div>
 </mat-toolbar>
 
