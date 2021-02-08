@@ -60,18 +60,14 @@
 		<block type="leaphy_serial_print_line">
 			<value name="VALUE">
 				<shadow type="text">
-					<field name="TEXT">
-						tekst
-					</field>
+					<field name="TEXT">tekst</field>
 				</shadow>
 			</value>
 		</block>
 		<block type="leaphy_serial_print_value">
 			<value name="NAME">
 				<shadow type="text">
-					<field name="TEXT">
-						tekst
-					</field>
+					<field name="TEXT">tekst</field>
 				</shadow>
 			</value>
 			<value name="VALUE">
