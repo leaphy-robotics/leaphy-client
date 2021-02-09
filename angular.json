@@ -48,7 +48,13 @@
               "./node_modules/prismjs/components/prism-clike.js",
               "./node_modules/prismjs/components/prism-c.js",
               "./node_modules/prismjs/components/prism-cpp.js",
-              "./node_modules/prismjs/components/prism-arduino.js"
+              "./node_modules/prismjs/components/prism-arduino.js",
+              "./node_modules/ace-builds/src-min/ace.js",
+              "./node_modules/ace-builds/src-min/mode-c_cpp.js",
+              "./node_modules/ace-builds/src-min/theme-solarized_light.js",
+              "./node_modules/ace-builds/src-min/ext-beautify.js",
+              "./node_modules/ace-builds/src-min/ext-searchbox.js",
+              "./node_modules/ace-builds/src-min/ext-language_tools.js"
             ]
           },
           "configurations": {
@@ -105,7 +111,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "src/styles.scss",
               "./node_modules/bootstrap/@fortawesome/fontawesome-free/css/all.css"
@@ -121,7 +130,9 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "e2e": {

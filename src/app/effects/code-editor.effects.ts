@@ -18,7 +18,13 @@ export class CodeEditorEffects {
             .pipe(filter(element => !!element))
             .subscribe(element => {
                 ace.config.set("fontSize", "14px");
+                //ace.config.set('basePath', 'https://unpkg.com/ace-builds@1.4.12/src-noconflict');
                 const aceEditor = ace.edit(element.nativeElement);
+                aceEditor.setTheme('ace/theme/solarized_light');
+                aceEditor.session.setMode('ace/mode/c_cpp');
+                aceEditor.setOptions({
+                    enableBasicAutocompletion: true
+                });
                 this.codeEditorState.setAceEditor(aceEditor);
             });
 
