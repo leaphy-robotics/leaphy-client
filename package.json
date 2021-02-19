@@ -2,7 +2,7 @@
   "name": "easybloqs",
   "author": "Leaphy Robotics",
   "description": "Build Leaphy Arduino programs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "GPLv3",
   "main": "main.js",
   "scripts": {
@@ -36,7 +36,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "angular": "^1.8.1",
-    "blockly": "github:leaphy-robotics/leaphy-blockly#ac7b42d01844ffded14138c17cd4c696d49ea848",
+    "blockly": "github:leaphy-robotics/leaphy-blockly#cff685c14e4569df4fd6156ae79308ac7fceab39",
     "bootstrap": "^4.5.3",
     "electron-first-run": "^3.0.0",
     "electron-prompt": "^1.6.1",
