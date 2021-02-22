@@ -34,7 +34,10 @@ module.exports = {
     },
     {
       name: "@electron-forge/maker-rpm",
-      config: {}
+      config: {},
+      platforms: [
+        "linux-x64"
+      ]
     }
   ],
   publishers: [
