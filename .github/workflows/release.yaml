@@ -33,6 +33,9 @@ jobs:
         exclude:
           - os: windows-latest
             arch: arm64
+          # macos arm64 give build errors
+          - os: macos-latest
+            arch: arm64
     needs: release
     steps:
     - name: Checkout Code
