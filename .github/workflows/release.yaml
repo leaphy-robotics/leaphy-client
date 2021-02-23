@@ -29,6 +29,13 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
+        arch: [ x64, arm64 ]
+        exclude:
+          - os: windows-latest
+            arch: arm64
+          # macos arm64 give build errors
+          - os: macos-latest
+            arch: arm64
     needs: release
     steps:
     - name: Checkout Code
@@ -59,8 +66,9 @@ jobs:
       run: yarn run build
 
     - name: Package and Publish
-      run: yarn run publish
+      run: yarn run publish --arch ${{ matrix.arch }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET_ARG: ${{ matrix.arch }}
         WINDOWS_CODESIGN_CERTIFICATE: "./self-signed-cert.pfx"
         WINDOWS_CODESIGN_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
