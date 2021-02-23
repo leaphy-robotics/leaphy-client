@@ -35,7 +35,6 @@ module.exports = {
     {
       name: "@electron-forge/maker-rpm",
       config: {},
-      platforms: process.env['TARGET_ARCH'] == "arm64" ? [] : ["linux"],
     }
   ],
   publishers: [
