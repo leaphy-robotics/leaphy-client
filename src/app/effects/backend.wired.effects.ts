@@ -179,6 +179,14 @@ export class BackendWiredEffects {
                         this.send('restore-workspace', robotType);
                     });
 
+                // When the temp workspace is being loaded, relay the command to Electron
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(filter(status => status === WorkspaceStatus.FindingTemp))
+                    .pipe(withLatestFrom(this.appState.selectedRobotType$))
+                    .subscribe(([, robotType]) => {
+                        this.send('restore-workspace-temp', robotType);
+                    });
+
                 // When the workspace is being saved, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.Saving))
@@ -197,7 +205,7 @@ export class BackendWiredEffects {
                         }
                     });
 
-                // When the workspace is being saved, relay the command to Electron
+                // When the workspace is being saved as a new project, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.SavingAs))
                     .pipe(withLatestFrom(
@@ -208,6 +216,18 @@ export class BackendWiredEffects {
                     .subscribe(([, projectFilePath, workspaceXml, robotType]) => {
                         const payload = { projectFilePath, workspaceXml, robotType };
                         this.send('save-workspace-as', payload);
+                    });
+
+                // When the workspace is being temporarily saved, relay the command to Electron
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(filter(status => status === WorkspaceStatus.SavingTemp))
+                    .pipe(withLatestFrom(
+                        this.blocklyEditorState.workspaceXml$,
+                        this.appState.selectedRobotType$
+                    ))
+                    .subscribe(([, workspaceXml, robotType]) => {
+                        const payload = { workspaceXml, robotType };
+                        this.send('save-workspace-temp', payload);
                     });
 
                 // When the Install USB driver is being installed, relay the command to Electron

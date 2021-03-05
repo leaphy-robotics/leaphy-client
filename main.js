@@ -46,9 +46,11 @@ ipcMain
     .on('get-serial-devices', deviceManager.getDevices);
 
 const WorkspaceManager = require('./electron/workspaceManager');
-const workspaceManager = new WorkspaceManager(fs, dialog);
+const workspaceManager = new WorkspaceManager(fs, dialog, app);
 ipcMain.on('save-workspace', workspaceManager.save);
 ipcMain.on('save-workspace-as', workspaceManager.saveAs);
+ipcMain.on('save-workspace-temp', workspaceManager.saveTemp);
+ipcMain.on('restore-workspace-temp', workspaceManager.restoreTemp);
 ipcMain.on('restore-workspace', workspaceManager.restore);
 
 const WebBrowserLauncher = require('./electron/webBrowserLauncher');
