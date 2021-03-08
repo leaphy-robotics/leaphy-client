@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
 import { map, filter, distinctUntilChanged } from 'rxjs/operators';
 import { Language } from '../domain/language';
+import { UserMode } from '../domain/user.mode';
 
 @Injectable({
     providedIn: 'root'
@@ -54,6 +55,9 @@ export class AppState {
     private showHelpPageSubject$ = new BehaviorSubject<boolean>(false);
     public showHelpPage$ = this.showHelpPageSubject$.asObservable();
 
+    private userModeSubject$ = new BehaviorSubject<UserMode>(UserMode.Beginner);
+    public userMode$ = this.userModeSubject$.asObservable();
+
     public setSelectedRobotType(robotType: RobotType) {
         this.selectedRobotTypeSubject$.next(robotType);
     }
@@ -64,5 +68,9 @@ export class AppState {
 
     public setShowHelpPage(show: boolean) {
         this.showHelpPageSubject$.next(show);
+    }
+
+    public setUserMode(userMode: UserMode) {
+        this.userModeSubject$.next(userMode);
     }
 }

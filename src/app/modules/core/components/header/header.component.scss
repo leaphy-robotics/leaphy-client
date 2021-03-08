@@ -36,6 +36,37 @@ button {
   border-color: none;
 }
 
+mat-button-toggle-group {
+  border-color: var(--leaphy-color-secundary);
+  border-radius: 20px;
+}
+
+mat-button-toggle {
+  background-color: transparent;
+  color: var(--leaphy-color-light);
+  font-size: 12px;
+  font-weight: normal;
+}
+
+::ng-deep
+  .mat-button-toggle-group-appearance-standard
+  .mat-button-toggle
+  + .mat-button-toggle {
+  border-color: var(--leaphy-color-secundary);
+}
+
+::ng-deep .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+  background-color: var(--leaphy-color-primary-dark-tint);
+  color: var(--leaphy-color-light);
+  font-weight: bold;
+}
+
+::ng-deep
+  .mat-button-toggle-appearance-standard
+  .mat-button-toggle-label-content {
+  line-height: 10px;
+}
+
 ::ng-deep .mat-menu-panel {
   margin-top: 10px;
 }
@@ -45,6 +76,16 @@ button {
   width: 35px;
   height: 35px;
   min-width: auto;
+}
+
+#user-mode-toggle {
+  height: 35px;
+  display: flex;
+  font-size: 16px;
+}
+
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content > span {
+  line-height: 24px;
 }
 
 button mat-icon + span {

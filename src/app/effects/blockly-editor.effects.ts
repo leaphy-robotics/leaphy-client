@@ -9,6 +9,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
 import { RobotWiredState } from '../state/robot.wired.state';
+import { UserMode } from '../domain/user.mode';
 
 declare var Blockly: any;
 
@@ -27,13 +28,13 @@ export class BlocklyEditorEffects {
         private http: HttpClient
     ) {
         // Create a new workspace when all prerequisites are there
-        combineLatest(this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$)
+        combineLatest([this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$])
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
             .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
             .pipe(withLatestFrom(
                 this.getXmlContent('./assets/blockly/base-toolbox.xml'),
                 this.getXmlContent('./assets/blockly/leaphy-toolbox.xml'),
-                this.getXmlContent('./assets/blockly/leaphy-start.xml'),
+                this.getXmlContent('./assets/blockly/leaphy-start.xml')
             ))
             .subscribe(([[[element, config], robotType], baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
                 const parser = new DOMParser();
@@ -42,9 +43,9 @@ export class BlocklyEditorEffects {
                 const leaphyCategories = parser.parseFromString(leaphyToolboxXml, 'text/xml');
                 const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
                 toolboxElement.prepend(leaphyRobotCategory);
-                if(robotType.showLeaphyExtra){
+                if (robotType.showLeaphyExtra) {
                     const leaphyExtraCategory = leaphyCategories.getElementById('l_extra');
-                    toolboxElement.appendChild(leaphyExtraCategory);    
+                    toolboxElement.appendChild(leaphyExtraCategory);
                 }
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
@@ -100,8 +101,8 @@ export class BlocklyEditorEffects {
                 workspace.addChangeListener(async () => {
                     this.blocklyState.setCode(Blockly.Arduino.workspaceToCode(workspace));
                     const xml = Blockly.Xml.workspaceToDom(workspace);
-                    const data = Blockly.Xml.domToPrettyText(xml);
-                    this.blocklyState.setWorkspaceXml(data);
+                    const prettyXml = Blockly.Xml.domToPrettyText(xml);
+                    this.blocklyState.setWorkspaceXml(prettyXml);
                 });
             });
 
@@ -138,12 +139,26 @@ export class BlocklyEditorEffects {
                         break;
                 }
             });
-            
+
         // Open a closed sideNav when serial messages start appearing
         this.robotWiredState.serialData$
             .pipe(withLatestFrom(this.blocklyState.isSideNavOpen$))
             .pipe(filter(([messages, isSideNavOpen]) => messages.length === 1 && !isSideNavOpen))
             .subscribe(() => this.blocklyState.toggleIsSideNavOpen());
+
+        // When Advanced UserMode is clicked, set the workspace status to SavingTemp
+        this.appState.userMode$
+            .pipe(filter(mode => mode === UserMode.Advanced))
+            .subscribe(() => {
+                this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingTemp)
+            });
+
+        // When Beginner UserMode is clicked, set the workspace status to FindingTemp
+        this.appState.userMode$
+            .pipe(filter(mode => mode === UserMode.Beginner))
+            .subscribe(() => {
+                this.blocklyState.setWorkspaceStatus(WorkspaceStatus.FindingTemp)
+            });
 
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
@@ -176,6 +191,10 @@ export class BlocklyEditorEffects {
                     case 'WORKSPACE_RESTORING':
                         this.blocklyState.setWorkspaceXml(message.payload.workspaceXml as string);
                         this.blocklyState.setProjectFilePath(message.payload.projectFilePath);
+                        this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Restoring);
+                        break;
+                    case 'WORKSPACE_RESTORING_TEMP':
+                        this.blocklyState.setWorkspaceXml(message.payload.workspaceXml as string);
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Restoring);
                         break;
                     default:

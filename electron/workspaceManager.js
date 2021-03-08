@@ -1,7 +1,8 @@
 class WorkspaceManager {
-    constructor(fs, dialog) {
+    constructor(fs, dialog, app) {
         this.fs = fs;
         this.dialog = dialog;
+        this.app = app;
     }
 
     save = async (event, payload) => {
@@ -29,6 +30,22 @@ class WorkspaceManager {
         }
         this.fs.writeFileSync(response.filePath, payload.workspaceXml);
         const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: response.filePath };
+        event.sender.send('backend-message', message);
+    }
+
+    saveTemp = async (event, payload) => {
+        console.log("Save Temp Workspace command received");
+        const filePath = `${this.app.getPath("userData")}/tmp.${payload.robotType.ext}`
+        this.fs.writeFileSync(filePath, payload.workspaceXml);
+        const message = { event: "WORKSPACE_SAVED_TEMP", message: "WORKSPACE_SAVED_TEMP", payload: filePath };
+        event.sender.send('backend-message', message);
+    }
+
+    restoreTemp = async (event, robotType) => {
+        console.log("Restore Temp Workspace command received");
+        const workspaceXml = this.fs.readFileSync(`${this.app.getPath("userData")}/tmp.${robotType.ext}`, "utf8");
+        const payload = { workspaceXml };
+        const message = { event: "WORKSPACE_RESTORING_TEMP", message: "WORKSPACE_RESTORING_TEMP", payload: payload };
         event.sender.send('backend-message', message);
     }
 
