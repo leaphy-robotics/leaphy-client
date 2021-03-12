@@ -17,7 +17,7 @@ export class PortalService implements OnDestroy {
 
   openSerialMonitor() {
     console.log("Opening Portal window");
-    this.openPopoutModal({ modalName: "SerialMonitor" })
+    this.openPopoutModal({ modalName: "easybloqs" })
   }
 
   openPopoutModal(data) {
@@ -36,7 +36,7 @@ export class PortalService implements OnDestroy {
   openOnce(url, target) {
     // open a blank "target" window
     // or get the reference to the existing "target" window
-    const winRef = window.open('', target, '', true);
+    const winRef = window.open('', target, '');
     // if the "target" window was just opened, change its url
     if (winRef.location.href === 'about:blank') {
       winRef.location.href = url;

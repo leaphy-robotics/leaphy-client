@@ -80,7 +80,8 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
-            nativeWindowOpen: true
+            nativeWindowOpen: true,
+            contextIsolation: false
         },
         icon: image
     })
@@ -99,13 +100,7 @@ function createWindow() {
         loadUrl(mainWindow);
     })
 
-    mainWindow.webContents.on('new-window', function () {
-        console.log("Creating child window");
-        return {}
-      })
-
     mainWindow.webContents.on('did-create-window', (childWindow) => {
-        console.log("Child window created")
         childWindow.setMenu(null);
         childWindow.setMenuBarVisibility(false);
     })
