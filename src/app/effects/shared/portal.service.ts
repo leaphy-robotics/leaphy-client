@@ -17,7 +17,7 @@ export class PortalService implements OnDestroy {
 
   openSerialMonitor() {
     console.log("Opening Portal window");
-    this.openPopoutModal({ modalName: "easybloqs" })
+    this.openPopoutModal({ modalName: "Leaphy Easybloqs" })
   }
 
   openPopoutModal(data) {
@@ -60,18 +60,8 @@ export class PortalService implements OnDestroy {
       const injector = Injector.create({ providers: [], parent: this.injector }) // ToDo: find out how to pass modal data in new way
 
       // Attach the portal
-      windowInstance.document.title = 'Serial Monitor';
+      windowInstance.document.title = 'Leaphy Easybloqs';
       const componentInstance = this.attachSerialMonitorContainer(outlet, injector);
-
-
-      //   if (data.modalName === PopoutModalName.customerDetail) {
-      //     windowInstance.document.title = 'Customer Modal';
-      //     componentInstance = this.attachCustomerContainer(outlet, injector);
-      //   }
-      //   if (data.modalName === PopoutModalName.employerDetail) {
-      //     windowInstance.document.title = 'Employer Modal';
-      //     componentInstance = this.attachEmployerContainer(outlet, injector);
-      //   }
 
       POPOUT_MODALS[data.modalName] = { windowInstance, outlet, componentInstance };
     }

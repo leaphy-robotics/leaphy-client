@@ -28,7 +28,7 @@ export class SerialWindowComponent implements OnInit {
     console.log("Opening Portal window");
     // open a blank "target" window
     // or get the reference to the existing "target" window
-    const windowInstance = window.open('', "SerialMonitor", '', true);
+    const windowInstance = window.open('', "Leaphy Easybloqs", '', true);
     // if the "target" window was just opened, change its url
     if (windowInstance.location.href === 'about:blank') {
       windowInstance.location.href = 'about:blank';
@@ -56,7 +56,7 @@ export class SerialWindowComponent implements OnInit {
       const injector = Injector.create({ providers: [], parent: this.injector }) // ToDo: find out how to pass modal data in new way
 
       // Attach the portal
-      windowInstance.document.title = 'Serial Monitor';
+      windowInstance.document.title = 'Leaphy Easybloqs';
       const containerPortal = new ComponentPortal(SerialOutputComponent, null, injector);
       const containerRef: ComponentRef<SerialOutputComponent> = outlet.attach(containerPortal);
 
