@@ -43,6 +43,7 @@ class WorkspaceManager {
 
     restoreTemp = async (event, robotType) => {
         console.log("Restore Temp Workspace command received");
+        if(!robotType) return;
         const workspaceXml = this.fs.readFileSync(`${this.app.getPath("userData")}/tmp.${robotType.ext}`, "utf8");
         const payload = { workspaceXml };
         const message = { event: "WORKSPACE_RESTORING_TEMP", message: "WORKSPACE_RESTORING_TEMP", payload: payload };

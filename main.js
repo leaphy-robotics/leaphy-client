@@ -79,7 +79,8 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         webPreferences: {
             nodeIntegration: true,
-            enableRemoteModule: true
+            enableRemoteModule: true,
+            nativeWindowOpen: true
         },
         icon: image
     })
@@ -88,16 +89,28 @@ function createWindow() {
     mainWindow.setMenu(null);
     mainWindow.setMenuBarVisibility(false);
 
-    loadUrl(mainWindow);
-
-    // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
-
     mainWindow.on('closed', function () {
         mainWindow = null
     })
 
+    loadUrl(mainWindow);
+
     mainWindow.webContents.on('did-fail-load', function () {
         loadUrl(mainWindow);
     })
+
+    mainWindow.webContents.on('new-window', function () {
+        console.log("Creating child window");
+        return {}
+      })
+
+    mainWindow.webContents.on('did-create-window', (childWindow) => {
+        console.log("Child window created")
+        childWindow.setMenu(null);
+        childWindow.setMenuBarVisibility(false);
+    })
+
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
+
 }

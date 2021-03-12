@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {PortalModule} from '@angular/cdk/portal';
 
 import { SerialOutputComponent } from './components/serial-output/serial-output.component';
+import { SerialWindowComponent } from './components/serial-window/serial-window.component';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -20,8 +22,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { PortalService } from 'src/app/effects/shared/portal.service';
+
 @NgModule({
-  declarations: [SerialOutputComponent],
+  declarations: [SerialOutputComponent, SerialWindowComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -38,11 +42,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSelectModule,
     MatMenuModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    PortalModule
   ],
   exports: [
     FormsModule,
     SerialOutputComponent,
+    SerialWindowComponent,
     TranslateModule,
     MatIconModule,
     MatSidenavModule,
@@ -57,6 +63,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatMenuModule,
     MatTooltipModule,
     MatSnackBarModule
-  ]
+  ], 
+  entryComponents:[SerialOutputComponent, SerialWindowComponent]
 })
 export class SharedModule { }

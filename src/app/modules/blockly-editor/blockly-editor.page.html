@@ -8,7 +8,8 @@
         </mat-sidenav-content>
         <mat-sidenav id="sidenav" mode="side" [opened]="blocklyState.isSideNavOpen$ | async" position="end">
             <app-code-view></app-code-view>
-            <app-serial-output></app-serial-output>
+            
         </mat-sidenav>
     </mat-sidenav-container>
+    <app-serial-window></app-serial-window>
 </div>

@@ -23,7 +23,6 @@ export class BlocklyEditorEffects {
     constructor(
         private blocklyState: BlocklyEditorState,
         private backEndState: BackEndState,
-        private robotWiredState: RobotWiredState,
         private appState: AppState,
         private http: HttpClient
     ) {
@@ -140,11 +139,11 @@ export class BlocklyEditorEffects {
                 }
             });
 
-        // Open a closed sideNav when serial messages start appearing
-        this.robotWiredState.serialData$
-            .pipe(withLatestFrom(this.blocklyState.isSideNavOpen$))
-            .pipe(filter(([messages, isSideNavOpen]) => messages.length === 1 && !isSideNavOpen))
-            .subscribe(() => this.blocklyState.toggleIsSideNavOpen());
+        // // Open a closed sideNav when serial messages start appearing
+        // this.robotWiredState.serialData$
+        //     .pipe(withLatestFrom(this.blocklyState.isSideNavOpen$))
+        //     .pipe(filter(([messages, isSideNavOpen]) => messages.length === 1 && !isSideNavOpen))
+        //     .subscribe(() => this.blocklyState.toggleIsSideNavOpen());
 
         // When Advanced UserMode is clicked, set the workspace status to SavingTemp
         this.appState.userMode$

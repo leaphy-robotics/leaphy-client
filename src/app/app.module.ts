@@ -29,11 +29,9 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    
+    BrowserModule, 
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
