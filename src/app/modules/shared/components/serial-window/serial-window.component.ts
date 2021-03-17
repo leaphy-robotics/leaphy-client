@@ -28,10 +28,7 @@ export class SerialWindowComponent implements AfterViewInit {
     // or get the reference to the existing "target" window
     const windowInstance = window.open('', "Leaphy Easybloqs", '');
 
-    // Wait for window instance to be created
-    setTimeout(() => {
-      this.createCDKPortal(windowInstance);
-    }, 1000);
+    this.createCDKPortal(windowInstance);
   }
 
   styleSheetElement: any = null;

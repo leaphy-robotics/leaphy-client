@@ -7,7 +7,6 @@ import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
 import { InstallDriverDialog } from '../modules/core/dialogs/install-driver/install-driver.dialog';
 import { CreditsDialog } from '../modules/core/dialogs/credits/credits.dialog';
-//import { PortalService } from './shared/portal.service';
 import { RobotWiredState } from '../state/robot.wired.state';
 
 @Injectable({
@@ -47,7 +46,6 @@ export class DialogEffects {
 
         // Open the Serial window when serial messages start appearing
         this.robotWiredState.serialData$
-            .pipe(filter(messages => messages.length === 1))
             .subscribe(() => {
                 this.dialogState.setIsSerialOutputWindowOpen(true);
             });
