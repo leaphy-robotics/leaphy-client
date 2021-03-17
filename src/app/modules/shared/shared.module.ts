@@ -22,8 +22,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { PortalService } from 'src/app/effects/shared/portal.service';
-
 @NgModule({
   declarations: [SerialOutputComponent, SerialWindowComponent],
   imports: [

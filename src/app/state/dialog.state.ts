@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
-import { scan } from 'rxjs/operators';
+import { distinctUntilChanged, scan } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,8 @@ export class DialogState {
   public connectDialog$ = this.connectDialogSubject$.asObservable();
 
   private isSerialOutputWindowOpenSubject$ = new BehaviorSubject(false);
-  public isSerialOutputWindowOpen$ = this.isSerialOutputWindowOpenSubject$.asObservable();
+  public isSerialOutputWindowOpen$ = this.isSerialOutputWindowOpenSubject$.asObservable()
+    .pipe(distinctUntilChanged());
 
   public toggleIsConnectDialogVisible() {
     this.isConnectDialogVisibleSubject$.next(true);

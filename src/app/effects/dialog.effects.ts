@@ -45,14 +45,12 @@ export class DialogEffects {
                 this.dialogState.setConnectDialog(null);
             });
 
-        // Open a closed sideNav when serial messages start appearing
+        // Open the Serial window when serial messages start appearing
         this.robotWiredState.serialData$
             .pipe(filter(messages => messages.length === 1))
-            .subscribe(() => this.dialogState.setIsSerialOutputWindowOpen(true));
-
-        // this.dialogState.isSerialOutputWindowOpen$
-        //     .pipe(filter(isOpen => isOpen))
-        //     .subscribe(() => this.portalService.openSerialMonitor());
+            .subscribe(() => {
+                this.dialogState.setIsSerialOutputWindowOpen(true);
+            });
 
         // React to messages received from the Backend
         this.backEndState.backEndMessages$

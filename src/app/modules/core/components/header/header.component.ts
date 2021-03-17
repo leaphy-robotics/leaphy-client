@@ -9,6 +9,7 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HostListener } from '@angular/core';
 import { UserMode } from 'src/app/domain/user.mode';
+import { DialogState } from 'src/app/state/dialog.state';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,8 @@ export class HeaderComponent {
     public appState: AppState,
     public robotWiredState: RobotWiredState,
     public backEndState: BackEndState,
-    public blocklyState: BlocklyEditorState
+    public blocklyState: BlocklyEditorState,
+    public dialogState: DialogState
   ) { }
 
   public onNewProjectClicked() {
@@ -64,6 +66,10 @@ export class HeaderComponent {
 
   public onRedoClicked() {
     this.blocklyState.setUndo(true);
+  }
+
+  public onShowSerialOutputClicked() {
+    this.dialogState.setIsSerialOutputWindowOpen(true);
   }
 
   public onHelpClicked() {

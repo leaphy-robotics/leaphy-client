@@ -11,5 +11,5 @@
             
         </mat-sidenav>
     </mat-sidenav-container>
-    <app-serial-window></app-serial-window>
+    <app-serial-window *ngIf="dialogState.isSerialOutputWindowOpen$ | async"></app-serial-window>
 </div>

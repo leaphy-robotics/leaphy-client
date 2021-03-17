@@ -1,6 +1,6 @@
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
-import { ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit } from '@angular/core';
-import { filter } from 'rxjs/operators';
+import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit } from '@angular/core';
+import { Console } from 'node:console';
 import { DialogState } from 'src/app/state/dialog.state';
 import { SerialOutputComponent } from '../serial-output/serial-output.component';
 
@@ -9,7 +9,7 @@ import { SerialOutputComponent } from '../serial-output/serial-output.component'
   template: '',
   styleUrls: ['./serial-window.component.scss']
 })
-export class SerialWindowComponent implements OnInit {
+export class SerialWindowComponent implements AfterViewInit {
 
   constructor(
     private injector: Injector,
@@ -18,21 +18,15 @@ export class SerialWindowComponent implements OnInit {
     private dialogState: DialogState
   ) { }
 
-  ngOnInit(): void {
-    this.dialogState.isSerialOutputWindowOpen$
-      .pipe(filter(isOpen => isOpen))
-      .subscribe(() => this.openSerialMonitor());
+  ngAfterViewInit(): void {
+    console.log("SerialWindow view init");
+    this.openSerialMonitor();
   }
 
   openSerialMonitor(): void {
-    console.log("Opening Portal window");
     // open a blank "target" window
     // or get the reference to the existing "target" window
-    const windowInstance = window.open('', "Leaphy Easybloqs", '', true);
-    // if the "target" window was just opened, change its url
-    if (windowInstance.location.href === 'about:blank') {
-      windowInstance.location.href = 'about:blank';
-    }
+    const windowInstance = window.open('', "Leaphy Easybloqs", '');
 
     // Wait for window instance to be created
     setTimeout(() => {
@@ -64,6 +58,11 @@ export class SerialWindowComponent implements OnInit {
       document.querySelectorAll('style, link').forEach(htmlElement => {
         windowInstance.document.head.appendChild(htmlElement.cloneNode(true));
       });
+
+      windowInstance.onbeforeunload = () => {
+        console.log("Before unload");
+        this.dialogState.setIsSerialOutputWindowOpen(false);
+      }
     }
   }
 
