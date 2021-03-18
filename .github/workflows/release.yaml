@@ -46,6 +46,12 @@ jobs:
       with:
         node-version: 14.x
 
+    - name: Windows specific setup
+      if: matrix.os == 'windows-latest'
+      run: |
+        curl -OLS https://github.com/wixtoolset/wix3/releases/download/wix3111rtm/wix311.exe
+        .\wix311.exe /install /quiet /norestart
+
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
