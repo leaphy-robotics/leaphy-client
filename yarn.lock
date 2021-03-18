@@ -1308,6 +1308,18 @@
   optionalDependencies:
     electron-winstaller "^4.0.1"
 
+"@electron-forge/maker-wix@^6.0.0-beta.54":
+  version "6.0.0-beta.54"
+  resolved "https://registry.yarnpkg.com/@electron-forge/maker-wix/-/maker-wix-6.0.0-beta.54.tgz#3738894380ea956c2fc3dd63e65b15ceb4360858"
+  integrity sha512-hyad4iAQ52hQYg6Rzpdj6r2UAnwlLd5Aadmu9BsRUxRS4ly7cAhutpqwDAmiO7eQyH1+cMzVLjvoKPRnu/o3ow==
+  dependencies:
+    "@electron-forge/maker-base" "6.0.0-beta.54"
+    "@electron-forge/shared-types" "6.0.0-beta.54"
+    colors "^1.4.0"
+    electron-wix-msi "^3.0.2"
+    log-symbols "^4.0.0"
+    parse-author "^2.0.0"
+
 "@electron-forge/maker-zip@^6.0.0-beta.54":
   version "6.0.0-beta.54"
   resolved "https://registry.yarnpkg.com/@electron-forge/maker-zip/-/maker-zip-6.0.0-beta.54.tgz#83d322afd912587fd233e87c30339d8150f29bed"
@@ -4667,7 +4679,7 @@ electron-winstaller@^4.0.1:
     lodash.template "^4.2.2"
     temp "^0.9.0"
 
-electron-wix-msi@^3.1.0:
+electron-wix-msi@^3.0.2, electron-wix-msi@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/electron-wix-msi/-/electron-wix-msi-3.1.0.tgz#15797ecedaefe2e0950d3b4c4f3d06fa942d19d4"
   integrity sha512-h824M0JVsIF4UP6p3hTTX7EU0dJE+Ur4kM4hU48HKe/laMmKNHInIp1/a2rPMVdclDK67ZZg8eAxDehPMSS3RQ==
