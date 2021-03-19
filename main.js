@@ -59,7 +59,7 @@ ipcMain.on('open-browser-page', webBrowserLauncher.openWebPage);
 
 const firstRun = require('electron-first-run');
 const FirstRunDetector = require('./electron/firstRunDetector');
-const firstRunDetector = new FirstRunDetector(firstRun);
+const firstRunDetector = new FirstRunDetector(firstRun, executable, os, app, path);
 ipcMain.on('detect-first-run', firstRunDetector.detectFirstRun);
 
 function loadUrl(mainWindow) {
