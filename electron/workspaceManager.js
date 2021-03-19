@@ -1,19 +1,20 @@
 class WorkspaceManager {
-    constructor(fs, dialog, app) {
+    constructor(fs, dialog, app, logger) {
         this.fs = fs;
         this.dialog = dialog;
         this.app = app;
+        this.logger = logger;
     }
 
     save = async (event, payload) => {
-        console.log("Save Workspace command received");
+        this.logger.verbose("Save Workspace command received");
         this.fs.writeFileSync(payload.projectFilePath, payload.workspaceXml);
         const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: payload.projectFilePath };
         event.sender.send('backend-message', message);
     }
 
     saveAs = async (event, payload) => {
-        console.log("Save Workspace As command received");
+        this.logger.verbose("Save Workspace As command received");
         const saveAsOptions = {
             filters: [
                 { name: `${payload.robotType.id} files`, extensions: [payload.robotType.id] }
@@ -34,7 +35,7 @@ class WorkspaceManager {
     }
 
     saveTemp = async (event, payload) => {
-        console.log("Save Temp Workspace command received");
+        this.logger.verbose("Save Temp Workspace command received");
         const filePath = `${this.app.getPath("userData")}/tmp.${payload.robotType.ext}`
         this.fs.writeFileSync(filePath, payload.workspaceXml);
         const message = { event: "WORKSPACE_SAVED_TEMP", message: "WORKSPACE_SAVED_TEMP", payload: filePath };
@@ -42,7 +43,7 @@ class WorkspaceManager {
     }
 
     restoreTemp = async (event, robotType) => {
-        console.log("Restore Temp Workspace command received");
+        this.logger.verbose("Restore Temp Workspace command received");
         if(!robotType) return;
         const workspaceXml = this.fs.readFileSync(`${this.app.getPath("userData")}/tmp.${robotType.ext}`, "utf8");
         const payload = { workspaceXml };
@@ -51,7 +52,7 @@ class WorkspaceManager {
     }
 
     restore = async (event, robotType) => {
-        console.log("Restore Workspace command received");
+        this.logger.verbose("Restore Workspace command received");
         const openDialogOptions = {
             filters: [
                 { name: `${robotType.id} files`, extensions: [robotType.id] }

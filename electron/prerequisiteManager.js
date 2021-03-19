@@ -1,21 +1,22 @@
 class PrerequisiteManager {
-    constructor(arduinoCli, executable, os, app, path) {
+    constructor(arduinoCli, executable, os, app, path, logger) {
         this.arduinoCli = arduinoCli;
         this.executable = executable;
         this.os = os;
+        this.logger = logger;
         if (os.platform != "win32") return;
         this.ch341DriverInstallerPath = this.getCh341DriverInstallerPath(os, app, path);
     }
 
     verifyInstallation = async (event, payload) => {
-        console.log('Verify Installation command received');
+        this.logger.verbose('Verify Installation command received');
         const checkingPrerequisitesMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "PREPARING_COMPILATION_ENVIRONMENT", payload: payload.name, displayTimeout: 0 };
         event.sender.send('backend-message', checkingPrerequisitesMessage);
 
         const updateCoreIndexParams = ["core", "update-index"];
-        console.log(await this.arduinoCli.runAsync(updateCoreIndexParams));
+        this.logger.info(await this.arduinoCli.runAsync(updateCoreIndexParams));
         const updateLibIndexParams = ["lib", "update-index"];
-        console.log(await this.arduinoCli.runAsync(updateLibIndexParams));
+        this.logger.info(await this.arduinoCli.runAsync(updateLibIndexParams));
 
         await this.verifyInstalledCoreAsync(event, payload.name, payload.core);
         await this.verifyInstalledLibsAsync(event, payload.name, payload.libs);
@@ -36,14 +37,14 @@ class PrerequisiteManager {
     }
 
     installUsbDriver = async (event, payload) => {
-        console.log('Install USB Driver command received');
+        this.logger.verbose('Install USB Driver command received');
         // Only do this for windows
         const platform = this.os.platform;
         if (platform != "win32") return;
 
         switch (payload.fqbn) {
             case 'arduino:avr:uno':
-                console.log(await this.executable.runAsync(this.ch341DriverInstallerPath, []));
+                this.logger.info(await this.executable.runAsync(this.ch341DriverInstallerPath, []));
                 break;
             default:
                 break;
@@ -55,22 +56,22 @@ class PrerequisiteManager {
 
     installCore = async (core) => {
         const installCoreParams = ["core", "install", core];
-        console.log(await this.arduinoCli.runAsync(installCoreParams));
+        this.logger.info(await this.arduinoCli.runAsync(installCoreParams));
     }
 
     upgradeCore = async (core) => {
         const upgradeCoreParams = ["core", "upgrade", core];
-        console.log(await this.arduinoCli.runAsync(upgradeCoreParams));
+        this.logger.info(await this.arduinoCli.runAsync(upgradeCoreParams));
     }
 
     installLib = async (library) => {
         const installLibParams = ["lib", "install", library];
-        console.log(await this.arduinoCli.runAsync(installLibParams));
+        this.logger.info(await this.arduinoCli.runAsync(installLibParams));
     }
 
     upgradeLib = async (library) => {
         const upgradeLibParams = ["lib", "upgrade", library];
-        console.log(await this.arduinoCli.runAsync(upgradeLibParams));
+        this.logger.info(await this.arduinoCli.runAsync(upgradeLibParams));
     }
 
     verifyInstalledCoreAsync = async (event, name, core) => {
@@ -82,11 +83,11 @@ class PrerequisiteManager {
         event.sender.send('backend-message', installingCoreMessage);
 
         if (isRequiredCoreInstalled) {
-            console.log(`Required Core ${core} already installed, attempting upgrade...`);
+            this.logger.info(`Required Core ${core} already installed, attempting upgrade...`);
             await this.upgradeCore(core);
             return;
         };
-        console.log(`Required Core ${core} not found, installing...`);
+        this.logger.info(`Required Core ${core} not found, installing...`);
         await this.installCore(core);
     }
 
@@ -100,10 +101,10 @@ class PrerequisiteManager {
 
         libs.forEach(async requiredLib => {
             if(installedLibsRealNames.includes(requiredLib)){
-                console.log(`Required Library ${requiredLib} already installed, attempting upgrade...`);
+                this.logger.info(`Required Library ${requiredLib} already installed, attempting upgrade...`);
                 await this.installLib(requiredLib); // Should be upgrade but that's not working, see https://github.com/arduino/arduino-cli/issues/1041
             } else {
-                console.log(`Required Library ${requiredLib} not found, installing...`);
+                this.logger.info(`Required Library ${requiredLib} not found, installing...`);
                 await this.installLib(requiredLib);
             }
         });

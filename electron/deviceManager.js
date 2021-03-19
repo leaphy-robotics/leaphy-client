@@ -1,9 +1,10 @@
 const SerialPort = require("serialport");
 
 class DeviceManager {
-    constructor(arduinoCli) {
+    constructor(arduinoCli, logger) {
         this.arduinoCli = arduinoCli;
         this.activeSerial = null;
+        this.logger = logger;
     }
 
     subscribeToSerialData = async (event, payload) => {
@@ -18,7 +19,7 @@ class DeviceManager {
 
     updateDevice = async (event, payload) => {
 
-        console.log('Update Device command received');
+        this.logger.verbose('Update Device command received');
 
         if(this.activeSerial?.isOpen){
             this.activeSerial.close();
@@ -31,6 +32,7 @@ class DeviceManager {
         try {
             await this.arduinoCli.runAsync(uploadParams);
         } catch (error) {
+            this.logger.error("Upload failed", error);
             var unsuccesfulUploadMessage = { event: "UPDATE_FAILED", message: "UPDATE_FAILED", payload: payload, displayTimeout: 3000 };
             event.sender.send('backend-message', unsuccesfulUploadMessage);
             return;
@@ -43,9 +45,9 @@ class DeviceManager {
     }
 
     getDevices = async (event) => {
-        console.log('Get Serial Devices command received');
+        this.logger.verbose('Get Serial Devices command received');
         const updateIndexParams = ["core", "update-index"];
-        console.log(await this.arduinoCli.runAsync(updateIndexParams));
+        this.logger.info(await this.arduinoCli.runAsync(updateIndexParams));
 
         const listBoardsParams = ["board", "list", "--format", "json"];
         const connectedDevices = JSON.parse(await this.arduinoCli.runAsync(listBoardsParams));
