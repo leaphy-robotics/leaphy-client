@@ -8,7 +8,7 @@ module.exports = {
       name: "@electron-forge/maker-squirrel",
       config: {
         loadingGif: "./easybloqs-loading.gif",
-        noMsi: false,
+        noMsi: true,
         iconUrl: "file://easybloqs-icon.ico",
         setupIcon: "./easybloqs-icon.ico",
         certificateFile: process.env['WINDOWS_CODESIGN_CERTIFICATE'],
