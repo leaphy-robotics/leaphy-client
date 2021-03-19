@@ -46,13 +46,16 @@ jobs:
       with:
         node-version: 14.x
 
-    - name: Windows specific setup
+    - name: Download and install wix toolset
       if: matrix.os == 'windows-latest'
       run: |
         curl -OLS https://github.com/wixtoolset/wix3/releases/download/wix3111rtm/wix311.exe
-        .\wix311.exe /install /quiet /norestart
-        echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
-        
+        .\wix311.exe /install /norestart
+    
+    - name: Add wix toolset binaries to PATH
+      run: echo "##[add-path]C:\Program Files (x86)\WiX Toolset v3.11\bin"
+      if: matrix.os == 'windows'
+    
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
