@@ -40,7 +40,8 @@ export class AppState {
 
     private selectedRobotTypeSubject$ = new BehaviorSubject<RobotType>(null);
     public selectedRobotType$ = this.selectedRobotTypeSubject$.asObservable()
-        .pipe(distinctUntilChanged());
+        //.pipe(distinctUntilChanged())
+        ;
 
     private defaultLanguageSubject$ = new BehaviorSubject<Language>(Language.NL);
     public defaultLanguage$ = this.defaultLanguageSubject$.asObservable();

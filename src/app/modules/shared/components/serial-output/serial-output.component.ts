@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { DialogState } from 'src/app/state/dialog.state';
 import { RobotWiredState } from 'src/app/state/robot.wired.state';
 
 @Component({
@@ -10,8 +11,11 @@ export class SerialOutputComponent implements AfterViewInit {
 
   @ViewChildren('messages') messages: QueryList<any>;
   @ViewChild('content') content: ElementRef;
-  
-  constructor(public robotWiredState: RobotWiredState) { }
+
+  constructor(
+    public robotWiredState: RobotWiredState,
+    public dialogState: DialogState
+  ) { }
 
   ngAfterViewInit() {
     //https://stackoverflow.com/a/45655337/1056283

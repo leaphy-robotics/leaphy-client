@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
+import { DialogState } from 'src/app/state/dialog.state';
 
 @Component({
   selector: 'app-blockly-editor',
@@ -9,7 +10,8 @@ import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 // tslint:disable-next-line: component-class-suffix
 export class BlocklyEditorPage {
   constructor(
-    public blocklyState: BlocklyEditorState
+    public blocklyState: BlocklyEditorState,
+    public dialogState: DialogState
   ) {
   }
 

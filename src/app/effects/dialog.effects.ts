@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { filter, switchMap, withLatestFrom } from 'rxjs/operators';
+import { filter, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { DialogState } from '../state/dialog.state';
 import { ConnectWiredDialog } from '../modules/core/dialogs/connect.wired/connect.wired.dialog';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
 import { InstallDriverDialog } from '../modules/core/dialogs/install-driver/install-driver.dialog';
 import { CreditsDialog } from '../modules/core/dialogs/credits/credits.dialog';
+import { RobotWiredState } from '../state/robot.wired.state';
 
 @Injectable({
     providedIn: 'root',
@@ -18,6 +19,7 @@ export class DialogEffects {
     constructor(
         private dialogState: DialogState,
         private backEndState: BackEndState,
+        private robotWiredState: RobotWiredState,
         private dialog: MatDialog
     ) {
         // Open the connect dialog if closed when waiting for robot
@@ -42,6 +44,12 @@ export class DialogEffects {
                 this.dialogState.setConnectDialog(null);
             });
 
+        // Open the Serial window when serial messages start appearing
+        this.robotWiredState.serialData$
+            .subscribe(() => {
+                this.dialogState.setIsSerialOutputWindowOpen(true);
+            });
+
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
@@ -61,7 +69,7 @@ export class DialogEffects {
                             width: '800px',
                             disableClose: true,
                         });
-                        this.dialogState.setConnectDialog(creditsDialogRef);                        
+                        this.dialogState.setConnectDialog(creditsDialogRef);
                         break;
 
                     default:
