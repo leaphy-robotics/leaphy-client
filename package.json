@@ -40,6 +40,7 @@
     "blockly": "github:leaphy-robotics/leaphy-blockly#cff685c14e4569df4fd6156ae79308ac7fceab39",
     "bootstrap": "^4.5.3",
     "electron-first-run": "^3.0.0",
+    "electron-log": "^4.3.2",
     "electron-prompt": "^1.6.1",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.5.1",
