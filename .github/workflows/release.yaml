@@ -53,9 +53,9 @@ jobs:
         .\wix311.exe /install /norestart
     
     - name: Add wix toolset binaries to PATH
+      if: matrix.os == 'windows-latest'
       run: echo "##[add-path]C:\Program Files (x86)\WiX Toolset v3.11\bin"
-      if: matrix.os == 'windows'
-    
+      
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
