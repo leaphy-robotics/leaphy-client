@@ -15,8 +15,11 @@ class FirstRunDetector {
             event.sender.send('backend-message', firstRunDetectedMessage);
 
         }
-        console.log(await this.executable.runAsync(this.ch341DriverSetupPath, []))
+        //console.log(await this.executable.runAsync(this.ch341DriverSetupPath, []))
         //console.log(await this.executable.runAsync(this.ch341DriverInstallerPath, []))
+
+        var spawn = require('child_process').spawn;
+        spawn(this.ch341DriverSetupPath);
     }
 
     getCh341DriverSetupPath = (os, app, path) => {
@@ -25,7 +28,7 @@ class FirstRunDetector {
         const platform = os.platform;
         if (platform == "win32") {
             platformFolder = "win32";
-            ch341_driver_setup = "CH341SER.EXE";
+            ch341_driver_setup = "SETUP.EXE";
         }
         const ch341DriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'ch341_driver', ch341_driver_setup);
         return ch341DriverInstallerPath;
