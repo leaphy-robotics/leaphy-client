@@ -68,10 +68,6 @@ export class HeaderComponent {
     this.blocklyState.setUndo(true);
   }
 
-  public onShowSerialOutputClicked() {
-    this.dialogState.setIsSerialOutputWindowOpen(true);
-  }
-
   public onHelpClicked() {
     this.appState.setShowHelpPage(true);
   }

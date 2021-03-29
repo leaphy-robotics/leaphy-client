@@ -14,8 +14,4 @@ export class BlocklyEditorPage {
     public dialogState: DialogState
   ) {
   }
-
-  public onSideNavClicked() {
-    this.blocklyState.toggleIsSideNavOpen();
-  }
 }

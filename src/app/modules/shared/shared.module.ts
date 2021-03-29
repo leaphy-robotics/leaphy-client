@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {PortalModule} from '@angular/cdk/portal';
 
+import { ButtonBarComponent } from './components/button-bar/button-bar.component';
+import { EditorToggleComponent } from './components/editor-toggle/editor-toggle.component';
 import { SerialOutputComponent } from './components/serial-output/serial-output.component';
 import { SerialWindowComponent } from './components/serial-window/serial-window.component';
 
@@ -11,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button'; 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -23,7 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [SerialOutputComponent, SerialWindowComponent],
+  declarations: [ButtonBarComponent, EditorToggleComponent, SerialOutputComponent, SerialWindowComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -45,6 +47,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   ],
   exports: [
     FormsModule,
+    ButtonBarComponent,
+    EditorToggleComponent,
     SerialOutputComponent,
     SerialWindowComponent,
     TranslateModule,

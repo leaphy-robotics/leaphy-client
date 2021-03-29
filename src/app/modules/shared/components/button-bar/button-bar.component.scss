@@ -1,0 +1,11 @@
+.sidenav-buttons {
+    padding: 100px 20px;
+    display: flex;
+    flex-direction: column;
+
+    & > button {
+        margin-bottom: 40px;
+        outline: none;
+        background-color: var(--leaphy-color-primary);
+    }
+}

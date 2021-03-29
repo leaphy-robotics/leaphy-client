@@ -7,7 +7,7 @@ import { UserMode } from 'src/app/domain/user.mode';
   templateUrl: './editor-toggle.component.html',
   styleUrls: ['./editor-toggle.component.scss']
 })
-export class HeaderComponent {
+export class EditorToggleComponent {
 
   constructor(
     public appState: AppState,
