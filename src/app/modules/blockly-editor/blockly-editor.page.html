@@ -1,11 +1,18 @@
 <div id="container">
-    <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav-content>
-            <app-leaphy-blockly></app-leaphy-blockly>
-        </mat-sidenav-content>
-        <mat-sidenav id="sidenav" mode="side" [opened]="blocklyState.isSideNavOpen$ | async" position="end">
-            <app-code-view></app-code-view>
-        </mat-sidenav>
-    </mat-sidenav-container>
-    <app-button-bar></app-button-bar>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav-content>
+      <app-leaphy-blockly></app-leaphy-blockly>
+    </mat-sidenav-content>
+    <mat-sidenav
+      id="sidenav"
+      mode="side"
+      [opened]="blocklyState.isSideNavOpen$ | async"
+      position="end"
+    >
+      <app-code-view></app-code-view>
+    </mat-sidenav>
+  </mat-sidenav-container>
+  <app-button-bar
+    [ngStyle]="(blocklyState.isSideNavOpen$ | async) && {'right': '20%'}"
+  ></app-button-bar>
 </div>

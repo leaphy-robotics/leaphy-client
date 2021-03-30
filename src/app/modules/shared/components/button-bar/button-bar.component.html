@@ -6,8 +6,11 @@
   <button mat-fab (click)="onShowSerialOutputClicked()">
     <mat-icon>article</mat-icon>
   </button>
-  
+
   <button mat-fab (click)="onShowInfoClicked()">
     <mat-icon>info</mat-icon>
   </button>
-</div> 
+</div>
+<app-serial-window
+  *ngIf="dialogState.isSerialOutputWindowOpen$ | async"
+></app-serial-window>
