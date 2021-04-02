@@ -12,7 +12,7 @@
 
     <div class="flex-buttons" *ngIf="appState.selectedRobotType$ | async">
       <button mat-stroked-button (click)="onSaveWorkspaceClicked()">
-        <mat-icon>save</mat-icon><span>opslaan</span>
+        <mat-icon>save</mat-icon><span>{{ "SAVE" | translate }}</span>
       </button>
 
       <button mat-stroked-button class="icon-button" (click)="onUndoClicked()">
