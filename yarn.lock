@@ -2734,9 +2734,9 @@ blocking-proxy@^1.0.0:
   dependencies:
     minimist "^1.2.0"
 
-"blockly@github:leaphy-robotics/leaphy-blockly#6386833ebca4b603d601981834e20413cac35d12":
+"blockly@github:leaphy-robotics/leaphy-blockly#8f8d374829fafb226a6f9527ba390642cd577e29":
   version "4.20201217.0"
-  resolved "https://codeload.github.com/leaphy-robotics/leaphy-blockly/tar.gz/6386833ebca4b603d601981834e20413cac35d12"
+  resolved "https://codeload.github.com/leaphy-robotics/leaphy-blockly/tar.gz/8f8d374829fafb226a6f9527ba390642cd577e29"
   dependencies:
     jsdom "15.2.1"
 
@@ -4584,6 +4584,11 @@ electron-installer-zip@^0.1.2:
     fs-extra "^0.26.7"
     mongodb-js-cli "0.0.2"
     zip-folder "^1.0.0"
+
+electron-log@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-4.3.2.tgz#213334c69f0498fac677a7a73eae4a61fb69949e"
+  integrity sha512-PJPWE8JDzQ137UlxX9K917nI8GTcwgiJpE2PMPXZo+I6C4AaZU+JWQ3lW5NjQ1Lg8Qk8qbze+Ly0yAiqhbmpeA==
 
 electron-notarize@^1.0.0:
   version "1.0.0"
