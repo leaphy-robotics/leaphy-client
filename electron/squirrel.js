@@ -2,7 +2,6 @@ exports.handleEvent = (app, path) => {
     if (process.argv.length === 1) {
         return false;
     }
-    console.log("Handling Squirrel Event");
 
     const ChildProcess = require('child_process');
 

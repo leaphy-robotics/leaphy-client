@@ -24,29 +24,33 @@ const os = require("os");
 const util = require('util');
 const asyncExecFile = util.promisify(require('child_process').execFile);
 
+const logger = require('electron-log');
+logger.transports.console.level = "debug";
+logger.transports.file.level = "info";
+
 const Executable = require('./electron/executable.js');
-const executable = new Executable(asyncExecFile);
+const executable = new Executable(asyncExecFile, logger);
 
 const ArduinoCli = require('./electron/arduinoCli.js');
 const arduinoCli = new ArduinoCli(executable, os, path, app);
 
 const PrerequisiteManager = require('./electron/prerequisiteManager');
-const prerequisiteManager = new PrerequisiteManager(arduinoCli, executable, os, app, path);
+const prerequisiteManager = new PrerequisiteManager(arduinoCli, executable, os, app, path, logger);
 ipcMain.on('verify-installation', prerequisiteManager.verifyInstallation);
 ipcMain.on('install-usb-driver', prerequisiteManager.installUsbDriver);
 
 const Compiler = require('./electron/compiler.js');
-const compiler = new Compiler(app, arduinoCli, path, fs);
+const compiler = new Compiler(app, arduinoCli, path, fs, logger);
 ipcMain.on('compile', compiler.compile);
 
 const DeviceManager = require('./electron/deviceManager.js');
-const deviceManager = new DeviceManager(arduinoCli);
+const deviceManager = new DeviceManager(arduinoCli, logger);
 ipcMain
     .on('update-device', deviceManager.updateDevice)
     .on('get-serial-devices', deviceManager.getDevices);
 
 const WorkspaceManager = require('./electron/workspaceManager');
-const workspaceManager = new WorkspaceManager(fs, dialog, app);
+const workspaceManager = new WorkspaceManager(fs, dialog, app, logger);
 ipcMain.on('save-workspace', workspaceManager.save);
 ipcMain.on('save-workspace-as', workspaceManager.saveAs);
 ipcMain.on('save-workspace-temp', workspaceManager.saveTemp);

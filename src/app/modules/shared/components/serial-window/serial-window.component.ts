@@ -19,7 +19,6 @@ export class SerialWindowComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit(): void {
-    console.log("SerialWindow view init");
     this.openSerialMonitor();
   }
 
@@ -57,7 +56,6 @@ export class SerialWindowComponent implements AfterViewInit {
       });
 
       windowInstance.onbeforeunload = () => {
-        console.log("Before unload");
         this.dialogState.setIsSerialOutputWindowOpen(false);
       }
     }
@@ -72,7 +70,6 @@ export class SerialWindowComponent implements AfterViewInit {
         styleSheetElement.href = absoluteUrl;
       }
     });
-    console.log(styleSheetElement.sheet);
     return styleSheetElement;
   }
 }

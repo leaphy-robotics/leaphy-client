@@ -1,5 +1,6 @@
 class Executable {
-    constructor(asyncExecFile) {
+    constructor(asyncExecFile, logger) {
+        this.logger = logger;
         this.asyncExecFile = asyncExecFile;
     }
 
@@ -7,7 +8,7 @@ class Executable {
         try {
             const { stdout, stderr } = await this.asyncExecFile(path, params);
             if (stderr) {
-                console.log('stderr:', stderr);
+                this.logger.error('stderr:', stderr);
             }
             return stdout;
         } catch (e) {
