@@ -6,8 +6,6 @@
         <mat-sidenav-content>
             <div class="app-ace-editor" #editor></div>
         </mat-sidenav-content>
-        <mat-sidenav id="sidenav" mode="side" [opened]="blocklyState.isSideNavOpen$ | async" position="end">
-            <app-serial-window></app-serial-window>
-        </mat-sidenav>
     </mat-sidenav-container>
+    <app-serial-window *ngIf="dialogState.isSerialOutputWindowOpen$ | async"></app-serial-window>
 </div>

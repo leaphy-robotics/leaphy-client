@@ -9,7 +9,7 @@ class WorkspaceManager {
     save = async (event, payload) => {
         this.logger.verbose("Save Workspace command received");
         this.fs.writeFileSync(payload.projectFilePath, payload.workspaceXml);
-        const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: payload.projectFilePath };
+        const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: payload.projectFilePath, displayTimeout: 3000 };
         event.sender.send('backend-message', message);
     }
 
@@ -25,12 +25,12 @@ class WorkspaceManager {
         }
         const response = await this.dialog.showSaveDialog(saveAsOptions);
         if (response.canceled) {
-            const message = { event: "WORKSPACE_SAVE_CANCELLED", message: "WORKSPACE_SAVE_CANCELLED" };
+            const message = { event: "WORKSPACE_SAVE_CANCELLED", message: "WORKSPACE_SAVE_CANCELLED", displayTimeout: 3000 };
             event.sender.send('backend-message', message);
             return;
         }
         this.fs.writeFileSync(response.filePath, payload.workspaceXml);
-        const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: response.filePath };
+        const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: response.filePath, displayTimeout: 3000 };
         event.sender.send('backend-message', message);
     }
 
