@@ -43,7 +43,7 @@ export class BlocklyEditorEffects {
                 const leaphyRobotCategory = leaphyCategories.getElementById(robotType.id);
                 toolboxElement.prepend(leaphyRobotCategory);
                 if (robotType.showLeaphyExtra) {
-                    const leaphyExtraCategory = leaphyCategories.getElementById('l_extra');
+                    const leaphyExtraCategory = leaphyCategories.getElementById(`${robotType.id}_extra`);
                     toolboxElement.appendChild(leaphyExtraCategory);
                 }
                 const serializer = new XMLSerializer();
