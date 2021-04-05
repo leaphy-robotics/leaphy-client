@@ -8,8 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest, Observable } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
-import { RobotWiredState } from '../state/robot.wired.state';
-import { UserMode } from '../domain/user.mode';
+import { CodeEditor } from '../domain/code.editor';
 
 declare var Blockly: any;
 
@@ -145,16 +144,16 @@ export class BlocklyEditorEffects {
         //     .pipe(filter(([messages, isSideNavOpen]) => messages.length === 1 && !isSideNavOpen))
         //     .subscribe(() => this.blocklyState.toggleIsSideNavOpen());
 
-        // When Advanced UserMode is clicked, set the workspace status to SavingTemp
-        this.appState.userMode$
-            .pipe(filter(mode => mode === UserMode.Advanced))
+        // When Advanced CodeEditor is clicked, set the workspace status to SavingTemp
+        this.appState.codeEditor$
+            .pipe(filter(editor => editor === CodeEditor.Advanced))
             .subscribe(() => {
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingTemp)
             });
 
-        // When Beginner UserMode is clicked, set the workspace status to FindingTemp
-        this.appState.userMode$
-            .pipe(filter(mode => mode === UserMode.Beginner))
+        // When Beginner CodeEditor is clicked, set the workspace status to FindingTemp
+        this.appState.codeEditor$
+            .pipe(filter(editor => editor === CodeEditor.Beginner))
             .subscribe(() => {
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.FindingTemp)
             });

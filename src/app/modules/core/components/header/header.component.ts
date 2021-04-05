@@ -8,7 +8,6 @@ import { SketchStatus } from 'src/app/domain/sketch.status';
 import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HostListener } from '@angular/core';
-import { UserMode } from 'src/app/domain/user.mode';
 import { DialogState } from 'src/app/state/dialog.state';
 
 @Component({
@@ -50,14 +49,6 @@ export class HeaderComponent {
 
   public onUploadClicked() {
     this.blocklyState.setSketchStatus(SketchStatus.Sending);
-  }
-
-  public onBlocklyEditorClicked() {
-    this.appState.setUserMode(UserMode.Beginner);
-  }
-
-  public onCodeEditorClicked() {
-    this.appState.setUserMode(UserMode.Advanced);
   }
 
   public onUndoClicked() {

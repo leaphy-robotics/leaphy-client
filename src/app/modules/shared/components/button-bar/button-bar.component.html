@@ -1,6 +1,10 @@
 <div class="sidenav-buttons">
-  <button mat-fab (click)="onCodeClicked()">
+  <button mat-fab [ngStyle]="{'active': (appState.codeEditor$ | async) === 1}" (click)="onBlocklyEditorClicked()">
     <mat-icon>code</mat-icon>
+  </button>
+
+  <button mat-fab [ngStyle]="{'active': (appState.codeEditor$ | async) === 2}" (click)="onCodeEditorClicked()">
+    <mat-icon>editor</mat-icon>
   </button>
 
   <button mat-fab (click)="onShowSerialOutputClicked()">

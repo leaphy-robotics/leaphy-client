@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import {PortalModule} from '@angular/cdk/portal';
 
 import { ButtonBarComponent } from './components/button-bar/button-bar.component';
-import { EditorToggleComponent } from './components/editor-toggle/editor-toggle.component';
 import { SerialOutputComponent } from './components/serial-output/serial-output.component';
 import { SerialWindowComponent } from './components/serial-window/serial-window.component';
 
@@ -25,7 +24,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [ButtonBarComponent, EditorToggleComponent, SerialOutputComponent, SerialWindowComponent],
+  declarations: [ButtonBarComponent, SerialOutputComponent, SerialWindowComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -48,7 +47,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   exports: [
     FormsModule,
     ButtonBarComponent,
-    EditorToggleComponent,
     SerialOutputComponent,
     SerialWindowComponent,
     TranslateModule,

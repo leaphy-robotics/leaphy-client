@@ -7,5 +7,10 @@
         margin-bottom: 40px;
         outline: none;
         background-color: var(--leaphy-color-primary);
+
+        &.active {
+            border: 3px solid var(--leaphy-color-light) !important;
+            background: red !important;
+        }
     }
 }

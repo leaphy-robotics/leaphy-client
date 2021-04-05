@@ -1,9 +1,11 @@
-import { Component, Input } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { BlocklyEditorState } from "src/app/state/blockly-editor.state";
 import { AppState } from "src/app/state/app.state";
 import { DialogState } from "src/app/state/dialog.state";
 import { CreditsDialog } from "src/app/modules/core/dialogs/credits/credits.dialog";
+import { CodeEditor } from "src/app/domain/code.editor";
+import { first } from "rxjs/operators";
 
 @Component({
   selector: "app-button-bar",
@@ -16,9 +18,29 @@ export class ButtonBarComponent {
     public blocklyState: BlocklyEditorState,
     public dialogState: DialogState,
     public dialog: MatDialog
-  ) {}
-  public onCodeClicked() {
-    this.blocklyState.toggleIsSideNavOpen();
+  ) {
+  }
+  public onBlocklyEditorClicked() {
+    this.appState.codeEditor$.pipe(first())
+    .subscribe(editor => {
+      if(editor === CodeEditor.Beginner) {
+        this.appState.setCodeEditor(CodeEditor.None);
+      } else {
+        this.appState.setCodeEditor(CodeEditor.Beginner);
+      }
+    });
+    
+  }
+
+  public onCodeEditorClicked() {
+    this.appState.codeEditor$.pipe(first())
+    .subscribe(editor => {
+      if(editor === CodeEditor.Advanced) {
+        this.appState.setCodeEditor(CodeEditor.None);
+      } else {
+        this.appState.setCodeEditor(CodeEditor.Advanced);
+      }
+    });
   }
 
   public onShowSerialOutputClicked() {

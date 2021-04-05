@@ -6,7 +6,8 @@ import { filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StatusMessageDialog } from '../modules/core/dialogs/status-message/status-message.dialog';
 import { Router } from '@angular/router';
-import { UserMode } from '../domain/user.mode';
+import { CodeEditor } from '../domain/code.editor';
+import { BlocklyEditorState } from '../state/blockly-editor.state';
 
 @Injectable({
     providedIn: 'root',
@@ -18,6 +19,7 @@ export class AppEffects {
         private appState: AppState,
         private translate: TranslateService,
         private backEndState: BackEndState,
+        private blocklyState: BlocklyEditorState,
         private snackBar: MatSnackBar,
         private router: Router) {
 
@@ -30,19 +32,24 @@ export class AppEffects {
             .subscribe(language => this.translate.use(language));
 
 
-        this.appState.userMode$
-            .subscribe(userMode => {
-                switch (userMode) {
-                    case UserMode.Beginner:
+        this.appState.codeEditor$
+            .subscribe(codeEditor => {
+                switch (codeEditor) {
+                    case CodeEditor.Beginner:
                         this.router.navigate(['']);
+                        blocklyState.setSideNavStatus(true);
                         break;
-                    case UserMode.Advanced:
+                    case CodeEditor.Advanced:
                         this.router.navigate(['/advanced']);
+                        blocklyState.setSideNavStatus(false);
                         break;
                     default:
+                        this.router.navigate(['']);
+                        blocklyState.setSideNavStatus(false);
                         break;
                 }
             });
+
         // Enable to debugging to console.log all backend messages
         this.backEndState.backEndMessages$
             .pipe(filter(() => this.isDebug))
