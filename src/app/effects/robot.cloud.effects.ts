@@ -4,7 +4,7 @@ import { DialogState } from '../state/dialog.state';
 import { RobotCloudState } from '../state/robot.cloud.state';
 import { BackEndState } from '../state/backend.state';
 import { AppState } from '../state/app.state';
-import { LocalstorageService } from './shared/localstorage.service';
+import { LocalstorageService } from '../services/localstorage.service';
 import { RobotConnection } from '../domain/robot.connection';
 
 @Injectable({

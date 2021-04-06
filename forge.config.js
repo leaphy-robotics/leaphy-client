@@ -16,6 +16,14 @@ module.exports = {
       }
     },
     {
+      name: '@electron-forge/maker-wix',
+      config: {
+        manufacturer: 'Leaphy Robotics',
+        certificateFile: process.env['WINDOWS_CODESIGN_CERTIFICATE'],
+        certificatePassword: process.env['WINDOWS_CODESIGN_PASSWORD']
+      }
+    },
+    {
       name: "@electron-forge/maker-zip",
       platforms: [
         "darwin",

@@ -8,6 +8,7 @@ import { StatusMessageDialog } from '../modules/core/dialogs/status-message/stat
 import { Router } from '@angular/router';
 import { CodeEditor } from '../domain/code.editor';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
+import { LogService } from '../services/log.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +22,8 @@ export class AppEffects {
         private backEndState: BackEndState,
         private blocklyState: BlocklyEditorState,
         private snackBar: MatSnackBar,
-        private router: Router) {
+        private router: Router,
+        private logger: LogService) {
 
         // Set the default language as default
         this.appState.defaultLanguage$
@@ -49,11 +51,11 @@ export class AppEffects {
                         break;
                 }
             });
-
-        // Enable to debugging to console.log all backend messages
+            
+        // Enable to debugging to log all backend messages
         this.backEndState.backEndMessages$
             .pipe(filter(() => this.isDebug))
-            .subscribe(message => console.log(message));
+            .subscribe(message => this.logger.debug(message));
 
         // Show snackbar based on messages received from the Backend
         this.backEndState.backEndMessages$
