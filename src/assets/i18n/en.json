@@ -1,6 +1,7 @@
 {
   "CANCEL": "Cancel",
   "REFRESH": "Refresh",
+  "CLOSE": "Close",
   "OK": "Ok",
   "START": "Let's get started!",
   "DONE": "Done",
@@ -41,5 +42,10 @@
   "CREDITS_CONTRIBUTERS": "Paul Siersma (architecture, backend development), Bas Hoebink, Job Cremers, Yousif Al-Fraji, Jort Vooijs, Bastiaan Bakker, Jeroen Ooms, Jelmer Schulenklopper, Maarten Bosmans and the people at Blockly.",
   "CREDITS_THANKS": "Thank you so much!",
   "CREDITS_PROJECTMANAGER": "Roeland Smith (project management)",
-  "CREDITS_CHAIRMAN": "Olivier van Beekum (chairman Leaphy foundation)"
+  "CREDITS_CHAIRMAN": "Olivier van Beekum (chairman Leaphy foundation)",
+  "INFO_INTRO": "The Leaphy foundation wants to make robotics accessible to every student. Do you want to help us? Please! This can be done by helping to develop the software.",
+  "INFO_GITHUB": "You can join via Github.",
+  "INFO_OPEN_SOURCE": "Do you want to make your own software based on the source code? We think it is important that you match the style of the Leaphy foundation: collaboration, sharing knowledge and making it accessible to others. In this way we open doors to the digital world. And so you show your appreciation for all the work that our volunteers have put into Easybloqs.",
+  "INFO_THANKS": "Thanks for your support and keep making beautiful things!",
+  "INFO_TEAM": "The Leaphy foundation team"
 }

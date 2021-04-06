@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { BlocklyEditorState } from "src/app/state/blockly-editor.state";
 import { AppState } from "src/app/state/app.state";
 import { DialogState } from "src/app/state/dialog.state";
-import { CreditsDialog } from "src/app/modules/core/dialogs/credits/credits.dialog";
+import { InfoDialog } from "src/app/modules/core/dialogs/info/info.dialog";
 import { CodeEditor } from "src/app/domain/code.editor";
 import { first } from "rxjs/operators";
 
@@ -48,7 +48,7 @@ export class ButtonBarComponent {
   }
 
   public onShowInfoClicked() {
-    const creditsDialogRef = this.dialog.open(CreditsDialog, {
+    const creditsDialogRef = this.dialog.open(InfoDialog, {
       width: "800px",
       disableClose: true,
     });
