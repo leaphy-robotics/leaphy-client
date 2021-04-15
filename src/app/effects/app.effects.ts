@@ -39,7 +39,7 @@ export class AppEffects {
                 switch (codeEditor) {
                     case CodeEditor.Beginner:
                         this.router.navigate(['']);
-                        blocklyState.setSideNavStatus(true);
+                        setTimeout(() => blocklyState.setSideNavStatus(true), 100);
                         break;
                     case CodeEditor.Advanced:
                         this.router.navigate(['/advanced']);
