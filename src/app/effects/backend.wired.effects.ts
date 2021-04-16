@@ -44,10 +44,15 @@ export class BackendWiredEffects {
                             ({
                                 title: 'Variable',
                                 label: msg,
-                                type: 'input'
-                            }).then(name => { callback(name) })
+                                type: 'input',
+                                height: 180
+                            })
+                            .then(name => { 
+                                callback(name);
+                            })
                     }
                 } catch (e) {
+                    console.log(e);
                     throw e;
                 }
 
