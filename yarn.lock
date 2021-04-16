@@ -2734,9 +2734,9 @@ blocking-proxy@^1.0.0:
   dependencies:
     minimist "^1.2.0"
 
-"blockly@github:leaphy-robotics/leaphy-blockly#8f8d374829fafb226a6f9527ba390642cd577e29":
+"blockly@github:leaphy-robotics/leaphy-blockly#486a4dc5b46b9a1f2ac11fb440e8bb4f9818717e":
   version "4.20201217.0"
-  resolved "https://codeload.github.com/leaphy-robotics/leaphy-blockly/tar.gz/8f8d374829fafb226a6f9527ba390642cd577e29"
+  resolved "https://codeload.github.com/leaphy-robotics/leaphy-blockly/tar.gz/486a4dc5b46b9a1f2ac11fb440e8bb4f9818717e"
   dependencies:
     jsdom "15.2.1"
 
