@@ -1,9 +1,9 @@
 <div class="sidenav-buttons">
-  <button mat-fab [ngClass]="{'active': (appState.codeEditor$ | async) === 1}" (click)="onBlocklyEditorClicked()">
+  <button mat-fab [ngClass]="{'active': (appState.codeEditorType$ | async) === 1}" (click)="onBlocklyEditorClicked()">
     <mat-icon>code</mat-icon>
   </button>
 
-  <button mat-fab [ngClass]="{'active': (appState.codeEditor$ | async) === 2}" (click)="onCodeEditorClicked()">
+  <button mat-fab [ngClass]="{'active': (appState.codeEditorType$ | async) === 2}" (click)="onCodeEditorClicked()">
     <mat-icon>editor</mat-icon>
   </button>
 

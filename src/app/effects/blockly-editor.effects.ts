@@ -3,12 +3,12 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { filter, map, pairwise, withLatestFrom } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
-import { CodeEditor } from '../domain/code.editor';
+import { CodeEditorType } from '../domain/code-editor.type';
 
 declare var Blockly: any;
 
@@ -138,24 +138,37 @@ export class BlocklyEditorEffects {
                 }
             });
 
-        // // Open a closed sideNav when serial messages start appearing
-        // this.robotWiredState.serialData$
-        //     .pipe(withLatestFrom(this.blocklyState.isSideNavOpen$))
-        //     .pipe(filter(([messages, isSideNavOpen]) => messages.length === 1 && !isSideNavOpen))
-        //     .subscribe(() => this.blocklyState.toggleIsSideNavOpen());
-
-        // When Advanced CodeEditor is clicked, set the workspace status to SavingTemp
-        this.appState.codeEditor$
-            .pipe(filter(editor => editor === CodeEditor.Advanced))
+        // When Advanced CodeEditor is clicked, set the workspace status to SavingTemp and hide the sideNav
+        this.appState.codeEditorType$
+            .pipe(
+                pairwise(),
+                filter(([previous, current]) => current === CodeEditorType.Advanced && current !== previous)
+            )
             .subscribe(() => {
+                this.blocklyState.setSideNavStatus(false);
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingTemp)
             });
 
-        // When Beginner CodeEditor is clicked, set the workspace status to FindingTemp
-        this.appState.codeEditor$
-            .pipe(filter(editor => editor === CodeEditor.Beginner))
+        // When the code editor is changed to beginner, set the workspace status to FindingTemp
+        this.appState.codeEditorType$
+            .pipe(
+                pairwise(),
+                filter(([previous, current]) => current === CodeEditorType.Beginner && current !== previous)
+            )
             .subscribe(() => {
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.FindingTemp)
+            });
+
+        // When Begin CodeEditor is active, but the button is clicked again, toggle the code view
+        this.appState.codeEditorType$
+            .pipe(
+                pairwise(),
+                filter(([previous, current]) => current === CodeEditorType.Beginner && (previous === current || previous === CodeEditorType.None)),
+                withLatestFrom(this.blocklyState.isSideNavOpen$),
+                map(([, isOpen]) => isOpen)
+            )
+            .subscribe((isOpen: boolean) => {
+                setTimeout(() => this.blocklyState.setSideNavStatus(!isOpen), 100);
             });
 
         // React to messages received from the Backend

@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
 import { map, filter } from 'rxjs/operators';
 import { Language } from '../domain/language';
-import { CodeEditor } from '../domain/code.editor';
+import { CodeEditorType } from '../domain/code-editor.type';
 
 @Injectable({
     providedIn: 'root'
@@ -57,8 +57,8 @@ export class AppState {
     private showHelpPageSubject$ = new BehaviorSubject<boolean>(false);
     public showHelpPage$ = this.showHelpPageSubject$.asObservable();
 
-    private codeEditorSubject$ = new BehaviorSubject<CodeEditor>(CodeEditor.None);
-    public codeEditor$ = this.codeEditorSubject$.asObservable();
+    private codeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.None);
+    public codeEditorType$ = this.codeEditorTypeSubject$.asObservable();
 
     public setSelectedRobotType(robotType: RobotType) {
         this.selectedRobotTypeSubject$.next(robotType);
@@ -72,7 +72,7 @@ export class AppState {
         this.showHelpPageSubject$.next(show);
     }
 
-    public setCodeEditor(codeEditor: CodeEditor) {
-        this.codeEditorSubject$.next(codeEditor);
+    public setCodeEditor(codeEditor: CodeEditorType) {
+        this.codeEditorTypeSubject$.next(codeEditor);
     }
 }
