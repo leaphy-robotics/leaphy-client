@@ -2,7 +2,7 @@
   "name": "easybloqs",
   "author": "Leaphy Robotics",
   "description": "Build Leaphy Arduino programs",
-  "version": "1.0.5-pre.0",
+  "version": "1.0.6-pre.0",
   "license": "GPLv3",
   "main": "main.js",
   "scripts": {
