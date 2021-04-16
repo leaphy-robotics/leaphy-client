@@ -57,7 +57,7 @@ export class AppState {
     private showHelpPageSubject$ = new BehaviorSubject<boolean>(false);
     public showHelpPage$ = this.showHelpPageSubject$.asObservable();
 
-    private codeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.None);
+    private codeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.Beginner);
     public codeEditorType$ = this.codeEditorTypeSubject$.asObservable();
 
     public setSelectedRobotType(robotType: RobotType) {
