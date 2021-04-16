@@ -1,7 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
 import { CodeEditorState } from 'src/app/state/code-editor.state';
-import { DialogState } from 'src/app/state/dialog.state';
 
 @Component({
   selector: 'app-code-editor',
@@ -12,17 +10,9 @@ export class CodeEditorPage implements AfterViewInit {
 
   @ViewChild("editor") private editor: ElementRef<HTMLElement>;
 
-  constructor(
-    private codeEditorState: CodeEditorState,
-    public blocklyState: BlocklyEditorState,
-    public dialogState: DialogState
-  ) { }
+  constructor(private codeEditorState: CodeEditorState) { }
 
   ngAfterViewInit(): void {
     this.codeEditorState.setAceElement(this.editor);
-  }
-
-  public onSideNavClicked() {
-    this.blocklyState.toggleIsSideNavOpen();
   }
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
-import { map, filter, distinctUntilChanged } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Language } from '../domain/language';
-import { UserMode } from '../domain/user.mode';
+import { CodeEditorType } from '../domain/code-editor.type';
 
 @Injectable({
     providedIn: 'root'
@@ -57,8 +57,8 @@ export class AppState {
     private showHelpPageSubject$ = new BehaviorSubject<boolean>(false);
     public showHelpPage$ = this.showHelpPageSubject$.asObservable();
 
-    private userModeSubject$ = new BehaviorSubject<UserMode>(UserMode.Beginner);
-    public userMode$ = this.userModeSubject$.asObservable();
+    private codeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.None);
+    public codeEditorType$ = this.codeEditorTypeSubject$.asObservable();
 
     public setSelectedRobotType(robotType: RobotType) {
         this.selectedRobotTypeSubject$.next(robotType);
@@ -72,7 +72,7 @@ export class AppState {
         this.showHelpPageSubject$.next(show);
     }
 
-    public setUserMode(userMode: UserMode) {
-        this.userModeSubject$.next(userMode);
+    public setCodeEditor(codeEditor: CodeEditorType) {
+        this.codeEditorTypeSubject$.next(codeEditor);
     }
 }

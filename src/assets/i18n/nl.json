@@ -1,6 +1,7 @@
 {
   "CANCEL": "Annuleer",
   "REFRESH": "Ververs",
+  "CLOSE": "Sluiten",
   "OK": "Ik begrijp het",
   "START": "Aan de slag!",
   "DONE": "Klaar",
@@ -42,6 +43,9 @@
   "CREDITS_THANKS": "Heel erg bedankt!",
   "CREDITS_PROJECTMANAGER": "Roeland Smith (Projectleiding)",
   "CREDITS_CHAIRMAN": "Olivier van Beekum (Voorzitter Stichting Leaphy)",
-  "USERMODE_BEGINNER": "Beginner",
-  "USERMODE_ADVANCED": "Gevorderd"
+  "INFO_INTRO": "Stichting Leaphy wil robotica voor iedere leerling toegankelijk maken. Wil je ons daarin helpen? Heel graag! Dat kan door mee te helpen aan de ontwikkeling van de software.",
+  "INFO_GITHUB": "Via Github kun je je aansluiten.",
+  "INFO_OPEN_SOURCE": "Wil je op basis van de source code zelf software maken? We vinden het dan belangrijk dat je daarin aansluit bij de stijl van Stichting Leaphy: samenwerken, kennis delen en toegankelijk maken voor anderen. Zo zetten we deuren open naar de digitale wereld. En zo doe je recht aan al het werk dat onze vrijwilligers in Easybloqs hebben gestoken.",
+  "INFO_THANKS": "Bedankt voor je support en blijf mooie dingen maken!",
+  "INFO_TEAM": "Het team van Stichting Leaphy"
 }

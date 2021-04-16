@@ -1,7 +1,4 @@
 <div id="container">
-    <button mat-fab id="sidenav-button" (click)="onSideNavClicked()">
-        <mat-icon>code</mat-icon>
-    </button>
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav-content>
             <app-leaphy-blockly></app-leaphy-blockly>
@@ -10,5 +7,5 @@
             <app-code-view></app-code-view>         
         </mat-sidenav>
     </mat-sidenav-container>
-    <app-serial-window *ngIf="dialogState.isSerialOutputWindowOpen$ | async"></app-serial-window>
+    <app-button-bar [ngStyle]="(blocklyState.isSideNavOpen$ | async) && {'right': '20%'}"></app-button-bar>
 </div>

@@ -13,21 +13,19 @@
   width: 100%;
   overflow: hidden;
 }
+
 .sidenav-container {
   flex: 1 1 auto;
   background: #eee;
 }
+
 #sidenav {
   min-width: 20%;
 }
 
-#sidenav-button {
-  outline: none;
-  background-color: var(--leaphy-color-primary);
+app-button-bar {
   position: absolute;
-  top: 74px;
-  right: 10px;
-  z-index: 2;
-  transition: right 0.5s;
-  overflow: hidden;
+  right: 0;
+  top: 0;
+  z-index:2;
 }

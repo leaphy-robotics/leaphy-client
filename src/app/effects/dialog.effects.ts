@@ -8,6 +8,7 @@ import { ConnectionStatus } from '../domain/connection.status';
 import { InstallDriverDialog } from '../modules/core/dialogs/install-driver/install-driver.dialog';
 import { CreditsDialog } from '../modules/core/dialogs/credits/credits.dialog';
 import { RobotWiredState } from '../state/robot.wired.state';
+import { InfoDialog } from '../modules/core/dialogs/info/info.dialog';
 
 @Injectable({
     providedIn: 'root',
@@ -33,6 +34,16 @@ export class DialogEffects {
                     disableClose: false,
                 });
                 this.dialogState.setConnectDialog(dialogRef);
+            });
+
+        // When the info dialog visibility is set to true, open the dialog
+        this.dialogState.isInfoDialogVisible$
+            .pipe(filter(isVisible => !!isVisible))
+            .subscribe(() => {
+                this.dialog.open(InfoDialog, {
+                    width: "800px",
+                    disableClose: true,
+                });
             });
 
         // When the connect dialog is set, subscribe to the close event

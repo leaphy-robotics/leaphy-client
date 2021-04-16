@@ -1,11 +1,4 @@
 <div id="container">
-    <button mat-fab id="sidenav-button" (click)="onSideNavClicked()">
-        <mat-icon>code</mat-icon>
-    </button>
-    <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav-content>
-            <div class="app-ace-editor" #editor></div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
-    <app-serial-window *ngIf="dialogState.isSerialOutputWindowOpen$ | async"></app-serial-window>
+    <div class="app-ace-editor" #editor></div>
+    <app-button-bar></app-button-bar>
 </div>
