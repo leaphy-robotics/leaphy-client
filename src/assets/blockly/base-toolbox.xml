@@ -91,6 +91,10 @@
           </shadow>
         </value>
       </block>
+      <sep gap="8"></sep>
+      <block type="math_trig"></block>
+      <sep gap="8"></sep>
+      <block type="math_single"></block>
     </category>  
     <category id="l_variables" toolboxitemid="l_variables" name="%{BKY_LEAPHY_VARIABLES_CATEGORY}" categorystyle="variables_category" custom="VARIABLE"></category>
     <category id="l_functions" toolboxitemid="l_functions" name="%{BKY_LEAPHY_FUNCTIONS_CATEGORY}" categorystyle="functions_category" custom="PROCEDURE"></category>
