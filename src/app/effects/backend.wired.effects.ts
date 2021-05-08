@@ -237,14 +237,6 @@ export class BackendWiredEffects {
                         this.send('save-workspace-temp', payload);
                     });
 
-                // When the Install USB driver is being installed, relay the command to Electron
-                this.robotWiredState.isRobotDriverInstalling$
-                    .pipe(filter(isInstalling => !!isInstalling))
-                    .pipe(withLatestFrom(this.appState.selectedRobotType$))
-                    .subscribe(([, robotType]) => {
-                        this.send('install-usb-driver', robotType);
-                    });
-
                 // When the user clicks help, open the default OS browser with the leaphy Forum
                 this.appState.showHelpPage$
                     .pipe(filter(show => !!show))

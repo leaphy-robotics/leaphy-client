@@ -61,13 +61,5 @@ export class RobotWiredEffects {
                 const devicesLeftToTry = devicesToTry.filter(device => device.address != message.payload.address);
                 robotWiredState.setSerialDevicesToTry(devicesLeftToTry);
             });
-
-        // Set the IsRobotInstalling flag right back to false
-        this.robotWiredState.isRobotDriverInstalling$
-            .pipe(filter(isInstalling => !!isInstalling))
-            .subscribe(() => {
-                this.robotWiredState.setIsRobotDriverInstalling(false);
-            });
-
     }
 }

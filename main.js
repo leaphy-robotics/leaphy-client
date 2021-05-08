@@ -37,7 +37,6 @@ const arduinoCli = new ArduinoCli(executable, os, path, app);
 const PrerequisiteManager = require('./electron/prerequisiteManager');
 const prerequisiteManager = new PrerequisiteManager(arduinoCli, executable, os, app, path, logger);
 ipcMain.on('verify-installation', prerequisiteManager.verifyInstallation);
-ipcMain.on('install-usb-driver', prerequisiteManager.installUsbDriver);
 
 const Compiler = require('./electron/compiler.js');
 const compiler = new Compiler(app, arduinoCli, path, fs, logger);

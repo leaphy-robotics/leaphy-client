@@ -21,35 +21,6 @@ class PrerequisiteManager {
         await this.verifyInstalledCoreAsync(event, payload.name, payload.core);
         await this.verifyInstalledLibsAsync(event, payload.name, payload.libs);
 
-        const platform = this.os.platform;
-        if (platform == "win32") {
-            const allDrivers = await this.executable.runAsync("driverquery");
-            const isCH340DriverInstalled = allDrivers.indexOf("CH341SER_A64") > -1;
-            if (!isCH340DriverInstalled) {
-                const driverInstallationRequiredMessage = { event: "DRIVER_INSTALLATION_REQUIRED", message: "DRIVER_INSTALLATION_REQUIRED", displayTimeout: 0 };
-                event.sender.send('backend-message', driverInstallationRequiredMessage);
-                return;
-            }
-        }
-
-        const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "INSTALLATION_VERIFIED", payload: payload.name, displayTimeout: 3000 };
-        event.sender.send('backend-message', installationVerifiedMessage);
-    }
-
-    installUsbDriver = async (event, payload) => {
-        this.logger.verbose('Install USB Driver command received');
-        // Only do this for windows
-        const platform = this.os.platform;
-        if (platform != "win32") return;
-
-        switch (payload.fqbn) {
-            case 'arduino:avr:uno':
-                this.logger.info(await this.executable.runAsync(this.ch341DriverInstallerPath, []));
-                break;
-            default:
-                break;
-        }
-
         const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "INSTALLATION_VERIFIED", payload: payload.name, displayTimeout: 3000 };
         event.sender.send('backend-message', installationVerifiedMessage);
     }

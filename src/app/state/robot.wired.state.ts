@@ -14,9 +14,6 @@ export class RobotWiredState {
     private serialDevicesToTrySubject$ = new BehaviorSubject<SerialDevice[]>([]);
     public serialDevicesToTry$ = this.serialDevicesToTrySubject$.asObservable();
 
-    private isRobotDriverInstallingSubject$ = new BehaviorSubject<boolean>(false);
-    public isRobotDriverInstalling$ = this.isRobotDriverInstallingSubject$.asObservable();
-
     private verifiedSerialDeviceSubject$ = new BehaviorSubject<SerialDevice>(null);
     public verifiedSerialDevice$ = this.verifiedSerialDeviceSubject$.asObservable();
 
@@ -40,10 +37,6 @@ export class RobotWiredState {
 
     public setVerifiedSerialDevice(serialDevice: SerialDevice): void {
         this.verifiedSerialDeviceSubject$.next(serialDevice);
-    }
-
-    public setIsRobotDriverInstalling(isInstalling: boolean): void {
-        this.isRobotDriverInstallingSubject$.next(isInstalling);
     }
 
     public setIncomingSerialData(data: any): void {
