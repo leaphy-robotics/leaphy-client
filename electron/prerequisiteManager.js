@@ -1,11 +1,12 @@
 class PrerequisiteManager {
-    constructor(arduinoCli, executable, os, app, path, logger) {
+    constructor(arduinoCli, executable, os, app, path, firstRun, logger) {
         this.arduinoCli = arduinoCli;
         this.executable = executable;
         this.os = os;
+        this.firstRun = firstRun;
         this.logger = logger;
         if (os.platform != "win32") return;
-        this.ch341DriverInstallerPath = this.getCh341DriverInstallerPath(os, app, path);
+        this.boardDriverInstallerPath = this.getBoardDriverInstallerPath(os, app, path);
     }
 
     verifyInstallation = async (event, payload) => {
@@ -21,37 +22,26 @@ class PrerequisiteManager {
         await this.verifyInstalledCoreAsync(event, payload.name, payload.core);
         await this.verifyInstalledLibsAsync(event, payload.name, payload.libs);
 
-        const platform = this.os.platform;
-        if (platform == "win32") {
-            const allDrivers = await this.executable.runAsync("driverquery");
-            const isCH340DriverInstalled = allDrivers.indexOf("CH341SER_A64") > -1;
-            if (!isCH340DriverInstalled) {
-                const driverInstallationRequiredMessage = { event: "DRIVER_INSTALLATION_REQUIRED", message: "DRIVER_INSTALLATION_REQUIRED", displayTimeout: 0 };
-                event.sender.send('backend-message', driverInstallationRequiredMessage);
-                return;
-            }
-        }
-
         const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "INSTALLATION_VERIFIED", payload: payload.name, displayTimeout: 3000 };
         event.sender.send('backend-message', installationVerifiedMessage);
     }
 
-    installUsbDriver = async (event, payload) => {
+    installUsbDriver = async (event) => {
         this.logger.verbose('Install USB Driver command received');
         // Only do this for windows
         const platform = this.os.platform;
         if (platform != "win32") return;
 
-        switch (payload.fqbn) {
-            case 'arduino:avr:uno':
-                this.logger.info(await this.executable.runAsync(this.ch341DriverInstallerPath, []));
-                break;
-            default:
-                break;
+        try {
+            this.logger.info(await this.executable.runAsync(this.boardDriverInstallerPath, []));
+        } catch (error) {
+            this.logger.warn('Driver installation unsuccesful, resetting first run flag');
+            this.firstRun.clear();
+            return;
         }
-
-        const installationVerifiedMessage = { event: "INSTALLATION_VERIFIED", message: "INSTALLATION_VERIFIED", payload: payload.name, displayTimeout: 3000 };
-        event.sender.send('backend-message', installationVerifiedMessage);
+        
+        const driverInstallationSuccessMessage = { event: "DRIVER_INSTALLATION_COMPLETE", message: "DRIVER_INSTALLATION_COMPLETE", displayTimeout: 3000 };
+        event.sender.send('backend-message', driverInstallationSuccessMessage);
     }
 
     installCore = async (core) => {
@@ -110,16 +100,16 @@ class PrerequisiteManager {
         });
     }
 
-    getCh341DriverInstallerPath = (os, app, path) => {
+    getBoardDriverInstallerPath = (os, app, path) => {
         let platformFolder;
-        let ch341_driver_installer;
+        let board_driver_installer;
         const platform = os.platform;
         if (platform == "win32") {
             platformFolder = "win32";
-            ch341_driver_installer = "CH341SER.EXE";
+            board_driver_installer = "Driver_for_Windows.exe";
         } 
-        const ch341DriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'ch341_driver_installer', ch341_driver_installer);
-        return ch341DriverInstallerPath;
+        const boardDriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'board_driver_installer', board_driver_installer);
+        return boardDriverInstallerPath;
     }
 }
 

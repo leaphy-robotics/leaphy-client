@@ -20,6 +20,7 @@
   "CONNECTIONINSTRUCTIONS": "Het lijkt erop dat je robot niet goed is aangesloten. Controleer de aansluiting en probeer het nog een keer.",
   "PREPARING_COMPILATION_ENVIRONMENT": "Benodigdheden installeren voor {{data}}",
   "DRIVER_INSTALLATION_REQUIRED": "USB Driver installatie vereist",
+  "DRIVER_INSTALLATION_COMPLETE": "USB Driver succesvol geïnstalleerd",
   "INSTALLING_ARDUINO_CORE": "Arduino Core installeren voor {{data}}...",
   "INSTALLING_LEAPHY_LIBRARIES": "Leaphy blokken installeren voor {{data}}...",
   "INSTALLATION_VERIFIED": "Alle benodigheden voor {{data}} succesvol geinstalleerd",
