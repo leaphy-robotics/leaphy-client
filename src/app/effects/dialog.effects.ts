@@ -5,7 +5,6 @@ import { DialogState } from '../state/dialog.state';
 import { ConnectWiredDialog } from '../modules/core/dialogs/connect.wired/connect.wired.dialog';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { InstallDriverDialog } from '../modules/core/dialogs/install-driver/install-driver.dialog';
 import { CreditsDialog } from '../modules/core/dialogs/credits/credits.dialog';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { InfoDialog } from '../modules/core/dialogs/info/info.dialog';
@@ -66,14 +65,6 @@ export class DialogEffects {
             .pipe(filter(message => !!message))
             .subscribe(message => {
                 switch (message.event) {
-                    case 'DRIVER_INSTALLATION_REQUIRED':
-                        const installDriverDialogComponent = InstallDriverDialog;
-                        const installDriverDialogRef = this.dialog.open(installDriverDialogComponent, {
-                            width: '450px',
-                            disableClose: true,
-                        });
-                        this.dialogState.setConnectDialog(installDriverDialogRef);
-                        break;
                     case 'FIRST_RUN':
                         const creditsDialogComponent = CreditsDialog;
                         const creditsDialogRef = this.dialog.open(creditsDialogComponent, {

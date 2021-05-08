@@ -8,7 +8,6 @@ import { StartComponent } from './components/start/start.component';
 
 import { ConnectWiredDialog } from './dialogs/connect.wired/connect.wired.dialog';
 import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog';
-import { InstallDriverDialog } from './dialogs/install-driver/install-driver.dialog';
 import { StatusMessageDialog } from './dialogs/status-message/status-message.dialog';
 import { CreditsDialog } from './dialogs/credits/credits.dialog';
 import { InfoDialog } from './dialogs/info/info.dialog';
@@ -18,7 +17,6 @@ import { InfoDialog } from './dialogs/info/info.dialog';
   declarations: [
     ConnectWiredDialog,
     ConnectCloudDialog,
-    InstallDriverDialog,
     HeaderComponent,
     RobotSelectionComponent,
     StartComponent,
@@ -30,14 +28,13 @@ import { InfoDialog } from './dialogs/info/info.dialog';
     CommonModule,
     SharedModule
   ],
-  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, StatusMessageDialog, CreditsDialog, InfoDialog],
+  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, StatusMessageDialog, CreditsDialog, InfoDialog],
   exports: [
     HeaderComponent,
     StartComponent,
     RobotSelectionComponent,
     ConnectCloudDialog,
     ConnectWiredDialog,
-    InstallDriverDialog,
     StatusMessageDialog,
     CreditsDialog,
     InfoDialog
