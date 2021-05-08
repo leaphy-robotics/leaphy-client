@@ -8,14 +8,10 @@ import { DialogState } from 'src/app/state/dialog.state';
   styleUrls: ['./blockly-editor.page.scss']
 })
 // tslint:disable-next-line: component-class-suffix
-export class BlocklyEditorPage {
+export class BlocklyEditorPage  {
   constructor(
     public blocklyState: BlocklyEditorState,
     public dialogState: DialogState
   ) {
-  }
-
-  public onSideNavClicked() {
-    this.blocklyState.toggleIsSideNavOpen();
   }
 }

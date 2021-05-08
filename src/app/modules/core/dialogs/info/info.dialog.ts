@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-credits',
-  templateUrl: './credits.dialog.html',
-  styleUrls: ['./credits.dialog.scss']
+  selector: 'app-info-dialog',
+  templateUrl: './info.dialog.html',
+  styleUrls: ['./info.dialog.scss']
 })
-export class CreditsDialog  {
+export class InfoDialog  {
   constructor(
-    public dialogRef: MatDialogRef<CreditsDialog>
+    public dialogRef: MatDialogRef<InfoDialog>
   ) { }
 
   public onDialogClosed() {

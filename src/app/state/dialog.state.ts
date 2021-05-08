@@ -19,6 +19,9 @@ export class DialogState {
   public isSerialOutputWindowOpen$ = this.isSerialOutputWindowOpenSubject$.asObservable()
     .pipe(distinctUntilChanged());
 
+  private isInfoDialogVisibleSubject$ = new BehaviorSubject(false);
+    public isInfoDialogVisible$ = this.isInfoDialogVisibleSubject$.asObservable();
+  
   public toggleIsConnectDialogVisible() {
     this.isConnectDialogVisibleSubject$.next(true);
   }
@@ -29,5 +32,9 @@ export class DialogState {
 
   public setIsSerialOutputWindowOpen(isOpen: boolean) {
     this.isSerialOutputWindowOpenSubject$.next(isOpen);
+  }
+
+  public setIsInfoDialogVisible(isVisible: boolean) {
+    this.isInfoDialogVisibleSubject$.next(isVisible);
   }
 }

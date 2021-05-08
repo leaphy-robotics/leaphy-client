@@ -6,7 +6,8 @@ import { filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StatusMessageDialog } from '../modules/core/dialogs/status-message/status-message.dialog';
 import { Router } from '@angular/router';
-import { UserMode } from '../domain/user.mode';
+import { CodeEditorType } from '../domain/code-editor.type';
+import { LogService } from '../services/log.service';
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +20,8 @@ export class AppEffects {
         private translate: TranslateService,
         private backEndState: BackEndState,
         private snackBar: MatSnackBar,
-        private router: Router) {
+        private router: Router,
+        private logger: LogService) {
 
         // Set the default language as default
         this.appState.defaultLanguage$
@@ -29,24 +31,26 @@ export class AppEffects {
         this.appState.selectedLanguage$
             .subscribe(language => this.translate.use(language));
 
-
-        this.appState.userMode$
-            .subscribe(userMode => {
-                switch (userMode) {
-                    case UserMode.Beginner:
+        // When the selected code editor changes, route to the correct screen
+        this.appState.codeEditorType$
+            .subscribe(codeEditor => {
+                switch (codeEditor) {
+                    case CodeEditorType.Beginner:
                         this.router.navigate(['']);
                         break;
-                    case UserMode.Advanced:
+                    case CodeEditorType.Advanced:
                         this.router.navigate(['/advanced']);
                         break;
                     default:
+                        this.router.navigate(['']);
                         break;
                 }
             });
-        // Enable to debugging to console.log all backend messages
+            
+        // Enable to debugging to log all backend messages
         this.backEndState.backEndMessages$
             .pipe(filter(() => this.isDebug))
-            .subscribe(message => console.log(message));
+            .subscribe(message => this.logger.debug(message));
 
         // Show snackbar based on messages received from the Backend
         this.backEndState.backEndMessages$

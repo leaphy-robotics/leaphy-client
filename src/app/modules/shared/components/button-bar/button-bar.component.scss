@@ -1,0 +1,18 @@
+.sidenav-buttons {
+    display: flex;
+    flex-direction: column;
+    padding: 100px 20px;
+
+    & > button {
+        background-color: var(--leaphy-color-primary);
+        border: 2px solid transparent;
+        box-sizing: content-box;
+        margin-bottom: 40px;
+        outline: none;
+
+        &.active {
+            background-color: var(--leaphy-color-primary-dark-tint);
+            border-color: var(--leaphy-color-light);
+        }
+    }
+}

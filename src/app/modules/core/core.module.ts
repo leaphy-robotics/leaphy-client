@@ -11,6 +11,7 @@ import { ConnectCloudDialog } from './dialogs/connect.cloud/connect.cloud.dialog
 import { InstallDriverDialog } from './dialogs/install-driver/install-driver.dialog';
 import { StatusMessageDialog } from './dialogs/status-message/status-message.dialog';
 import { CreditsDialog } from './dialogs/credits/credits.dialog';
+import { InfoDialog } from './dialogs/info/info.dialog';
 
 
 @NgModule({
@@ -22,13 +23,14 @@ import { CreditsDialog } from './dialogs/credits/credits.dialog';
     RobotSelectionComponent,
     StartComponent,
     StatusMessageDialog,
-    CreditsDialog
+    CreditsDialog,
+    InfoDialog
   ],
   imports: [
     CommonModule,
     SharedModule
   ],
-  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, StatusMessageDialog, CreditsDialog],
+  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, StatusMessageDialog, CreditsDialog, InfoDialog],
   exports: [
     HeaderComponent,
     StartComponent,
@@ -37,7 +39,8 @@ import { CreditsDialog } from './dialogs/credits/credits.dialog';
     ConnectWiredDialog,
     InstallDriverDialog,
     StatusMessageDialog,
-    CreditsDialog
+    CreditsDialog,
+    InfoDialog
   ]
 })
 export class CoreModule { }

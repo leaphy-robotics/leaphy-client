@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
-import { map, filter, distinctUntilChanged } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Language } from '../domain/language';
-import { UserMode } from '../domain/user.mode';
+import { CodeEditorType } from '../domain/code-editor.type';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +12,7 @@ export class AppState {
     // tslint:disable: max-line-length
     private leaphyOriginalRobotType = new RobotType('l_original', 'Leaphy Original', 'orig.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Original Extension', 'Leaphy Extra Extension', 'Servo']);
     private leaphyFlitzRobotType = new RobotType('l_flitz', 'Leaphy Flitz', 'flitz.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Extra Extension', 'Servo'], true, false);
+    private leaphyClickRobotType = new RobotType('l_click', 'Leaphy Click', 'click.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Extra Extension', 'Servo']);
     private arduinoUnoRobotType = new RobotType('l_uno', 'Arduino Uno', 'uno.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Extra Extension', 'Servo']);
     private leaphyWiFiRobotType = new RobotType('l_wifi', 'Leaphy WiFi', 'wifi.svg', 'NodeMCU', 'esp8266:esp8266:nodemcuv2', 'bin', 'esp8266:esp8266', ['Leaphy WiFi Extension', 'Leaphy Extra Extension', 'Servo'], false);
     // tslint:enable: max-line-length
@@ -26,7 +27,7 @@ export class AppState {
         this.availableRobotTypes$ = this.isDesktop$
             .pipe(map(isDesktop => {
                 if (isDesktop) {
-                    return [this.leaphyFlitzRobotType, this.leaphyOriginalRobotType, this.arduinoUnoRobotType]
+                    return [this.leaphyFlitzRobotType, this.leaphyOriginalRobotType, this.leaphyClickRobotType, this.arduinoUnoRobotType]
                 } else {
                     return [this.leaphyWiFiRobotType]
                 }
@@ -56,8 +57,8 @@ export class AppState {
     private showHelpPageSubject$ = new BehaviorSubject<boolean>(false);
     public showHelpPage$ = this.showHelpPageSubject$.asObservable();
 
-    private userModeSubject$ = new BehaviorSubject<UserMode>(UserMode.Beginner);
-    public userMode$ = this.userModeSubject$.asObservable();
+    private codeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.Beginner);
+    public codeEditorType$ = this.codeEditorTypeSubject$.asObservable();
 
     public setSelectedRobotType(robotType: RobotType) {
         this.selectedRobotTypeSubject$.next(robotType);
@@ -71,7 +72,7 @@ export class AppState {
         this.showHelpPageSubject$.next(show);
     }
 
-    public setUserMode(userMode: UserMode) {
-        this.userModeSubject$.next(userMode);
+    public setCodeEditor(codeEditor: CodeEditorType) {
+        this.codeEditorTypeSubject$.next(codeEditor);
     }
 }
