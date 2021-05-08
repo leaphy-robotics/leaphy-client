@@ -4,11 +4,11 @@ class FirstRunDetector {
         this.executable = executable;
         this.boardDriverInstallerPath = this.getBoardDriverInstallerPath(os, app, path);
     }
-    
+
     detectFirstRun = async (event) => {
         const isFirstRun = this.firstRun();
         // Clear the firstRun setting, don't do this
-        this.firstRun.clear();
+        //this.firstRun.clear();
 
         if (isFirstRun) {
             const firstRunDetectedMessage = { event: "FIRST_RUN" };
