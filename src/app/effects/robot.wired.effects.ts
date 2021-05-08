@@ -24,6 +24,9 @@ export class RobotWiredEffects {
                     case 'INSTALLATION_VERIFIED':
                         this.robotWiredState.setIsInstallationVerified(true);
                         break;
+                    case 'DRIVER_INSTALLATION_COMPLETE':
+                        this.robotWiredState.setIsRobotDriverInstalling(false);
+                        break;
                     case 'NO_DEVICES_FOUND':
                         this.robotWiredState.setSerialDevicesToTry([]);
                         this.robotWiredState.setVerifiedSerialDevice(null);
@@ -61,13 +64,5 @@ export class RobotWiredEffects {
                 const devicesLeftToTry = devicesToTry.filter(device => device.address != message.payload.address);
                 robotWiredState.setSerialDevicesToTry(devicesLeftToTry);
             });
-
-        // Set the IsRobotInstalling flag right back to false
-        this.robotWiredState.isRobotDriverInstalling$
-            .pipe(filter(isInstalling => !!isInstalling))
-            .subscribe(() => {
-                this.robotWiredState.setIsRobotDriverInstalling(false);
-            });
-
     }
 }

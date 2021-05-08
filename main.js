@@ -34,8 +34,10 @@ const executable = new Executable(asyncExecFile, logger);
 const ArduinoCli = require('./electron/arduinoCli.js');
 const arduinoCli = new ArduinoCli(executable, os, path, app);
 
+const firstRun = require('electron-first-run');
+
 const PrerequisiteManager = require('./electron/prerequisiteManager');
-const prerequisiteManager = new PrerequisiteManager(arduinoCli, executable, os, app, path, logger);
+const prerequisiteManager = new PrerequisiteManager(arduinoCli, executable, os, app, path, firstRun, logger);
 ipcMain.on('verify-installation', prerequisiteManager.verifyInstallation);
 ipcMain.on('install-usb-driver', prerequisiteManager.installUsbDriver);
 
@@ -61,9 +63,8 @@ const WebBrowserLauncher = require('./electron/webBrowserLauncher');
 const webBrowserLauncher = new WebBrowserLauncher(os);
 ipcMain.on('open-browser-page', webBrowserLauncher.openWebPage);
 
-const firstRun = require('electron-first-run');
 const FirstRunDetector = require('./electron/firstRunDetector');
-const firstRunDetector = new FirstRunDetector(firstRun);
+const firstRunDetector = new FirstRunDetector(firstRun, os);
 ipcMain.on('detect-first-run', firstRunDetector.detectFirstRun);
 
 function loadUrl(mainWindow) {
