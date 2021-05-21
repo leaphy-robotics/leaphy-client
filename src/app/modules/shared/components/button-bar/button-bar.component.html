@@ -1,18 +1,14 @@
 <div class="sidenav-buttons">
-  <button mat-fab [ngClass]="{'active': (appState.codeEditorType$ | async) === 1}" (click)="onBlocklyEditorClicked()">
+  <button mat-fab [ngClass]="{'active': (appState.codeEditorType$ | async) === 1 && (blocklyState.isSideNavOpen$ | async)}" (click)="onBlocklyEditorClicked()">
     <mat-icon>code</mat-icon>
-  </button>
-
-  <button mat-fab [ngClass]="{'active': (appState.codeEditorType$ | async) === 2}" (click)="onCodeEditorClicked()">
-    <mat-icon>editor</mat-icon>
   </button>
 
   <button mat-fab (click)="onShowSerialOutputClicked()">
     <mat-icon>article</mat-icon>
   </button>
 
-  <button mat-fab (click)="onShowInfoClicked()">
-    <mat-icon>info</mat-icon>
+  <button mat-fab [ngClass]="{'active': (appState.codeEditorType$ | async) === 2}" (click)="onCodeEditorClicked()">
+    <mat-icon>editor</mat-icon>
   </button>
 </div>
 <app-serial-window

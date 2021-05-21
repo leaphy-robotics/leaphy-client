@@ -16,13 +16,16 @@
       >
         {{ "HELP" | translate }}
       </button>
+      <button
+      mat-stroked-button
+      [matMenuTriggerFor]="moreMenu"
+      *ngIf="appState.selectedRobotType$ | async"
+    >
+      {{ "MORE" | translate }}
+    </button>
     </div>
 
     <div class="flex-buttons" *ngIf="appState.selectedRobotType$ | async">
-      <button mat-stroked-button (click)="onSaveWorkspaceClicked()">
-        <mat-icon>save</mat-icon><span>{{ "SAVE" | translate }}</span>
-      </button>
-
       <button mat-stroked-button class="icon-button" (click)="onUndoClicked()">
         <mat-icon>undo</mat-icon>
       </button>
@@ -33,6 +36,9 @@
     </div>
 
     <div>
+      <button mat-stroked-button (click)="onSaveWorkspaceClicked()">
+        <mat-icon>save</mat-icon><span>{{ "SAVE" | translate }}</span>
+      </button>
       <button
         mat-flat-button
         *ngIf="appState.selectedRobotType$ | async"
@@ -97,5 +103,16 @@
   >
     <mat-icon>help_center</mat-icon>
     <span>{{ "HELP_FORUM" | translate }}</span>
+  </button>
+</mat-menu>
+
+<mat-menu #moreMenu="matMenu" class="matmenus">
+  <button
+    mat-menu-item
+    [disabled]="!(appState.selectedRobotType$ | async)"
+    (click)="onShowInfoClicked()"
+  >
+    <mat-icon>help_center</mat-icon>
+    <span>{{ "MORE_ABOUT" | translate }}</span>
   </button>
 </mat-menu>
