@@ -65,6 +65,10 @@ export class HeaderComponent {
     this.appState.setShowHelpPage(true);
   }
 
+  public onShowInfoClicked() {
+    this.dialogState.setIsInfoDialogVisible(true);
+  }
+
   public isBackEndBusy$: Observable<boolean> = combineLatest(
     [this.robotWiredState.isInstallationVerified$,
     this.appState.selectedRobotType$,

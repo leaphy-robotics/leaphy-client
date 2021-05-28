@@ -30,8 +30,6 @@ export class ButtonBarComponent {
   public onShowSerialOutputClicked() {
     this.dialogState.setIsSerialOutputWindowOpen(true);
   }
-
-  public onShowInfoClicked() {
-    this.dialogState.setIsInfoDialogVisible(true);
-  }
 }
+
+

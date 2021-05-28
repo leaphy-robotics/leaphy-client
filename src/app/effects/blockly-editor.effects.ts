@@ -188,6 +188,18 @@ export class BlocklyEditorEffects {
                 setTimeout(() => this.blocklyState.setSideNavStatus(!isOpen), 100);
             });
 
+        // When Advanced CodeEditor is active, but the button is clicked again, toggle the code view
+        this.appState.codeEditorType$
+        .pipe(
+            pairwise(),
+            filter(([previous, current]) => current === CodeEditorType.Advanced && (previous === current)),
+            withLatestFrom(this.blocklyState.isSideNavOpen$),
+            map(([, isOpen]) => isOpen)
+        )
+        .subscribe(() => {
+            this.appState.setCodeEditor(CodeEditorType.None)
+        }); 
+
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
