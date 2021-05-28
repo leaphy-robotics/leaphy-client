@@ -3,7 +3,7 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { filter, map, pairwise, withLatestFrom } from 'rxjs/operators';
+import { filter, map, pairwise, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest, Observable, of } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
@@ -16,7 +16,7 @@ declare var Blockly: any;
     providedIn: 'root',
 })
 
-// Defines the effects on the Editor that different state changes have
+// Defines the effects on the Blockly Editor that different state changes have
 export class BlocklyEditorEffects {
 
     constructor(
@@ -25,8 +25,25 @@ export class BlocklyEditorEffects {
         private appState: AppState,
         private http: HttpClient
     ) {
+        // When the language is changed:
+        // - Find and set the blockly translations
+        // - Trigger a rerender by setting robotType to null
+        this.appState.selectedLanguage$
+            .pipe(
+                switchMap(lang => this.http.get(`./assets/blockly/translations/${lang}.json`)),
+            )
+            .pipe(withLatestFrom(this.appState.selectedRobotType$))
+            .subscribe(([translations, robotType]) => {
+                Object.keys(translations).forEach(function (k) {
+                   Blockly.Msg[k] = translations[k];
+                });
+                this.appState.setSelectedRobotType(null);
+                this.appState.setSelectedRobotType(robotType);
+            });
+
         // Create a new workspace when all prerequisites are there
         combineLatest([this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$])
+            .pipe(tap(console.log))
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
             .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
             .pipe(withLatestFrom(

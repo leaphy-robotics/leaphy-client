@@ -9,6 +9,7 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HostListener } from '@angular/core';
 import { DialogState } from 'src/app/state/dialog.state';
+import { Language } from 'src/app/domain/language';
 
 @Component({
   selector: 'app-header',
@@ -48,7 +49,8 @@ export class HeaderComponent {
   }
 
   public onUploadClicked() {
-    this.blocklyState.setSketchStatus(SketchStatus.Sending);
+    //this.blocklyState.setSketchStatus(SketchStatus.Sending);
+    this.appState.setSelectedLanguage(Language.EN);
   }
 
   public onUndoClicked() {
