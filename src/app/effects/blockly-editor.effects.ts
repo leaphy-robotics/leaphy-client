@@ -5,10 +5,11 @@ import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
 import { filter, map, pairwise, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
 import { CodeEditorType } from '../domain/code-editor.type';
+import { LogService } from '../services/log.service';
 
 declare var Blockly: any;
 
@@ -23,27 +24,36 @@ export class BlocklyEditorEffects {
         private blocklyState: BlocklyEditorState,
         private backEndState: BackEndState,
         private appState: AppState,
-        private http: HttpClient
+        private http: HttpClient,
+        private logger: LogService
     ) {
-        // When the language is changed:
-        // - Find and set the blockly translations
-        // - Trigger a rerender by setting robotType to null
-        this.appState.selectedLanguage$
-            .pipe(
-                switchMap(lang => this.http.get(`./assets/blockly/translations/${lang}.json`)),
-            )
-            .pipe(withLatestFrom(this.appState.selectedRobotType$))
-            .subscribe(([translations, robotType]) => {
+        // When the current language is set: Find and set the blockly translations
+        this.appState.currentLanguage$
+            .pipe(tap(lang => this.logger.info(`Setting translations for language ${lang}`)))
+            .pipe(switchMap(lang => this.http.get(`./assets/blockly/translations/${lang}.json`)))
+            .subscribe(translations => {
                 Object.keys(translations).forEach(function (k) {
-                   Blockly.Msg[k] = translations[k];
+                    Blockly.Msg[k] = translations[k];
                 });
-                this.appState.setSelectedRobotType(null);
-                this.appState.setSelectedRobotType(robotType);
+            });
+
+        // When the language is changed, save the workspace temporarily
+        this.appState.changedLanguage$
+            .pipe(filter(lang => !!lang))
+            .subscribe(() => {
+                this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingTemp);
+            });
+
+        // When a reload config is found, restore the temp workspace
+        combineLatest([this.appState.reloadConfig$, this.blocklyState.workspace$])
+            .pipe(filter(([reloadConfig, blockly]) => !!reloadConfig && !!blockly))
+            .subscribe(([,]) => {
+                this.blocklyState.setWorkspaceStatus(WorkspaceStatus.FindingTemp);
             });
 
         // Create a new workspace when all prerequisites are there
         combineLatest([this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$])
-            .pipe(tap(console.log))
+            .pipe(tap(() => console.log('Recreating Workspace')))
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
             .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
             .pipe(withLatestFrom(
@@ -190,15 +200,15 @@ export class BlocklyEditorEffects {
 
         // When Advanced CodeEditor is active, but the button is clicked again, toggle the code view
         this.appState.codeEditorType$
-        .pipe(
-            pairwise(),
-            filter(([previous, current]) => current === CodeEditorType.Advanced && (previous === current)),
-            withLatestFrom(this.blocklyState.isSideNavOpen$),
-            map(([, isOpen]) => isOpen)
-        )
-        .subscribe(() => {
-            this.appState.setCodeEditor(CodeEditorType.None)
-        }); 
+            .pipe(
+                pairwise(),
+                filter(([previous, current]) => current === CodeEditorType.Advanced && (previous === current)),
+                withLatestFrom(this.blocklyState.isSideNavOpen$),
+                map(([, isOpen]) => isOpen)
+            )
+            .subscribe(() => {
+                this.appState.setCodeEditor(CodeEditorType.None)
+            });
 
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
@@ -226,6 +236,9 @@ export class BlocklyEditorEffects {
                         break;
                     case 'WORKSPACE_SAVED':
                         this.blocklyState.setProjectFilePath(message.payload);
+                        this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
+                        break;
+                    case 'WORKSPACE_SAVED_TEMP':
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;
                     case 'WORKSPACE_RESTORING':

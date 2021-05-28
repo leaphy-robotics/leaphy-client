@@ -10,6 +10,7 @@ import { AppState } from '../state/app.state';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { LogService } from '../services/log.service';
+import { LocalStorageService } from '../services/localstorage.service';
 
 declare var Blockly: any;
 
@@ -77,6 +78,14 @@ export class BackendWiredEffects {
                     .subscribe(robotType => {
                         this.backEndState.setconnectionStatus(ConnectionStatus.VerifyingPrerequisites);
                         this.send('verify-installation', robotType);
+                    });
+
+                // When a reload is requested and we are doing saving the temp workspace, relay to Electron backend
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(filter(status => status === WorkspaceStatus.Clean), withLatestFrom(this.appState.isReloadRequested$))
+                    .pipe(filter(([,isRequested])=> !!isRequested))
+                    .subscribe(() => {
+                        this.send('restart-app');
                     });
 
                 // When the sketch status is set to sending, send a compile request to backend

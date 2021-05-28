@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { AppState } from '../state/app.state';
 import { TranslateService } from '@ngx-translate/core';
 import { BackEndState } from '../state/backend.state';
-import { filter } from 'rxjs/operators';
+import { filter, map, pairwise, tap, withLatestFrom } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StatusMessageDialog } from '../modules/core/dialogs/status-message/status-message.dialog';
 import { Router } from '@angular/router';
 import { CodeEditorType } from '../domain/code-editor.type';
 import { LogService } from '../services/log.service';
+import { BlocklyEditorState } from '../state/blockly-editor.state';
+import { ReloadConfig } from '../domain/reload.config';
+import { combineLatest, forkJoin } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -19,17 +22,34 @@ export class AppEffects {
         private appState: AppState,
         private translate: TranslateService,
         private backEndState: BackEndState,
+        private blocklyState: BlocklyEditorState,
         private snackBar: MatSnackBar,
         private router: Router,
         private logger: LogService) {
 
-        // Set the default language as default
-        this.appState.defaultLanguage$
-            .subscribe(language => this.translate.setDefaultLang(language));
+        // When the language is changed, store reload config, then request a reload
+        this.appState.changedLanguage$
+            .pipe(filter(lang => !!lang))
+            .pipe(withLatestFrom(this.appState.selectedRobotType$))
+            .subscribe(([, robotType]) => {
+                const reloadConfig = new ReloadConfig(robotType);
+                this.appState.setReloadConfig(reloadConfig);
+                this.appState.setIsReloadRequested(true);
+            });
 
-        // Use the selected language to translate
-        this.appState.selectedLanguage$
+        // Use the current language to translate the angular translations
+        this.appState.currentLanguage$
             .subscribe(language => this.translate.use(language));
+
+        // When a reloadConfig is found, clear it and set the robotType
+        combineLatest([this.appState.reloadConfig$, this.blocklyState.blocklyConfig$])
+            .pipe(tap(() => this.logger.info("Got values for each")))
+            .pipe(filter(([reloadConfig, blockly]) => !!reloadConfig && !!blockly))
+            .pipe(tap(() => this.logger.info("Got non null values for each")))
+            .subscribe(([reloadConfig,]) => {
+                this.appState.setReloadConfig(null);
+                setTimeout(() => this.appState.setSelectedRobotType(reloadConfig.robotType), 500);
+            });
 
         // When the selected code editor changes, route to the correct screen
         this.appState.codeEditorType$
@@ -46,7 +66,19 @@ export class AppEffects {
                         break;
                 }
             });
-            
+
+        // When Advanced CodeEditor is active, but the button is clicked again, toggle the code view
+        this.appState.codeEditorType$
+            .pipe(
+                pairwise(),
+                filter(([previous, current]) => current === CodeEditorType.Advanced && (previous === current)),
+                withLatestFrom(this.blocklyState.isSideNavOpen$),
+                map(([, isOpen]) => isOpen)
+            )
+            .subscribe(() => {
+                this.appState.setCodeEditor(CodeEditorType.None)
+            });
+
         // Enable to debugging to log all backend messages
         this.backEndState.backEndMessages$
             .pipe(filter(() => this.isDebug))

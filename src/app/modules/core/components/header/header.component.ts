@@ -49,8 +49,7 @@ export class HeaderComponent {
   }
 
   public onUploadClicked() {
-    //this.blocklyState.setSketchStatus(SketchStatus.Sending);
-    this.appState.setSelectedLanguage(Language.EN);
+    this.blocklyState.setSketchStatus(SketchStatus.Sending);
   }
 
   public onUndoClicked() {

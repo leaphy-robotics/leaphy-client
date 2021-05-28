@@ -67,6 +67,11 @@ const FirstRunDetector = require('./electron/firstRunDetector');
 const firstRunDetector = new FirstRunDetector(firstRun, os);
 ipcMain.on('detect-first-run', firstRunDetector.detectFirstRun);
 
+ipcMain.on('restart-app', () => {
+    app.relaunch()
+    app.exit()
+});
+
 function loadUrl(mainWindow) {
     mainWindow.loadURL(
         url.format({
