@@ -10,7 +10,6 @@ import { AppState } from '../state/app.state';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { LogService } from '../services/log.service';
-import { LocalStorageService } from '../services/localstorage.service';
 
 declare var Blockly: any;
 

@@ -10,7 +10,7 @@ import { CodeEditorType } from '../domain/code-editor.type';
 import { LogService } from '../services/log.service';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { ReloadConfig } from '../domain/reload.config';
-import { combineLatest, forkJoin } from 'rxjs';
+import { combineLatest } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -31,7 +31,8 @@ export class AppEffects {
         this.appState.changedLanguage$
             .pipe(filter(lang => !!lang))
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
-            .subscribe(([, robotType]) => {
+            .subscribe(([lang, robotType]) => {
+                this.appState.setCurrentLanguage(lang);
                 const reloadConfig = new ReloadConfig(robotType);
                 this.appState.setReloadConfig(reloadConfig);
                 this.appState.setIsReloadRequested(true);
@@ -43,9 +44,7 @@ export class AppEffects {
 
         // When a reloadConfig is found, clear it and set the robotType
         combineLatest([this.appState.reloadConfig$, this.blocklyState.blocklyConfig$])
-            .pipe(tap(() => this.logger.info("Got values for each")))
             .pipe(filter(([reloadConfig, blockly]) => !!reloadConfig && !!blockly))
-            .pipe(tap(() => this.logger.info("Got non null values for each")))
             .subscribe(([reloadConfig,]) => {
                 this.appState.setReloadConfig(null);
                 setTimeout(() => this.appState.setSelectedRobotType(reloadConfig.robotType), 500);

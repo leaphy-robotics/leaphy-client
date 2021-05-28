@@ -35,7 +35,7 @@
       </button>
     </div>
 
-    <div class="flex-buttons">
+    <div class="flex-buttons" *ngIf="appState.selectedRobotType$ | async">
       <button mat-stroked-button (click)="onSaveWorkspaceClicked()">
         <mat-icon>save</mat-icon><span>{{ "SAVE" | translate }}</span>
       </button>
@@ -115,4 +115,7 @@
     <mat-icon>help_center</mat-icon>
     <span>{{ "MORE_ABOUT" | translate }}</span>
   </button>
+  <mat-select [ngModel]="(appState.currentLanguage$ | async)">
+    <mat-option *ngFor="let language of appState.availableLanguages$ | async" [value]="language" (onSelectionChange)="onLanguageChanged($event, language)">{{language}}</mat-option>
+  </mat-select>
 </mat-menu>

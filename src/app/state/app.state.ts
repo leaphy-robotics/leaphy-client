@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, distinctUntilChanged } from 'rxjs/operators';
 import { Language } from '../domain/language';
 import { CodeEditorType } from '../domain/code-editor.type';
 import { LocalStorageService } from '../services/localstorage.service';
@@ -39,6 +39,11 @@ export class AppState {
         this.currentLanguageSubject$ = new BehaviorSubject(currentLanguage || Language.NL);
         this.currentLanguage$ = this.currentLanguageSubject$.asObservable();
 
+        this.changedLanguageSubject$ = new BehaviorSubject(null);
+        this.changedLanguage$ = this.changedLanguageSubject$
+            .asObservable()
+            .pipe(distinctUntilChanged());
+
         const reloadConfig = this.localStorage.fetch<ReloadConfig>('reloadConfig');
         this.reloadConfigSubject$ = new BehaviorSubject(reloadConfig);
         this.reloadConfig$ = this.reloadConfigSubject$.asObservable();
@@ -58,11 +63,14 @@ export class AppState {
     private selectedRobotTypeSubject$ = new BehaviorSubject<RobotType>(null);
     public selectedRobotType$ = this.selectedRobotTypeSubject$.asObservable();
 
-    private currentLanguageSubject$ : BehaviorSubject<Language>;
-    public currentLanguage$ : Observable<Language>
+    private availableLanguagesSubject$ = new BehaviorSubject<Language[]>([Language.EN, Language.NL]);
+    public availableLanguages$ = this.availableLanguagesSubject$.asObservable();
 
-    private changedLanguageSubject$ = new BehaviorSubject<Language>(null);
-    public changedLanguage$ = this.changedLanguageSubject$.asObservable();
+    private currentLanguageSubject$: BehaviorSubject<Language>;
+    public currentLanguage$: Observable<Language>
+
+    private changedLanguageSubject$ : BehaviorSubject<Language>;
+    public changedLanguage$: Observable<Language>;
 
     public isRobotWired$: Observable<boolean> = this.selectedRobotType$
         .pipe(filter(selectedRobotType => !!selectedRobotType))
@@ -74,8 +82,8 @@ export class AppState {
     private codeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.Beginner);
     public codeEditorType$ = this.codeEditorTypeSubject$.asObservable();
 
-    public setReloadConfig(reloadConfig: ReloadConfig){
-        if(!reloadConfig) this.localStorage.remove('reloadConfig');
+    public setReloadConfig(reloadConfig: ReloadConfig) {
+        if (!reloadConfig) this.localStorage.remove('reloadConfig');
         else this.localStorage.store('reloadConfig', reloadConfig);
     }
 
