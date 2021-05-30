@@ -66,18 +66,21 @@
 </mat-menu>
 
 <mat-menu #moreMenu="matMenu" class="matmenus">
-  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onShowInfoClicked()">
+  <button mat-menu-item (click)="onShowInfoClicked()">
     <mat-icon>help_center</mat-icon>
     <span>{{ "MORE_ABOUT" | translate }}</span>
   </button>
-  <mat-form-field appearance="fill">
-    <mat-label mat-menu-item>
-      <mat-icon>language</mat-icon>
-      <span>{{ "LANGUAGE" | translate }}</span>
-    </mat-label>
-    <mat-select>
-      <mat-option value="nl" (onSelectionChange)="onLanguageChanged($event, 'nl')">Nederlands</mat-option>
-      <mat-option value="en" (onSelectionChange)="onLanguageChanged($event, 'en')">English</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <button mat-menu-item [matMenuTriggerFor]="languageMenu">
+    <mat-icon>language</mat-icon>
+    <span>{{ "LANGUAGE" | translate }}</span>
+  </button>
+</mat-menu>
+
+<mat-menu #languageMenu="matMenu" class="matmenus">
+  <button mat-menu-item (click)="onLanguageChanged('nl')">
+    <span>Nederlands</span>
+  </button>
+  <button mat-menu-item (click)="onLanguageChanged('en')">
+    <span>English</span>
+  </button>
 </mat-menu>
