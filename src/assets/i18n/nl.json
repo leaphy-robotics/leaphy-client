@@ -53,5 +53,8 @@
   "INFO_TEAM": "Het team van Stichting Leaphy",
   "READ_CODE": "Code lezen",
   "SHOW_ON_SCREEN": "Toon op scherm",
-  "EDIT_CODE": "Code bewerken"
+  "EDIT_CODE": "Code bewerken",
+  "LANGUAGE": "Taal",
+  "CHOOSE_A_ROBOT": "KIES EEN ROBOT",
+  "SELECT_ROBOT_START_PROJECT": "Selecteer een robot en start een nieuw project"
 }

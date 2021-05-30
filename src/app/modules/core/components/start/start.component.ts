@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
-import { BlocklyEditorState } from "src/app/state/blockly-editor.state";
-import { WorkspaceStatus } from "src/app/domain/workspace.status";
+import { AppState } from "src/app/state/app.state";
 
 @Component({
   selector: "app-start",
@@ -8,9 +7,5 @@ import { WorkspaceStatus } from "src/app/domain/workspace.status";
   styleUrls: ["./start.component.scss"],
 })
 export class StartComponent {
-  constructor(private blocklyState: BlocklyEditorState) {}
-
-  public onLoadWorkspaceClicked() {
-    this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Finding);
-  }
+  constructor(public appState: AppState) {}
 }

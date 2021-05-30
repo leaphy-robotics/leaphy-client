@@ -87,8 +87,7 @@ export class HeaderComponent {
     }));
 
 
-  public onLanguageChanged($event, language: Language){
-    this.logger.info('Setting language', language);
-    this.appState.setChangedLanguage(language);
+  public onLanguageChanged($event, language: string){
+    this.appState.setChangedLanguage(language as Language);
   }
 }

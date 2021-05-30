@@ -2,27 +2,15 @@
   <img src="./assets/leaphy-logo.svg" class="header-logo" />
   <div class="flex-header">
     <div class="flex-buttons">
-      <button
-        mat-stroked-button
-        [matMenuTriggerFor]="projectMenu"
-        *ngIf="appState.selectedRobotType$ | async"
-      >
+      <button mat-stroked-button [matMenuTriggerFor]="projectMenu" *ngIf="appState.selectedRobotType$ | async">
         {{ "PROJECT" | translate }}
       </button>
-      <button
-        mat-stroked-button
-        [matMenuTriggerFor]="helpMenu"
-        *ngIf="appState.selectedRobotType$ | async"
-      >
+      <button mat-stroked-button [matMenuTriggerFor]="helpMenu" *ngIf="appState.selectedRobotType$ | async">
         {{ "HELP" | translate }}
       </button>
-      <button
-      mat-stroked-button
-      [matMenuTriggerFor]="moreMenu"
-      *ngIf="appState.selectedRobotType$ | async"
-    >
-      {{ "MORE" | translate }}
-    </button>
+      <button mat-stroked-button [matMenuTriggerFor]="moreMenu" *ngIf="appState.selectedRobotType$ | async">
+        {{ "MORE" | translate }}
+      </button>
     </div>
 
     <div class="flex-buttons" *ngIf="appState.selectedRobotType$ | async">
@@ -39,12 +27,8 @@
       <button mat-stroked-button (click)="onSaveWorkspaceClicked()">
         <mat-icon>save</mat-icon><span>{{ "SAVE" | translate }}</span>
       </button>
-      <button
-        mat-flat-button
-        *ngIf="appState.selectedRobotType$ | async"
-        (click)="onUploadClicked()"
-        [disabled]="!(canUpload$ | async)"
-      >
+      <button mat-flat-button *ngIf="appState.selectedRobotType$ | async" (click)="onUploadClicked()"
+        [disabled]="!(canUpload$ | async)">
         {{ "UPLOAD" | translate }}
       </button>
     </div>
@@ -52,70 +36,48 @@
 </mat-toolbar>
 
 <mat-menu #projectMenu="matMenu" class="matmenus">
-  <button
-    mat-menu-item
-    [disabled]="!(appState.selectedRobotType$ | async)"
-    (click)="onNewProjectClicked()"
-  >
+  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onNewProjectClicked()">
     <mat-icon>insert_drive_file</mat-icon>
     <span>{{ "NEW" | translate }}</span>
   </button>
-  <button
-    mat-menu-item
-    [disabled]="!(appState.selectedRobotType$ | async)"
-    (click)="onLoadWorkspaceClicked()"
-  >
+  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onLoadWorkspaceClicked()">
     <mat-icon>folder</mat-icon>
     <span>{{ "OPEN" | translate }}</span>
   </button>
-  <span
-    mat-menu-item
-    disabled
-    *ngIf="blocklyState.projectName$ | async as projectName"
-    >{{ projectName }}</span
-  >
-  <button
-    mat-menu-item
-    [disabled]="
+  <span mat-menu-item disabled *ngIf="blocklyState.projectName$ | async as projectName">{{ projectName }}</span>
+  <button mat-menu-item [disabled]="
       !(appState.selectedRobotType$ | async) ||
       !(blocklyState.projectFilePath$ | async)
-    "
-    (click)="onSaveWorkspaceClicked()"
-  >
+    " (click)="onSaveWorkspaceClicked()">
     <mat-icon>save</mat-icon>
     <span>{{ "SAVE" | translate }}</span>
   </button>
-  <button
-    mat-menu-item
-    [disabled]="!(appState.selectedRobotType$ | async)"
-    (click)="onSaveWorkspaceAsClicked()"
-  >
+  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onSaveWorkspaceAsClicked()">
     <mat-icon>save</mat-icon>
     <span>{{ "SAVEAS" | translate }}</span>
   </button>
 </mat-menu>
 
 <mat-menu #helpMenu="matMenu" class="matmenus">
-  <button
-    mat-menu-item
-    [disabled]="!(appState.selectedRobotType$ | async)"
-    (click)="onHelpClicked()"
-  >
+  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onHelpClicked()">
     <mat-icon>help_center</mat-icon>
     <span>{{ "HELP_FORUM" | translate }}</span>
   </button>
 </mat-menu>
 
 <mat-menu #moreMenu="matMenu" class="matmenus">
-  <button
-    mat-menu-item
-    [disabled]="!(appState.selectedRobotType$ | async)"
-    (click)="onShowInfoClicked()"
-  >
+  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onShowInfoClicked()">
     <mat-icon>help_center</mat-icon>
     <span>{{ "MORE_ABOUT" | translate }}</span>
   </button>
-  <mat-select [ngModel]="(appState.currentLanguage$ | async)">
-    <mat-option *ngFor="let language of appState.availableLanguages$ | async" [value]="language" (onSelectionChange)="onLanguageChanged($event, language)">{{language}}</mat-option>
-  </mat-select>
+  <mat-form-field appearance="fill">
+    <mat-label mat-menu-item>
+      <mat-icon>language</mat-icon>
+      <span>{{ "LANGUAGE" | translate }}</span>
+    </mat-label>
+    <mat-select>
+      <mat-option value="nl" (onSelectionChange)="onLanguageChanged($event, 'nl')">Nederlands</mat-option>
+      <mat-option value="en" (onSelectionChange)="onLanguageChanged($event, 'en')">English</mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-menu>

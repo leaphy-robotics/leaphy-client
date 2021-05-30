@@ -29,7 +29,6 @@ export class BlocklyEditorEffects {
     ) {
         // When the current language is set: Find and set the blockly translations
         this.appState.currentLanguage$
-            .pipe(tap(lang => this.logger.info(`Setting translations for language ${lang}`)))
             .pipe(switchMap(lang => this.http.get(`./assets/blockly/translations/${lang}.json`)))
             .subscribe(translations => {
                 Object.keys(translations).forEach(function (k) {
@@ -53,7 +52,6 @@ export class BlocklyEditorEffects {
 
         // Create a new workspace when all prerequisites are there
         combineLatest([this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$])
-            .pipe(tap(() => console.log('Recreating Workspace')))
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
             .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
             .pipe(withLatestFrom(
