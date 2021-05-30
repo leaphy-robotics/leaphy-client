@@ -29,16 +29,17 @@ export class AppEffects {
 
         // When the language is changed, store reload config, then request a reload
         this.appState.changedLanguage$
-            .pipe(filter(lang => !!lang))
-            .pipe(withLatestFrom(this.appState.selectedRobotType$))
-            .subscribe(([lang, robotType]) => {
-                this.appState.setCurrentLanguage(lang);
+            .pipe(filter(changedLanguage => !!changedLanguage))
+            .pipe(withLatestFrom(this.appState.currentLanguage$, this.appState.selectedRobotType$))
+            .pipe(filter(([changedLanguage,currentLanguage, ]) => changedLanguage !== currentLanguage))
+            .subscribe(([changedLanguage, ,robotType]) => {
+                this.appState.setCurrentLanguage(changedLanguage);
                 const reloadConfig = new ReloadConfig(robotType);
                 this.appState.setReloadConfig(reloadConfig);
                 this.appState.setIsReloadRequested(true);
             });
 
-        // Use the current language to translate the angular translations
+        // Use the current language to translate the angular strings
         this.appState.currentLanguage$
             .subscribe(language => this.translate.use(language));
 

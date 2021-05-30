@@ -39,11 +39,6 @@ export class AppState {
         this.currentLanguageSubject$ = new BehaviorSubject(currentLanguage || Language.NL);
         this.currentLanguage$ = this.currentLanguageSubject$.asObservable();
 
-        this.changedLanguageSubject$ = new BehaviorSubject(null);
-        this.changedLanguage$ = this.changedLanguageSubject$
-            .asObservable()
-            .pipe(distinctUntilChanged());
-
         const reloadConfig = this.localStorage.fetch<ReloadConfig>('reloadConfig');
         this.reloadConfigSubject$ = new BehaviorSubject(reloadConfig);
         this.reloadConfig$ = this.reloadConfigSubject$.asObservable();
@@ -69,8 +64,8 @@ export class AppState {
     private currentLanguageSubject$: BehaviorSubject<Language>;
     public currentLanguage$: Observable<Language>
 
-    private changedLanguageSubject$ : BehaviorSubject<Language>;
-    public changedLanguage$: Observable<Language>;
+    private changedLanguageSubject$ = new BehaviorSubject(null);
+    public changedLanguage$= this.changedLanguageSubject$.asObservable();
 
     public isRobotWired$: Observable<boolean> = this.selectedRobotType$
         .pipe(filter(selectedRobotType => !!selectedRobotType))

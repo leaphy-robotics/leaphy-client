@@ -26,7 +26,7 @@ export class HeaderComponent {
     public blocklyState: BlocklyEditorState,
     public dialogState: DialogState,
     private logger: LogService
-  ) { }
+  ) {  }
 
   public onNewProjectClicked() {
     this.appState.setSelectedRobotType(null);
@@ -91,3 +91,5 @@ export class HeaderComponent {
     this.appState.setChangedLanguage(language as Language);
   }
 }
+
+

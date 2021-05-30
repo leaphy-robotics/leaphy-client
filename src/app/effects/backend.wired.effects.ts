@@ -79,7 +79,7 @@ export class BackendWiredEffects {
                         this.send('verify-installation', robotType);
                     });
 
-                // When a reload is requested and we are doing saving the temp workspace, relay to Electron backend
+                // When a reload is requested and we are done saving the temp workspace, relay to Electron backend
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.Clean), withLatestFrom(this.appState.isReloadRequested$))
                     .pipe(filter(([,isRequested])=> !!isRequested))
