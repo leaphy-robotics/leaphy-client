@@ -11,6 +11,10 @@ button {
   outline: none;
 }
 
+.selected {
+  color: var(--leaphy-color-primary);
+}
+
 [mat-menu-item] {
   font-size: 12px;
   line-height: 36px;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
-import { map, filter, distinctUntilChanged } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Language } from '../domain/language';
 import { CodeEditorType } from '../domain/code-editor.type';
 import { LocalStorageService } from '../services/localstorage.service';
@@ -18,6 +18,10 @@ export class AppState {
     private arduinoUnoRobotType = new RobotType('l_uno', 'Arduino Uno', 'uno.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Extra Extension', 'Servo']);
     private leaphyWiFiRobotType = new RobotType('l_wifi', 'Leaphy WiFi', 'wifi.svg', 'NodeMCU', 'esp8266:esp8266:nodemcuv2', 'bin', 'esp8266:esp8266', ['Leaphy WiFi Extension', 'Leaphy Extra Extension', 'Servo'], false);
     // tslint:enable: max-line-length
+
+    private defaultLanguage = new Language('nl', 'Nederlands')
+    private availableLanguages = [new Language('en', 'English'), this.defaultLanguage]
+
 
     constructor(private localStorage: LocalStorageService) {
         if (window.require) {
@@ -36,7 +40,7 @@ export class AppState {
             }));
 
         const currentLanguage = this.localStorage.fetch<Language>('currentLanguage');
-        this.currentLanguageSubject$ = new BehaviorSubject(currentLanguage || Language.NL);
+        this.currentLanguageSubject$ = new BehaviorSubject(currentLanguage || this.defaultLanguage);
         this.currentLanguage$ = this.currentLanguageSubject$.asObservable();
 
         const reloadConfig = this.localStorage.fetch<ReloadConfig>('reloadConfig');
@@ -58,7 +62,7 @@ export class AppState {
     private selectedRobotTypeSubject$ = new BehaviorSubject<RobotType>(null);
     public selectedRobotType$ = this.selectedRobotTypeSubject$.asObservable();
 
-    private availableLanguagesSubject$ = new BehaviorSubject<Language[]>([Language.EN, Language.NL]);
+    private availableLanguagesSubject$ = new BehaviorSubject<Language[]>(this.availableLanguages);
     public availableLanguages$ = this.availableLanguagesSubject$.asObservable();
 
     private currentLanguageSubject$: BehaviorSubject<Language>;

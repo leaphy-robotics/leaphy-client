@@ -29,7 +29,7 @@ export class BlocklyEditorEffects {
     ) {
         // When the current language is set: Find and set the blockly translations
         this.appState.currentLanguage$
-            .pipe(switchMap(lang => this.http.get(`./assets/blockly/translations/${lang}.json`)))
+            .pipe(switchMap(language => this.http.get(`./assets/blockly/translations/${language.code}.json`)))
             .subscribe(translations => {
                 Object.keys(translations).forEach(function (k) {
                     Blockly.Msg[k] = translations[k];
@@ -38,7 +38,7 @@ export class BlocklyEditorEffects {
 
         // When the language is changed, save the workspace temporarily
         this.appState.changedLanguage$
-            .pipe(filter(lang => !!lang))
+            .pipe(filter(language => !!language))
             .subscribe(() => {
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingTemp);
             });

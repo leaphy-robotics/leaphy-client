@@ -31,7 +31,7 @@ export class AppEffects {
         this.appState.changedLanguage$
             .pipe(filter(changedLanguage => !!changedLanguage))
             .pipe(withLatestFrom(this.appState.currentLanguage$, this.appState.selectedRobotType$))
-            .pipe(filter(([changedLanguage,currentLanguage, ]) => changedLanguage !== currentLanguage))
+            .pipe(filter(([changedLanguage,currentLanguage, ]) => changedLanguage.code !== currentLanguage.code))
             .subscribe(([changedLanguage, ,robotType]) => {
                 this.appState.setCurrentLanguage(changedLanguage);
                 const reloadConfig = new ReloadConfig(robotType);
@@ -41,7 +41,7 @@ export class AppEffects {
 
         // Use the current language to translate the angular strings
         this.appState.currentLanguage$
-            .subscribe(language => this.translate.use(language));
+            .subscribe(language => this.translate.use(language.code));
 
         // When a reloadConfig is found, clear it and set the robotType
         combineLatest([this.appState.reloadConfig$, this.blocklyState.blocklyConfig$])
