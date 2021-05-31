@@ -1,4 +1,3 @@
-export enum Language {
-    NL = 'nl',
-    EN = 'en'
+export class Language {
+    constructor(public code: string, public name: string) {}
 }

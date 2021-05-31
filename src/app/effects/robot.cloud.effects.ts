@@ -4,7 +4,7 @@ import { DialogState } from '../state/dialog.state';
 import { RobotCloudState } from '../state/robot.cloud.state';
 import { BackEndState } from '../state/backend.state';
 import { AppState } from '../state/app.state';
-import { LocalstorageService } from '../services/localstorage.service';
+import { LocalStorageService } from '../services/localstorage.service';
 import { RobotConnection } from '../domain/robot.connection';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class RobotCloudEffects {
         private appState: AppState,
         private dialogState: DialogState,
         private backEndState: BackEndState,
-        private localstorageService: LocalstorageService
+        private localstorageService: LocalStorageService
     ) {
 
         this.appState.selectedRobotType$

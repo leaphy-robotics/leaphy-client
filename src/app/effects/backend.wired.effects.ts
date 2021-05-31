@@ -79,6 +79,14 @@ export class BackendWiredEffects {
                         this.send('verify-installation', robotType);
                     });
 
+                // When a reload is requested and we are done saving the temp workspace, relay to Electron backend
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(filter(status => status === WorkspaceStatus.Clean), withLatestFrom(this.appState.isReloadRequested$))
+                    .pipe(filter(([,isRequested])=> !!isRequested))
+                    .subscribe(() => {
+                        this.send('restart-app');
+                    });
+
                 // When the sketch status is set to sending, send a compile request to backend
                 this.blocklyEditorState.sketchStatus$
                     .pipe(withLatestFrom(this.blocklyEditorState.code$, this.appState.selectedRobotType$))

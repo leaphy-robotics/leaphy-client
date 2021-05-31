@@ -3,12 +3,13 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { filter, map, pairwise, withLatestFrom } from 'rxjs/operators';
+import { filter, map, pairwise, switchMap, withLatestFrom } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest, Observable, of } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
 import { CodeEditorType } from '../domain/code-editor.type';
+import { LogService } from '../services/log.service';
 
 declare var Blockly: any;
 
@@ -16,15 +17,39 @@ declare var Blockly: any;
     providedIn: 'root',
 })
 
-// Defines the effects on the Editor that different state changes have
+// Defines the effects on the Blockly Editor that different state changes have
 export class BlocklyEditorEffects {
 
     constructor(
         private blocklyState: BlocklyEditorState,
         private backEndState: BackEndState,
         private appState: AppState,
-        private http: HttpClient
+        private http: HttpClient,
+        private logger: LogService
     ) {
+        // When the current language is set: Find and set the blockly translations
+        this.appState.currentLanguage$
+            .pipe(switchMap(language => this.http.get(`./assets/blockly/translations/${language.code}.json`)))
+            .subscribe(translations => {
+                Object.keys(translations).forEach(function (k) {
+                    Blockly.Msg[k] = translations[k];
+                });
+            });
+
+        // When the language is changed, save the workspace temporarily
+        this.appState.changedLanguage$
+            .pipe(filter(language => !!language))
+            .subscribe(() => {
+                this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingTemp);
+            });
+
+        // When a reload config is found, restore the temp workspace
+        combineLatest([this.appState.reloadConfig$, this.blocklyState.workspace$])
+            .pipe(filter(([reloadConfig, blockly]) => !!reloadConfig && !!blockly))
+            .subscribe(([,]) => {
+                this.blocklyState.setWorkspaceStatus(WorkspaceStatus.FindingTemp);
+            });
+
         // Create a new workspace when all prerequisites are there
         combineLatest([this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$])
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
@@ -173,15 +198,15 @@ export class BlocklyEditorEffects {
 
         // When Advanced CodeEditor is active, but the button is clicked again, toggle the code view
         this.appState.codeEditorType$
-        .pipe(
-            pairwise(),
-            filter(([previous, current]) => current === CodeEditorType.Advanced && (previous === current)),
-            withLatestFrom(this.blocklyState.isSideNavOpen$),
-            map(([, isOpen]) => isOpen)
-        )
-        .subscribe(() => {
-            this.appState.setCodeEditor(CodeEditorType.None)
-        }); 
+            .pipe(
+                pairwise(),
+                filter(([previous, current]) => current === CodeEditorType.Advanced && (previous === current)),
+                withLatestFrom(this.blocklyState.isSideNavOpen$),
+                map(([, isOpen]) => isOpen)
+            )
+            .subscribe(() => {
+                this.appState.setCodeEditor(CodeEditorType.None)
+            });
 
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
@@ -209,6 +234,9 @@ export class BlocklyEditorEffects {
                         break;
                     case 'WORKSPACE_SAVED':
                         this.blocklyState.setProjectFilePath(message.payload);
+                        this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
+                        break;
+                    case 'WORKSPACE_SAVED_TEMP':
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;
                     case 'WORKSPACE_RESTORING':

@@ -9,6 +9,8 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HostListener } from '@angular/core';
 import { DialogState } from 'src/app/state/dialog.state';
+import { Language } from 'src/app/domain/language';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-header',
@@ -22,8 +24,9 @@ export class HeaderComponent {
     public robotWiredState: RobotWiredState,
     public backEndState: BackEndState,
     public blocklyState: BlocklyEditorState,
-    public dialogState: DialogState
-  ) { }
+    public dialogState: DialogState,
+    private logger: LogService
+  ) {  }
 
   public onNewProjectClicked() {
     this.appState.setSelectedRobotType(null);
@@ -83,4 +86,10 @@ export class HeaderComponent {
       return of(isVerified && sketchStatus < SketchStatus.Sending);
     }));
 
+
+  public onLanguageChanged(language: Language){
+    this.appState.setChangedLanguage(language);
+  }
 }
+
+

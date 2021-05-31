@@ -53,5 +53,8 @@
   "INFO_TEAM": "The Leaphy foundation team",
   "READ_CODE": "Read code",
   "SHOW_ON_SCREEN": "Show on screen",
-  "EDIT_CODE": "Edit code"
+  "EDIT_CODE": "Edit code",
+  "LANGUAGE": "Language",
+  "CHOOSE_A_ROBOT": "CHOOSE A ROBOT",
+  "SELECT_ROBOT_START_PROJECT": "Select a robot and start a new project"
 }

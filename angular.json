@@ -30,6 +30,11 @@
                 "glob": "**/*",
                 "input": "./node_modules/blockly/media",
                 "output": "./media"
+              },
+              {
+                "glob": "@(nl.json|en.json)",
+                "input": "./node_modules/blockly/msg/json",
+                "output": "./assets/blockly/translations"
               }
             ],
             "styles": [
