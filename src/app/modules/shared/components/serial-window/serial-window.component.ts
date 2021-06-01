@@ -1,6 +1,6 @@
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
 import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit } from '@angular/core';
-import { Console } from 'node:console';
+import { LogService } from 'src/app/services/log.service';
 import { DialogState } from 'src/app/state/dialog.state';
 import { SerialOutputComponent } from '../serial-output/serial-output.component';
 
@@ -15,8 +15,9 @@ export class SerialWindowComponent implements AfterViewInit {
     private injector: Injector,
     private componentFactoryResolver: ComponentFactoryResolver,
     private applicationRef: ApplicationRef,
-    private dialogState: DialogState
-  ) { }
+    private dialogState: DialogState,
+    private logger: LogService
+  ) {  }
 
   ngAfterViewInit(): void {
     this.openSerialMonitor();
@@ -58,6 +59,15 @@ export class SerialWindowComponent implements AfterViewInit {
       windowInstance.onbeforeunload = () => {
         this.dialogState.setIsSerialOutputWindowOpen(false);
       }
+
+      windowInstance.addEventListener('blur', (event) => {
+        //event.target.style.background = '';
+        this.logger.info('Detected serial window instance blur');
+
+        // TODO: Set IsSerialOutputFocus to false
+      });
+
+      // TODO: Subscribe to dialogState.isSerialOutputInFocus and call windowInstance.focus() when it changes to true
     }
   }
 
