@@ -113,12 +113,10 @@ function createWindow() {
 
     mainWindow.webContents.on('did-create-window', (createdWindow) => {
         childWindow = createdWindow;
-        logger.info('did-create-window fired');
         childWindow.setMenu(null);
         childWindow.setMenuBarVisibility(false);
 
         ipcMain.on('focus-serial', () => {
-            logger.info('ipc focus serial');
             childWindow.webContents.focus();
         });
     })

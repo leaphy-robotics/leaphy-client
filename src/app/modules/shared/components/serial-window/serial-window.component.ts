@@ -60,7 +60,6 @@ export class SerialWindowComponent implements AfterViewInit {
       }
 
       windowInstance.addEventListener('blur', () => {
-        this.logger.info('Detected serial window instance blur');
         this.dialogState.setIsSerialOutputFocus(false);
       });
     }
