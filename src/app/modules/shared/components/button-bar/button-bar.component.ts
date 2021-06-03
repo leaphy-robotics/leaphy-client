@@ -1,9 +1,8 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { BlocklyEditorState } from "src/app/state/blockly-editor.state";
 import { AppState } from "src/app/state/app.state";
 import { DialogState } from "src/app/state/dialog.state";
-import { InfoDialog } from "src/app/modules/core/dialogs/info/info.dialog";
 import { CodeEditorType } from "src/app/domain/code-editor.type";
 
 @Component({
@@ -28,7 +27,7 @@ export class ButtonBarComponent {
   }
 
   public onShowSerialOutputClicked() {
-    this.dialogState.setIsSerialOutputWindowOpen(true);
+    this.dialogState.setIsSerialOutputFocus(true);
   }
 }
 

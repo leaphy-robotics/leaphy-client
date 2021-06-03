@@ -17,7 +17,7 @@ export class SerialWindowComponent implements AfterViewInit {
     private applicationRef: ApplicationRef,
     private dialogState: DialogState,
     private logger: LogService
-  ) {  }
+  ) { }
 
   ngAfterViewInit(): void {
     this.openSerialMonitor();
@@ -27,7 +27,6 @@ export class SerialWindowComponent implements AfterViewInit {
     // open a blank "target" window
     // or get the reference to the existing "target" window
     const windowInstance = window.open('', "Leaphy Easybloqs", '');
-
     this.createCDKPortal(windowInstance);
   }
 
@@ -60,14 +59,10 @@ export class SerialWindowComponent implements AfterViewInit {
         this.dialogState.setIsSerialOutputWindowOpen(false);
       }
 
-      windowInstance.addEventListener('blur', (event) => {
-        //event.target.style.background = '';
+      windowInstance.addEventListener('blur', () => {
         this.logger.info('Detected serial window instance blur');
-
-        // TODO: Set IsSerialOutputFocus to false
+        this.dialogState.setIsSerialOutputFocus(false);
       });
-
-      // TODO: Subscribe to dialogState.isSerialOutputInFocus and call windowInstance.focus() when it changes to true
     }
   }
 

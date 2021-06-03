@@ -61,6 +61,14 @@ export class DialogEffects {
                 this.dialogState.setIsSerialOutputWindowOpen(true);
             });
 
+        // If the focus is set but the serial dialog is not open, open it
+        this.dialogState.isSerialOutputFocus$
+            .pipe(withLatestFrom(this.dialogState.isSerialOutputWindowOpen$))
+            .pipe(filter(([isFocus, isOpen]) => isFocus && !isOpen))
+            .subscribe(() => {
+                this.dialogState.setIsSerialOutputWindowOpen(true);
+            });
+
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
