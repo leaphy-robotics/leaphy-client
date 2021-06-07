@@ -70,6 +70,10 @@ export class HeaderComponent {
     this.dialogState.setIsInfoDialogVisible(true);
   }
 
+  public onViewLogClicked() {
+    this.backEndState.setIsViewLogClicked();
+  }
+
   public isBackEndBusy$: Observable<boolean> = combineLatest(
     [this.robotWiredState.isInstallationVerified$,
     this.appState.selectedRobotType$,

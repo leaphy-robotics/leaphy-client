@@ -267,6 +267,11 @@ export class BackendWiredEffects {
                 this.appState.showHelpPage$
                     .pipe(filter(show => !!show))
                     .subscribe(() => this.send('open-browser-page', "https://forum.leaphy.nl/"));
+
+                // When the user clicks to view the log, relay to backend to open the file in default text editor
+                this.backEndState.isViewLogClicked$
+                    .pipe(filter(isClicked => !!isClicked))
+                    .subscribe(() => this.send('open-log-file'));
             });
     }
 

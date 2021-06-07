@@ -74,6 +74,10 @@
     <mat-icon>language</mat-icon>
     <span>{{ "LANGUAGE" | translate }}</span>
   </button>
+  <button mat-menu-item (click)="onViewLogClicked()">
+    <mat-icon>article</mat-icon>
+    <span>{{ "VIEW_LOG" | translate }}</span>
+  </button>
 </mat-menu>
 
 <mat-menu #languageMenu="matMenu" class="matmenus">
