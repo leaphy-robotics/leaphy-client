@@ -18,7 +18,7 @@
   "UPLOAD": "Upload naar robot",
   "DRIVERINSTALLATIONINSTRUCTIONS_TITLE": "We zijn bijna klaar!",
   "DRIVERINSTALLATIONINSTRUCTIONS": "Je krijgt nu nog twee popups om de USB driver te installeren. Klik op 'Yes' en dan op 'Install'.",
-  "CONNECTIONINSTRUCTIONS_TITLE": "Robot gevonden niet gevonden",
+  "CONNECTIONINSTRUCTIONS_TITLE": "Robot niet gevonden",
   "CONNECTIONINSTRUCTIONS": "Het lijkt erop dat je robot niet goed is aangesloten. Controleer de aansluiting en probeer het nog een keer.",
   "PREPARING_COMPILATION_ENVIRONMENT": "Benodigdheden installeren voor {{data}}",
   "DRIVER_INSTALLATION_REQUIRED": "USB Driver installatie vereist",
