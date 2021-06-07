@@ -24,11 +24,11 @@ export class RobotWiredState {
     public serialData$ = this.incomingSerialDataSubject$.asObservable()
         .pipe(filter(incoming => !!incoming))
         .pipe(scan((all, incoming) => {
-            if(incoming.toString() === this.poisonPill){
+            if (incoming.toString() === this.poisonPill) {
                 return [];
             }
             return [...all, { time: new Date(), data: incoming }]
-        },[]));
+        }, []));
 
     public setIsInstallationVerified(isVerified: boolean): void {
         this.isInstallationVerifiedSubject$.next(isVerified);

@@ -1,4 +1,4 @@
-const { app } = require('electron');
+const { app, shell } = require('electron');
 const path = require("path");
 const nativeImage = require('electron').nativeImage;
 
@@ -71,6 +71,11 @@ ipcMain.on('detect-first-run', firstRunDetector.detectFirstRun);
 ipcMain.on('restart-app', () => {
     app.relaunch()
     app.exit()
+});
+
+const logFilePath = logger.transports.file.getFile().path;
+ipcMain.on('open-log-file', () => {
+    shell.openPath(logFilePath);
 });
 
 function loadUrl(mainWindow) {

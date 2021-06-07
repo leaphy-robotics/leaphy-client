@@ -56,5 +56,6 @@
   "EDIT_CODE": "Code bewerken",
   "LANGUAGE": "Taal",
   "CHOOSE_A_ROBOT": "KIES EEN ROBOT",
-  "SELECT_ROBOT_START_PROJECT": "Selecteer een robot en start een nieuw project"
+  "SELECT_ROBOT_START_PROJECT": "Selecteer een robot en start een nieuw project",
+  "VIEW_LOG": "Bekijk log"
 }
