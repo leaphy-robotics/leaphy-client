@@ -12,6 +12,7 @@ const { BrowserWindow } = require('electron');
 const url = require("url");
 
 let mainWindow;
+let childWindow;
 
 app.on('ready', createWindow)
 app.on('window-all-closed', function () { if (process.platform !== 'darwin') app.quit() })
@@ -110,9 +111,14 @@ function createWindow() {
         loadUrl(mainWindow);
     })
 
-    mainWindow.webContents.on('did-create-window', (childWindow) => {
+    mainWindow.webContents.on('did-create-window', (createdWindow) => {
+        childWindow = createdWindow;
         childWindow.setMenu(null);
         childWindow.setMenuBarVisibility(false);
+
+        ipcMain.on('focus-serial', () => {
+            childWindow.webContents.focus();
+        });
     })
 
     // Open the DevTools.

@@ -1,6 +1,6 @@
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
 import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ComponentRef, Injector, OnInit } from '@angular/core';
-import { Console } from 'node:console';
+import { LogService } from 'src/app/services/log.service';
 import { DialogState } from 'src/app/state/dialog.state';
 import { SerialOutputComponent } from '../serial-output/serial-output.component';
 
@@ -15,7 +15,8 @@ export class SerialWindowComponent implements AfterViewInit {
     private injector: Injector,
     private componentFactoryResolver: ComponentFactoryResolver,
     private applicationRef: ApplicationRef,
-    private dialogState: DialogState
+    private dialogState: DialogState,
+    private logger: LogService
   ) { }
 
   ngAfterViewInit(): void {
@@ -26,7 +27,6 @@ export class SerialWindowComponent implements AfterViewInit {
     // open a blank "target" window
     // or get the reference to the existing "target" window
     const windowInstance = window.open('', "Leaphy Easybloqs", '');
-
     this.createCDKPortal(windowInstance);
   }
 
@@ -58,6 +58,10 @@ export class SerialWindowComponent implements AfterViewInit {
       windowInstance.onbeforeunload = () => {
         this.dialogState.setIsSerialOutputWindowOpen(false);
       }
+
+      windowInstance.addEventListener('blur', () => {
+        this.dialogState.setIsSerialOutputFocus(false);
+      });
     }
   }
 

@@ -10,6 +10,7 @@ import { AppState } from '../state/app.state';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { LogService } from '../services/log.service';
+import { DialogState } from '../state/dialog.state';
 
 declare var Blockly: any;
 
@@ -27,6 +28,7 @@ export class BackendWiredEffects {
         private appState: AppState,
         private blocklyEditorState: BlocklyEditorState,
         private robotWiredState: RobotWiredState,
+        private dialogState: DialogState,
         private logger: LogService,
         private zone: NgZone
     ) {
@@ -47,7 +49,7 @@ export class BackendWiredEffects {
                                 type: 'input',
                                 height: 180
                             })
-                            .then(name => { 
+                            .then(name => {
                                 callback(name);
                             })
                     }
@@ -58,6 +60,14 @@ export class BackendWiredEffects {
 
                 // If that worked, set the backend Connection status
                 this.backEndState.setconnectionStatus(ConnectionStatus.ConnectedToBackend);
+
+                // If the focus is set on an open window, relay to backend
+                this.dialogState.isSerialOutputFocus$
+                    .pipe(withLatestFrom(this.dialogState.isSerialOutputWindowOpen$))
+                    .pipe(filter(([isFocus, isOpen]) => isFocus && isOpen))
+                    .subscribe(() => {
+                        this.send('focus-serial');
+                    });
 
                 // Relay messages from Electron to the Backend State
                 this.on('backend-message', (event: any, message: BackEndMessage) => {
@@ -82,7 +92,7 @@ export class BackendWiredEffects {
                 // When a reload is requested and we are done saving the temp workspace, relay to Electron backend
                 this.blocklyEditorState.workspaceStatus$
                     .pipe(filter(status => status === WorkspaceStatus.Clean), withLatestFrom(this.appState.isReloadRequested$))
-                    .pipe(filter(([,isRequested])=> !!isRequested))
+                    .pipe(filter(([, isRequested]) => !!isRequested))
                     .subscribe(() => {
                         this.send('restart-app');
                     });
