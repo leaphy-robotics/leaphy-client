@@ -57,5 +57,6 @@
   "LANGUAGE": "Taal",
   "CHOOSE_A_ROBOT": "KIES EEN ROBOT",
   "SELECT_ROBOT_START_PROJECT": "Selecteer een robot en start een nieuw project",
-  "VIEW_LOG": "Bekijk log"
+  "VIEW_LOG": "Bekijk log",
+  "SOUND": "Geluid"
 }

@@ -74,6 +74,10 @@ export class HeaderComponent {
     this.backEndState.setIsViewLogClicked();
   }
 
+  public onToggleSoundClicked() {
+    this.blocklyState.setIsSoundToggled();
+  }
+
   public isBackEndBusy$: Observable<boolean> = combineLatest(
     [this.robotWiredState.isInstallationVerified$,
     this.appState.selectedRobotType$,

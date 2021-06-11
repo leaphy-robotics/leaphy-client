@@ -78,6 +78,11 @@
     <mat-icon>article</mat-icon>
     <span>{{ "VIEW_LOG" | translate }}</span>
   </button>
+  <button mat-menu-item (click)="onToggleSoundClicked()">
+    <mat-icon *ngIf="(blocklyState.isSoundOn$ | async)">volume_mute</mat-icon>
+    <mat-icon *ngIf="!(blocklyState.isSoundOn$ | async)">volume_off</mat-icon>
+    <span>{{ "SOUND" | translate }}</span>
+  </button>
 </mat-menu>
 
 <mat-menu #languageMenu="matMenu" class="matmenus">

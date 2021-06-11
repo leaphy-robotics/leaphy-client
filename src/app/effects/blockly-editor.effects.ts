@@ -208,6 +208,28 @@ export class BlocklyEditorEffects {
                 this.appState.setCodeEditor(CodeEditorType.None)
             });
 
+        // Toggle the isSoundOn state
+        this.blocklyState.isSoundToggled$
+            .pipe(filter(isToggled => !!isToggled), withLatestFrom(this.blocklyState.isSoundOn$))
+            .subscribe(([,isSoundOn]) => {
+                this.blocklyState.setIsSoundOn(!isSoundOn);
+            });
+
+        // When the sound is turned on off, update the Blockly function
+        this.blocklyState.isSoundOn$
+            .pipe(withLatestFrom(this.blocklyState.playSoundFunction$))
+            .subscribe(([isSoundOn, basePlay]) => {
+                if(!basePlay){
+                    basePlay = Blockly.WorkspaceAudio.prototype.play;
+                    this.blocklyState.setPlaySoundFunction(basePlay);
+                }
+                Blockly.WorkspaceAudio.prototype.play = function(name, opt_volume) {
+                  if (isSoundOn) {
+                    basePlay.call(this, name, opt_volume);
+                  }
+                };
+            });
+
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
