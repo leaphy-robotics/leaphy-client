@@ -1,8 +1,9 @@
 import { Injectable, ElementRef } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { SketchStatus } from "../domain/sketch.status";
 import { scan, map, filter } from "rxjs/operators";
 import { WorkspaceStatus } from "../domain/workspace.status";
+import { LocalStorageService } from "../services/localstorage.service";
 import "prismjs";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-c";
@@ -15,6 +16,13 @@ declare var Prism: any;
   providedIn: "root",
 })
 export class BlocklyEditorState {
+
+  constructor(private localStorage: LocalStorageService){
+    const isSoundOn = this.localStorage.fetch<boolean>("isSoundOn");
+    this.isSoundOnSubject$ = new BehaviorSubject<boolean>(isSoundOn);
+    this.isSoundOn$ = this.isSoundOnSubject$.asObservable();
+  }
+
   private codeSubject$ = new BehaviorSubject("");
   public code$ = this.codeSubject$.asObservable();
 
@@ -87,6 +95,15 @@ export class BlocklyEditorState {
   private undoSubject$ = new BehaviorSubject<boolean>(false);
   public undo$ = this.undoSubject$.asObservable();
 
+  private isSoundToggledSubject$ = new BehaviorSubject<boolean>(false);
+  public isSoundToggled$ = this.isSoundToggledSubject$.asObservable();
+
+  private isSoundOnSubject$: BehaviorSubject<boolean>;
+  public isSoundOn$: Observable<boolean>;
+
+  private playSoundFunctionSubject$ = new BehaviorSubject<(name, opt_volume) => void>(null);
+  public playSoundFunction$ = this.playSoundFunctionSubject$.asObservable();
+
   public setCode(code: string): void {
     this.codeSubject$.next(code);
   }
@@ -129,5 +146,18 @@ export class BlocklyEditorState {
 
   public setUndo(redo: boolean) {
     this.undoSubject$.next(redo);
+  }
+
+  public setIsSoundToggled() {
+    this.isSoundToggledSubject$.next(true);
+  }
+
+  public setIsSoundOn(isSoundOn: boolean) {
+    this.localStorage.store("isSoundOn", isSoundOn);
+    this.isSoundOnSubject$.next(isSoundOn);
+  }
+
+  public setPlaySoundFunction(fn: (name, opt_volume) => void) {
+    this.playSoundFunctionSubject$.next(fn);
   }
 }
