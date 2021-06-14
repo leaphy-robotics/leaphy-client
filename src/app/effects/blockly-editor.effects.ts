@@ -30,9 +30,13 @@ export class BlocklyEditorEffects {
         // When the current language is set: Find and set the blockly translations
         this.appState.currentLanguage$
             .pipe(switchMap(language => this.http.get(`./assets/blockly/translations/${language.code}.json`)))
-            .subscribe(translations => {
-                Object.keys(translations).forEach(function (k) {
-                    Blockly.Msg[k] = translations[k];
+            .pipe(withLatestFrom( this.http.get(`./assets/blockly/translations/synonyms.json`)))
+            .subscribe(([translations, synonyms]) => {
+                Object.keys(translations).forEach(function (tk) {
+                    Blockly.Msg[tk] = translations[tk];
+                });
+                Object.keys(synonyms).forEach(function (sk) {
+                    Blockly.Msg[sk] = translations[synonyms[sk]];
                 });
             });
 
