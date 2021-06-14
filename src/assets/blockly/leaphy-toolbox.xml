@@ -164,7 +164,7 @@
 				</shadow>
 			</value>
 		</block>
-		<block type="leaphy_original_set_motor">
+		<block type="leaphy_click_set_motor">
 			<value name="MOTOR_SPEED">
 				<shadow type="math_number">
 					<field name="NUM">100</field>
@@ -195,6 +195,22 @@
 		</block>
 		<sep gap="8"></sep>
 		<block type="leaphy_original_analog_read">
+		</block>
+		<block type="leaphy_original_buzz">
+			<value name="FREQUENCY">
+				<shadow type="math_number">
+					<field name="NUM">
+						440
+					</field>
+				</shadow>
+			</value>
+			<value name="DURATION">
+				<shadow type="math_number">
+					<field name="NUM">
+						100
+					</field>
+				</shadow>
+			</value>
 		</block>
 	</category>
 	<category id="l_uno" toolboxitemid="l_uno" name="%{BKY_LEAPHY_UNO_CATEGORY}" categorystyle="leaphy_category">
