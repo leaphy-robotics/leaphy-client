@@ -13,7 +13,13 @@
 }
 
 #sidenav {
-  min-width: 20%;
+  height: 100%;
+  width: 20%;
+}
+
+app-code-view {
+  display: block;
+  height: 100%;
 }
 
 app-button-bar {
