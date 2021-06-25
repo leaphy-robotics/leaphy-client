@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { filter, scan } from 'rxjs/operators';
+import { ChartDataSets } from 'chart.js';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, map, scan } from 'rxjs/operators';
 import { SerialDevice } from '../domain/serial.device';
 
 @Injectable({
@@ -21,14 +22,39 @@ export class RobotWiredState {
     public verifiedSerialDevice$ = this.verifiedSerialDeviceSubject$.asObservable();
 
     private incomingSerialDataSubject$ = new BehaviorSubject<any>(null);
-    public serialData$ = this.incomingSerialDataSubject$.asObservable()
+    public serialData$: Observable<{ time: Date, data: string }[]> = this.incomingSerialDataSubject$.asObservable()
         .pipe(filter(incoming => !!incoming))
         .pipe(scan((all, incoming) => {
             if (incoming.toString() === this.poisonPill) {
                 return [];
             }
-            return [...all, { time: new Date(), data: incoming }]
+            return [...all, { time: new Date(), data: String(incoming) }]
         }, []));
+
+    public serialChartDataSets$: Observable<ChartDataSets[]> = this.serialData$
+        .pipe(filter(data => !!data))
+        .pipe(map(data => {
+            const dataSets: ChartDataSets[] = data.reduce((sets, item) => {
+                // split the item if possible
+                var [label, valueStr] = item.data.split(' = ');
+                var value = Number(valueStr);
+
+                // If it can't be parsed, move to next item
+                if(!label || value === NaN) return sets;
+
+                const dataPoint = { x: item.time, y: value}
+                // Find the set with the label
+                const labelSet = sets.find(s => s.label === label);
+
+                // If it's already there, push a data point into it
+                if(labelSet) labelSet.data.push(dataPoint)
+                // Else create the new dataset
+                else sets.push({label, data: [dataPoint]});
+
+                return sets;
+            }, [])
+            return dataSets;
+        }));
 
     public setIsInstallationVerified(isVerified: boolean): void {
         this.isInstallationVerifiedSubject$.next(isVerified);

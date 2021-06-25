@@ -7,10 +7,20 @@
             </button>
         </div>
     </div>
-    <div id="serial-output" #content>
+    <!-- <div id="serial-output" #content>
         <div class="output-item" *ngFor="let item of (robotWiredState.serialData$ | async)" #messages>
             <div class="output-time">{{item.time | date:'HH:mm:ss:SSS'}}</div>
             <div class="output-data">{{item.data}}</div>
         </div>
-    </div>
+    </div> -->
+    <div style="display: block;">
+        <canvas baseChart width="400" height="400"
+          [datasets]="robotWiredState.serialChartDataSets$ | async"
+          [options]="lineChartOptions"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins">
+        </canvas>
+      </div>
 </div>

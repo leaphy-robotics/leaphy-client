@@ -120,6 +120,8 @@ function createWindow() {
         childWindow = createdWindow;
         childWindow.setMenu(null);
         childWindow.setMenuBarVisibility(false);
+        
+        //childWindow.webContents.openDevTools();
 
         ipcMain.on('focus-serial', () => {
             childWindow.webContents.focus();

@@ -27,7 +27,12 @@ export class SerialWindowComponent implements AfterViewInit {
     // open a blank "target" window
     // or get the reference to the existing "target" window
     const windowInstance = window.open('', "Leaphy Easybloqs", '');
-    this.createCDKPortal(windowInstance);
+
+    // This timeout is needed to make sure the window is ready and visible before loading
+    // in the component. Otherwise the view of the component might not load properly
+    setTimeout(() => {
+      this.createCDKPortal(windowInstance);
+    }, 1000);
   }
 
   styleSheetElement: any = null;
