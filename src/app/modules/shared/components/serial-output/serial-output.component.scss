@@ -13,7 +13,7 @@
   width: 100%;
 }
 
-#serial-output {
+.serial-output {
   width: 100%;
   height: calc(100% + 29px);
   margin: 0;
@@ -26,6 +26,10 @@
   color: var(--leaphy-color-light);
   font-size: 12px;
   font-weight: normal;
+}
+
+.mode-selected {
+  color: var(--leaphy-color-secundary);
 }
 
 .icon-button {

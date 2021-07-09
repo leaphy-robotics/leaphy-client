@@ -20,11 +20,14 @@ export class DialogState {
     .pipe(distinctUntilChanged());
 
   private isSerialOutputFocusSubject$ = new BehaviorSubject(false);
-    public isSerialOutputFocus$ = this.isSerialOutputFocusSubject$.asObservable();
-    
+  public isSerialOutputFocus$ = this.isSerialOutputFocusSubject$.asObservable();
+
+  private isSerialGraphOutputSelectedSubject$ = new BehaviorSubject(false);
+  public isSerialGraphOutputSelected$ = this.isSerialGraphOutputSelectedSubject$.asObservable();
+
   private isInfoDialogVisibleSubject$ = new BehaviorSubject(false);
-    public isInfoDialogVisible$ = this.isInfoDialogVisibleSubject$.asObservable();
-  
+  public isInfoDialogVisible$ = this.isInfoDialogVisibleSubject$.asObservable();
+
   public toggleIsConnectDialogVisible() {
     this.isConnectDialogVisibleSubject$.next(true);
   }
@@ -39,6 +42,10 @@ export class DialogState {
 
   public setIsSerialOutputFocus(isFocus: boolean) {
     this.isSerialOutputFocusSubject$.next(isFocus);
+  }
+
+  public setIsSerialGraphOutputSelected(isSelected: boolean) {
+    this.isSerialGraphOutputSelectedSubject$.next(isSelected);
   }
 
   public setIsInfoDialogVisible(isVisible: boolean) {

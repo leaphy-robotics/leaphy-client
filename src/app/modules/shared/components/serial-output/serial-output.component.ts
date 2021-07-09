@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChartOptions } from 'chart.js';
+import { Color } from 'ng2-charts';
 import { DialogState } from 'src/app/state/dialog.state';
 import { RobotWiredState } from 'src/app/state/robot.wired.state';
 
@@ -29,7 +31,44 @@ export class SerialOutputComponent implements AfterViewInit {
     } catch (err) { }
   }
 
+  public onViewTextOutputClicked() {
+    this.dialogState.setIsSerialGraphOutputSelected(false);
+  }
+
+  public onViewGraphOutputClicked() {
+    this.dialogState.setIsSerialGraphOutputSelected(true);
+  }
+
   public onClearSerialDataClicked() {
     this.robotWiredState.clearSerialData();
   }
+
+  public lineChartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 0
+    },
+    scales: {
+      xAxes: [{
+        type: 'time',
+        time: {
+          unit: 'second',
+          displayFormats: {
+            millisecond: 'HH:mm:ss:SSS'
+          }
+        },
+        position: 'bottom'
+      }]
+    }
+  };
+  public lineChartColors: Color[] = [
+    {
+      borderColor: "#039BE5",
+      pointBackgroundColor: "#039BE5"
+    }
+  ];
+  public lineChartLegend = true;
+  public lineChartType = 'line';
+  public lineChartPlugins = [];
 }
