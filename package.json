@@ -46,7 +46,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.5.1",
     "ng2-charts": "2.4.2",
-    "prismjs": "^1.22.0",
+    "prismjs": "^1.24.0",
     "rxjs": "~6.6.3",
     "serialport": "^9.0.6",
     "tslib": "^2.0.0",
