@@ -2,25 +2,30 @@
     <div id="header">
         {{ "SERIAL_OUTPUT" | translate}}
         <div id="button-container">
+            <button mat-stroked-button class="icon-button" [class.mode-selected]="!(dialogState.isSerialGraphOutputSelected$ | async)"
+                (click)="onViewTextOutputClicked()">
+                <mat-icon>view_headline</mat-icon>
+            </button>
+            <button mat-stroked-button class="icon-button" [disabled]="!(robotWiredState.serialChartDataSets$ | async).length" [class.mode-selected]="dialogState.isSerialGraphOutputSelected$ | async"
+                (click)="onViewGraphOutputClicked()">
+                <mat-icon>timeline</mat-icon>
+            </button>
             <button mat-stroked-button class="icon-button" (click)="onClearSerialDataClicked()">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
     </div>
-    <!-- <div id="serial-output" #content>
+
+    <div class="serial-output" style="display: block;" [hidden]="!(dialogState.isSerialGraphOutputSelected$ | async)">
+        <canvas baseChart [datasets]="robotWiredState.serialChartDataSets$ | async" [options]="lineChartOptions"
+            [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
+            [plugins]="lineChartPlugins">
+        </canvas>
+    </div>
+    <div class="serial-output" [hidden]="dialogState.isSerialGraphOutputSelected$ | async">
         <div class="output-item" *ngFor="let item of (robotWiredState.serialData$ | async)" #messages>
             <div class="output-time">{{item.time | date:'HH:mm:ss:SSS'}}</div>
             <div class="output-data">{{item.data}}</div>
         </div>
-    </div> -->
-    <div style="display: block;">
-        <canvas baseChart width="400" height="400"
-          [datasets]="robotWiredState.serialChartDataSets$ | async"
-          [options]="lineChartOptions"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          [plugins]="lineChartPlugins">
-        </canvas>
-      </div>
+    </div>
 </div>

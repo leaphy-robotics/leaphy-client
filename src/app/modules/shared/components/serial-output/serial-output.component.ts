@@ -31,11 +31,21 @@ export class SerialOutputComponent implements AfterViewInit {
     } catch (err) { }
   }
 
+  public onViewTextOutputClicked() {
+    this.dialogState.setIsSerialGraphOutputSelected(false);
+  }
+
+  public onViewGraphOutputClicked() {
+    this.dialogState.setIsSerialGraphOutputSelected(true);
+  }
+
   public onClearSerialDataClicked() {
     this.robotWiredState.clearSerialData();
   }
+
   public lineChartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     animation: {
       duration: 0
     },

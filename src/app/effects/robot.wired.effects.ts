@@ -39,7 +39,8 @@ export class RobotWiredEffects {
                         this.robotWiredState.setVerifiedSerialDevice(message.payload as SerialDevice);
                         break;
                     case 'SERIAL_DATA':
-                        this.robotWiredState.setIncomingSerialData(message.payload);
+                        const serialData = { time: new Date(), data: String(message.payload) }
+                        this.robotWiredState.setIncomingSerialData(serialData);
                         break;
                     default:
                         break;

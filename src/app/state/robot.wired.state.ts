@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChartDataSets } from 'chart.js';
+import { ReplaySubject } from 'rxjs';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, scan } from 'rxjs/operators';
 import { SerialDevice } from '../domain/serial.device';
@@ -21,35 +22,34 @@ export class RobotWiredState {
     private verifiedSerialDeviceSubject$ = new BehaviorSubject<SerialDevice>(null);
     public verifiedSerialDevice$ = this.verifiedSerialDeviceSubject$.asObservable();
 
-    private incomingSerialDataSubject$ = new BehaviorSubject<any>(null);
-    public serialData$: Observable<{ time: Date, data: string }[]> = this.incomingSerialDataSubject$.asObservable()
-        .pipe(filter(incoming => !!incoming))
+    private incomingSerialDataSubject$ = new ReplaySubject<{ time: Date, data: string }>();
+    public serialData$: Observable<{ time: Date, data: string }[]> = this.incomingSerialDataSubject$
+        .pipe(filter(output => !!output))
         .pipe(scan((all, incoming) => {
-            if (incoming.toString() === this.poisonPill) {
+            if (incoming.data === this.poisonPill) {
                 return [];
             }
-            return [...all, { time: new Date(), data: String(incoming) }]
+            return all.concat(incoming);
         }, []));
 
     public serialChartDataSets$: Observable<ChartDataSets[]> = this.serialData$
-        .pipe(filter(data => !!data))
         .pipe(map(data => {
             const dataSets: ChartDataSets[] = data.reduce((sets, item) => {
-                // split the item if possible
                 var [label, valueStr] = item.data.split(' = ');
-                var value = Number(valueStr);
 
                 // If it can't be parsed, move to next item
-                if(!label || value === NaN) return sets;
+                if (!label || !valueStr) return sets;
 
-                const dataPoint = { x: item.time, y: value}
+                var value = Number(valueStr);
+
+                const dataPoint = { x: item.time, y: value }
                 // Find the set with the label
                 const labelSet = sets.find(s => s.label === label);
 
                 // If it's already there, push a data point into it
-                if(labelSet) labelSet.data.push(dataPoint)
+                if (labelSet) labelSet.data.push(dataPoint)
                 // Else create the new dataset
-                else sets.push({label, data: [dataPoint]});
+                else sets.push({ label, data: [dataPoint] });
 
                 return sets;
             }, [])
@@ -72,12 +72,12 @@ export class RobotWiredState {
         this.isRobotDriverInstallingSubject$.next(isInstalling);
     }
 
-    public setIncomingSerialData(data: any): void {
+    public setIncomingSerialData(data: { time: Date, data: string }): void {
         this.incomingSerialDataSubject$.next(data);
     }
 
     public clearSerialData(): void {
-        this.setIncomingSerialData(this.poisonPill);
+        this.setIncomingSerialData({ time: new Date(), data: this.poisonPill });
     }
 
     private readonly poisonPill: string = "caaa61a6-a666-4c0b-83b4-ebc75b08fecb"
