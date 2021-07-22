@@ -5,6 +5,8 @@ class Compiler {
         this.logger = logger;
         this.sketchFolder = this.getSketchFolder(app, path);
         this.sketchPath = path.join(this.sketchFolder, 'sketch.ino');
+        this.buildFolder = path.join(this.sketchFolder, 'build');
+        this.binaryPath = path.join(this.buildFolder, 'sketch.ino');
     }
     getSketchFolder = (app, path) => {
         const userDataPath = app.getPath('userData');
@@ -20,7 +22,7 @@ class Compiler {
     compile = async (event, payload) => {
         this.logger.verbose('Compile command received');
         this.writeCodeToCompileLocation(payload.code);
-        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath, "--build-path", this.sketchFolder];
+        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath, "--build-path", this.buildFolder];
         const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', compilingMessage);
         try {
@@ -31,8 +33,8 @@ class Compiler {
             event.sender.send('backend-message', compilationFailedMessage);
             return;
         }
-    
-        const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.sketchPath, displayTimeout: 1000 };
+
+        const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.binaryPath, displayTimeout: 1000 };
         event.sender.send('backend-message', compilationCompleteMessage);
     }
 }

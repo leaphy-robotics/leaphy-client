@@ -14,6 +14,14 @@ class PrerequisiteManager {
         const checkingPrerequisitesMessage = { event: "PREPARING_COMPILATION_ENVIRONMENT", message: "PREPARING_COMPILATION_ENVIRONMENT", payload: payload.name, displayTimeout: 0 };
         event.sender.send('backend-message', checkingPrerequisitesMessage);
 
+        // start with a clean config
+        const initConfigParams = ["config", "init", "--overwrite"];
+        this.logger.info(await this.arduinoCli.runAsync(initConfigParams));
+        if (payload.additionalBoardUrls.length > 0) {
+            const setAdditionalBoardUrlsParams = ["config", "add", "board_manager.additional_urls"].concat(payload.additionalBoardUrls);
+            this.logger.info(await this.arduinoCli.runAsync(setAdditionalBoardUrlsParams));
+
+        }
         const updateCoreIndexParams = ["core", "update-index"];
         this.logger.info(await this.arduinoCli.runAsync(updateCoreIndexParams));
         const updateLibIndexParams = ["lib", "update-index"];
@@ -39,7 +47,7 @@ class PrerequisiteManager {
             this.firstRun.clear();
             return;
         }
-        
+
         const driverInstallationSuccessMessage = { event: "DRIVER_INSTALLATION_COMPLETE", message: "DRIVER_INSTALLATION_COMPLETE", displayTimeout: 3000 };
         event.sender.send('backend-message', driverInstallationSuccessMessage);
     }
@@ -107,7 +115,7 @@ class PrerequisiteManager {
         if (platform == "win32") {
             platformFolder = "win32";
             board_driver_installer = "Driver_for_Windows.exe";
-        } 
+        }
         const boardDriverInstallerPath = path.join(app.getAppPath(), 'lib', platformFolder, 'board_driver_installer', board_driver_installer);
         return boardDriverInstallerPath;
     }
