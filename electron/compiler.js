@@ -22,7 +22,9 @@ class Compiler {
     compile = async (event, payload) => {
         this.logger.verbose('Compile command received');
         this.writeCodeToCompileLocation(payload.code);
-        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath, "--build-path", this.buildFolder];
+        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath, "--build-path", this.buildFolder,
+            "--build-property", "build.defines=-include analogWrite.h"
+        ];
         const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', compilingMessage);
         try {
