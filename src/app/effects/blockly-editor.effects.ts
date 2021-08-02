@@ -78,6 +78,10 @@ export class BlocklyEditorEffects {
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 config.toolbox = toolboxXmlString;
                 const workspace = Blockly.inject(element, config);
+
+                console.log(`BB1 changeBoard to ${robotType.profile}`)
+                Blockly.Arduino.Boards.changeBoard(workspace, robotType.profile)
+
                 const toolbox = workspace.getToolbox();
                 toolbox.getFlyout().autoClose = false;
                 const xml = Blockly.Xml.textToDom(startWorkspaceXml);
@@ -98,6 +102,9 @@ export class BlocklyEditorEffects {
                 this.getXmlContent('./assets/blockly/leaphy-start.xml'),
             ))
             .subscribe(([[robotType, workspace], baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
+                console.log(`BB2 changeBoard to ${robotType.profile}`)
+                Blockly.Arduino.Boards.changeBoard(workspace, robotType.profile)
+
                 const parser = new DOMParser();
                 const toolboxXmlDoc = parser.parseFromString(baseToolboxXml, 'text/xml');
                 const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
@@ -122,7 +129,8 @@ export class BlocklyEditorEffects {
         // Subscribe to changes when the workspace is set
         this.blocklyState.workspace$
             .pipe(filter(workspace => !!workspace))
-            .subscribe(workspace => {
+            .pipe(withLatestFrom(this.appState.selectedRobotType$))
+            .subscribe(([workspace, robotType]) => {
                 workspace.clearUndo();
                 workspace.addChangeListener(Blockly.Events.disableOrphans);
                 workspace.addChangeListener(async () => {
@@ -130,6 +138,8 @@ export class BlocklyEditorEffects {
                     const xml = Blockly.Xml.workspaceToDom(workspace);
                     const prettyXml = Blockly.Xml.domToPrettyText(xml);
                     this.blocklyState.setWorkspaceXml(prettyXml);
+                    console.log(`BB3 changeBoard to ${robotType.profile}`)
+                    Blockly.Arduino.Boards.changeBoard(workspace, "bla")
                 });
             });
 
