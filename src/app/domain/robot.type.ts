@@ -4,6 +4,7 @@ export class RobotType {
         public name: string,
         public svgname: string,
         public board: string,
+        public profile: string,
         public fqbn: string,
         public ext: string,
         public core: string,
