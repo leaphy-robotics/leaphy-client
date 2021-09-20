@@ -272,6 +272,14 @@ export class BackendWiredEffects {
                 this.backEndState.isViewLogClicked$
                     .pipe(filter(isClicked => !!isClicked))
                     .subscribe(() => this.send('open-log-file'));
+
+                // If driver install is requested, set it right back to false
+                this.backEndState.isDriverInstalling$
+                    .pipe(filter(install => !!install))
+                    .subscribe(() => {
+                        this.backEndState.setIsDriverInstalling(false);
+                    });
+
             });
     }
 

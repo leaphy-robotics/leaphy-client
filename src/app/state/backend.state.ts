@@ -20,6 +20,9 @@ export class BackEndState {
   private isViewLogClickedSubject$ = new BehaviorSubject<boolean>(false);
   public isViewLogClicked$ = this.isViewLogClickedSubject$.asObservable();
 
+  private isDriverInstallingSubject$ = new BehaviorSubject<boolean>(false);
+  public isDriverInstalling$ = this.isDriverInstallingSubject$.asObservable();
+
   public setconnectionStatus(status: ConnectionStatus) {
     this.connectionStatusSubject$.next(status);
   }
@@ -34,5 +37,9 @@ export class BackEndState {
 
   public setIsViewLogClicked() {
     this.isViewLogClickedSubject$.next(true);
+  }
+
+  public setIsDriverInstalling(install: boolean) {
+    this.isDriverInstallingSubject$.next(install);
   }
 }

@@ -78,6 +78,10 @@ export class HeaderComponent {
     this.blocklyState.setIsSoundToggled();
   }
 
+  public onInstallDriverClicked() {
+    this.backEndState.setIsDriverInstalling(true);
+  }
+
   public isBackEndBusy$: Observable<boolean> = combineLatest(
     [this.robotWiredState.isInstallationVerified$,
     this.appState.selectedRobotType$,

@@ -69,18 +69,27 @@ export class DialogEffects {
                 this.dialogState.setIsSerialOutputWindowOpen(true);
             });
 
+        const showInstallDriverDialog = () => {
+            const installDriverDialogComponent = InstallDriverDialog;
+            const installDriverDialogRef = this.dialog.open(installDriverDialogComponent, {
+                width: '450px',
+                disableClose: true,
+            });
+            this.dialogState.setConnectDialog(installDriverDialogRef);
+        }
+
+        // If driver install is requested, show the dialog
+        this.backEndState.isDriverInstalling$
+            .pipe(filter(install => !!install))
+            .subscribe(showInstallDriverDialog);
+
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
             .subscribe(message => {
                 switch (message.event) {
                     case 'DRIVER_INSTALLATION_REQUIRED':
-                        const installDriverDialogComponent = InstallDriverDialog;
-                        const installDriverDialogRef = this.dialog.open(installDriverDialogComponent, {
-                            width: '450px',
-                            disableClose: true,
-                        });
-                        this.dialogState.setConnectDialog(installDriverDialogRef);
+                        showInstallDriverDialog();
                         break;
                     case 'FIRST_RUN':
                         const creditsDialogComponent = CreditsDialog;
@@ -95,6 +104,10 @@ export class DialogEffects {
                         break;
                 }
             });
+    }
+
+    private showInstallDriverDialog() {
+
     }
 
 }

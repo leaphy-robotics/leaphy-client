@@ -83,6 +83,10 @@
     <mat-icon>article</mat-icon>
     <span>{{ "VIEW_LOG" | translate }}</span>
   </button>
+  <button mat-menu-item (click)="onInstallDriverClicked()">
+    <mat-icon>settings</mat-icon>
+    <span>{{ "INSTALL_DRIVER" | translate }}</span>
+  </button>
 </mat-menu>
 
 <mat-menu #languageMenu="matMenu" class="matmenus">
