@@ -58,5 +58,6 @@
   "CHOOSE_A_ROBOT": "CHOOSE A ROBOT",
   "SELECT_ROBOT_START_PROJECT": "Select a robot and start a new project",
   "VIEW_LOG": "View log",
-  "SOUND": "Sound"
+  "SOUND": "Sound",
+  "INSTALL_DRIVER": "Install driver"
 }
