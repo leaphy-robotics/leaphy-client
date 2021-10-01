@@ -23,7 +23,7 @@ export class ButtonBarComponent {
   }
 
   public onCodeEditorClicked() {
-        this.appState.setCodeEditor(CodeEditorType.Advanced);
+        this.appState.setIsCodeEditorToggled(true);
   }
 
   public onShowSerialOutputClicked() {
