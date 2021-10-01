@@ -34,6 +34,7 @@ const executable = new Executable(asyncExecFile, logger);
 
 const ArduinoCli = require('./electron/arduinoCli.js');
 const arduinoCli = new ArduinoCli(executable, os, path, app);
+arduinoCli.createArduinoCliConfig();
 
 const firstRun = require('electron-first-run');
 
