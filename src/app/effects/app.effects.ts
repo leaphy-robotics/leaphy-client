@@ -31,8 +31,8 @@ export class AppEffects {
         this.appState.changedLanguage$
             .pipe(filter(changedLanguage => !!changedLanguage))
             .pipe(withLatestFrom(this.appState.currentLanguage$, this.appState.selectedRobotType$))
-            .pipe(filter(([changedLanguage,currentLanguage, ]) => changedLanguage.code !== currentLanguage.code))
-            .subscribe(([changedLanguage, ,robotType]) => {
+            .pipe(filter(([changedLanguage, currentLanguage,]) => changedLanguage.code !== currentLanguage.code))
+            .subscribe(([changedLanguage, , robotType]) => {
                 this.appState.setCurrentLanguage(changedLanguage);
                 const reloadConfig = new ReloadConfig(robotType);
                 this.appState.setReloadConfig(reloadConfig);
@@ -51,6 +51,18 @@ export class AppEffects {
                 setTimeout(() => this.appState.setSelectedRobotType(reloadConfig.robotType), 500);
             });
 
+
+        // Toggle the CodeEditor state
+        this.appState.isCodeEditorToggled$
+            .pipe(filter(isToggled => !!isToggled), withLatestFrom(this.appState.codeEditorType$))
+            .subscribe(([, codeEditorType]) => {
+                if(codeEditorType == CodeEditorType.Beginner){
+                    this.appState.setCodeEditor(CodeEditorType.Advanced);
+                } else {
+                    this.appState.setCodeEditor(CodeEditorType.Beginner);
+                }
+            });
+
         // When the selected code editor changes, route to the correct screen
         this.appState.codeEditorType$
             .subscribe(codeEditor => {
@@ -67,17 +79,6 @@ export class AppEffects {
                 }
             });
 
-        // When Advanced CodeEditor is active, but the button is clicked again, toggle the code view
-        this.appState.codeEditorType$
-            .pipe(
-                pairwise(),
-                filter(([previous, current]) => current === CodeEditorType.Advanced && (previous === current)),
-                withLatestFrom(this.blocklyState.isSideNavOpen$),
-                map(([, isOpen]) => isOpen)
-            )
-            .subscribe(() => {
-                this.appState.setCodeEditor(CodeEditorType.None)
-            });
 
         // Enable to debugging to log all backend messages
         this.backEndState.backEndMessages$

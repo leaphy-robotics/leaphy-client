@@ -78,6 +78,9 @@ export class AppState {
     private showHelpPageSubject$ = new BehaviorSubject<boolean>(false);
     public showHelpPage$ = this.showHelpPageSubject$.asObservable();
 
+    private isCodeEditorToggledSubject$ = new BehaviorSubject<boolean>(false);
+    public isCodeEditorToggled$ = this.isCodeEditorToggledSubject$.asObservable();
+
     private codeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.Beginner);
     public codeEditorType$ = this.codeEditorTypeSubject$.asObservable();
 
@@ -105,6 +108,10 @@ export class AppState {
 
     public setShowHelpPage(show: boolean) {
         this.showHelpPageSubject$.next(show);
+    }
+
+    public setIsCodeEditorToggled(toggled: boolean) {
+        this.isCodeEditorToggledSubject$.next(toggled);
     }
 
     public setCodeEditor(codeEditor: CodeEditorType) {
