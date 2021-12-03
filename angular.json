@@ -28,13 +28,8 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "./node_modules/blockly/media",
+                "input": "./node_modules/leaphy-blockly/media",
                 "output": "./media"
-              },
-              {
-                "glob": "@(nl.json|en.json|synonyms.json)",
-                "input": "./node_modules/blockly/msg/json",
-                "output": "./assets/blockly/translations"
               }
             ],
             "styles": [
@@ -43,10 +38,9 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "./node_modules/blockly/blockly_compressed.js",
-              "./node_modules/blockly/blocks_compressed.js",
-              "./node_modules/blockly/arduino_compressed.js",
-              "./node_modules/blockly/msg/js/nl.js",
+              "./node_modules/leaphy-blockly/blockly_compressed.js",
+              "./node_modules/leaphy-blockly/blocks_compressed.js",
+              "./node_modules/leaphy-blockly/arduino_compressed.js",
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/prismjs/prism.js",

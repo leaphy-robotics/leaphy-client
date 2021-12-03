@@ -29,14 +29,10 @@ export class BlocklyEditorEffects {
     ) {
         // When the current language is set: Find and set the blockly translations
         this.appState.currentLanguage$
-            .pipe(switchMap(language => this.http.get(`./assets/blockly/translations/${language.code}.json`)))
-            .pipe(withLatestFrom( this.http.get(`./assets/blockly/translations/synonyms.json`)))
-            .subscribe(([translations, synonyms]) => {
-                Object.keys(translations).forEach(function (tk) {
+            .subscribe(async language => {
+                const translations = await import(`node_modules/leaphy-blockly/msg/${language.code}.js`);
+                Object.keys(translations.default).forEach(function (tk) {
                     Blockly.Msg[tk] = translations[tk];
-                });
-                Object.keys(synonyms).forEach(function (sk) {
-                    Blockly.Msg[sk] = translations[synonyms[sk]];
                 });
             });
 
@@ -215,7 +211,7 @@ export class BlocklyEditorEffects {
         // Toggle the isSoundOn state
         this.blocklyState.isSoundToggled$
             .pipe(filter(isToggled => !!isToggled), withLatestFrom(this.blocklyState.isSoundOn$))
-            .subscribe(([,isSoundOn]) => {
+            .subscribe(([, isSoundOn]) => {
                 this.blocklyState.setIsSoundOn(!isSoundOn);
             });
 
@@ -223,14 +219,14 @@ export class BlocklyEditorEffects {
         this.blocklyState.isSoundOn$
             .pipe(withLatestFrom(this.blocklyState.playSoundFunction$))
             .subscribe(([isSoundOn, basePlay]) => {
-                if(!basePlay){
+                if (!basePlay) {
                     basePlay = Blockly.WorkspaceAudio.prototype.play;
                     this.blocklyState.setPlaySoundFunction(basePlay);
                 }
-                Blockly.WorkspaceAudio.prototype.play = function(name, opt_volume) {
-                  if (isSoundOn) {
-                    basePlay.call(this, name, opt_volume);
-                  }
+                Blockly.WorkspaceAudio.prototype.play = function (name, opt_volume) {
+                    if (isSoundOn) {
+                        basePlay.call(this, name, opt_volume);
+                    }
                 };
             });
 
