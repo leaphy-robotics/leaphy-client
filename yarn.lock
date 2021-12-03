@@ -2889,12 +2889,6 @@ blocking-proxy@^1.0.0:
   dependencies:
     minimist "^1.2.0"
 
-"blockly@github:leaphy-robotics/leaphy-blockly#b4fa4d1bb33091702cae9df880c64753f5c8d116":
-  version "0.0.17"
-  resolved "https://codeload.github.com/leaphy-robotics/leaphy-blockly/tar.gz/b4fa4d1bb33091702cae9df880c64753f5c8d116"
-  dependencies:
-    jsdom "15.2.1"
-
 bluebird@^3.1.1, bluebird@^3.5.0, bluebird@^3.5.5:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
@@ -7515,6 +7509,13 @@ lcid@^1.0.0:
   integrity sha1-MIrMr6C8SDo4Z7S28rlQYlHRuDU=
   dependencies:
     invert-kv "^1.0.0"
+
+leaphy-blockly@^0.0.22:
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/leaphy-blockly/-/leaphy-blockly-0.0.22.tgz#5d9cd1d20fb1c6323d49a2167e9acfe081e188b0"
+  integrity sha512-NAQJgdMlJpNX2tui/EzuYE03cBZU9EiQLThbocpHg/ptaGX/907EFQjxOI5NdpQsuEj3dEUIoA8eznwjhwi2Bg==
+  dependencies:
+    jsdom "15.2.1"
 
 less-loader@7.3.0:
   version "7.3.0"
