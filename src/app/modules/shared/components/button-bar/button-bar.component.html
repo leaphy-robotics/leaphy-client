@@ -3,7 +3,7 @@
     <mat-icon>code</mat-icon>
   </button>
 
-  <button mat-fab [attr.data-label]="'SHOW_ON_SCREEN' | translate"  (click)="onShowSerialOutputClicked()">
+  <button mat-fab [attr.data-label]="'SHOW_ON_SCREEN' | translate"  (click)="onShowSerialOutputClicked()" [disabled]="!(robotWiredState.serialData$ | async)?.length">
     <mat-icon>article</mat-icon>
   </button>
 
