@@ -4,6 +4,7 @@ import { BlocklyEditorState } from "src/app/state/blockly-editor.state";
 import { AppState } from "src/app/state/app.state";
 import { DialogState } from "src/app/state/dialog.state";
 import { CodeEditorType } from "src/app/domain/code-editor.type";
+import { RobotWiredState } from "src/app/state/robot.wired.state";
 
 @Component({
   selector: "app-button-bar",
@@ -15,6 +16,7 @@ export class ButtonBarComponent {
     public appState: AppState,
     public blocklyState: BlocklyEditorState,
     public dialogState: DialogState,
+    public robotWiredState: RobotWiredState,
     public dialog: MatDialog
   ) {
   }

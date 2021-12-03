@@ -127,6 +127,10 @@ function createWindow() {
         ipcMain.on('focus-serial', () => {
             childWindow.webContents.focus();
         });
+
+        childWindow.on('closed', function () {
+            childWindow = null
+        })
     })
 
     // Open the DevTools.
