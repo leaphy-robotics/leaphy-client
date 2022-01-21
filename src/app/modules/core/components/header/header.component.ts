@@ -26,7 +26,7 @@ export class HeaderComponent {
     public blocklyState: BlocklyEditorState,
     public dialogState: DialogState,
     private logger: LogService
-  ) {  }
+  ) { }
 
   public onNewProjectClicked() {
     this.appState.setSelectedRobotType(null);
@@ -40,10 +40,13 @@ export class HeaderComponent {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Saving);
   }
 
-  // To capture the keyboard shortcut
-  @HostListener('document:keydown.control.s', ['$event']) onCtrlS(event: KeyboardEvent) {
-    this.onSaveWorkspaceClicked();
-    event.preventDefault();
+  // To capture the keyboard shortcut for Saving a project
+  @HostListener('window:keydown', ['$event'])
+  onCtrlS(event: KeyboardEvent) {
+    if ((event.metaKey || event.ctrlKey) && event.key === 's') {
+      this.onSaveWorkspaceClicked();
+      event.preventDefault();
+    }
   }
 
   public onSaveWorkspaceAsClicked() {
@@ -99,7 +102,7 @@ export class HeaderComponent {
     }));
 
 
-  public onLanguageChanged(language: Language){
+  public onLanguageChanged(language: Language) {
     this.appState.setChangedLanguage(language);
   }
 }

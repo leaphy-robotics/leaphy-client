@@ -22,7 +22,7 @@
             [plugins]="lineChartPlugins">
         </canvas>
     </div>
-    <div class="serial-output" [hidden]="dialogState.isSerialGraphOutputSelected$ | async">
+    <div class="serial-output" [hidden]="dialogState.isSerialGraphOutputSelected$ | async"  #content>
         <div class="output-item" *ngFor="let item of (robotWiredState.serialData$ | async)" #messages>
             <div class="output-time">{{item.time | date:'HH:mm:ss:SSS'}}</div>
             <div class="output-data">{{item.data}}</div>

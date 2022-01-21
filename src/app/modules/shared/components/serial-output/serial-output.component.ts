@@ -28,7 +28,9 @@ export class SerialOutputComponent implements AfterViewInit {
   scrollToBottom = () => {
     try {
       this.content.nativeElement.scrollTop = this.content.nativeElement.scrollHeight;
-    } catch (err) { }
+    } catch (err) {
+      console.log("Error while attempting scroll to bottom:", err);
+    }
   }
 
   public onViewTextOutputClicked() {
