@@ -121,14 +121,21 @@ function createWindow() {
         childWindow = createdWindow;
         childWindow.setMenu(null);
         childWindow.setMenuBarVisibility(false);
-        
+
         //childWindow.webContents.openDevTools();
 
         ipcMain.on('focus-serial', () => {
+            if (!childWindow) return;
+            childWindow.show();
             childWindow.webContents.focus();
         });
 
-        childWindow.on('closed', function () {
+        childWindow.on('close',function(e) {
+            e.preventDefault();
+            childWindow.hide();
+        });
+
+        childWindow.on('closed', function (e) {
             childWindow = null
         })
     })
