@@ -10,6 +10,7 @@ class Compiler {
         const userDataPath = app.getPath('userData');
         const sketchFolder = path.join(userDataPath, 'sketch');
         if (!this.fs.existsSync(sketchFolder)) {
+            console.log("Creating the Sketch Folder")
             this.fs.mkdirSync(sketchFolder);
         }
         return sketchFolder;
@@ -20,7 +21,7 @@ class Compiler {
     compile = async (event, payload) => {
         this.logger.verbose('Compile command received');
         this.writeCodeToCompileLocation(payload.code);
-        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath, "--build-path", this.sketchFolder];
+        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath];
         const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', compilingMessage);
         try {
