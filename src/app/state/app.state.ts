@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
 import { map, filter } from 'rxjs/operators';
 import { Language } from '../domain/language';
@@ -12,11 +12,21 @@ import { ReloadConfig } from '../domain/reload.config';
 })
 export class AppState {
     // tslint:disable: max-line-length
-    private leaphyOriginalRobotType = new RobotType('l_original', 'Leaphy Original', 'orig.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Original Extension', 'Leaphy Extra Extension', 'Servo']);
-    private leaphyFlitzRobotType = new RobotType('l_flitz', 'Leaphy Flitz', 'flitz.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Extra Extension', 'Servo'], true, false);
-    private leaphyClickRobotType = new RobotType('l_click', 'Leaphy Click', 'click.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Extra Extension', 'Servo']);
-    private arduinoUnoRobotType = new RobotType('l_uno', 'Arduino Uno', 'uno.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr', ['Leaphy Extra Extension', 'Servo']);
-    private leaphyWiFiRobotType = new RobotType('l_wifi', 'Leaphy WiFi', 'wifi.svg', 'NodeMCU', 'esp8266:esp8266:nodemcuv2', 'bin', 'esp8266:esp8266', ['Leaphy WiFi Extension', 'Leaphy Extra Extension', 'Servo'], false);
+    private leaphyOriginalRobotType = new RobotType('l_original', 'Leaphy Original', 'orig.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr',
+        ['Leaphy Original Extension', 'Leaphy Extra Extension', 'Servo', 'Adafruit GFX Library', 'Adafruit SSD1306', 'Adafruit LSM9DS1 Library', 'Adafruit Unified Sensor']
+    );
+    private leaphyFlitzRobotType = new RobotType('l_flitz', 'Leaphy Flitz', 'flitz.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr',
+        ['Leaphy Extra Extension', 'Servo', 'Adafruit GFX Library', 'Adafruit SSD1306', 'Adafruit LSM9DS1 Library', 'Adafruit Unified Sensor'], true, false
+    );
+    private leaphyClickRobotType = new RobotType('l_click', 'Leaphy Click', 'click.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr',
+        ['Leaphy Extra Extension', 'Servo']
+    );
+    private arduinoUnoRobotType = new RobotType('l_uno', 'Arduino Uno', 'uno.svg', 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr',
+        ['Leaphy Extra Extension', 'Servo', 'Adafruit GFX Library', 'Adafruit SSD1306', 'Adafruit LSM9DS1 Library', 'Adafruit Unified Sensor']
+    );
+    private leaphyWiFiRobotType = new RobotType('l_wifi', 'Leaphy WiFi', 'wifi.svg', 'NodeMCU', 'esp8266:esp8266:nodemcuv2', 'bin', 'esp8266:esp8266',
+        ['Leaphy WiFi Extension', 'Leaphy Extra Extension', 'Servo', 'Adafruit GFX Library', 'Adafruit SSD1306', 'Adafruit LSM9DS1 Library', 'Adafruit Unified Sensor'], false
+    );
     // tslint:enable: max-line-length
 
     private defaultLanguage = new Language('nl', 'Nederlands')
@@ -69,7 +79,7 @@ export class AppState {
     public currentLanguage$: Observable<Language>
 
     private changedLanguageSubject$ = new BehaviorSubject(null);
-    public changedLanguage$= this.changedLanguageSubject$.asObservable();
+    public changedLanguage$ = this.changedLanguageSubject$.asObservable();
 
     public isRobotWired$: Observable<boolean> = this.selectedRobotType$
         .pipe(filter(selectedRobotType => !!selectedRobotType))
