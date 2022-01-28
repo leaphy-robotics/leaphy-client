@@ -8,7 +8,7 @@ class WorkspaceManager {
 
     save = async (event, payload) => {
         this.logger.verbose("Save Workspace command received");
-        this.fs.writeFileSync(payload.projectFilePath, payload.workspaceXml);
+        this.fs.writeFileSync(payload.projectFilePath, payload.data);
         const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: payload.projectFilePath, displayTimeout: 3000 };
         event.sender.send('backend-message', message);
     }
@@ -17,7 +17,7 @@ class WorkspaceManager {
         this.logger.verbose("Save Workspace As command received");
         const saveAsOptions = {
             filters: [
-                { name: `${payload.robotType.id} files`, extensions: [payload.robotType.id] }
+                { name: `${payload.extension} files`, extensions: [payload.extension] }
             ]
         }
         if (payload.projectFilePath) {
@@ -29,33 +29,33 @@ class WorkspaceManager {
             event.sender.send('backend-message', message);
             return;
         }
-        this.fs.writeFileSync(response.filePath, payload.workspaceXml);
+        this.fs.writeFileSync(response.filePath, payload.data);
         const message = { event: "WORKSPACE_SAVED", message: "WORKSPACE_SAVED", payload: response.filePath, displayTimeout: 3000 };
         event.sender.send('backend-message', message);
     }
 
     saveTemp = async (event, payload) => {
         this.logger.verbose("Save Temp Workspace command received");
-        const filePath = `${this.app.getPath("userData")}/tmp.${payload.robotType.ext}`
-        this.fs.writeFileSync(filePath, payload.workspaceXml);
+        const filePath = `${this.app.getPath("userData")}/tmp.${payload.extension}`
+        this.fs.writeFileSync(filePath, payload.data);
         const message = { event: "WORKSPACE_SAVED_TEMP", message: "WORKSPACE_SAVED_TEMP", payload: filePath };
         event.sender.send('backend-message', message);
     }
 
-    restoreTemp = async (event, robotType) => {
+    restoreTemp = async (event, extension) => {
         this.logger.verbose("Restore Temp Workspace command received");
-        if(!robotType) return;
-        const workspaceXml = this.fs.readFileSync(`${this.app.getPath("userData")}/tmp.${robotType.ext}`, "utf8");
-        const payload = { workspaceXml };
+        if(!extension) return;
+        const data = this.fs.readFileSync(`${this.app.getPath("userData")}/tmp.${extension}`, "utf8");
+        const payload = { data };
         const message = { event: "WORKSPACE_RESTORING_TEMP", message: "WORKSPACE_RESTORING_TEMP", payload: payload };
         event.sender.send('backend-message', message);
     }
 
-    restore = async (event, robotType) => {
+    restoreWorkspace = async (event, extension) => {
         this.logger.verbose("Restore Workspace command received");
         const openDialogOptions = {
             filters: [
-                { name: `${robotType.id} files`, extensions: [robotType.id] }
+                { name: `${extension} files`, extensions: [extension] }
             ]
         }
         const response = await this.dialog.showOpenDialog(openDialogOptions);
@@ -64,11 +64,31 @@ class WorkspaceManager {
             event.sender.send('backend-message', message);
             return;
         }
-        const workspaceXml = this.fs.readFileSync(response.filePaths[0], "utf8");
-        const payload = { projectFilePath: response.filePaths[0], workspaceXml };
+        const data = this.fs.readFileSync(response.filePaths[0], "utf8");
+        const payload = { projectFilePath: response.filePaths[0], data };
         const message = { event: "WORKSPACE_RESTORING", message: "WORKSPACE_RESTORING", payload: payload };
         event.sender.send('backend-message', message);
     }
+
+    restoreCode = async (event, extension) => {
+        this.logger.verbose("Restore Code command received");
+        const openDialogOptions = {
+            filters: [
+                { name: `${extension} files`, extensions: [extension] }
+            ]
+        }
+        const response = await this.dialog.showOpenDialog(openDialogOptions);
+        if (response.canceled) {
+            const message = { event: "WORKSPACE_RESTORE_CANCELLED", message: "WORKSPACE_RESTORE_CANCELLED" };
+            event.sender.send('backend-message', message);
+            return;
+        }
+        const data = this.fs.readFileSync(response.filePaths[0], "utf8");
+        const payload = { projectFilePath: response.filePaths[0], data };
+        const message = { event: "WORKSPACE_CODE_RESTORING", message: "WORKSPACE_CODE_RESTORING", payload: payload };
+        event.sender.send('backend-message', message);
+    }
+
 }
 
 module.exports = WorkspaceManager;

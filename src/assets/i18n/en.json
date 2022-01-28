@@ -35,6 +35,7 @@
   "NO_DEVICES_FOUND": "No robots detected!",
   "DEVICES_FOUND": "Robot detected",
   "WORKSPACE_RESTORING": "Loading project...",
+  "WORKSPACE_CODE_RESTORING": "Loading project...",
   "WORKSPACE_RESTORE_CANCELLED": "Loading project cancelled",
   "WORKSPACE_SAVE_CANCELLED": "Saving project cancelled",
   "WORKSPACE_SAVED": "Project saved",

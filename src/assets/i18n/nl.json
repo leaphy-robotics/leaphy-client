@@ -35,6 +35,7 @@
   "NO_DEVICES_FOUND": "Geen robots gedetecteerd!",
   "DEVICES_FOUND": "Robot gedetecteerd",
   "WORKSPACE_RESTORING": "Project laden...",
+  "WORKSPACE_CODE_RESTORING": "Project laden...",
   "WORKSPACE_RESTORE_CANCELLED": "Project laden geannuleerd",
   "WORKSPACE_SAVE_CANCELLED": "Project opslaan geannuleerd",
   "WORKSPACE_SAVED": "Project opgeslagen",
