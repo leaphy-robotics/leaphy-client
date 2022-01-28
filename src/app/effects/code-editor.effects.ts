@@ -5,6 +5,8 @@ import { BlocklyEditorState } from "../state/blockly-editor.state";
 import { CodeEditorState } from "../state/code-editor.state";
 
 import * as ace from "ace-builds";
+import { BackEndState } from "../state/backend.state";
+import { WorkspaceStatus } from "../domain/workspace.status";
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +14,7 @@ import * as ace from "ace-builds";
 
 // Defines the effects on the Editor that different state changes have
 export class CodeEditorEffects {
-    constructor(private codeEditorState: CodeEditorState, private appState: AppState, private blocklyState: BlocklyEditorState) {
+    constructor(private codeEditorState: CodeEditorState, private appState: AppState, private blocklyState: BlocklyEditorState, private backEndState: BackEndState) {
 
         this.codeEditorState.aceElement$
             .pipe(filter(element => !!element))
@@ -35,8 +37,23 @@ export class CodeEditorEffects {
             .subscribe(([aceEditor, code]) => {
                 aceEditor.session.setValue(code);
                 aceEditor.on("change", () => {
-                    this.blocklyState.setCode(aceEditor.getValue());
+                  this.blocklyState.setCode(aceEditor.getValue());
                 });
+            });
+
+        // React to the backend message and set the ACE Editor code
+        // React to messages received from the Backend
+        this.backEndState.backEndMessages$
+            .pipe(withLatestFrom(this.codeEditorState.aceEditor$))
+            .pipe(filter(([message,]) => !!message))
+            .subscribe(([message, aceEditor]) => {
+                switch (message.event) {
+                    case 'WORKSPACE_CODE_RESTORING':
+                        aceEditor.session.setValue(message.payload.data as string);
+                        break;
+                    default:
+                        break;
+                }
             });
     }
 }

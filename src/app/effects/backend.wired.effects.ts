@@ -11,6 +11,7 @@ import { RobotWiredState } from '../state/robot.wired.state';
 import { WorkspaceStatus } from '../domain/workspace.status';
 import { LogService } from '../services/log.service';
 import { DialogState } from '../state/dialog.state';
+import { CodeEditorType } from '../domain/code-editor.type';
 
 declare var Blockly: any;
 
@@ -196,12 +197,21 @@ export class BackendWiredEffects {
                         }
                     });
 
-                // When a workspace is being loaded, relay the command to Electron
+                // When a workspace project is being loaded, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
-                    .pipe(filter(status => status === WorkspaceStatus.Finding))
+                    .pipe(withLatestFrom(this.appState.codeEditorType$))
+                    .pipe(filter(([status, codeEditorType]) => status === WorkspaceStatus.Finding && codeEditorType === CodeEditorType.Beginner))
                     .pipe(withLatestFrom(this.appState.selectedRobotType$))
                     .subscribe(([, robotType]) => {
-                        this.send('restore-workspace', robotType);
+                        this.send('restore-workspace', robotType.id);
+                    });
+
+                // When a code project is being loaded, relay the command to Electron
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(withLatestFrom(this.appState.codeEditorType$))
+                    .pipe(filter(([status, codeEditorType]) => status === WorkspaceStatus.Finding && codeEditorType === CodeEditorType.Advanced))
+                    .subscribe(() => {
+                        this.send('restore-workspace-code', AppState.genericRobotType.id);
                     });
 
                 // When the temp workspace is being loaded, relay the command to Electron
@@ -209,37 +219,61 @@ export class BackendWiredEffects {
                     .pipe(filter(status => status === WorkspaceStatus.FindingTemp))
                     .pipe(withLatestFrom(this.appState.selectedRobotType$))
                     .subscribe(([, robotType]) => {
-                        this.send('restore-workspace-temp', robotType);
+                        this.send('restore-workspace-temp', robotType.id);
                     });
 
-                // When the workspace is being saved, relay the command to Electron
+                // When an existing project's workspace is being saved, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
-                    .pipe(filter(status => status === WorkspaceStatus.Saving))
+                    .pipe(withLatestFrom(this.appState.codeEditorType$))
+                    .pipe(filter(([status, codeEditorType]) => status === WorkspaceStatus.Saving && codeEditorType === CodeEditorType.Beginner))
                     .pipe(withLatestFrom(
                         this.blocklyEditorState.projectFilePath$,
-                        this.blocklyEditorState.workspaceXml$,
-                        this.appState.selectedRobotType$
+                        this.blocklyEditorState.workspaceXml$
                     ))
-                    .subscribe(([, projectFilePath, workspaceXml, robotType]) => {
-                        if (projectFilePath) {
-                            const payload = { projectFilePath, workspaceXml };
-                            this.send('save-workspace', payload);
-                        } else {
-                            const payload = { projectFilePath, workspaceXml, robotType };
-                            this.send('save-workspace-as', payload);
-                        }
+                    .pipe(filter(([, projectFilePath,]) => !!projectFilePath))
+                    .subscribe(([, projectFilePath, workspaceXml,]) => {
+                        const payload = { projectFilePath, data: workspaceXml };
+                        this.send('save-workspace', payload);
+                    });
+
+                // When an existing project's code is being saved, relay the command to Electron
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(withLatestFrom(this.appState.codeEditorType$))
+                    .pipe(filter(([status, codeEditorType]) => status === WorkspaceStatus.Saving && codeEditorType === CodeEditorType.Advanced))
+                    .pipe(withLatestFrom(
+                        this.blocklyEditorState.projectFilePath$,
+                        this.blocklyEditorState.code$
+                    ))
+                    .pipe(filter(([, projectFilePath,]) => !!projectFilePath))
+                    .subscribe(([, projectFilePath, code]) => {
+                        const payload = { projectFilePath, data: code };
+                        this.send('save-workspace', payload);
                     });
 
                 // When the workspace is being saved as a new project, relay the command to Electron
                 this.blocklyEditorState.workspaceStatus$
-                    .pipe(filter(status => status === WorkspaceStatus.SavingAs))
+                    .pipe(withLatestFrom(this.appState.codeEditorType$))
+                    .pipe(filter(([status, codeEditorType]) => status === WorkspaceStatus.SavingAs && codeEditorType === CodeEditorType.Beginner))
                     .pipe(withLatestFrom(
                         this.blocklyEditorState.projectFilePath$,
                         this.blocklyEditorState.workspaceXml$,
                         this.appState.selectedRobotType$
                     ))
                     .subscribe(([, projectFilePath, workspaceXml, robotType]) => {
-                        const payload = { projectFilePath, workspaceXml, robotType };
+                        const payload = { projectFilePath, data: workspaceXml, extension: robotType.id };
+                        this.send('save-workspace-as', payload);
+                    });
+
+                // When the code is being saved as a new project, relay the command to Electron
+                this.blocklyEditorState.workspaceStatus$
+                    .pipe(withLatestFrom(this.appState.codeEditorType$))
+                    .pipe(filter(([status, codeEditorType]) => status === WorkspaceStatus.SavingAs && codeEditorType === CodeEditorType.Advanced))
+                    .pipe(withLatestFrom(
+                        this.blocklyEditorState.projectFilePath$,
+                        this.blocklyEditorState.code$
+                    ))
+                    .subscribe(([, projectFilePath, code]) => {
+                        const payload = { projectFilePath, data: code, extension: AppState.genericRobotType.id };
                         this.send('save-workspace-as', payload);
                     });
 
@@ -251,7 +285,7 @@ export class BackendWiredEffects {
                         this.appState.selectedRobotType$
                     ))
                     .subscribe(([, workspaceXml, robotType]) => {
-                        const payload = { workspaceXml, robotType };
+                        const payload = { data: workspaceXml, extension: robotType.id };
                         this.send('save-workspace-temp', payload);
                     });
 
@@ -279,7 +313,6 @@ export class BackendWiredEffects {
                     .subscribe(() => {
                         this.backEndState.setIsDriverInstalling(false);
                     });
-
             });
     }
 

@@ -84,9 +84,9 @@ export class BlocklyEditorState {
   public projectFilePath$ = this.projectFilePathSubject$.asObservable();
 
   public projectName$ = this.projectFilePath$
-    .pipe(filter((filePath) => !!filePath))
     .pipe(
       map((filePath) => {
+        if(!filePath) return '';
         const fileName = filePath.replace(/^.*[\\\/]/, "");
         return fileName.substring(0, fileName.lastIndexOf(".")) || fileName;
       })

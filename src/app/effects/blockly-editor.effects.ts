@@ -230,6 +230,21 @@ export class BlocklyEditorEffects {
                 };
             });
 
+        // When the code editor is changed, clear the projectFilePath
+        this.appState.codeEditorType$
+            .subscribe(() => this.blocklyState.setProjectFilePath(''));
+
+        // When an new project is being saved, reset the WorkspaceStatus to SavingAs
+        this.blocklyState.workspaceStatus$
+            .pipe(filter(status => status === WorkspaceStatus.Saving))
+            .pipe(withLatestFrom(
+                this.blocklyState.projectFilePath$
+            ))
+            .pipe(filter(([, projectFilePath]) => !projectFilePath))
+            .subscribe(() => {
+                this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingAs);
+            });
+
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
@@ -262,12 +277,17 @@ export class BlocklyEditorEffects {
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
                         break;
                     case 'WORKSPACE_RESTORING':
-                        this.blocklyState.setWorkspaceXml(message.payload.workspaceXml as string);
+                        this.blocklyState.setWorkspaceXml(message.payload.data as string);
+                        this.blocklyState.setProjectFilePath(message.payload.projectFilePath);
+                        this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Restoring);
+                        break;
+                    case 'WORKSPACE_CODE_RESTORING':
+                        this.blocklyState.setCode(message.payload.data as string);
                         this.blocklyState.setProjectFilePath(message.payload.projectFilePath);
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Restoring);
                         break;
                     case 'WORKSPACE_RESTORING_TEMP':
-                        this.blocklyState.setWorkspaceXml(message.payload.workspaceXml as string);
+                        this.blocklyState.setWorkspaceXml(message.payload.data as string);
                         this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Restoring);
                         break;
                     default:
