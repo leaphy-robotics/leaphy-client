@@ -33,16 +33,27 @@ module.exports = {
     {
       name: "@electron-forge/maker-dmg",
       config: {
-        iconUrl: "file://easybloqs-icon.ico"
+        icon: './easybloqs-icon.ico',
+        name: 'Easybloqs'
       }
     },
     {
       name: "@electron-forge/maker-deb",
-      config: {}
+      config: {
+        options: {
+          icon: './easybloqs-icon.ico',
+          productName: 'Easybloqs'
+        }
+      }
     },
     {
       name: "@electron-forge/maker-rpm",
-      config: {},
+      config: {
+        options: {
+          icon: './easybloqs-icon.ico',
+          productName: 'Easybloqs'
+        }
+      }
     }
   ],
   publishers: [
