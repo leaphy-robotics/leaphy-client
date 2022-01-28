@@ -46,6 +46,7 @@ class DeviceManager {
 
     getDevices = async (event) => {
         this.logger.verbose('Get Serial Devices command received');
+
         const updateIndexParams = ["core", "update-index"];
         this.logger.info(await this.arduinoCli.runAsync(updateIndexParams));
 
