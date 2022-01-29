@@ -14,8 +14,8 @@ export class BackEndState {
   private backEndMessagesSubject$ = new BehaviorSubject<BackEndMessage>(null);
   public backEndMessages$ = this.backEndMessagesSubject$.asObservable();
 
-  private sketchLocationSubject$ = new BehaviorSubject<string>(null);
-  public sketchLocation$ = this.sketchLocationSubject$.asObservable();
+  private binaryLocationSubject$ = new BehaviorSubject<string>(null);
+  public binaryLocation$ = this.binaryLocationSubject$.asObservable();
 
   private isViewLogClickedSubject$ = new BehaviorSubject<boolean>(false);
   public isViewLogClicked$ = this.isViewLogClickedSubject$.asObservable();
@@ -32,7 +32,7 @@ export class BackEndState {
   }
 
   public setSketchLocation(location: string) {
-    this.sketchLocationSubject$.next(location);
+    this.binaryLocationSubject$.next(location);
   }
 
   public setIsViewLogClicked() {

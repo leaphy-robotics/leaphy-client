@@ -27,7 +27,7 @@ class DeviceManager {
         
         const updatingMessage = { event: "UPDATE_STARTED", message: "UPDATE_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', updatingMessage);
-        const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.sketchPath}.${payload.ext}`];
+        const uploadParams = ["upload", "-b", payload.fqbn, "-p", payload.address, "-i", `${payload.binaryPath}.${payload.ext}`];
 
         try {
             await this.arduinoCli.runAsync(uploadParams);
@@ -51,7 +51,7 @@ class DeviceManager {
         this.logger.info(await this.arduinoCli.runAsync(updateIndexParams));
 
         const listBoardsParams = ["board", "list", "--format", "json"];
-        const connectedDevices = JSON.parse(await this.arduinoCli.runAsync(listBoardsParams));
+        const connectedDevices = JSON.parse(await this.arduinoCli.runAsync(listBoardsParams)).map(b => b.port);
         const eligibleBoards = connectedDevices.filter(device => device.protocol_label == "Serial Port (USB)");
         let message;
         if (!eligibleBoards.length) {

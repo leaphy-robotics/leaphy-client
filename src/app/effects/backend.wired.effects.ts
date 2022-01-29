@@ -129,12 +129,12 @@ export class BackendWiredEffects {
                     .pipe(withLatestFrom(
                         this.appState.selectedRobotType$,
                         this.robotWiredState.isInstallationVerified$,
-                        this.backEndState.sketchLocation$,
+                        this.backEndState.binaryLocation$,
                         this.robotWiredState.verifiedSerialDevice$
                     ))
-                    .pipe(filter(([connectionStatus, , isInstallationVerified, sketchLocation,]) =>
-                        connectionStatus == ConnectionStatus.DetectingDevices && isInstallationVerified && !!sketchLocation))
-                    .subscribe(([, robotType, , sketchLocation, verifiedDevice]) => {
+                    .pipe(filter(([connectionStatus, , isInstallationVerified, binaryLocation,]) =>
+                        connectionStatus == ConnectionStatus.DetectingDevices && isInstallationVerified && !!binaryLocation))
+                    .subscribe(([, robotType, , binaryLocation, verifiedDevice]) => {
                         if (!verifiedDevice) {
                             this.send('get-serial-devices');
                             return;
@@ -142,7 +142,7 @@ export class BackendWiredEffects {
                         const payload = {
                             ...robotType,
                             ...verifiedDevice,
-                            sketchPath: sketchLocation
+                            binaryPath: binaryLocation
                         }
                         this.send('update-device', payload);
                     });
@@ -163,10 +163,10 @@ export class BackendWiredEffects {
                     .pipe(withLatestFrom(
                         this.appState.selectedRobotType$,
                         this.robotWiredState.isInstallationVerified$,
-                        this.backEndState.sketchLocation$
+                        this.backEndState.binaryLocation$
                     ))
-                    .pipe(filter(([, , isInstallationVerified, sketchLocation]) => isInstallationVerified && !!sketchLocation))
-                    .subscribe(([devices, robotType, , sketchLocation]) => {
+                    .pipe(filter(([, , isInstallationVerified, binaryLocation]) => isInstallationVerified && !!binaryLocation))
+                    .subscribe(([devices, robotType, , binaryLocation]) => {
                         if (!devices.length) {
                             this.backEndState.setconnectionStatus(ConnectionStatus.WaitForRobot);
                             return;
@@ -174,7 +174,7 @@ export class BackendWiredEffects {
                         const payload = {
                             ...robotType,
                             ...devices[0],
-                            sketchPath: sketchLocation
+                            binaryPath: binaryLocation
                         }
                         this.send('update-device', payload);
                     })

@@ -3,8 +3,11 @@ class Compiler {
         this.arduinoCli = arduinoCli;
         this.fs = fs;
         this.logger = logger;
+        const sketchFileName = 'sketch.ino';
         this.sketchFolder = this.getSketchFolder(app, path);
-        this.sketchPath = path.join(this.sketchFolder, 'sketch.ino');
+        this.sketchPath = path.join(this.sketchFolder, sketchFileName);
+        this.binariesFolder = this.getBinariesFolder(app, path);
+        this.binaryPath = path.join(this.binariesFolder, sketchFileName);
     }
     getSketchFolder = (app, path) => {
         const userDataPath = app.getPath('userData');
@@ -15,13 +18,22 @@ class Compiler {
         }
         return sketchFolder;
     }
+    getBinariesFolder = (app, path) => {
+        const userDataPath = app.getPath('userData');
+        const binFolder = path.join(userDataPath, 'bin');
+        if (!this.fs.existsSync(binFolder)) {
+            console.log("Creating the Binaries Folder")
+            this.fs.mkdirSync(binFolder);
+        }
+        return binFolder;
+    }
     writeCodeToCompileLocation = (code) => {
         this.fs.writeFileSync(this.sketchPath, code);
     }
     compile = async (event, payload) => {
         this.logger.verbose('Compile command received');
         this.writeCodeToCompileLocation(payload.code);
-        const compileParams = ["compile", "--fqbn", payload.fqbn, this.sketchPath];
+        const compileParams = ["compile", this.sketchFolder, "--fqbn", payload.fqbn, "--build-path", this.binariesFolder];
         const compilingMessage = { event: "COMPILATION_STARTED", message: "COMPILATION_STARTED", displayTimeout: 0 };
         event.sender.send('backend-message', compilingMessage);
         try {
@@ -33,7 +45,7 @@ class Compiler {
             return;
         }
     
-        const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.sketchPath, displayTimeout: 1000 };
+        const compilationCompleteMessage = { event: "COMPILATION_COMPLETE", message: "COMPILATION_COMPLETE", payload: this.binaryPath, displayTimeout: 1000 };
         event.sender.send('backend-message', compilationCompleteMessage);
     }
 }
