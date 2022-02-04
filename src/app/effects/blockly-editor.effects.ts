@@ -83,7 +83,7 @@ export class BlocklyEditorEffects {
                 toolbox.selectItemByPosition(0);
                 toolbox.refreshTheme();
 
-                setTimeout(() => this.blocklyState.setSideNavStatus(robotType.showCodeOnStart), 500);
+                setTimeout(() => this.blocklyState.setSideNavStatus(robotType.showCodeOnStart), 200);
             });
 
         // When the robot selection changes, set the toolbox and initialWorkspace
