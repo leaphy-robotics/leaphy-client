@@ -53,7 +53,7 @@ export class BlocklyEditorEffects {
         // When all prerequisites are there, Create a new workspace and open the codeview if needed
         combineLatest([this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$])
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
-            .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
+            .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType && robotType !== this.appState.genericRobotType))
             .pipe(withLatestFrom(
                 this.getXmlContent('./assets/blockly/base-toolbox.xml'),
                 this.getXmlContent('./assets/blockly/leaphy-toolbox.xml'),
@@ -83,7 +83,7 @@ export class BlocklyEditorEffects {
                 toolbox.selectItemByPosition(0);
                 toolbox.refreshTheme();
 
-                setTimeout(() => this.blocklyState.setSideNavStatus(robotType.showCodeOnStart), 200);
+                setTimeout(() => this.blocklyState.setIsSideNavOpen(robotType.showCodeOnStart), 200);
             });
 
         // When the robot selection changes, set the toolbox and initialWorkspace
@@ -165,14 +165,14 @@ export class BlocklyEditorEffects {
                 }
             });
 
-        // When Advanced CodeEditor is clicked, set the workspace status to SavingTemp and hide the sideNav
+        // When Advanced CodeEditor is Selected, set the workspace status to SavingTemp and hide the sideNav
         this.appState.codeEditorType$
             .pipe(
                 pairwise(),
                 filter(([previous, current]) => current === CodeEditorType.Advanced && current !== previous)
             )
             .subscribe(() => {
-                this.blocklyState.setSideNavStatus(false);
+                this.blocklyState.setIsSideNavOpen(false);
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingTemp)
             });
 
@@ -195,7 +195,7 @@ export class BlocklyEditorEffects {
                 map(([, isOpen]) => isOpen)
             )
             .subscribe((isOpen: boolean) => {
-                setTimeout(() => this.blocklyState.setSideNavStatus(!isOpen), 100);
+                setTimeout(() => this.blocklyState.setIsSideNavOpen(!isOpen), 100);
             });
 
         // When Advanced CodeEditor is active, but the button is clicked again, toggle the code view

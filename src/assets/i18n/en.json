@@ -62,5 +62,6 @@
   "SOUND": "Sound",
   "INSTALL_DRIVER": "Install driver",
   "CODE": "Code",
-  "BLOCKS": "Blocks"
+  "BLOCKS": "Blocks",
+  "DIRECT_TO_CODE_EDITOR": "Direct to Code editor"
 }

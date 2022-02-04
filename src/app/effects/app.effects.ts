@@ -51,12 +51,11 @@ export class AppEffects {
                 setTimeout(() => this.appState.setSelectedRobotType(reloadConfig.robotType), 500);
             });
 
-
         // Toggle the CodeEditor state
         this.appState.isCodeEditorToggled$
             .pipe(filter(isToggled => !!isToggled), withLatestFrom(this.appState.codeEditorType$))
             .subscribe(([, codeEditorType]) => {
-                if(codeEditorType == CodeEditorType.Beginner){
+                if (codeEditorType == CodeEditorType.Beginner) {
                     this.appState.setCodeEditor(CodeEditorType.Advanced);
                 } else {
                     this.appState.setCodeEditor(CodeEditorType.Beginner);

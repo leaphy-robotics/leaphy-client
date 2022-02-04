@@ -116,7 +116,7 @@ export class BlocklyEditorState {
     this.sketchStatusMessageSubject$.next(message);
   }
 
-  public setSideNavStatus(status: boolean) {
+  public setIsSideNavOpen(status: boolean) {
     this.isSideNavOpenSubject$.next(status);
   }
 

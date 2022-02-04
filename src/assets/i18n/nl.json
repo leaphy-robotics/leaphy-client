@@ -62,5 +62,6 @@
   "SOUND": "Geluid",
   "INSTALL_DRIVER": "Installeer driver",
   "CODE": "Code",
-  "BLOCKS": "Blokken"
+  "BLOCKS": "Blokken",
+  "DIRECT_TO_CODE_EDITOR": "Direct naar Code-scherm"
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
 import { map, filter, withLatestFrom } from 'rxjs/operators';
 import { Language } from '../domain/language';
@@ -27,7 +27,7 @@ export class AppState {
     private leaphyWiFiRobotType = new RobotType('l_wifi', 'Leaphy WiFi', 'wifi.svg', 'NodeMCU', 'esp8266:esp8266:nodemcuv2', 'bin', 'esp8266:esp8266',
         ['Leaphy WiFi Extension', 'Leaphy Extra Extension', 'Servo', 'Adafruit GFX Library', 'Adafruit SSD1306', 'Adafruit LSM9DS1 Library', 'Adafruit Unified Sensor'], false
     );
-    static genericRobotType = new RobotType('l_code', 'Generic Robot', null, 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr',
+    public genericRobotType = new RobotType('l_code', 'Generic Robot', null, 'Arduino UNO', 'arduino:avr:uno', 'hex', 'arduino:avr',
         ['Leaphy Original Extension', 'Leaphy Extra Extension', 'Servo', 'Adafruit GFX Library', 'Adafruit SSD1306', 'Adafruit LSM9DS1 Library', 'Adafruit Unified Sensor']
     );
     // tslint:enable: max-line-length
@@ -59,6 +59,19 @@ export class AppState {
         const reloadConfig = this.localStorage.fetch<ReloadConfig>('reloadConfig');
         this.reloadConfigSubject$ = new BehaviorSubject(reloadConfig);
         this.reloadConfig$ = this.reloadConfigSubject$.asObservable();
+
+        this.codeEditorType$ = combineLatest([this.selectedRobotType$, this.selectedCodeEditorType$])
+            .pipe(filter(([robotType, ]) => !!robotType))
+            .pipe(map(([robotType, selectedCodeEditorType]) => {
+                if(robotType === this.genericRobotType){
+                    return CodeEditorType.Advanced
+                }
+                return selectedCodeEditorType;
+            }))
+
+        this.canChangeCodeEditor$ = this.selectedRobotType$
+            .pipe(filter(robotType => !!robotType))
+            .pipe(map(robotType => robotType !== this.genericRobotType))
     }
 
     private isDesktopSubject$: BehaviorSubject<boolean>;
@@ -94,8 +107,13 @@ export class AppState {
     private isCodeEditorToggledSubject$ = new BehaviorSubject<boolean>(false);
     public isCodeEditorToggled$ = this.isCodeEditorToggledSubject$.asObservable();
 
-    private codeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.Beginner);
-    public codeEditorType$ = this.codeEditorTypeSubject$.asObservable();
+    private selectedCodeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.Beginner);
+    public selectedCodeEditorType$ = this.selectedCodeEditorTypeSubject$.asObservable();
+
+    public codeEditorType$: Observable<CodeEditorType>;
+
+    public canChangeCodeEditor$: Observable<boolean>;
+
 
     public setReloadConfig(reloadConfig: ReloadConfig) {
         if (!reloadConfig) this.localStorage.remove('reloadConfig');
@@ -128,6 +146,6 @@ export class AppState {
     }
 
     public setCodeEditor(codeEditor: CodeEditorType) {
-        this.codeEditorTypeSubject$.next(codeEditor);
+        this.selectedCodeEditorTypeSubject$.next(codeEditor);
     }
 }

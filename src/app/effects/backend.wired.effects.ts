@@ -211,7 +211,7 @@ export class BackendWiredEffects {
                     .pipe(withLatestFrom(this.appState.codeEditorType$))
                     .pipe(filter(([status, codeEditorType]) => status === WorkspaceStatus.Finding && codeEditorType === CodeEditorType.Advanced))
                     .subscribe(() => {
-                        this.send('restore-workspace-code', AppState.genericRobotType.id);
+                        this.send('restore-workspace-code', appState.genericRobotType.id);
                     });
 
                 // When the temp workspace is being loaded, relay the command to Electron
@@ -273,7 +273,7 @@ export class BackendWiredEffects {
                         this.blocklyEditorState.code$
                     ))
                     .subscribe(([, projectFilePath, code]) => {
-                        const payload = { projectFilePath, data: code, extension: AppState.genericRobotType.id };
+                        const payload = { projectFilePath, data: code, extension: appState.genericRobotType.id };
                         this.send('save-workspace-as', payload);
                     });
 
