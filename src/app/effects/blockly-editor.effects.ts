@@ -50,7 +50,7 @@ export class BlocklyEditorEffects {
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.FindingTemp);
             });
 
-        // Create a new workspace when all prerequisites are there
+        // When all prerequisites are there, Create a new workspace and open the codeview if needed
         combineLatest([this.blocklyState.blocklyElement$, this.blocklyState.blocklyConfig$])
             .pipe(withLatestFrom(this.appState.selectedRobotType$))
             .pipe(filter(([[element, config], robotType]) => !!element && !!config && !!robotType))
@@ -82,9 +82,11 @@ export class BlocklyEditorEffects {
                 this.blocklyState.setToolboxXml(toolboxXmlString);
                 toolbox.selectItemByPosition(0);
                 toolbox.refreshTheme();
+
+                setTimeout(() => this.blocklyState.setSideNavStatus(robotType.showCodeOnStart), 500);
             });
 
-        // Set the toolbox and initialWorkspace when the robot selection changes
+        // When the robot selection changes, set the toolbox and initialWorkspace
         this.appState.selectedRobotType$
             .pipe(withLatestFrom(this.blocklyState.workspace$))
             .pipe(filter(([robotType, workspace]) => !!robotType && !!workspace))
