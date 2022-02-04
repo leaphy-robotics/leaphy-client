@@ -24,7 +24,7 @@
 }
 
 .robot-row {
-  margin: 50px 0;
+  margin-top: 50px;
 }
 
 h1 {
@@ -42,7 +42,7 @@ h3 {
 }
 
 .watermark-container {
-  margin-bottom: 50px;
+  margin: 50px 0;
 }
 
 .watermark {
@@ -50,3 +50,8 @@ h3 {
   height: auto;
 }
 
+[mat-stroked-button] {
+  font-size: 12px;
+  font-weight: normal;
+  border-radius: 20px;
+}

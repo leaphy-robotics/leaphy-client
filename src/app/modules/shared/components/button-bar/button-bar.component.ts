@@ -24,10 +24,6 @@ export class ButtonBarComponent {
         this.appState.setCodeEditor(CodeEditorType.Beginner);
   }
 
-  public onCodeEditorClicked() {
-        this.appState.setIsCodeEditorToggled(true);
-  }
-
   public onShowSerialOutputClicked() {
     this.dialogState.setIsSerialOutputFocus(true);
   }

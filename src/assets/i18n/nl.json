@@ -60,5 +60,8 @@
   "SELECT_ROBOT_START_PROJECT": "Selecteer een robot en start een nieuw project",
   "VIEW_LOG": "Bekijk log",
   "SOUND": "Geluid",
-  "INSTALL_DRIVER": "Installeer driver"
+  "INSTALL_DRIVER": "Installeer driver",
+  "CODE": "Code",
+  "BLOCKS": "Blokken",
+  "DIRECT_TO_CODE_EDITOR": "Direct naar Code-scherm"
 }

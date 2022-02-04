@@ -60,5 +60,8 @@
   "SELECT_ROBOT_START_PROJECT": "Select a robot and start a new project",
   "VIEW_LOG": "View log",
   "SOUND": "Sound",
-  "INSTALL_DRIVER": "Install driver"
+  "INSTALL_DRIVER": "Install driver",
+  "CODE": "Code",
+  "BLOCKS": "Blocks",
+  "DIRECT_TO_CODE_EDITOR": "Direct to Code editor"
 }

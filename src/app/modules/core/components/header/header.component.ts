@@ -49,6 +49,10 @@ export class HeaderComponent {
     }
   }
 
+  public onCodeEditorClicked() {
+    this.appState.setIsCodeEditorToggled(true);
+  }
+
   public onSaveWorkspaceAsClicked() {
     this.blocklyState.setWorkspaceStatus(WorkspaceStatus.SavingAs);
   }

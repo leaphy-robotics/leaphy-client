@@ -1,5 +1,7 @@
 <div class="sidenav-buttons">
-  <button mat-fab [attr.data-label]="'READ_CODE' | translate" [ngClass]="{'active': (appState.codeEditorType$ | async) === 1 && (blocklyState.isSideNavOpen$ | async)}" (click)="onBlocklyEditorClicked()">
+  <button mat-fab [attr.data-label]="'READ_CODE' | translate" 
+    [ngClass]="{'active': (appState.codeEditorType$ | async) === 1 && (blocklyState.isSideNavOpen$ | async)}" 
+    (click)="onBlocklyEditorClicked()" [disabled]="(appState.codeEditorType$ | async) !== 1">
     <mat-icon>code</mat-icon>
   </button>
 
@@ -7,9 +9,6 @@
     <mat-icon>article</mat-icon>
   </button>
 
-  <button mat-fab [attr.data-label]="'EDIT_CODE' | translate"  [ngClass]="{'active': (appState.codeEditorType$ | async) === 2}" (click)="onCodeEditorClicked()">
-    <mat-icon>editor</mat-icon>
-  </button>
 </div>
 <app-serial-window
   *ngIf="dialogState.isSerialOutputWindowOpen$ | async"

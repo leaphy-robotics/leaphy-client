@@ -6,7 +6,6 @@ import { CodeEditorState } from "../state/code-editor.state";
 
 import * as ace from "ace-builds";
 import { BackEndState } from "../state/backend.state";
-import { WorkspaceStatus } from "../domain/workspace.status";
 
 @Injectable({
     providedIn: 'root',
@@ -31,11 +30,17 @@ export class CodeEditorEffects {
             });
 
 
+        // When the Ace Editor is set, set it with the current blockly code, and update the blockly code with changes
         this.codeEditorState.aceEditor$
             .pipe(filter(aceEditor => !!aceEditor))
             .pipe(withLatestFrom(this.blocklyState.code$))
             .subscribe(([aceEditor, code]) => {
-                aceEditor.session.setValue(code);
+                if(code){
+                    aceEditor.session.setValue(code);
+                } else {
+                    aceEditor.session.setValue(this.defaultProgram);
+                }
+                
                 aceEditor.on("change", () => {
                   this.blocklyState.setCode(aceEditor.getValue());
                 });
@@ -56,4 +61,15 @@ export class CodeEditorEffects {
                 }
             });
     }
+    private defaultProgram: string = `void leaphyProgram() {
+}
+
+void setup() {
+    leaphyProgram();
+}
+
+void loop() {
+
+}`
+
 }
