@@ -35,14 +35,14 @@ export class CodeEditorEffects {
             .pipe(filter(aceEditor => !!aceEditor))
             .pipe(withLatestFrom(this.blocklyState.code$))
             .subscribe(([aceEditor, code]) => {
-                if(code){
+                if (code) {
                     aceEditor.session.setValue(code);
                 } else {
                     aceEditor.session.setValue(this.defaultProgram);
                 }
-                
+
                 aceEditor.on("change", () => {
-                  this.blocklyState.setCode(aceEditor.getValue());
+                    this.blocklyState.setCode(aceEditor.getValue());
                 });
             });
 
