@@ -28,7 +28,7 @@
         <mat-icon>editor</mat-icon><span>{{ "CODE" | translate }}</span>
       </button>
       <button mat-stroked-button [disabled]="!(appState.canChangeCodeEditor$ | async)" *ngIf="(appState.codeEditorType$ | async) === 2" (click)="onCodeEditorClicked()">
-        <mat-icon svgIcon="block"></mat-icon><span>{{ "BLOCKS" | translate }}</span>
+        <mat-icon id="block-icon" svgIcon="block"></mat-icon><span>{{ "BLOCKS" | translate }}</span>
       </button>
       <button mat-stroked-button (click)="onSaveWorkspaceClicked()">
         <mat-icon>save</mat-icon><span>{{ "SAVE" | translate }}</span>

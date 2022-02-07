@@ -35,6 +35,10 @@ button {
   border-radius: 20px;
 }
 
+#block-icon {
+  vertical-align: top;
+}
+
 [mat-flat-button] {
   background-color: var(--leaphy-color-secundary);
   border-color: none;
