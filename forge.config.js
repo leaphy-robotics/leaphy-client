@@ -10,17 +10,13 @@ module.exports = {
         loadingGif: "./easybloqs-loading.gif",
         noMsi: true,
         iconUrl: "file://easybloqs-icon.ico",
-        setupIcon: "./easybloqs-icon.ico",
-        certificateFile: process.env['WINDOWS_CODESIGN_CERTIFICATE'],
-        certificatePassword: process.env['WINDOWS_CODESIGN_PASSWORD']
+        setupIcon: "./easybloqs-icon.ico"
       }
     },
     {
       name: '@electron-forge/maker-wix',
       config: {
-        manufacturer: 'Leaphy Robotics',
-        certificateFile: process.env['WINDOWS_CODESIGN_CERTIFICATE'],
-        certificatePassword: process.env['WINDOWS_CODESIGN_PASSWORD']
+        manufacturer: 'Leaphy Robotics'
       }
     },
     {
