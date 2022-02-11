@@ -28,6 +28,9 @@ export class DialogState {
   private isInfoDialogVisibleSubject$ = new BehaviorSubject(false);
   public isInfoDialogVisible$ = this.isInfoDialogVisibleSubject$.asObservable();
 
+  private isEditorTypeChangeConfirmationDialogVisibleSubject$ = new BehaviorSubject(false);
+  public isEditorTypeChangeConfirmationDialogVisible$ = this.isEditorTypeChangeConfirmationDialogVisibleSubject$.asObservable();
+
   public toggleIsConnectDialogVisible() {
     this.isConnectDialogVisibleSubject$.next(true);
   }
@@ -50,5 +53,9 @@ export class DialogState {
 
   public setIsInfoDialogVisible(isVisible: boolean) {
     this.isInfoDialogVisibleSubject$.next(isVisible);
+  }
+
+  public setIsEditorTypeChangeConfirmationDialogVisible(isVisible: boolean) {
+    this.isEditorTypeChangeConfirmationDialogVisibleSubject$.next(isVisible);
   }
 }

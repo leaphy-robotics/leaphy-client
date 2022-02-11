@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { filter, withLatestFrom } from "rxjs/operators";
-import { AppState } from "../state/app.state";
 import { BlocklyEditorState } from "../state/blockly-editor.state";
 import { CodeEditorState } from "../state/code-editor.state";
 
@@ -13,7 +12,7 @@ import { BackEndState } from "../state/backend.state";
 
 // Defines the effects on the Editor that different state changes have
 export class CodeEditorEffects {
-    constructor(private codeEditorState: CodeEditorState, private appState: AppState, private blocklyState: BlocklyEditorState, private backEndState: BackEndState) {
+    constructor(private codeEditorState: CodeEditorState, private blocklyState: BlocklyEditorState, private backEndState: BackEndState) {
 
         this.codeEditorState.aceElement$
             .pipe(filter(element => !!element))
@@ -30,19 +29,20 @@ export class CodeEditorEffects {
             });
 
 
-        // When the Ace Editor is set, set it with the current blockly code, and update the blockly code with changes
+        // When the Ace Editor is set, set it with the code, and update the blockly code with changes
         this.codeEditorState.aceEditor$
             .pipe(filter(aceEditor => !!aceEditor))
-            .pipe(withLatestFrom(this.blocklyState.code$))
-            .subscribe(([aceEditor, code]) => {
-                if (code) {
-                    aceEditor.session.setValue(code);
-                } else {
-                    aceEditor.session.setValue(this.defaultProgram);
-                }
+            .pipe(withLatestFrom(this.blocklyState.code$, this.codeEditorState.code$))
+            .subscribe(([aceEditor, blocklyCode, editorCode]) => {
+                const startingCode = blocklyCode ? blocklyCode : editorCode;
+                aceEditor.session.setValue(startingCode);
+                this.codeEditorState.setOriginalCode(startingCode);
+                this.codeEditorState.setCode(startingCode);
 
                 aceEditor.on("change", () => {
-                    this.blocklyState.setCode(aceEditor.getValue());
+                    const changedCode = aceEditor.getValue();
+                    this.codeEditorState.setCode(changedCode)
+                    this.blocklyState.setCode(changedCode);
                 });
             });
 
@@ -54,22 +54,19 @@ export class CodeEditorEffects {
             .subscribe(([message, aceEditor]) => {
                 switch (message.event) {
                     case 'WORKSPACE_CODE_RESTORING':
-                        aceEditor.session.setValue(message.payload.data as string);
+                        const code = message.payload.data as string;
+                        aceEditor.session.setValue(code);
+                        this.codeEditorState.setOriginalCode(code);
+                        this.codeEditorState.setCode(code);
+                        break;
+                    case 'WORKSPACE_SAVED':
+                        const savedCode = aceEditor.getValue();
+                        this.codeEditorState.setOriginalCode(savedCode);
+                        this.codeEditorState.setCode(savedCode);
                         break;
                     default:
                         break;
                 }
             });
     }
-    private defaultProgram: string = `void leaphyProgram() {
-}
-
-void setup() {
-    leaphyProgram();
-}
-
-void loop() {
-
-}`
-
 }

@@ -1,7 +1,7 @@
 <div class="sidenav-buttons">
   <button mat-fab [attr.data-label]="'READ_CODE' | translate" 
     [ngClass]="{'active': (appState.codeEditorType$ | async) === 1 && (blocklyState.isSideNavOpen$ | async)}" 
-    (click)="onBlocklyEditorClicked()" [disabled]="(appState.codeEditorType$ | async) !== 1">
+    (click)="onSideNavToggled()" [disabled]="(appState.codeEditorType$ | async) !== 1">
     <mat-icon>code</mat-icon>
   </button>
 

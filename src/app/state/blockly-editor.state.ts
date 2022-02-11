@@ -1,7 +1,7 @@
 import { Injectable, ElementRef } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { SketchStatus } from "../domain/sketch.status";
-import { scan, map, filter } from "rxjs/operators";
+import { map, filter } from "rxjs/operators";
 import { WorkspaceStatus } from "../domain/workspace.status";
 import { LocalStorageService } from "../services/localstorage.service";
 import "prismjs";
@@ -16,7 +16,7 @@ declare var Prism: any;
   providedIn: "root",
 })
 export class BlocklyEditorState {
-
+  
   constructor(private localStorage: LocalStorageService){
     const isSoundOn = this.localStorage.fetch<boolean>("isSoundOn");
     this.isSoundOnSubject$ = new BehaviorSubject<boolean>(isSoundOn);
@@ -39,6 +39,9 @@ export class BlocklyEditorState {
 
   private sketchStatusMessageSubject$ = new BehaviorSubject("");
   public sketchStatusMessage$ = this.sketchStatusMessageSubject$.asObservable();
+
+  private isSideNavOpenToggledSubject$ = new BehaviorSubject<boolean>(false);
+  public isSideNavOpenToggled$ = this.isSideNavOpenToggledSubject$.asObservable();
 
   private isSideNavOpenSubject$ = new BehaviorSubject(false);
   public isSideNavOpen$ = this.isSideNavOpenSubject$.asObservable();
@@ -159,5 +162,9 @@ export class BlocklyEditorState {
 
   public setPlaySoundFunction(fn: (name, opt_volume) => void) {
     this.playSoundFunctionSubject$.next(fn);
+  }
+
+  public setIsSideNavOpenToggled() {
+    this.isSideNavOpenToggledSubject$.next(true);
   }
 }

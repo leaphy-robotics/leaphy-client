@@ -63,5 +63,7 @@
   "INSTALL_DRIVER": "Install driver",
   "CODE": "Code",
   "BLOCKS": "Blocks",
-  "DIRECT_TO_CODE_EDITOR": "Direct to Code editor"
+  "DIRECT_TO_CODE_EDITOR": "Direct to Code editor",
+  "CONFIRMEDITORCHANGE_TITLE": "Unsaved changes",
+  "EDITORCHANGEINSTRUCTIONS": "You have unsaved changes. Are you sure you want to go back to the blocks editor? Unsaved changes will be lost!"
 }

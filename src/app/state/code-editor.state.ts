@@ -1,17 +1,28 @@
 import { ElementRef, Injectable } from "@angular/core";
 import { Ace } from "ace-builds";
 import { BehaviorSubject, Observable } from "rxjs";
-import { map, withLatestFrom } from "rxjs/operators";
+import { filter, map, tap, withLatestFrom } from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'
 })
 export class CodeEditorState {
 
+    private originalProgram =`void leaphyProgram() {
+}
+
+void setup() {
+    leaphyProgram();
+}
+
+void loop() {
+
+}`
+    
     constructor(){
         this.isDirty$ = this.code$
             .pipe(withLatestFrom(this.originalCode$))
-            .pipe(map(([code, original]) => code === original))
+            .pipe(map(([code, original]) => code !== original))
     }
 
     private aceElementSubject$ = new BehaviorSubject<ElementRef<HTMLElement>>(null);
@@ -20,10 +31,11 @@ export class CodeEditorState {
     private aceEditorSubject$ = new BehaviorSubject<Ace.Editor>(null);
     public aceEditor$ = this.aceEditorSubject$.asObservable();
 
-    private originalCodeSubject$ = new BehaviorSubject<string>('');
+    private originalCodeSubject$ = new BehaviorSubject<string>(this.originalProgram);
     public originalCode$ = this.originalCodeSubject$.asObservable();
 
-    private codeSubject$ = new BehaviorSubject<string>('');
+    private codeSubject$ = new BehaviorSubject<string>(this.originalProgram);
+    
     public code$ = this.codeSubject$.asObservable();
 
     public isDirty$: Observable<boolean>;

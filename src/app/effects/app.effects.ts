@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppState } from '../state/app.state';
 import { TranslateService } from '@ngx-translate/core';
 import { BackEndState } from '../state/backend.state';
-import { filter, map, pairwise, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, withLatestFrom } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StatusMessageDialog } from '../modules/core/dialogs/status-message/status-message.dialog';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { LogService } from '../services/log.service';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { ReloadConfig } from '../domain/reload.config';
 import { combineLatest } from 'rxjs';
+import { CodeEditorState } from '../state/code-editor.state';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +24,7 @@ export class AppEffects {
         private translate: TranslateService,
         private backEndState: BackEndState,
         private blocklyState: BlocklyEditorState,
+        private codeEditorState: CodeEditorState,
         private snackBar: MatSnackBar,
         private router: Router,
         private logger: LogService) {
@@ -51,31 +53,39 @@ export class AppEffects {
                 setTimeout(() => this.appState.setSelectedRobotType(reloadConfig.robotType), 500);
             });
 
-        // Toggle the CodeEditor state
-        this.appState.isCodeEditorToggled$
+        // When the editor toggle is requested to advanced, just autoconfirm it
+        // When the editor toggle is requested to beginner, and there are no changes, just autoconfirm it
+        this.appState.isCodeEditorToggleRequested$
+            .pipe(withLatestFrom(this.appState.codeEditorType$, this.codeEditorState.isDirty$))
+            .pipe(filter(([requested, codeEditorType, isDirty]) => !!requested && (codeEditorType === CodeEditorType.Beginner || codeEditorType === CodeEditorType.Advanced && !isDirty)))
+            .subscribe(() => this.appState.setIsCodeEditorToggleConfirmed(true));
+
+        // When the editor change has been confirmed, toggle the codeeditor
+        this.appState.isCodeEditorToggleConfirmed$
             .pipe(filter(isToggled => !!isToggled), withLatestFrom(this.appState.codeEditorType$))
             .subscribe(([, codeEditorType]) => {
                 if (codeEditorType == CodeEditorType.Beginner) {
-                    this.appState.setCodeEditor(CodeEditorType.Advanced);
+                    this.appState.setSelectedCodeEditor(CodeEditorType.Advanced);
                 } else {
-                    this.appState.setCodeEditor(CodeEditorType.Beginner);
+                    this.appState.setSelectedCodeEditor(CodeEditorType.Beginner);
                 }
             });
 
-        // When the selected code editor changes, route to the correct screen
+        // When the code editor changes, route to the correct screen
         this.appState.codeEditorType$
-            .subscribe(codeEditor => {
+            .subscribe(async codeEditor => {
                 switch (codeEditor) {
                     case CodeEditorType.Beginner:
-                        this.router.navigate(['']);
+                        await this.router.navigate(['']);
                         break;
                     case CodeEditorType.Advanced:
-                        this.router.navigate(['/advanced']);
+                        await this.router.navigate(['/advanced']);
                         break;
                     default:
-                        this.router.navigate(['']);
+                        await this.router.navigate(['']);
                         break;
                 }
+                this.appState.setIsCodeEditorToggleConfirmed(false);
             });
 
 
