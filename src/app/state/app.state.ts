@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { RobotType } from '../domain/robot.type';
-import { map, filter, withLatestFrom } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Language } from '../domain/language';
 import { CodeEditorType } from '../domain/code-editor.type';
 import { LocalStorageService } from '../services/localstorage.service';
@@ -61,9 +61,9 @@ export class AppState {
         this.reloadConfig$ = this.reloadConfigSubject$.asObservable();
 
         this.codeEditorType$ = combineLatest([this.selectedRobotType$, this.selectedCodeEditorType$])
-            .pipe(filter(([robotType, ]) => !!robotType))
+            .pipe(filter(([robotType,]) => !!robotType))
             .pipe(map(([robotType, selectedCodeEditorType]) => {
-                if(robotType === this.genericRobotType){
+                if (robotType === this.genericRobotType) {
                     return CodeEditorType.Advanced
                 }
                 return selectedCodeEditorType;
@@ -104,8 +104,11 @@ export class AppState {
     private showHelpPageSubject$ = new BehaviorSubject<boolean>(false);
     public showHelpPage$ = this.showHelpPageSubject$.asObservable();
 
-    private isCodeEditorToggledSubject$ = new BehaviorSubject<boolean>(false);
-    public isCodeEditorToggled$ = this.isCodeEditorToggledSubject$.asObservable();
+    private isCodeEditorToggleRequestedSubject$ = new BehaviorSubject<boolean>(false);
+    public isCodeEditorToggleRequested$ = this.isCodeEditorToggleRequestedSubject$.asObservable();
+
+    private isCodeEditorToggleConfirmedSubject$ = new BehaviorSubject<boolean>(false);
+    public isCodeEditorToggleConfirmed$ = this.isCodeEditorToggleConfirmedSubject$.asObservable();
 
     private selectedCodeEditorTypeSubject$ = new BehaviorSubject<CodeEditorType>(CodeEditorType.Beginner);
     public selectedCodeEditorType$ = this.selectedCodeEditorTypeSubject$.asObservable();
@@ -141,11 +144,16 @@ export class AppState {
         this.showHelpPageSubject$.next(show);
     }
 
-    public setIsCodeEditorToggled(toggled: boolean) {
-        this.isCodeEditorToggledSubject$.next(toggled);
+    public setIsCodeEditorToggleRequested() {
+        this.isCodeEditorToggleRequestedSubject$.next(true);
     }
 
-    public setCodeEditor(codeEditor: CodeEditorType) {
+    public setIsCodeEditorToggleConfirmed(confirmed: boolean) {
+        this.isCodeEditorToggleConfirmedSubject$.next(confirmed);
+    }
+
+    public setSelectedCodeEditor(codeEditor: CodeEditorType) {
         this.selectedCodeEditorTypeSubject$.next(codeEditor);
     }
+
 }

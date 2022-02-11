@@ -9,6 +9,9 @@ import { InstallDriverDialog } from '../modules/core/dialogs/install-driver/inst
 import { CreditsDialog } from '../modules/core/dialogs/credits/credits.dialog';
 import { RobotWiredState } from '../state/robot.wired.state';
 import { InfoDialog } from '../modules/core/dialogs/info/info.dialog';
+import { AppState } from '../state/app.state';
+import { ConfirmEditorDialog } from '../modules/core/dialogs/confirm-editor/confirm-editor.dialog';
+import { CodeEditorState } from '../state/code-editor.state';
 
 @Injectable({
     providedIn: 'root',
@@ -19,6 +22,8 @@ export class DialogEffects {
 
     constructor(
         private dialogState: DialogState,
+        private appState: AppState,
+        private codeEditorState: CodeEditorState,
         private backEndState: BackEndState,
         private robotWiredState: RobotWiredState,
         private dialog: MatDialog
@@ -83,6 +88,22 @@ export class DialogEffects {
             .pipe(filter(install => !!install))
             .subscribe(showInstallDriverDialog);
 
+        // If the editor change needs confirmation, show the confirmation dialog
+        this.appState.isCodeEditorToggleRequested$
+            .pipe(withLatestFrom(this.appState.isCodeEditorToggleConfirmed$, this.codeEditorState.isDirty$))
+            .pipe(filter(([requested, confirmed, isDirty]) => !!requested && !confirmed && isDirty))
+            .subscribe(() => this.dialogState.setIsEditorTypeChangeConfirmationDialogVisible(true));
+
+        // When the info dialog visibility is set to true, open the dialog
+        this.dialogState.isEditorTypeChangeConfirmationDialogVisible$
+            .pipe(filter(isVisible => !!isVisible))
+            .subscribe(() => {
+                this.dialog.open(ConfirmEditorDialog, {
+                    width: "450px",
+                    disableClose: true,
+                });
+            });
+
         // React to messages received from the Backend
         this.backEndState.backEndMessages$
             .pipe(filter(message => !!message))
@@ -105,9 +126,4 @@ export class DialogEffects {
                 }
             });
     }
-
-    private showInstallDriverDialog() {
-
-    }
-
 }

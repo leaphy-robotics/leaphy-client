@@ -50,7 +50,7 @@ export class HeaderComponent {
   }
 
   public onCodeEditorClicked() {
-    this.appState.setIsCodeEditorToggled(true);
+    this.appState.setIsCodeEditorToggleRequested();
   }
 
   public onSaveWorkspaceAsClicked() {

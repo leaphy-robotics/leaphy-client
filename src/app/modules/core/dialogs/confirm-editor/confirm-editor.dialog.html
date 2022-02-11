@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>
+  {{ "CONFIRMEDITORCHANGE_TITLE" | translate}}
+</h1>
+<div mat-dialog-content>
+  <p>{{"EDITORCHANGEINSTRUCTIONS"|translate}}</p>
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-flat-button (click)="onEditorChangeConfirmed()">
+    {{"OK"|translate}}
+  </button>
+  <button mat-flat-button (click)="onEditorChangeCancelled()">
+    {{"CANCEL"|translate}}
+  </button>
+</div>

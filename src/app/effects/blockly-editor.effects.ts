@@ -3,7 +3,7 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { SketchStatus } from '../domain/sketch.status';
 import { BackEndState } from '../state/backend.state';
 import { ConnectionStatus } from '../domain/connection.status';
-import { filter, map, pairwise, switchMap, withLatestFrom } from 'rxjs/operators';
+import { filter, pairwise, withLatestFrom } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { combineLatest, Observable, of } from 'rxjs';
 import { WorkspaceStatus } from '../domain/workspace.status';
@@ -85,6 +85,11 @@ export class BlocklyEditorEffects {
 
                 setTimeout(() => this.blocklyState.setIsSideNavOpen(robotType.showCodeOnStart), 200);
             });
+
+        // When a new project is started, reset the blockly code
+        this.appState.selectedRobotType$
+            .pipe(filter(robotType => !robotType))
+            .subscribe(() => this.blocklyState.setCode(''))
 
         // When the robot selection changes, set the toolbox and initialWorkspace
         this.appState.selectedRobotType$
@@ -186,28 +191,11 @@ export class BlocklyEditorEffects {
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.FindingTemp)
             });
 
-        // When Begin CodeEditor is active, but the button is clicked again, toggle the code view
-        this.appState.codeEditorType$
-            .pipe(
-                pairwise(),
-                filter(([previous, current]) => current === CodeEditorType.Beginner && (previous === current || previous === CodeEditorType.None)),
-                withLatestFrom(this.blocklyState.isSideNavOpen$),
-                map(([, isOpen]) => isOpen)
-            )
-            .subscribe((isOpen: boolean) => {
-                setTimeout(() => this.blocklyState.setIsSideNavOpen(!isOpen), 100);
-            });
-
-        // When Advanced CodeEditor is active, but the button is clicked again, toggle the code view
-        this.appState.codeEditorType$
-            .pipe(
-                pairwise(),
-                filter(([previous, current]) => current === CodeEditorType.Advanced && (previous === current)),
-                withLatestFrom(this.blocklyState.isSideNavOpen$),
-                map(([, isOpen]) => isOpen)
-            )
-            .subscribe(() => {
-                this.appState.setCodeEditor(CodeEditorType.None)
+        // Toggle the isSideNavOpen state
+        this.blocklyState.isSideNavOpenToggled$
+            .pipe(filter(isToggled => !!isToggled), withLatestFrom(this.blocklyState.isSideNavOpen$))
+            .subscribe(([, isSideNavOpen]) => {
+                this.blocklyState.setIsSideNavOpen(!isSideNavOpen);
             });
 
         // Toggle the isSoundOn state

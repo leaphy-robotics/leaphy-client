@@ -12,6 +12,7 @@ import { InstallDriverDialog } from './dialogs/install-driver/install-driver.dia
 import { StatusMessageDialog } from './dialogs/status-message/status-message.dialog';
 import { CreditsDialog } from './dialogs/credits/credits.dialog';
 import { InfoDialog } from './dialogs/info/info.dialog';
+import { ConfirmEditorDialog } from './dialogs/confirm-editor/confirm-editor.dialog';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { InfoDialog } from './dialogs/info/info.dialog';
     ConnectWiredDialog,
     ConnectCloudDialog,
     InstallDriverDialog,
+    ConfirmEditorDialog,
     HeaderComponent,
     RobotSelectionComponent,
     StartComponent,
@@ -30,7 +32,7 @@ import { InfoDialog } from './dialogs/info/info.dialog';
     CommonModule,
     SharedModule
   ],
-  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, StatusMessageDialog, CreditsDialog, InfoDialog],
+  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, ConfirmEditorDialog, StatusMessageDialog, CreditsDialog, InfoDialog],
   exports: [
     HeaderComponent,
     StartComponent,
@@ -38,6 +40,7 @@ import { InfoDialog } from './dialogs/info/info.dialog';
     ConnectCloudDialog,
     ConnectWiredDialog,
     InstallDriverDialog,
+    ConfirmEditorDialog,
     StatusMessageDialog,
     CreditsDialog,
     InfoDialog

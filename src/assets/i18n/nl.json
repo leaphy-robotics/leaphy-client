@@ -63,5 +63,7 @@
   "INSTALL_DRIVER": "Installeer driver",
   "CODE": "Code",
   "BLOCKS": "Blokken",
-  "DIRECT_TO_CODE_EDITOR": "Direct naar Code-scherm"
+  "DIRECT_TO_CODE_EDITOR": "Direct naar Code-scherm",
+  "CONFIRMEDITORCHANGE_TITLE": "Onopgeslagen wijzigingen",
+  "EDITORCHANGEINSTRUCTIONS": "Je hebt onopgeslagen wijzigingen. Weet je zeker dat je terug wilt naar de blokken editor? Je wijzigingen zullen verloren raken!"
 }
