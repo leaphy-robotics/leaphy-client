@@ -45,8 +45,8 @@
   "CREDITS_CONTRIBUTERS_INTRO": "Everyone who participated:",
   "CREDITS_CONTRIBUTERS": "Paul Siersma (architecture, backend development), Bas Hoebink, Job Cremers, Yousif Al-Fraji, Jort Vooijs, Bastiaan Bakker, Jeroen Ooms, Jelmer Schulenklopper, Maarten Bosmans, Jasper Simonis and the people at Blockly.",
   "CREDITS_THANKS": "Thank you so much!",
-  "CREDITS_PROJECTMANAGER": "Roeland Smith (project management)",
-  "CREDITS_CHAIRMAN": "Olivier van Beekum (chairman Leaphy foundation)",
+  "CREDITS_PROJECTMANAGER": "On behalf of the Leaphy foundation team,",
+  "CREDITS_CHAIRMAN": "Roeland Smith and Olivier van Beekum",
   "INFO_INTRO": "The Leaphy foundation wants to make robotics accessible to every student. Do you want to help us? Please! This can be done by helping to develop the software.",
   "INFO_GITHUB": "You can join via Github.",
   "INFO_OPEN_SOURCE": "Do you want to make your own software based on the source code? We think it is important that you match the style of the Leaphy foundation: collaboration, sharing knowledge and making it accessible to others. In this way we open doors to the digital world. And so you show your appreciation for all the work that our volunteers have put into Easybloqs.",
@@ -64,6 +64,8 @@
   "CODE": "Code",
   "BLOCKS": "Blocks",
   "DIRECT_TO_CODE_EDITOR": "Direct to Code editor",
-  "CONFIRMEDITORCHANGE_TITLE": "Unsaved changes",
-  "EDITORCHANGEINSTRUCTIONS": "You have unsaved changes. Are you sure you want to go back to the blocks editor? Unsaved changes will be lost!"
+  "CONFIRMEDITORCHANGE_TITLE": "Save changes?",
+  "EDITORCHANGE_CANCEL": "I'll save them first",
+  "EDITORCHANGE_CONFIRM": "That's okay",
+  "EDITORCHANGEINSTRUCTIONS": "You have unsaved changes. If you go to the block-editor now, they will be lost."
 }
