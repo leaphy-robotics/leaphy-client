@@ -380,6 +380,28 @@
 				</shadow>
 			</value>
 		</block>
+		<block type="leaphy_display_print_line">
+			<value name="VALUE">
+				<shadow type="text">
+					<field name="TEXT">text</field>
+				</shadow>
+			</value>
+		</block>
+		<sep gap="8"></sep>
+		<block type="leaphy_display_print_value">
+			<value name="NAME">
+				<shadow type="text">
+					<field name="TEXT">text</field>
+				</shadow>
+			</value>
+			<value name="VALUE">
+				<shadow type="math_number">
+					<field name="NUM">
+						0
+					</field>
+				</shadow>
+			</value>
+		</block>
 	</category>
 	<category id="l_click_extra" toolboxitemid="l_extra" name="%{BKY_LEAPHY_EXTRA_CATEGORY}" categorystyle="leaphy_category">
 		<block type="leaphy_sonar_read">
