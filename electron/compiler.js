@@ -3,12 +3,20 @@ class Compiler {
         this.arduinoCli = arduinoCli;
         this.fs = fs;
         this.logger = logger;
+        this.app = app;
+        this.path = path;
         const sketchFileName = 'sketch.ino';
         this.sketchFolder = this.getSketchFolder(app, path);
         this.sketchPath = path.join(this.sketchFolder, sketchFileName);
         this.binariesFolder = this.getBinariesFolder(app, path);
         this.binaryPath = path.join(this.binariesFolder, sketchFileName);
     }
+
+    clearSketchFolder = () => {
+        var sketchFolder = this.getSketchFolder(this.app, this.path);
+        this.fs.rmSync(sketchFolder, { recursive: true, force: true });
+    }
+
     getSketchFolder = (app, path) => {
         const userDataPath = app.getPath('userData');
         const sketchFolder = path.join(userDataPath, 'sketch');
