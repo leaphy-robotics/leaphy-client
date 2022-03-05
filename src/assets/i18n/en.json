@@ -60,6 +60,8 @@
   "SELECT_ROBOT_START_PROJECT": "Select a robot and start a new project",
   "VIEW_LOG": "View log",
   "SOUND": "Sound",
+  "SOUND_ON": "Sound on",
+  "SOUND_OFF": "Sound off",
   "INSTALL_DRIVER": "Install driver",
   "CODE": "Code",
   "BLOCKS": "Blocks",
@@ -67,5 +69,6 @@
   "CONFIRMEDITORCHANGE_TITLE": "Save changes?",
   "EDITORCHANGE_CANCEL": "I'll save them first",
   "EDITORCHANGE_CONFIRM": "That's okay",
-  "EDITORCHANGEINSTRUCTIONS": "You have unsaved changes. If you go to the block-editor now, they will be lost."
+  "EDITORCHANGEINSTRUCTIONS": "You have unsaved changes. If you go to the block-editor now, they will be lost.",
+  "CLEAR_LIBS": "Restore libraries"
 }

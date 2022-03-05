@@ -89,6 +89,10 @@ export class HeaderComponent {
     this.backEndState.setIsDriverInstalling(true);
   }
 
+  public onClearLibrariesClicked() {
+    this.backEndState.setIsLibrariesClearing(true);
+  }
+
   public isBackEndBusy$: Observable<boolean> = combineLatest(
     [this.robotWiredState.isInstallationVerified$,
     this.appState.selectedRobotType$,
