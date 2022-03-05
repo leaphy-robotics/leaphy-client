@@ -1,10 +1,18 @@
 class FirstRunDetector {
-    constructor(firstRun, os) {
+    constructor(firstRun, os, app, compiler) {
         this.firstRun = firstRun;
         this.os = os;
+
+        // Checks a flag per version and clears the sketch folder
+        // if this is the first run for that version
+        var currentVersion = app.getVersion();
+        var isFirstVersionRun = firstRun({ name: currentVersion });
+        if (isFirstVersionRun) {
+            compiler.clearSketchFolder();
+        }
     }
     detectFirstRun = (event) => {
-        // Clear the firstRun setting, don't do this
+        // Clear the firstRun setting, don't do this unless you want to
         //this.firstRun.clear();
 
         const isFirstRun = this.firstRun();

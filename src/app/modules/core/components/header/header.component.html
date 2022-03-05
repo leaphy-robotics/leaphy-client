@@ -81,9 +81,10 @@
     <span>{{ "LANGUAGE" | translate }}</span>
   </button>
   <button mat-menu-item (click)="onToggleSoundClicked()">
-    <mat-icon *ngIf="(blocklyState.isSoundOn$ | async)">volume_mute</mat-icon>
-    <mat-icon *ngIf="!(blocklyState.isSoundOn$ | async)">volume_off</mat-icon>
-    <span>{{ "SOUND" | translate }}</span>
+    <mat-icon *ngIf="(blocklyState.isSoundOn$ | async)">volume_off</mat-icon>
+    <mat-icon *ngIf="!(blocklyState.isSoundOn$ | async)">volume_up</mat-icon>
+    <span *ngIf="(blocklyState.isSoundOn$ | async)">{{ "SOUND_OFF" | translate }}</span>
+    <span *ngIf="!(blocklyState.isSoundOn$ | async)">{{ "SOUND_ON" | translate }}</span>
   </button>
   <button mat-menu-item (click)="onViewLogClicked()">
     <mat-icon>article</mat-icon>
@@ -92,6 +93,11 @@
   <button mat-menu-item (click)="onInstallDriverClicked()">
     <mat-icon>settings</mat-icon>
     <span>{{ "INSTALL_DRIVER" | translate }}</span>
+  </button>
+  <button mat-menu-item (click)="onClearLibrariesClicked()">
+    <!-- <mat-icon>settings_backup_restore</mat-icon> -->
+    <mat-icon id="reset-icon" svgIcon="reset"></mat-icon>
+    <span>{{ "CLEAR_LIBS" | translate }}</span>
   </button>
 </mat-menu>
 

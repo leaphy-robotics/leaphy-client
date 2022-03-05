@@ -313,6 +313,15 @@ export class BackendWiredEffects {
                     .subscribe(() => {
                         this.backEndState.setIsDriverInstalling(false);
                     });
+
+                // If libraries cleanup is requested, inform Electron and set it right back to false
+                this.backEndState.isLibrariesClearing$
+                    .pipe(filter(clear => !!clear))
+                    .pipe(withLatestFrom(this.appState.selectedRobotType$))
+                    .subscribe(([, robotType]) => {
+                        this.send('reset-libraries', robotType);
+                        this.backEndState.setIsLibrariesClearing(false);
+                    });
             });
     }
 

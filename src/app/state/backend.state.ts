@@ -23,6 +23,9 @@ export class BackEndState {
   private isDriverInstallingSubject$ = new BehaviorSubject<boolean>(false);
   public isDriverInstalling$ = this.isDriverInstallingSubject$.asObservable();
 
+  private isLibrariesClearingSubject$ = new BehaviorSubject<boolean>(false);
+  public isLibrariesClearing$ = this.isLibrariesClearingSubject$.asObservable();
+
   public setconnectionStatus(status: ConnectionStatus) {
     this.connectionStatusSubject$.next(status);
   }
@@ -41,5 +44,9 @@ export class BackEndState {
 
   public setIsDriverInstalling(install: boolean) {
     this.isDriverInstallingSubject$.next(install);
+  }
+
+  public setIsLibrariesClearing(clear: boolean) {
+    this.isLibrariesClearingSubject$.next(clear);
   }
 }

@@ -44,7 +44,7 @@ ipcMain.on('verify-installation', prerequisiteManager.verifyInstallation);
 ipcMain.on('install-usb-driver', prerequisiteManager.installUsbDriver);
 
 const Compiler = require('./electron/compiler.js');
-const compiler = new Compiler(app, arduinoCli, path, fs, logger);
+const compiler = new Compiler(app, arduinoCli, prerequisiteManager, path, fs, logger);
 ipcMain.on('compile', compiler.compile);
 
 const DeviceManager = require('./electron/deviceManager.js');
@@ -67,8 +67,10 @@ const webBrowserLauncher = new WebBrowserLauncher(os);
 ipcMain.on('open-browser-page', webBrowserLauncher.openWebPage);
 
 const FirstRunDetector = require('./electron/firstRunDetector');
-const firstRunDetector = new FirstRunDetector(firstRun, os);
+const firstRunDetector = new FirstRunDetector(firstRun, os, app, compiler);
 ipcMain.on('detect-first-run', firstRunDetector.detectFirstRun);
+
+ipcMain.on('reset-libraries', compiler.recreateSketchFolder);
 
 ipcMain.on('restart-app', () => {
     app.relaunch()

@@ -1,14 +1,30 @@
 class Compiler {
-    constructor(app, arduinoCli, path, fs, logger){
+    constructor(app, arduinoCli, prerequisiteManager, path, fs, logger){
         this.arduinoCli = arduinoCli;
+        this.prerequisiteManager = prerequisiteManager;
         this.fs = fs;
         this.logger = logger;
+        this.app = app;
+        this.path = path;
         const sketchFileName = 'sketch.ino';
         this.sketchFolder = this.getSketchFolder(app, path);
         this.sketchPath = path.join(this.sketchFolder, sketchFileName);
         this.binariesFolder = this.getBinariesFolder(app, path);
         this.binaryPath = path.join(this.binariesFolder, sketchFileName);
     }
+
+    recreateSketchFolder = (event, payload) => {
+        this.clearSketchFolder();
+        this.getSketchFolder(this.app, this.path);
+        this.prerequisiteManager.verifyInstallation(event, payload);
+    }
+
+    clearSketchFolder = () => {
+        console.log("Removing Sketch Folder")
+        var sketchFolder = this.getSketchFolder(this.app, this.path);
+        this.fs.rmSync(sketchFolder, { recursive: true, force: true });
+    }
+
     getSketchFolder = (app, path) => {
         const userDataPath = app.getPath('userData');
         const sketchFolder = path.join(userDataPath, 'sketch');

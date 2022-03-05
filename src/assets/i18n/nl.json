@@ -60,6 +60,8 @@
   "SELECT_ROBOT_START_PROJECT": "Selecteer een robot en start een nieuw project",
   "VIEW_LOG": "Bekijk log",
   "SOUND": "Geluid",
+  "SOUND_ON": "Geluid aan",
+  "SOUND_OFF": "Geluid uit",
   "INSTALL_DRIVER": "Installeer driver",
   "CODE": "Code",
   "BLOCKS": "Blokken",
@@ -67,5 +69,6 @@
   "CONFIRMEDITORCHANGE_TITLE": "Wijzigingen opslaan?",
   "EDITORCHANGE_CANCEL": "Ik ga ze eerst opslaan",
   "EDITORCHANGE_CONFIRM": "Dat is oké",
-  "EDITORCHANGEINSTRUCTIONS": "Je hebt onopgeslagen wijzigingen. Als je nu naar het Blokken-scherm gaat, ben je die kwijt."
+  "EDITORCHANGEINSTRUCTIONS": "Je hebt onopgeslagen wijzigingen. Als je nu naar het Blokken-scherm gaat, ben je die kwijt.",
+  "CLEAR_LIBS": "Herstel bibliotheken"
 }
