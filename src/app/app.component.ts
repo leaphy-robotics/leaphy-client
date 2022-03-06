@@ -19,9 +19,5 @@ export class AppComponent {
       "block",
       this.domSanitizer.bypassSecurityTrustResourceUrl("./assets/block.svg")
     );
-    this.matIconRegistry.addSvgIcon(
-      "reset",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("./assets/reset.svg")
-    );
   }
 }

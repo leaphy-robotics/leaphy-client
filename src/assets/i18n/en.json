@@ -20,7 +20,7 @@
   "DRIVERINSTALLATIONINSTRUCTIONS": "You will get two popups to install the USB driver. Click 'Yes' and then 'Install'.",
   "CONNECTIONINSTRUCTIONS_TITLE": "Robot not found",
   "CONNECTIONINSTRUCTIONS": "No connected robot found. Connect a Leaphy robot and try again.",
-  "PREPARING_COMPILATION_ENVIRONMENT": "Installing prerequisites for {{data}}",
+  "PREPARING_COMPILATION_ENVIRONMENT": "Downloading prerequisites for {{data}}",
   "DRIVER_INSTALLATION_REQUIRED": "USB Driver installation required",
   "DRIVER_INSTALLATION_COMPLETE": "USB Driver successfully installed",
   "INSTALLING_ARDUINO_CORE": "Installing Arduino Core for {{data}}...",
