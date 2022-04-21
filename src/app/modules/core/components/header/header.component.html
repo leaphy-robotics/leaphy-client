@@ -103,6 +103,6 @@
 <mat-menu #languageMenu="matMenu" class="matmenus">
   <button mat-menu-item *ngFor="let language of appState.availableLanguages$ | async" [value]="language"
     (click)="onLanguageChanged(language)">
-    <span [class.selected]="language.code === (appState.currentLanguage$ | async).code">{{language.name}}</span>
+    <span [class.selected]="language.code === (appState.currentLanguage$ | async)?.code">{{language.name}}</span>
   </button>
 </mat-menu>

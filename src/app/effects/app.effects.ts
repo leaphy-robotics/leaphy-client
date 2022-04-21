@@ -43,6 +43,7 @@ export class AppEffects {
 
         // Use the current language to translate the angular strings
         this.appState.currentLanguage$
+            .pipe(filter(language => !!language))
             .subscribe(language => this.translate.use(language.code));
 
         // When a reloadConfig is found, clear it and set the robotType
@@ -73,6 +74,7 @@ export class AppEffects {
 
         // When the code editor changes, route to the correct screen
         this.appState.codeEditorType$
+            .pipe(filter(codeEditor => !!codeEditor))
             .subscribe(async codeEditor => {
                 switch (codeEditor) {
                     case CodeEditorType.Beginner:
@@ -82,7 +84,7 @@ export class AppEffects {
                         await this.router.navigate(['/advanced']);
                         break;
                     default:
-                        await this.router.navigate(['']);
+                        //await this.router.navigate(['']);
                         break;
                 }
                 this.appState.setIsCodeEditorToggleConfirmed(false);

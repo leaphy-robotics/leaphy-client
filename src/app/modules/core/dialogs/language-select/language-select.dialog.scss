@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .leaphyLogo {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+  }
+}
+
+[mat-flat-button] {
+  color: var(--leaphy-color-light);
+  background-color: var(--leaphy-color-secundary);
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-size: 16px;
+  outline: none;
+
+  [mat-flat-button]:active {
+    color: var(--leaphy-color-light);
+  }
+}

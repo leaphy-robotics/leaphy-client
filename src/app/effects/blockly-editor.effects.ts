@@ -29,6 +29,7 @@ export class BlocklyEditorEffects {
     ) {
         // When the current language is set: Find and set the blockly translations
         this.appState.currentLanguage$
+            .pipe(filter(language => !!language))
             .subscribe(async language => {
                 const translations = await import(`node_modules/leaphy-blockly/msg/${language.code}.js`);
                 Object.keys(translations.default).forEach(function (tk) {

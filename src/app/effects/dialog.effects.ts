@@ -12,6 +12,7 @@ import { InfoDialog } from '../modules/core/dialogs/info/info.dialog';
 import { AppState } from '../state/app.state';
 import { ConfirmEditorDialog } from '../modules/core/dialogs/confirm-editor/confirm-editor.dialog';
 import { CodeEditorState } from '../state/code-editor.state';
+import { LanguageSelectDialog } from '../modules/core/dialogs/language-select/language-select.dialog';
 
 @Injectable({
     providedIn: 'root',
@@ -113,12 +114,23 @@ export class DialogEffects {
                         showInstallDriverDialog();
                         break;
                     case 'FIRST_RUN':
-                        const creditsDialogComponent = CreditsDialog;
-                        const creditsDialogRef = this.dialog.open(creditsDialogComponent, {
-                            width: '800px',
+
+                        const languageSelectionDialogComponent = LanguageSelectDialog;
+                        const languageDialogRef = this.dialog.open(languageSelectionDialogComponent, {
+                            width: '450px',
                             disableClose: true,
                         });
-                        this.dialogState.setConnectDialog(creditsDialogRef);
+                        this.dialogState.setConnectDialog(languageDialogRef);
+
+                        languageDialogRef.afterClosed().subscribe(() => {
+                            const creditsDialogComponent = CreditsDialog;
+                            const creditsDialogRef = this.dialog.open(creditsDialogComponent, {
+                                width: '800px',
+                                disableClose: true,
+                            });
+                            this.dialogState.setConnectDialog(creditsDialogRef);
+                        });
+
                         break;
 
                     default:
