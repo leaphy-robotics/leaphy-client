@@ -10,20 +10,37 @@
     height: auto;
     display: block;
     margin: 1em auto;
+    padding-bottom: 10px;
+  }
+
+  .languages{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+
+    button {
+      margin-bottom: 15px;
+    }
+  }
+  .language {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .language-name{
+      align-content: center;
+      flex: 1
+    }
   }
 }
 
+[mat-stroked-button],
 [mat-flat-button] {
-  color: var(--leaphy-color-light);
-  background-color: var(--leaphy-color-secundary);
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 20px;
-  text-transform: uppercase;
+  color: var(--leaphy-color-primary);
+  border-color: var(--leaphy-color-secundary);
   font-size: 16px;
-  outline: none;
+  font-weight: normal;
+  border-radius: 20px;
 
-  [mat-flat-button]:active {
-    color: var(--leaphy-color-light);
-  }
 }
