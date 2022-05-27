@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ChartDataSets } from 'chart.js';
+import { ChartDataset } from 'chart.js';
 import { ReplaySubject } from 'rxjs';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, scan } from 'rxjs/operators';
@@ -32,9 +32,9 @@ export class RobotWiredState {
             return all.concat(incoming);
         }, []));
 
-    public serialChartDataSets$: Observable<ChartDataSets[]> = this.serialData$
+    public serialChartDataSets$: Observable<ChartDataset[]> = this.serialData$
         .pipe(map(data => {
-            const dataSets: ChartDataSets[] = data.reduce((sets, item) => {
+            const dataSets: ChartDataset[] = data.reduce((sets, item) => {
                 var [label, valueStr] = item.data.split(' = ');
 
                 // If it can't be parsed, move to next item

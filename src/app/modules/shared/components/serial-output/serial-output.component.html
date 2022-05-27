@@ -18,7 +18,7 @@
 
     <div class="serial-output" style="display: block;" [hidden]="!(dialogState.isSerialGraphOutputSelected$ | async)">
         <canvas baseChart [datasets]="robotWiredState.serialChartDataSets$ | async" [options]="lineChartOptions"
-            [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
+            [legend]="lineChartLegend" [type]="lineChartType"
             [plugins]="lineChartPlugins">
         </canvas>
     </div>

@@ -23,7 +23,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule  } from 'ng2-charts';
 
 @NgModule({
   declarations: [ButtonBarComponent, SerialOutputComponent, SerialWindowComponent],
@@ -45,7 +45,7 @@ import { ChartsModule } from 'ng2-charts';
     MatTooltipModule,
     MatSnackBarModule,
     PortalModule,
-    ChartsModule
+    NgChartsModule 
   ],
   exports: [
     FormsModule,
