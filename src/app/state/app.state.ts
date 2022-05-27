@@ -35,7 +35,6 @@ export class AppState {
     private defaultLanguage = new Language('nl', 'Nederlands')
     private availableLanguages = [new Language('en', 'English'), this.defaultLanguage]
 
-
     constructor(private localStorage: LocalStorageService) {
         if (window.require) {
             this.isDesktopSubject$ = new BehaviorSubject<boolean>(true);
@@ -53,7 +52,7 @@ export class AppState {
             }));
 
         const currentLanguage = this.localStorage.fetch<Language>('currentLanguage');
-        this.currentLanguageSubject$ = new BehaviorSubject(currentLanguage || this.defaultLanguage);
+        this.currentLanguageSubject$ = new BehaviorSubject(currentLanguage);
         this.currentLanguage$ = this.currentLanguageSubject$.asObservable();
 
         const reloadConfig = this.localStorage.fetch<ReloadConfig>('reloadConfig');
@@ -137,6 +136,7 @@ export class AppState {
     }
 
     public setCurrentLanguage(language: Language) {
+        this.localStorage.store('currentLanguage', language);
         this.currentLanguageSubject$.next(language);
     }
 
