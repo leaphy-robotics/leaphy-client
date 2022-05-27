@@ -147,5 +147,5 @@ function createWindow() {
     require("@electron/remote/main").enable(mainWindow.webContents);
 
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 }

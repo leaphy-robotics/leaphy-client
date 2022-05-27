@@ -13,6 +13,7 @@ import { StatusMessageDialog } from './dialogs/status-message/status-message.dia
 import { CreditsDialog } from './dialogs/credits/credits.dialog';
 import { InfoDialog } from './dialogs/info/info.dialog';
 import { ConfirmEditorDialog } from './dialogs/confirm-editor/confirm-editor.dialog';
+import { LanguageSelectDialog } from './dialogs/language-select/language-select.dialog';
 
 
 @NgModule({
@@ -26,13 +27,14 @@ import { ConfirmEditorDialog } from './dialogs/confirm-editor/confirm-editor.dia
     StartComponent,
     StatusMessageDialog,
     CreditsDialog,
+    LanguageSelectDialog,
     InfoDialog
   ],
   imports: [
     CommonModule,
     SharedModule
   ],
-  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, ConfirmEditorDialog, StatusMessageDialog, CreditsDialog, InfoDialog],
+  entryComponents: [ConnectWiredDialog, ConnectCloudDialog, InstallDriverDialog, ConfirmEditorDialog, StatusMessageDialog, CreditsDialog, LanguageSelectDialog, InfoDialog],
   exports: [
     HeaderComponent,
     StartComponent,
@@ -43,6 +45,7 @@ import { ConfirmEditorDialog } from './dialogs/confirm-editor/confirm-editor.dia
     ConfirmEditorDialog,
     StatusMessageDialog,
     CreditsDialog,
+    LanguageSelectDialog,
     InfoDialog
   ]
 })
