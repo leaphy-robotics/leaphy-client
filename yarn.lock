@@ -6714,10 +6714,10 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-leaphy-blockly@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/leaphy-blockly/-/leaphy-blockly-1.1.6.tgz#ff3f63d47a39edcac94580b52980c567d7dad8cd"
-  integrity sha512-BnxJ4YHlczW8C4UvHeTWAiTRacXOEvbk/b930TcdJ0hTC80M/xiIl1TKFFyBsToZEZYYFi8SoWlwV4vcHxXb/w==
+leaphy-blockly@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/leaphy-blockly/-/leaphy-blockly-2.0.2.tgz#f359ded8b4e515e085b4e66892b89e10648b08d3"
+  integrity sha512-YmUtpHaN2/hQ1uZ/7GcSrtqSEGcy6iuq+9YC2FiCIPXXxghN/UCNldEjZJBXJ2ZgetrBGw53XDkbRRjtJ1Z1Zw==
   dependencies:
     jsdom "15.2.1"
 
