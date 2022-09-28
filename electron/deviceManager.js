@@ -1,4 +1,5 @@
-const SerialPort = require("serialport");
+const { SerialPort } = require("serialport");
+const { ReadlineParser } = require('@serialport/parser-readline')
 
 class DeviceManager {
     constructor(arduinoCli, logger) {
@@ -8,8 +9,8 @@ class DeviceManager {
     }
 
     subscribeToSerialData = async (event, payload) => {
-        const lineParser = new SerialPort.parsers.Readline("\n");
-        this.activeSerial = new SerialPort(payload.address, { baudRate: 115200 });
+        const lineParser = new ReadlineParser({ delimiter: "\n"});
+        this.activeSerial = new SerialPort({ path: payload.address, baudRate: 115200 });
         this.activeSerial.pipe(lineParser)
         lineParser.on('data', function (data) {
             const serialDataReceivedMessage = { event: "SERIAL_DATA", payload: data };
