@@ -2,7 +2,7 @@
   "name": "easybloqs",
   "author": "Leaphy Robotics",
   "description": "Build Leaphy Arduino programs",
-  "version": "1.2.1-pre.5",
+  "version": "1.2.1-pre.7",
   "license": "GPLv3",
   "main": "main.js",
   "scripts": {
@@ -47,7 +47,7 @@
     "electron-prompt": "^1.6.2",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.5.1",
-    "leaphy-blockly": "^3.0.0",
+    "leaphy-blockly": "^3.0.1",
     "moment": "^2.29.3",
     "ng2-charts": "3.0.11",
     "prismjs": "^1.28.0",
