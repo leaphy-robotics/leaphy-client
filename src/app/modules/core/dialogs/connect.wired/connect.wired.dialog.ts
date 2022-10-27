@@ -6,7 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './connect.wired.dialog.html',
   styleUrls: ['../dialog-styles.scss', './connect.wired.dialog.scss']
 })
-// tslint:disable-next-line: component-class-suffix
+
 export class ConnectWiredDialog {
   constructor(
     public dialogRef: MatDialogRef<ConnectWiredDialog>
