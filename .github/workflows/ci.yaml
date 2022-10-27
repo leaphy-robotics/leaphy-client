@@ -1,0 +1,46 @@
+on: pull_request
+
+name: Continuous Integration
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-2019, macos-latest ]
+        arch: [ x64 ]
+        include:
+          - os: ubuntu-latest
+            arch: arm64
+            # for raspbian
+          - os: ubuntu-latest
+            arch: armv7l
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - name: Restore Cache
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Install Dependencies
+      run: yarn install --frozen-lockfile
+
+    - name: Build
+      run: yarn run build
