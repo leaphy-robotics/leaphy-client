@@ -6,9 +6,7 @@ import { BlocklyEditorState } from 'src/app/state/blockly-editor.state';
   templateUrl: './code-view.component.html',
   styleUrls: ['./code-view.component.scss']
 })
-export class CodeViewComponent implements OnInit {
+export class CodeViewComponent {
 
   constructor(public blocklyState: BlocklyEditorState) { }
-
-  ngOnInit() {  }
 }

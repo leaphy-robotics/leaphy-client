@@ -6,7 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './connect.cloud.dialog.html',
   styleUrls: ['../dialog-styles.scss', './connect.cloud.dialog.scss']
 })
-// tslint:disable-next-line: component-class-suffix
+
 export class ConnectCloudDialog {
 
   public robotId: string;

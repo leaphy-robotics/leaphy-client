@@ -24,17 +24,17 @@
     </div>
 
     <div class="flex-buttons" *ngIf="appState.selectedRobotType$ | async">
-      <button mat-stroked-button [disabled]="!(appState.canChangeCodeEditor$ | async)"  *ngIf="(appState.codeEditorType$ | async) === 1" (click)="onCodeEditorClicked()">
+      <button mat-stroked-button [disabled]="(appState.canChangeCodeEditor$ | async) === false"  *ngIf="(appState.codeEditorType$ | async) === 1" (click)="onCodeEditorClicked()">
         <mat-icon>editor</mat-icon><span>{{ "CODE" | translate }}</span>
       </button>
-      <button mat-stroked-button [disabled]="!(appState.canChangeCodeEditor$ | async)" *ngIf="(appState.codeEditorType$ | async) === 2" (click)="onCodeEditorClicked()">
+      <button mat-stroked-button [disabled]="(appState.canChangeCodeEditor$ | async) === false" *ngIf="(appState.codeEditorType$ | async) === 2" (click)="onCodeEditorClicked()">
         <mat-icon id="block-icon" svgIcon="block"></mat-icon><span>{{ "BLOCKS" | translate }}</span>
       </button>
       <button mat-stroked-button (click)="onSaveWorkspaceClicked()">
         <mat-icon>save</mat-icon><span>{{ "SAVE" | translate }}</span>
       </button>
       <button mat-flat-button *ngIf="appState.selectedRobotType$ | async" (click)="onUploadClicked()"
-        [disabled]="!(canUpload$ | async)">
+        [disabled]="(canUpload$ | async) === false">
         {{ "UPLOAD" | translate }}
       </button>
     </div>
@@ -42,30 +42,30 @@
 </mat-toolbar>
 
 <mat-menu #projectMenu="matMenu" class="matmenus">
-  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onNewProjectClicked()">
+  <button mat-menu-item [disabled]="(appState.selectedRobotType$ | async) === null" (click)="onNewProjectClicked()">
     <mat-icon>insert_drive_file</mat-icon>
     <span>{{ "NEW" | translate }}</span>
   </button>
-  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onLoadWorkspaceClicked()">
+  <button mat-menu-item [disabled]="(appState.selectedRobotType$ | async) === null" (click)="onLoadWorkspaceClicked()">
     <mat-icon>folder</mat-icon>
     <span>{{ "OPEN" | translate }}</span>
   </button>
   <span mat-menu-item disabled *ngIf="blocklyState.projectName$ | async as projectName">{{ projectName }}</span>
   <button mat-menu-item [disabled]="
-      !(appState.selectedRobotType$ | async) ||
-      !(blocklyState.projectFilePath$ | async)
+      (appState.selectedRobotType$ | async) === null ||
+      (blocklyState.projectFilePath$ | async) === null
     " (click)="onSaveWorkspaceClicked()">
     <mat-icon>save</mat-icon>
     <span>{{ "SAVE" | translate }}</span>
   </button>
-  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onSaveWorkspaceAsClicked()">
+  <button mat-menu-item [disabled]="(appState.selectedRobotType$ | async) === null" (click)="onSaveWorkspaceAsClicked()">
     <mat-icon>save</mat-icon>
     <span>{{ "SAVEAS" | translate }}</span>
   </button>
 </mat-menu>
 
 <mat-menu #helpMenu="matMenu" class="matmenus">
-  <button mat-menu-item [disabled]="!(appState.selectedRobotType$ | async)" (click)="onHelpClicked()">
+  <button mat-menu-item [disabled]="(appState.selectedRobotType$ | async) === null" (click)="onHelpClicked()">
     <mat-icon>help_center</mat-icon>
     <span>{{ "HELP_FORUM" | translate }}</span>
   </button>
@@ -82,9 +82,9 @@
   </button>
   <button mat-menu-item (click)="onToggleSoundClicked()">
     <mat-icon *ngIf="(blocklyState.isSoundOn$ | async)">volume_off</mat-icon>
-    <mat-icon *ngIf="!(blocklyState.isSoundOn$ | async)">volume_up</mat-icon>
+    <mat-icon *ngIf="(blocklyState.isSoundOn$ | async) === false">volume_up</mat-icon>
     <span *ngIf="(blocklyState.isSoundOn$ | async)">{{ "SOUND_OFF" | translate }}</span>
-    <span *ngIf="!(blocklyState.isSoundOn$ | async)">{{ "SOUND_ON" | translate }}</span>
+    <span *ngIf="(blocklyState.isSoundOn$ | async) === false">{{ "SOUND_ON" | translate }}</span>
   </button>
   <button mat-menu-item (click)="onViewLogClicked()">
     <mat-icon>article</mat-icon>
