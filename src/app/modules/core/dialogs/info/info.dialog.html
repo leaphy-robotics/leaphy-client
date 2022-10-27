@@ -19,4 +19,10 @@
       {{"CLOSE"|translate}}
     </button>
   </div>
+
+  <div class="version">
+    <p>
+      {{appState.packageJsonVersion$ | async}}
+    </p>
+  </div>
 </div>
