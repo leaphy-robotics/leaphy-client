@@ -7,7 +7,7 @@ import { AppState } from 'src/app/state/app.state';
   templateUrl: './confirm-editor.dialog.html',
   styleUrls: ['../dialog-styles.scss', './confirm-editor.dialog.scss']
 })
-// tslint:disable-next-line: component-class-suffix
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ConfirmEditorDialog {
   constructor(
     public dialogRef: MatDialogRef<ConfirmEditorDialog>,
