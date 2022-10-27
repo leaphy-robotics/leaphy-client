@@ -35,17 +35,7 @@
             "style": "camelCase",
             "type": "attribute"
           }
-        ]
-      }
-    },
-    {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
-      "rules": {
+        ],
         "@angular-eslint/component-class-suffix": [
           "error",
           {
@@ -57,6 +47,15 @@
           }
         ]
       }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {  }
     }
   ]
 }

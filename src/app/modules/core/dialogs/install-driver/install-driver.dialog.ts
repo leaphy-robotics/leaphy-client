@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './install-driver.dialog.html',
   styleUrls: ['../dialog-styles.scss', './install-driver.dialog.scss']
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+
 export class InstallDriverDialog {
   constructor(
     public dialogRef: MatDialogRef<InstallDriverDialog>,

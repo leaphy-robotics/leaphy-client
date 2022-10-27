@@ -7,7 +7,7 @@ import { DialogState } from 'src/app/state/dialog.state';
   templateUrl: './blockly-editor.page.html',
   styleUrls: ['./blockly-editor.page.scss']
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+
 export class BlocklyEditorPage  {
   constructor(
     public blocklyState: BlocklyEditorState,
