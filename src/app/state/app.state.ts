@@ -6,6 +6,7 @@ import { Language } from '../domain/language';
 import { CodeEditorType } from '../domain/code-editor.type';
 import { LocalStorageService } from '../services/localstorage.service';
 import { ReloadConfig } from '../domain/reload.config';
+import packageJson from '../../../package.json';
 
 @Injectable({
     providedIn: 'root'
@@ -71,6 +72,9 @@ export class AppState {
         this.canChangeCodeEditor$ = this.selectedRobotType$
             .pipe(filter(robotType => !!robotType))
             .pipe(map(robotType => robotType !== this.genericRobotType))
+
+        this.packageJsonVersionSubject$ = new BehaviorSubject(packageJson.version);
+        this.packageJsonVersion$ = this.packageJsonVersionSubject$.asObservable();
     }
 
     private isDesktopSubject$: BehaviorSubject<boolean>;
@@ -115,6 +119,9 @@ export class AppState {
     public codeEditorType$: Observable<CodeEditorType>;
 
     public canChangeCodeEditor$: Observable<boolean>;
+
+    private packageJsonVersionSubject$: BehaviorSubject<string>;
+    public packageJsonVersion$: Observable<string>;
 
 
     public setReloadConfig(reloadConfig: ReloadConfig) {

@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+.version {
+  text-align: end;
+  p {
+    margin-bottom: 0px;
+    font-size: small;
+    color: var(--leaphy-color-secundary);
+  }  
+}
+
 img {
   width: 100%;
   max-width: 180px;
