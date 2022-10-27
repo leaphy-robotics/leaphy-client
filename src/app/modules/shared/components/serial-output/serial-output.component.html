@@ -2,11 +2,11 @@
     <div id="header">
         {{ "SERIAL_OUTPUT" | translate}}
         <div id="button-container">
-            <button mat-stroked-button class="icon-button" [class.mode-selected]="!(dialogState.isSerialGraphOutputSelected$ | async)"
+            <button mat-stroked-button class="icon-button" [class.mode-selected]="(dialogState.isSerialGraphOutputSelected$ | async) === false"
                 (click)="onViewTextOutputClicked()">
                 <mat-icon>view_headline</mat-icon>
             </button>
-            <button mat-stroked-button class="icon-button" [disabled]="!(robotWiredState.serialChartDataSets$ | async).length" [class.mode-selected]="dialogState.isSerialGraphOutputSelected$ | async"
+            <button mat-stroked-button class="icon-button" [disabled]="(robotWiredState.serialChartDataSets$ | async).length === 0" [class.mode-selected]="dialogState.isSerialGraphOutputSelected$ | async"
                 (click)="onViewGraphOutputClicked()">
                 <mat-icon>timeline</mat-icon>
             </button>
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="serial-output" style="display: block;" [hidden]="!(dialogState.isSerialGraphOutputSelected$ | async)">
+    <div class="serial-output" style="display: block;" [hidden]="(dialogState.isSerialGraphOutputSelected$ | async) === false">
         <canvas baseChart [datasets]="robotWiredState.serialChartDataSets$ | async" [options]="lineChartOptions"
             [legend]="lineChartLegend" [type]="lineChartType"
             [plugins]="lineChartPlugins">
