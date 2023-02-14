@@ -300,7 +300,7 @@ export class BackendWiredEffects {
                 // When the user clicks help, open the default OS browser with the leaphy Forum
                 this.appState.showHelpPage$
                     .pipe(filter(show => !!show))
-                    .subscribe(() => this.send('open-browser-page', "https://forum.leaphy.nl/"));
+                    .subscribe(() => this.send('open-browser-page', "https://discord.com/invite/Yeg7Kkrq5W"));
 
                 // When the user clicks to view the log, relay to backend to open the file in default text editor
                 this.backEndState.isViewLogClicked$
