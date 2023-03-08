@@ -1,5 +1,6 @@
 {
-  "name": "easybloqs",
+  "name": "leaphy_easybloqs",
+  "productName": "Leaphy easybloqs",
   "author": "Leaphy Robotics",
   "description": "Build Leaphy Arduino programs",
   "version": "1.2.1-pre.7",
@@ -66,7 +67,7 @@
     "@angular/cli": "^13.3.7",
     "@angular/compiler-cli": "~13.3.10",
     "@angular/language-service": "~13.3.10",
-    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/cli": "^6.0.5",
     "@electron-forge/maker-deb": "^6.0.0-beta.54",
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
