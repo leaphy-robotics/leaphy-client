@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', loadChildren: () => import('./modules/blockly-editor/blockly-editor.module').then(m => m.BlocklyEditorModule) },
-  { path: 'advanced', loadChildren: () => import('./modules/code-editor/code-editor.module').then(m => m.CodeEditorModule) }
+  { path: 'advanced-arduino', loadChildren: () => import('./modules/code-editor-arduino/code-editor.module').then(m => m.CodeEditorModule) },
+  { path: 'advanced-python', loadChildren: () => import('./modules/code-editor-arduino/code-editor.module').then(m => m.CodeEditorModule) }
 ];
 
 @NgModule({

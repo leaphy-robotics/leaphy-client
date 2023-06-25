@@ -18,6 +18,8 @@ void setup() {
 void loop() {
 
 }`
+
+    private pythonProgram = `from leaphy_micropython import *`;
     
     constructor(){
         this.isDirty$ = this.code$

@@ -81,8 +81,10 @@ export class AppEffects {
                         await this.router.navigate(['']);
                         break;
                     case CodeEditorType.Advanced:
-                        await this.router.navigate(['/advanced']);
+                        await this.router.navigate(['advanced-python']);
                         break;
+                    case CodeEditorType.Python:
+                        await this.router.navigate(['advanced-python']);
                     default:
                         //await this.router.navigate(['']);
                         break;
