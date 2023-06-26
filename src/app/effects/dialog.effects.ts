@@ -13,6 +13,7 @@ import { AppState } from '../state/app.state';
 import { ConfirmEditorDialog } from '../modules/core/dialogs/confirm-editor/confirm-editor.dialog';
 import { CodeEditorState } from '../state/code-editor.state';
 import { LanguageSelectDialog } from '../modules/core/dialogs/language-select/language-select.dialog';
+import { GlobalVariablesService } from '../state/global.state';
 
 @Injectable({
     providedIn: 'root',
@@ -27,9 +28,11 @@ export class DialogEffects {
         private codeEditorState: CodeEditorState,
         private backEndState: BackEndState,
         private robotWiredState: RobotWiredState,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private globalVariables: GlobalVariablesService
     ) {
         // Open the connect dialog if closed when waiting for robot
+        codeEditorState = this.globalVariables.codeEditorState;
         this.backEndState.connectionStatus$
             .pipe(withLatestFrom(this.dialogState.connectDialog$))
             .pipe(filter(([connectionStatus, dialogRef]) => connectionStatus === ConnectionStatus.WaitForRobot && !dialogRef))

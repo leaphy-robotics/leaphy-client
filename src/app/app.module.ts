@@ -19,6 +19,7 @@ import { RobotCloudEffects } from './effects/robot.cloud.effects';
 import { AppEffects } from './effects/app.effects';
 import { RobotWiredEffects } from './effects/robot.wired.effects';
 import { CoreModule } from './modules/core/core.module';
+import { GlobalVariablesService } from './state/global.state';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -48,6 +49,7 @@ export function createTranslateLoader(http: HttpClient) {
       provide: APP_INITIALIZER, deps:
         [
           AppEffects,
+          GlobalVariablesService,
           BackendWiredEffects,
           BackEndCloudEffects,
           BlocklyEditorEffects,

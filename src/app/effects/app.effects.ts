@@ -11,7 +11,7 @@ import { LogService } from '../services/log.service';
 import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { ReloadConfig } from '../domain/reload.config';
 import { combineLatest } from 'rxjs';
-import { CodeEditorState } from '../state/code-editor.state';
+import { GlobalVariablesService } from '../state/global.state';
 
 @Injectable({
     providedIn: 'root',
@@ -24,10 +24,11 @@ export class AppEffects {
         private translate: TranslateService,
         private backEndState: BackEndState,
         private blocklyState: BlocklyEditorState,
-        private codeEditorState: CodeEditorState,
         private snackBar: MatSnackBar,
         private router: Router,
-        private logger: LogService) {
+        private logger: LogService,
+        private globalVariables: GlobalVariablesService
+        ) {
 
         // When the language is changed, store reload config, then request a reload
         this.appState.changedLanguage$
@@ -57,7 +58,7 @@ export class AppEffects {
         // When the editor toggle is requested to advanced, just autoconfirm it
         // When the editor toggle is requested to beginner, and there are no changes, just autoconfirm it
         this.appState.isCodeEditorToggleRequested$
-            .pipe(withLatestFrom(this.appState.codeEditorType$, this.codeEditorState.isDirty$))
+            .pipe(withLatestFrom(this.appState.codeEditorType$, this.globalVariables.codeEditorState.isDirty$))
             .pipe(filter(([requested, codeEditorType, isDirty]) => !!requested && (codeEditorType === CodeEditorType.Beginner || codeEditorType === CodeEditorType.Advanced && !isDirty)))
             .subscribe(() => this.appState.setIsCodeEditorToggleConfirmed(true));
 

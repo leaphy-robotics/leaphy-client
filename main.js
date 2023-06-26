@@ -114,6 +114,8 @@ function createWindow() {
         mainWindow = null
     })
 
+    mainWindow.openDevTools();
+
     loadUrl(mainWindow);
 
     mainWindow.webContents.on('did-fail-load', function () {

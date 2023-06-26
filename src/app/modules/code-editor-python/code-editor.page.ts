@@ -10,7 +10,9 @@ export class CodeEditorPage implements AfterViewInit {
 
   @ViewChild("editor") private editor: ElementRef<HTMLElement>;
 
-  constructor(private codeEditorState: CodeEditorState) { }
+  constructor(private codeEditorState: CodeEditorState, private global: GlobalVariablesService) {
+    codeEditorState = new CodeEditorState('python', global);
+  }
 
   ngAfterViewInit(): void {
     this.codeEditorState.setAceElement(this.editor);
