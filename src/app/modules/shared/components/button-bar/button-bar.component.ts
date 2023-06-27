@@ -4,6 +4,7 @@ import { BlocklyEditorState } from "src/app/state/blockly-editor.state";
 import { AppState } from "src/app/state/app.state";
 import { DialogState } from "src/app/state/dialog.state";
 import { RobotWiredState } from "src/app/state/robot.wired.state";
+import { GlobalVariablesService } from "src/app/state/global.state";
 
 @Component({
   selector: "app-button-bar",
@@ -16,7 +17,8 @@ export class ButtonBarComponent {
     public blocklyState: BlocklyEditorState,
     public dialogState: DialogState,
     public robotWiredState: RobotWiredState,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private global: GlobalVariablesService
   ) {
   }
   public onSideNavToggled() {
@@ -25,6 +27,10 @@ export class ButtonBarComponent {
 
   public onShowSerialOutputClicked() {
     this.dialogState.setIsSerialOutputFocus(true);
+  }
+
+  public onShowBootloaderClicked() {
+    this.dialogState.setIsBootloaderFocus(true);
   }
 }
 

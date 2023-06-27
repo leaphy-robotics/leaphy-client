@@ -27,5 +27,7 @@ export class CodeEditorPage implements AfterViewInit {
   ngAfterViewInit(): void {
     this.codeEditorState.setAceElement(this.editor);
     this.global.codeEditorEffect = new CodeEditorEffects(this.global, this.blocklyState, this.backEndState);
+    // disable the button to go to blocks editor
+
   }
 }

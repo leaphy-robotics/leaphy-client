@@ -31,6 +31,9 @@ export class DialogState {
   private isEditorTypeChangeConfirmationDialogVisibleSubject$ = new BehaviorSubject(false);
   public isEditorTypeChangeConfirmationDialogVisible$ = this.isEditorTypeChangeConfirmationDialogVisibleSubject$.asObservable();
 
+  private isBootloaderFocusSubject$ = new BehaviorSubject(false);
+  public isBootloaderFocus$ = this.isBootloaderFocusSubject$.asObservable();
+
   public toggleIsConnectDialogVisible() {
     this.isConnectDialogVisibleSubject$.next(true);
   }
@@ -57,5 +60,9 @@ export class DialogState {
 
   public setIsEditorTypeChangeConfirmationDialogVisible(isVisible: boolean) {
     this.isEditorTypeChangeConfirmationDialogVisibleSubject$.next(isVisible);
+  }
+
+  public setIsBootloaderFocus(isFocus: boolean) {
+    this.isBootloaderFocusSubject$.next(isFocus);
   }
 }
