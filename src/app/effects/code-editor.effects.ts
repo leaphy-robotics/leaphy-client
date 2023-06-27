@@ -46,7 +46,6 @@ export class CodeEditorEffects {
             .pipe(withLatestFrom(this.blocklyState.code$, this.globalVariableService.codeEditorState.code$))
             .subscribe(([aceEditor, blocklyCode, editorCode]) => {
                 const startingCode = this.globalVariableService.programValue;
-                console.log('starting code: ' + startingCode + " lang: " + this.globalVariableService.codeEditorState.lang);
                 aceEditor.session.setValue(startingCode);
                 this.globalVariableService.codeEditorState.setOriginalCode(startingCode);
                 this.globalVariableService.codeEditorState.setCode(startingCode);
@@ -84,7 +83,6 @@ export class CodeEditorEffects {
     }
 
     public cleanup(): void {
-        console.log('CodeEditorEffects destroyed');
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 }

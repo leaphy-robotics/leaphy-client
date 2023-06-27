@@ -12,6 +12,7 @@ import { BlocklyEditorState } from '../state/blockly-editor.state';
 import { ReloadConfig } from '../domain/reload.config';
 import { combineLatest } from 'rxjs';
 import { GlobalVariablesService } from '../state/global.state';
+import { LangSelectorPage } from '../modules/lang-selector/lang-selector.page';
 
 @Injectable({
     providedIn: 'root',
@@ -19,6 +20,7 @@ import { GlobalVariablesService } from '../state/global.state';
 
 export class AppEffects {
     private isDebug = false;
+    private langSelectorModal: LangSelectorPage;
     constructor(
         private appState: AppState,
         private translate: TranslateService,
@@ -79,13 +81,14 @@ export class AppEffects {
             .subscribe(async codeEditor => {
                 switch (codeEditor) {
                     case CodeEditorType.Beginner:
+                        console.log("beginner");
                         await this.router.navigate(['']);
                         break;
                     case CodeEditorType.Advanced:
-                        await this.router.navigate(['advanced-arduino']);
+                        // draw the lang selection screen by making the class
+                        console.log("advanced");
+                        this.langSelectorModal = new LangSelectorPage(this.router);
                         break;
-                    case CodeEditorType.Python:
-                        await this.router.navigate(['advanced-python']);
                     default:
                         //await this.router.navigate(['']);
                         break;

@@ -27,13 +27,10 @@ export class CodeEditorState {
         @Optional() @Inject(CODE_EDITOR_TYPE) private codeType: string,
         private globalVariables: GlobalVariablesService
     ) {
-        console.log('code editor type: ' + codeType);
         if (this.codeType == 'python') {
-            console.log('python');
             this.program = `from leaphy_micropython import *`;
             this.lang = 'python';
         } else if (this.codeType == 'arduino') {
-            console.log('arduino');
             this.program = `void leaphyProgram() {
 }
 
@@ -93,14 +90,12 @@ void loop() {
     }
 
     public setOriginalCode(program: string) {
-        console.log("setOriginal", program);
         this.startCodeSubject$.next(program);
         // update the global state
         this.globalVariables.codeEditorState = this;
     }
 
     public setCode(program: string) {
-        console.log("setCode", program);
         this.codeSubject$.next(program);
         // update the global state
         this.globalVariables.codeEditorState = this;
