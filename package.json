@@ -11,7 +11,7 @@
     "start": "electron-forge start",
     "start:electron": "ng build --base-href ./ && electron .",
     "build": "ng build --configuration production --base-href ./",
-    "buildstart": "ng build --base-href ./ && yarn run start",
+    "buildstart": "yarn run build && yarn run start",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

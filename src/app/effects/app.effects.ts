@@ -57,10 +57,10 @@ export class AppEffects {
 
         // When the editor toggle is requested to advanced, just autoconfirm it
         // When the editor toggle is requested to beginner, and there are no changes, just autoconfirm it
-        this.appState.isCodeEditorToggleRequested$
-            .pipe(withLatestFrom(this.appState.codeEditorType$, this.globalVariables.codeEditorState.isDirty$))
-            .pipe(filter(([requested, codeEditorType, isDirty]) => !!requested && (codeEditorType === CodeEditorType.Beginner || codeEditorType === CodeEditorType.Advanced && !isDirty)))
-            .subscribe(() => this.appState.setIsCodeEditorToggleConfirmed(true));
+        //this.appState.isCodeEditorToggleRequested$
+        //    .pipe(withLatestFrom(this.appState.codeEditorType$, this.globalVariables.codeEditorState.isDirty$))
+        //    .pipe(filter(([requested, codeEditorType, isDirty]) => !!requested && (codeEditorType === CodeEditorType.Beginner || codeEditorType === CodeEditorType.Advanced && !isDirty)))
+        //    .subscribe(() => this.appState.setIsCodeEditorToggleConfirmed(true));
 
         // When the editor change has been confirmed, toggle the codeeditor
         this.appState.isCodeEditorToggleConfirmed$
@@ -82,7 +82,7 @@ export class AppEffects {
                         await this.router.navigate(['']);
                         break;
                     case CodeEditorType.Advanced:
-                        await this.router.navigate(['advanced-python']);
+                        await this.router.navigate(['advanced-arduino']);
                         break;
                     case CodeEditorType.Python:
                         await this.router.navigate(['advanced-python']);
