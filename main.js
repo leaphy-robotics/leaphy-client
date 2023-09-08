@@ -105,7 +105,6 @@ function createWindow() {
         },
         icon: image
     })
-
     mainWindow.maximize();
     mainWindow.setMenu(null);
     mainWindow.setMenuBarVisibility(false);

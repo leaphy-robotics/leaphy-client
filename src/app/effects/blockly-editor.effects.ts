@@ -31,7 +31,7 @@ export class BlocklyEditorEffects {
         this.appState.currentLanguage$
             .pipe(filter(language => !!language))
             .subscribe(async language => {
-                const translations = await import(`node_modules/leaphy-blockly/msg/${language.code}.js`);
+                const translations = await import(`node_modules/@leaphy-robotics/leaphy-blockly/msg/${language.code}.js`);
                 Object.keys(translations.default).forEach(function (tk) {
                     Blockly.Msg[tk] = translations[tk];
                 });
