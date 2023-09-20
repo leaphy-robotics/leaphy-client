@@ -1791,9 +1791,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@leaphy-robotics/leaphy-blockly@^3.0.7":
-  version "3.0.10"
-  resolved "https://registry.npmjs.org/@leaphy-robotics/leaphy-blockly/-/leaphy-blockly-3.0.10.tgz"
-  integrity sha512-fJuXCy2dl4J5EBdMGhTq5H6U6lvBDj2fMbUdf7cSnVZehc6sLA6P807ZDYQQtIqG2jtFckQEKmKenZ054fWIww==
+  version "3.0.11"
+  resolved "https://registry.npmjs.org/@leaphy-robotics/leaphy-blockly/-/leaphy-blockly-3.0.11.tgz"
+  integrity sha512-V68YMHwKIttBzte4P5b0DZlx2q1C3/B0iK4PCQJQf6PmCEwT8RCZu8Wr6rI95L7Paob/4iQJAVnaDbqM+J3ftQ==
   dependencies:
     jsdom "15.2.1"
     yarn "^1.22.19"
