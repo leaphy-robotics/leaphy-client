@@ -10,8 +10,28 @@ import { WorkspaceStatus } from '../domain/workspace.status';
 import { AppState } from '../state/app.state';
 import { CodeEditorType } from '../domain/code-editor.type';
 import { LogService } from '../services/log.service';
+import * as Blockly from 'blockly/core';
+import Arduino from '@leaphy-robotics/leaphy-blocks/generators/arduino';
+import {blocks, blocksJs} from "@leaphy-robotics/leaphy-blocks/blocks/blocks";
+import {CUSTOM_CONTEXT_MENU_VARIABLE_GETTER_SETTER_MIXIN,
+    LIST_MODES_MUTATOR_MIXIN,
+    LIST_MODES_MUTATOR_EXTENSION,
+    IS_DIVISIBLEBY_MUTATOR_MIXIN,
+    IS_DIVISIBLE_MUTATOR_EXTENSION,
+    MATH_TOOLTIPS_BY_OP,
+    LOGIC_TOOLTIPS_BY_OP,
+    LOGIC_COMPARE_EXTENSION,
+    TEXT_QUOTES_EXTENSION,
+    APPEND_STATEMENT_INPUT_STACK,
+    CONTROLS_IF_MUTATOR_MIXIN,
+    CONTROLS_IF_TOOLTIP_EXTENSION,
+    WHILE_UNTIL_TOOLTIPS
+} from "@leaphy-robotics/leaphy-blocks/blocks/extensions";
+import {defaultBlockStyles, categoryStyles, componentStyles} from "@leaphy-robotics/leaphy-blocks/theme/theme";
+import {LeaphyCategory} from "../services/Toolbox/Category";
+import {LeaphyToolbox} from "../services/Toolbox/Toolbox";
 
-declare var Blockly: any;
+var Extensions = Blockly.Extensions;
 
 @Injectable({
     providedIn: 'root',
@@ -27,14 +47,58 @@ export class BlocklyEditorEffects {
         private http: HttpClient,
         private logger: LogService
     ) {
+        Blockly.registry.register(
+            Blockly.registry.Type.TOOLBOX_ITEM,
+            Blockly.ToolboxCategory.registrationName,
+            LeaphyCategory, true);
+        Blockly.registry.register(Blockly.registry.Type.TOOLBOX, Blockly.CollapsibleToolboxCategory.registrationName, LeaphyToolbox);
+        Blockly.defineBlocksWithJsonArray(blocks)
+        for (const [name, block] of Object.entries(blocksJs)) {
+            Blockly.Blocks[name] = block;
+        }
+
+
+        // Variables:
+        Extensions.registerMixin(
+            'contextMenu_variableSetterGetter',
+            CUSTOM_CONTEXT_MENU_VARIABLE_GETTER_SETTER_MIXIN);
+        // // Math:
+        Extensions.registerMutator(
+            'math_is_divisibleby_mutator', IS_DIVISIBLEBY_MUTATOR_MIXIN,
+            IS_DIVISIBLE_MUTATOR_EXTENSION);
+
+        // Update the tooltip of 'math_change' block to reference the variable.
+        Extensions.register(
+            'math_change_tooltip',
+            Extensions.buildTooltipWithFieldText('%{BKY_MATH_CHANGE_TOOLTIP}', 'VAR'));
+
+        Extensions.registerMutator(
+            'math_modes_of_list_mutator', LIST_MODES_MUTATOR_MIXIN,
+            LIST_MODES_MUTATOR_EXTENSION);
+        //
+        Extensions.register('text_quotes', TEXT_QUOTES_EXTENSION)
+        Extensions.register('appendStatementInputStack', APPEND_STATEMENT_INPUT_STACK)
+        Extensions.register('logic_compare', LOGIC_COMPARE_EXTENSION);
+        // // Tooltip extensions
+        Extensions.register('controls_whileUntil_tooltip', Extensions.buildTooltipForDropdown('MODE', WHILE_UNTIL_TOOLTIPS));
+        Extensions.register(
+            'logic_op_tooltip',
+            Extensions.buildTooltipForDropdown('OP', LOGIC_TOOLTIPS_BY_OP));
+        Extensions.register(
+            'math_op_tooltip',
+            Extensions.buildTooltipForDropdown('OP', MATH_TOOLTIPS_BY_OP));
+        //
+        Extensions.registerMutator(
+            'controls_if_mutator', CONTROLS_IF_MUTATOR_MIXIN, null,
+            ['controls_if_elseif', 'controls_if_else']);
+        Extensions.register('controls_if_tooltip', CONTROLS_IF_TOOLTIP_EXTENSION);
+
         // When the current language is set: Find and set the blockly translations
         this.appState.currentLanguage$
             .pipe(filter(language => !!language))
             .subscribe(async language => {
-                const translations = await import(`node_modules/@leaphy-robotics/leaphy-blockly/msg/${language.code}.js`);
-                Object.keys(translations.default).forEach(function (tk) {
-                    Blockly.Msg[tk] = translations[tk];
-                });
+                const translations = await import(`node_modules/@leaphy-robotics/leaphy-blocks/msg/js/${language.code}.js`);
+                Blockly.setLocale(translations.default);
             });
 
         // When the language is changed, save the workspace temporarily
@@ -61,6 +125,13 @@ export class BlocklyEditorEffects {
                 this.getXmlContent('./assets/blockly/leaphy-start.xml')
             ))
             .subscribe(([[[element, config], robotType], baseToolboxXml, leaphyToolboxXml, startWorkspaceXml]) => {
+                const LeaphyTheme = Blockly.Theme.defineTheme('leaphy', {
+                    'blockStyles': defaultBlockStyles,
+                    'categoryStyles': categoryStyles,
+                    'componentStyles': componentStyles,
+                    name: 'leaphy',
+                })
+                config.theme = LeaphyTheme;
                 const parser = new DOMParser();
                 const toolboxXmlDoc = parser.parseFromString(baseToolboxXml, 'text/xml');
                 const toolboxElement = toolboxXmlDoc.getElementById('easyBloqsToolbox');
@@ -74,10 +145,11 @@ export class BlocklyEditorEffects {
                 const serializer = new XMLSerializer();
                 const toolboxXmlString = serializer.serializeToString(toolboxXmlDoc);
                 config.toolbox = toolboxXmlString;
+                // @ts-ignore
                 const workspace = Blockly.inject(element, config);
                 const toolbox = workspace.getToolbox();
                 toolbox.getFlyout().autoClose = false;
-                const xml = Blockly.Xml.textToDom(startWorkspaceXml);
+                const xml = Blockly.utils.xml.textToDom(startWorkspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
                 this.blocklyState.setWorkspace(workspace);
                 this.blocklyState.setToolboxXml(toolboxXmlString);
@@ -113,7 +185,7 @@ export class BlocklyEditorEffects {
                 this.blocklyState.setToolboxXml(toolboxXmlString);
 
                 workspace.clear();
-                const xml = Blockly.Xml.textToDom(startWorkspaceXml);
+                const xml = Blockly.utils.xml.textToDom(startWorkspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
             });
 
@@ -130,7 +202,7 @@ export class BlocklyEditorEffects {
                 workspace.clearUndo();
                 workspace.addChangeListener(Blockly.Events.disableOrphans);
                 workspace.addChangeListener(async () => {
-                    this.blocklyState.setCode(Blockly.Arduino.workspaceToCode(workspace));
+                    this.blocklyState.setCode(Arduino.workspaceToCode(workspace));
                     const xml = Blockly.Xml.workspaceToDom(workspace);
                     const prettyXml = Blockly.Xml.domToPrettyText(xml);
                     this.blocklyState.setWorkspaceXml(prettyXml);
@@ -143,7 +215,7 @@ export class BlocklyEditorEffects {
             .pipe(withLatestFrom(this.blocklyState.workspaceXml$, this.blocklyState.workspace$))
             .subscribe(([, workspaceXml, workspace]) => {
                 workspace.clear();
-                const xml = Blockly.Xml.textToDom(workspaceXml);
+                const xml = Blockly.utils.xml.textToDom(workspaceXml);
                 Blockly.Xml.domToWorkspace(xml, workspace);
                 this.blocklyState.setWorkspaceStatus(WorkspaceStatus.Clean);
             });
